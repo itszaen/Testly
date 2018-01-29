@@ -1,4 +1,4 @@
-package com.zaen.testube
+package com.zaen.testly
 
 import org.junit.Test
 

@@ -1,9 +1,10 @@
-package com.zaen.testube
+package com.zaen.testly
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -31,7 +32,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
     }
-
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -59,30 +59,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
+            R.id.nav_prep -> {
+                val intent = Intent(this,PrepActivity::class.java)
+                startActivity(intent)
             }
-            R.id.nav_gallery -> {
-
+            R.id.nav_improve -> {
+                val intent = Intent(this,ImproveActivity::class.java)
+                startActivity(intent)
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
+            R.id.nav_pastexam -> {
+                val intent = Intent(this,PastexamActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
+                val intent = Intent(this,SettingsActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_help -> {
-
+                val intent = Intent(this,HelpActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_feedback -> {
-
+                val intent = Intent(this,FeedbackActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_about -> {
-
+                val intent = Intent(this,AboutActivity::class.java)
+                startActivity(intent)
             }
         }
 

@@ -1,4 +1,4 @@
-package com.zaen.testube
+package com.zaen.testly
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.zaen.testube", appContext.packageName)
+        assertEquals("com.zaen.testly", appContext.packageName)
     }
 }
