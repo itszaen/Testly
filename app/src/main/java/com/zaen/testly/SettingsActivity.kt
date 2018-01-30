@@ -14,9 +14,18 @@ import android.preference.PreferenceActivity
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.preference.RingtonePreference
+import android.support.annotation.ColorInt
 import android.text.TextUtils
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
+import android.view.View
+import android.widget.Toast
+import com.afollestad.materialdialogs.color.ColorChooserDialog
+import com.kabouzeid.appthemehelper.ThemeStore
+import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference
+import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat
+import com.kabouzeid.appthemehelper.util.ColorUtil
+import java.util.*
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -28,12 +37,12 @@ import android.support.v4.app.NavUtils
  * for design guidelines and the [Settings API Guide](http://developer.android.com/guide/topics/ui/settings.html)
  * for more information on developing a Settings UI.
  */
-class SettingsActivity : AppCompatPreferenceActivity() {
+class SettingsActivity : AppCompatPreferenceActivity()  , ColorChooserDialog.ColorCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupActionBar()
-    }
+   }
 
     /**
      * Set up the [android.app.ActionBar], if the API is available.
@@ -73,10 +82,11 @@ class SettingsActivity : AppCompatPreferenceActivity() {
      * Make sure to deny any unknown fragments here.
      */
     override fun isValidFragment(fragmentName: String): Boolean {
-        return PreferenceFragment::class.java.name == fragmentName
-                || GeneralPreferenceFragment::class.java.name == fragmentName
-                || DataSyncPreferenceFragment::class.java.name == fragmentName
-                || NotificationPreferenceFragment::class.java.name == fragmentName
+        return true
+//        return PreferenceFragment::class.java.name == fragmentName
+//                || GeneralPreferenceFragment::class.java.name == fragmentName
+//                || DataSyncPreferenceFragment::class.java.name == fragmentName
+//                || NotificationPreferenceFragment::class.java.name == fragmentName
     }
 
     /**
@@ -84,20 +94,41 @@ class SettingsActivity : AppCompatPreferenceActivity() {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    class GeneralPreferenceFragment : PreferenceFragment() {
+    class GeneralPreferenceFragment : ATEPreferenceFragmentCompat() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.pref_general)
+//            addPreferencesFromResource(R.xml.pref_general)
             setHasOptionsMenu(true)
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"))
-            bindPreferenceSummaryToValue(findPreference("example_list"))
+            //bindPreferenceSummaryToValue(findPreference("example_text"))
+            //bindPreferenceSummaryToValue(findPreference("example_list"))
+
         }
 
+        override fun onCreatePreferences(bundle: Bundle, s: String) {
+            addPreferencesFromResource(R.xml.pref_color)
+        }
+
+        override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            listView.setPadding(0, 0, 0, 0)
+            val primaryColorPref = findPreference("primary_color") as ATEColorPreference
+            val primaryColor = ThemeStore.primaryColor(activity)
+            primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor))
+            primaryColorPref.setOnPreferenceClickListener { preference ->
+                ColorChooserDialog.Builder(activity, R.string.primary_color_desc)
+                        .accentMode(false)
+                        .allowUserColorInput(true)
+                        .allowUserColorInputAlpha(false)
+                        .preselect(primaryColor)
+                        .show(activity)
+                true
+            }
+        }
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             val id = item.itemId
             if (id == android.R.id.home) {
@@ -163,6 +194,28 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             return super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onColorSelection(dialog: ColorChooserDialog, @ColorInt selectedColor: Int) {
+        when (dialog.title) {
+            R.color.colorPrimary -> {
+                ThemeStore.editTheme(this)
+                        .primaryColor(selectedColor)
+                        .commit()
+            }
+            R.color.colorAccent -> {
+                ThemeStore.editTheme(this)
+                        .accentColor(selectedColor)
+                        .commit()
+            }
+        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+//            DynamicShortcutManager(this).updateDynamicShortcuts()
+//        }
+        recreate()
+    }
+
+    override fun onColorChooserDismissed(dialog: ColorChooserDialog) {}
 
     companion object {
 
