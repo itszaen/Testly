@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zaen.testly.FeedbackActivity">
+    tools:context="com.zaen.testly.activities.FeedbackActivity">
 
 </android.support.constraint.ConstraintLayout>

@@ -1,17 +1,58 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+    }
+
+    dependencies {
+        //noinspection GradleDynamicVersion
+        classpath 'io.fabric.tools:gradle:1.+'
+        //classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'io.fabric'
+//apply plugin: 'com.jakewharton.hugo'
+
+static def gitBranch() {
+    def branch = 'GitHub'
+    try {
+        def gitcheck = 'command -v git >/dev/null 2>&1'.execute()
+        gitcheck.waitFor()
+        if (gitcheck.exitValue() == 0) {
+            def proc = 'git rev-parse --abbrev-ref HEAD'.execute()
+            proc.in.eachLine { line -> branch = line }
+            proc.err.eachLine { line -> println line }
+            proc.waitFor()
+        }
+    } catch (Exception e) {
+        // Do nothing
+        println e
+    }
+    branch
+}
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.zaen.testly"
-        minSdkVersion 21
-        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
+        minSdkVersion 21
+        targetSdkVersion 27
+
+        renderscriptTargetApi 27
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -25,14 +66,23 @@ android {
     }
 }
 
+ext {
+    supportLibVersion = '27.0.2'
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Google Android & Support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.android.support:support-vector-drawable:26.1.0'
+    compile "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support:support-v4:$supportLibVersion"
+    implementation "com.android.support:support-vector-drawable:$supportLibVersion"
+
+    // Material Dialog
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     implementation 'com.afollestad:material-cab:0.1.12'
@@ -40,16 +90,34 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.github.medyo:android-about-page:1.2.2'
-    compile ('com.github.kabouzeid:app-theme-helper:1.3.7@aar') {
+    compile('com.github.kabouzeid:app-theme-helper:1.3.7@aar') {
         transitive = true
     }
+
+    // utils
+    compile 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+        transitive = true;
+    }
+
+    // Iconics
+    implementation "com.mikepenz:iconics-core:3.0.2@aar"
+    implementation "com.mikepenz:iconics-views:3.0.2@aar"
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:5.0.6.0@aar'
+    implementation 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
 }
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         def requested = details.requested
         if (requested.group == 'com.android.support') {
             if (!requested.name.startsWith("multidex")) {
-                details.useVersion '26.1.0'
+                details.useVersion '27.0.2'
             }
         }
     }

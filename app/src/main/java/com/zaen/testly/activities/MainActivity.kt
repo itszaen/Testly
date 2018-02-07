@@ -1,15 +1,18 @@
-package com.zaen.testly
+package com.zaen.testly.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import com.crashlytics.android.Crashlytics
+import com.zaen.testly.R
+import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -17,13 +20,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -32,6 +31,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
     }
+
+    fun forceCrash(view: View) {
+        throw RuntimeException("This is a crash")
+    }
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -60,31 +64,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_prep -> {
-                val intent = Intent(this,PrepActivity::class.java)
+                val intent = Intent(this, PrepActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_improve -> {
-                val intent = Intent(this,ImproveActivity::class.java)
+                val intent = Intent(this, ImproveActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_pastexam -> {
-                val intent = Intent(this,PastexamActivity::class.java)
+                val intent = Intent(this, PastexamActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_settings -> {
-                val intent = Intent(this,SettingsActivity::class.java)
+                val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_help -> {
-                val intent = Intent(this,HelpActivity::class.java)
+                val intent = Intent(this, HelpActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_feedback -> {
-                val intent = Intent(this,FeedbackActivity::class.java)
+                val intent = Intent(this, FeedbackActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_about -> {
-                val intent = Intent(this,AboutActivity::class.java)
+                val intent = Intent(this, AboutActivity::class.java)
                 startActivity(intent)
             }
         }

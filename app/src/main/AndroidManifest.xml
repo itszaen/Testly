@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zaen.testly">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="85052d97ebfe59b11ed6c2a476241d7d4066efdd" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,19 +27,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zaen.testly.MainActivity" />
+                android:value="com.zaen.testly.activities.MainActivity" />
         </activity>
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".FeedbackActivity" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".PastexamActivity" />
-        <activity android:name=".PrepActivity" />
-        <activity android:name=".ImproveActivity"></activity>
+        <activity android:name=".activities.AboutActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.FeedbackActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.HelpActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.PastexamActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.PrepActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.ImproveActivity"
+            android:parentActivityName=".activities.MainActivity"/>
     </application>
 
 </manifest>

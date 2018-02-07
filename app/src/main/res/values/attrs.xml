@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Setting -->
+    <attr name="settingIcon" format="string"/>
+    <attr name="settingTitle" format="reference"/>
+    <attr name="settingCaption" format="reference"/>
+    <attr name="settingMinApi" format="integer"/>
+    <attr name="settingDefaultValue" format="boolean"/>
+    <attr name="settingPreferenceKey" format="integer"/>
+    <declare-styleable name="SettingView">
+        <attr name="settingIcon"/>
+        <attr name="settingTitle"/>
+        <attr name="settingCaption"/>
+        <attr name="settingMinApi"/>
+    </declare-styleable>
+    <declare-styleable name="SettingTitleonlyView">
+        <attr name="settingIcon"/>
+        <attr name="settingTitle"/>
+        <attr name="settingMinApi"/>
+    </declare-styleable>
+    <declare-styleable name="SettingSwitchView">
+        <attr name="settingIcon"/>
+        <attr name="settingTitle"/>
+        <attr name="settingCaption"/>
+        <attr name="settingMinApi"/>
+        <attr name="settingDefaultValue"/>
+        <attr name="settingPreferenceKey"/>
+    </declare-styleable>
+</resources>

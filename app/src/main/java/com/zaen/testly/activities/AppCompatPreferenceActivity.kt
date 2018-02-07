@@ -1,4 +1,4 @@
-package com.zaen.testly
+package com.zaen.testly.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
