@@ -1,4 +1,4 @@
-package com.zaen.testly.Recycler
+package com.zaen.testly.recycler
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -11,7 +11,7 @@ import com.zaen.testly.R
  */
 class RecyclerAdapter(private val context: Context,
                       private val itemClickListener: RecyclerViewHolder.ItemClickListener,
-                      private val itemList:List<String>)
+                      private val itemExamSubjectTitleList:List<String>)
     : RecyclerView.Adapter<RecyclerViewHolder>() {
 
     private var mRecyclerView : RecyclerView? = null
@@ -29,12 +29,12 @@ class RecyclerAdapter(private val context: Context,
 
     override fun onBindViewHolder(holder: RecyclerViewHolder?, position: Int) {
         holder?.let {
-            it.itemTextView.text = itemList.get(position)
+            it.itemExamSubjectTitle.text = itemExamSubjectTitleList.get(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return itemExamSubjectTitleList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewHolder {

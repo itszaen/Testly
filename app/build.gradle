@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.mikepenz:fontawesome-typeface:5.0.6.0@aar'
     implementation 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
 
-    // Base Recycler View Adapter Helper
+    // Base recycler View Adapter Helper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.21'
 }
 

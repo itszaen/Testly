@@ -3,21 +3,18 @@ package com.zaen.testly.activities
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
-import com.zaen.testly.Recycler.RecyclerAdapter
-import com.zaen.testly.Recycler.RecyclerViewHolder
+import com.zaen.testly.recycler.RecyclerAdapter
+import com.zaen.testly.recycler.RecyclerViewHolder
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -39,8 +36,8 @@ class MainActivity : AppCompatActivity(),
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
-        // Recycler View
-        val foo_list = resources.getStringArray(R.array.foo_array).toMutableList()
+        // recycler View
+        val foo_list = resources.getArray(R.array.foo_array).toMutableList()
         content_main_recycler_view.adapter = RecyclerAdapter(this,this,foo_list)
         content_main_recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 

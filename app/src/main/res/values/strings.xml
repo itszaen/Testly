@@ -29,16 +29,24 @@
             <string name="pref_provider_caption">Provider Options</string>
             <string name="pref_developer_title">Developer Options</string>
             <string name="pref_developer_caption">You\'re Zaen, right?</string>
-    <string-array name="foo_array">
-        <item>foo1</item>
+    <array name="foo_array">
+        <string-array name="bar1_array">
+        <item>2nd Grade 1st Exam</item>
         <item>foo2</item>
+        </string-array>
+        <string-array name="bar2_array">
         <item>foo3</item>
         <item>foo3</item>
+        </string-array>
+        <string-array name="bar3_array">
         <item>foo3</item>
         <item>foo3</item>
+        </string-array>
+        <string-array name="bar4_array">
         <item>foo3</item>
         <item>foo3</item>
-    </string-array>
+        </string-array>
+    </array>
 
 
 
