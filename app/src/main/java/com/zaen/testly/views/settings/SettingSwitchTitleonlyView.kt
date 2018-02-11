@@ -15,13 +15,14 @@ import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
 import com.zaen.testly.utils.preferences.Prefs
 
-class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
+/**
+ * Created by zaen on 2/10/18.
+ */
+class SettingSwitchTitleonlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
     private val iconString: String?
     private val preferenceKey: String
     @StringRes
     private val titleRes: Int
-    @StringRes
-    private val captionRes: Int
     private val defaultValue: Boolean
     @BindView(R.id.icon)
     lateinit var icon: IconicsImageView
@@ -43,7 +44,6 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
         if (prefKeyRes == 0) throw IllegalArgumentException("Invalid preference reference")
         preferenceKey = resources.getString(prefKeyRes)
         titleRes = a.getResourceId(R.styleable.SettingSwitchView_settingTitle, 0)
-        captionRes = a.getResourceId(R.styleable.SettingSwitchView_settingCaption, 0)
         defaultValue = a.getBoolean(R.styleable.SettingSwitchView_settingDefaultValue, false)
         val minimumApi = 0//a.getInteger(R.styleable.SettingWithSwitchView_settingMinApi, 0);
         a.recycle()
@@ -56,7 +56,6 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
 
         icon.setIcon(icon.getIcon().icon(iconString))
         title.setText(titleRes)
-        caption.setText(captionRes)
         toggle.isChecked = isChecked
         super.setOnClickListener(this)
 

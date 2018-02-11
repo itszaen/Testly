@@ -26,4 +26,11 @@
         <attr name="settingDefaultValue"/>
         <attr name="settingPreferenceKey"/>
     </declare-styleable>
+    <declare-styleable name="SettingSwitchTitleonlyView">
+        <attr name="settingIcon"/>
+        <attr name="settingTitle"/>
+        <attr name="settingMinApi"/>
+        <attr name="settingDefaultValue"/>
+        <attr name="settingPreferenceKey"/>
+    </declare-styleable>
 </resources>
