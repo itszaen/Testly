@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Exam Card -->
+    <declare-styleable name="ExamCard">
+        <attr name="examTitle" format="string"/>
+        <attr name="examSubjectTitle" format="string"/>
+        <attr name="examDate" format="string"/>
+        <attr name="examProgress" format="integer"/>
+    </declare-styleable>
+
+
     <!-- Setting -->
     <attr name="settingIcon" format="string"/>
     <attr name="settingTitle" format="reference"/>

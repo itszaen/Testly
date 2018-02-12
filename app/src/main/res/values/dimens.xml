@@ -27,12 +27,15 @@
     <dimen name="icon_width_height">20dp</dimen>
 
     <!-- Card Exam -->
-    <dimen name="card_medium_text">20sp</dimen>
+    <dimen name="exam_card_medium_text">20sp</dimen>
     <dimen name="card_small_text">8sp</dimen>
-    <dimen name="card_button_text">12sp</dimen>
+    <dimen name="exam_card_button_text">12sp</dimen>
     <dimen name="card_medium_spacing">20dp</dimen>
     <dimen name="exam_card_vertical_spacing">5dp</dimen>
     <dimen name="exam_card_horizontal_spacing">5dp</dimen>
     <dimen name="exam_card_corner_radius">3dp</dimen>
-    <dimen name="exam_card_elevation">3dp</dimen>
+    <dimen name="exam_card_elevation">2dp</dimen>
+    <dimen name="exam_card_progress_bar_width">4dp</dimen>
+    <dimen name="exam_card_progress_rim_width">5dp</dimen>
+
 </resources>

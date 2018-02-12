@@ -1,7 +1,7 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Action Bar Style -->
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
@@ -16,8 +16,8 @@
     <style name="AppTheme.ActionBar">
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
         <item name="titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="background">@color/colorPrimary</item>
+        <item name="android:background">@color/primary</item>
+        <item name="background">@color/primary</item>
         <item name="android:height">@dimen/action_bar_height</item>
         <item name="height">@dimen/action_bar_height</item>
     </style>

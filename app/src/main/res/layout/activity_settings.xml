@@ -36,7 +36,7 @@
                         android:paddingStart="@dimen/medium_spacing"
                         android:paddingTop="@dimen/medium_spacing"
                         android:text="@string/pref_general_title"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **Account -->
@@ -70,7 +70,7 @@
                         android:paddingStart="@dimen/medium_spacing"
                         android:paddingTop="@dimen/medium_spacing"
                         android:text="@string/pref_theme_title"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -96,7 +96,7 @@
                         android:paddingStart="@dimen/medium_spacing"
                         android:paddingTop="@dimen/medium_spacing"
                         android:text="@string/pref_notification_title"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **If Notification -->
@@ -134,7 +134,7 @@
                         android:paddingStart="@dimen/medium_spacing"
                         android:paddingTop="@dimen/medium_spacing"
                         android:text="@string/pref_advanced_title"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **Provider Option -->

@@ -119,6 +119,9 @@ dependencies {
 
     // Base recycler View Adapter Helper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.21'
+
+    // Circle Progress View
+    implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
 }
 
 configurations.all {

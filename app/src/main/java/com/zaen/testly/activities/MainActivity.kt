@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
 
         // recycler View
-        val foo_list = resources.getArray(R.array.foo_array).toMutableList()
+        val foo_list = resources.getStringArray(R.array.foo_array).toMutableList()
         content_main_recycler_view.adapter = RecyclerAdapter(this,this,foo_list)
         content_main_recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
