@@ -11,7 +11,7 @@ import com.zaen.testly.R
  */
 class RecyclerAdapter(private val context: Context,
                       private val itemClickListener: RecyclerViewHolder.ItemClickListener,
-                      private val itemExamSubjectTitleList:List<String>)
+                      private val itemExamList:ArrayList<ArrayList<String>>)
     : RecyclerView.Adapter<RecyclerViewHolder>() {
 
     private var mRecyclerView : RecyclerView? = null
@@ -29,12 +29,13 @@ class RecyclerAdapter(private val context: Context,
 
     override fun onBindViewHolder(holder: RecyclerViewHolder?, position: Int) {
         holder?.let {
-            it.itemExamSubjectTitle.text = itemExamSubjectTitleList.get(position)
+            it.itemExamTitle.text = itemExamList[position][0]
+            it.itemExamSubjectTitle.text = itemExamList[position][1]
         }
     }
 
     override fun getItemCount(): Int {
-        return itemExamSubjectTitleList.size
+        return itemExamList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewHolder {

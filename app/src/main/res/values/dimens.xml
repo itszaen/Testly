@@ -27,7 +27,7 @@
     <dimen name="icon_width_height">20dp</dimen>
 
     <!-- Card Exam -->
-    <dimen name="exam_card_medium_text">20sp</dimen>
+    <dimen name="exam_card_medium_text">18sp</dimen>
     <dimen name="card_small_text">8sp</dimen>
     <dimen name="exam_card_button_text">12sp</dimen>
     <dimen name="card_medium_spacing">20dp</dimen>

@@ -19,6 +19,7 @@ import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener ,
@@ -37,14 +38,26 @@ class MainActivity : AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
 
         // recycler View
-        val foo_list = resources.getStringArray(R.array.foo_array).toMutableList()
-        content_main_recycler_view.adapter = RecyclerAdapter(this,this,foo_list)
+        val barList:ArrayList<ArrayList<String>> = readFileData()
+        content_main_recycler_view.adapter = RecyclerAdapter(this,this,barList)
         content_main_recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
     }
 
     fun forceCrash(view: View) {
         throw RuntimeException("This is a crash")
+    }
+
+    fun readFileData(): ArrayList<ArrayList<String>> {
+        val scan = Scanner(getResources().openRawResource(R.raw.list1))
+        var list: ArrayList<ArrayList<String>> = ArrayList<ArrayList<String>>()
+
+        while(scan.hasNextLine()){
+            val line = scan.nextLine()
+            val parts = ArrayList<String>(line.split("."))
+            list.add(parts)
+        }
+        return list
     }
 
     override fun onBackPressed() {
