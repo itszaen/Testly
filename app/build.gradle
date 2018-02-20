@@ -68,6 +68,7 @@ android {
 
 ext {
     supportLibVersion = '27.0.2'
+    firebaseVersion = '11.8.0'
 }
 
 dependencies {
@@ -84,6 +85,19 @@ dependencies {
     implementation "com.android.support:support-vector-drawable:$supportLibVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+        // Firebase
+    implementation "com.google.firebase:firebase-core:$firebaseVersion"
+    implementation "com.google.firebase:firebase-database:$firebaseVersion"
+    implementation "com.google.firebase:firebase-firestore:$firebaseVersion"
+    implementation "com.google.firebase:firebase-storage:$firebaseVersion"
+    implementation "com.google.firebase:firebase-crash:$firebaseVersion"
+    implementation "com.google.firebase:firebase-auth:$firebaseVersion"
+    implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
+    implementation "com.google.firebase:firebase-config:$firebaseVersion"
+    implementation "com.google.firebase:firebase-invites:$firebaseVersion"
+    implementation "com.google.firebase:firebase-ads:$firebaseVersion"
+    implementation "com.google.firebase:firebase-appindexing:$firebaseVersion"
+    implementation "com.google.firebase:firebase-perf:$firebaseVersion"
 
     // Material Dialog
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
@@ -134,3 +148,5 @@ configurations.all {
         }
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
