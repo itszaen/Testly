@@ -65,7 +65,7 @@ android {
     }
     productFlavors {
     }
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -89,7 +89,7 @@ dependencies {
     implementation "com.android.support:support-vector-drawable:$supportLibVersion"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-        // Firebase
+    // Firebase
     implementation "com.google.firebase:firebase-core:$firebaseVersion"
     implementation "com.google.firebase:firebase-database:$firebaseVersion"
     implementation "com.google.firebase:firebase-firestore:$firebaseVersion"
