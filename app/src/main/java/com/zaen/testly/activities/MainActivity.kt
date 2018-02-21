@@ -23,7 +23,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener ,
-        RecyclerViewHolder.ItemClickListener{
+        RecyclerViewHolder.ItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

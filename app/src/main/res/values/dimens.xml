@@ -37,5 +37,6 @@
     <dimen name="exam_card_elevation">2dp</dimen>
     <dimen name="exam_card_progress_bar_width">4dp</dimen>
     <dimen name="exam_card_progress_rim_width">5dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 </resources>

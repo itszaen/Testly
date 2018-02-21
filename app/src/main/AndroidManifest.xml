@@ -2,17 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zaen.testly">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="com.zaen.testly.App"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="85052d97ebfe59b11ed6c2a476241d7d4066efdd" />
@@ -20,14 +24,14 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
 
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -44,18 +47,30 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.zaen.testly.activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.AboutActivity"
+        <activity
+            android:name=".activities.AboutActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.FeedbackActivity"
+        <activity
+            android:name=".activities.FeedbackActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.HelpActivity"
+        <activity
+            android:name=".activities.HelpActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.PastexamActivity"
+        <activity
+            android:name=".activities.PastexamActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.PrepActivity"
+        <activity
+            android:name=".activities.PrepActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.ImproveActivity"
-            android:parentActivityName=".activities.MainActivity"/>
+        <activity
+            android:name=".activities.ImproveActivity"
+            android:label=""
+            android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.auth.LoginActivity"
+            android:label="@string/title_activity_login">
+
+        </activity>
     </application>
 
 </manifest>
