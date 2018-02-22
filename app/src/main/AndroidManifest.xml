@@ -68,8 +68,13 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.auth.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-        <activity android:name=".activities.auth.SignupActivity"></activity>
+            android:label="@string/title_activity_login">
+
+        </activity>
+        <activity android:name=".activities.auth.SignupActivity">
+
+
+        </activity>
     </application>
 
 </manifest>

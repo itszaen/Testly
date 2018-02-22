@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import com.zaen.testly.R
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class ImproveActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_improve)
+        setSupportActionBar(toolbar)
+        toolbar.setTitle("test")
+//        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
