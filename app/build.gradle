@@ -150,6 +150,9 @@ dependencies {
 
     // Circle Progress View
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
+
+    // Blurry https://github.com/wasabeef/Blurry
+    implementation 'jp.wasabeef:blurry:2.1.1'
 }
 
 configurations.all {
