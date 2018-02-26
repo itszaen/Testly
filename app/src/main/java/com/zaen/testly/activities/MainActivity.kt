@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +18,7 @@ import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.zaen.testly.R
 import com.zaen.testly.fragments.DashboardFragment
+import com.zaen.testly.fragments.HandoutsFragment
 import io.fabric.sdk.android.Fabric
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +29,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener{
+    val transaction = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +43,16 @@ class MainActivity : AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
 
         if (fragment_container != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
 
-            // Create a new Fragment to be placed in the activity layout
-            val dbFragment = DashboardFragment();
+            val dbFragment = DashboardFragment()
 
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            dbFragment.setArguments(getIntent().getExtras());
+            dbFragment.setArguments(getIntent().getExtras())
 
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, dbFragment).commit();
+            transaction.beginTransaction()
+                    .add(R.id.fragment_container, dbFragment).commit()
         }
     }
 
@@ -98,6 +93,7 @@ class MainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
+            R.id.nav_home -> onFragmentClicked(DashboardFragment())
             R.id.nav_prep -> {
                 val intent = Intent(this, PrepActivity::class.java)
                 startActivity(intent)
@@ -106,6 +102,7 @@ class MainActivity : AppCompatActivity(),
                 val intent = Intent(this, ImproveActivity::class.java)
                 startActivity(intent)
             }
+            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment())
             R.id.nav_pastexam -> {
                 val intent = Intent(this, PastexamActivity::class.java)
                 startActivity(intent)
@@ -130,6 +127,15 @@ class MainActivity : AppCompatActivity(),
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun onFragmentClicked(newFragment:Fragment){
+        val args = Bundle()
+        newFragment.setArguments(args)
+        transaction.beginTransaction()
+                .replace(R.id.fragment_container,newFragment)
+                .addToBackStack(null)
+                .commit()
     }
 
 }

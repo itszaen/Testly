@@ -1,23 +1,15 @@
 package com.zaen.testly.views.recyclers
 
 import android.content.Context
-import android.os.Build
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import butterknife.BindView
-import com.bumptech.glide.Glide
 import com.zaen.testly.R
 import java.util.*
-import kotlinx.android.synthetic.main.fragment_dashboard.*
-import java.security.AccessController.getContext
 
 /**
  * Created by zaen on 2/25/18.
@@ -30,7 +22,7 @@ class DashBoardView @JvmOverloads constructor(context: Context, attrs: Attribute
     init {
         val inflater = LayoutInflater.from(getContext())
         layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        inflater.inflate(R.layout.view_dashboard, this)
+        inflater.inflate(R.layout.view_dashboard,null)
         this.adapter = RecyclerAdapter(context, object: RecyclerViewHolder.ItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 //Toast.makeText(context, "position $position was tapped", Toast.LENGTH_SHORT).show()
