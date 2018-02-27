@@ -6,10 +6,6 @@
     android:orientation="vertical"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
     <ScrollView
         android:id="@+id/settingAct_scrollView"
         android:layout_width="match_parent"
@@ -51,6 +47,14 @@
                         app:settingCaption="@string/pref_account_caption"
                         app:settingIcon="gmd_account_box"
                         app:settingTitle="@string/pref_account_title"/>
+                    <!-- **Language -->
+                    <com.zaen.testly.views.settings.SettingView
+                        android:id="@+id/pref_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:settingCaption="@string/pref_language_caption"
+                        app:settingIcon="gmd_account_box"
+                        app:settingTitle="@string/pref_language_title"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <!-- *Theme -->

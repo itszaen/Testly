@@ -3,12 +3,14 @@ package com.zaen.testly.activities
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,8 +19,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.zaen.testly.R
-import com.zaen.testly.fragments.DashboardFragment
-import com.zaen.testly.fragments.HandoutsFragment
+import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.fragments.*
 import io.fabric.sdk.android.Fabric
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,8 +30,9 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener {
     val transaction = supportFragmentManager
+    var tool_bar : Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,22 +42,26 @@ class MainActivity : AppCompatActivity(),
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+        toggle.syncState()
+
+        tool_bar = toolbar
 
         if (fragment_container != null) {
             if (savedInstanceState != null) {
                 return;
             }
-
             val dbFragment = DashboardFragment()
-
             dbFragment.setArguments(getIntent().getExtras())
-
             transaction.beginTransaction()
                     .add(R.id.fragment_container, dbFragment).commit()
         }
     }
+//
+//    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+//        super.onPostCreate(savedInstanceState, persistentState)
+//        toggle.syncState()
+//    }
 
     fun forceCrash(view: View) {
         throw RuntimeException("This is a crash")
@@ -71,12 +78,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-//        Blurry.with(this)
-//                .radius(5)
-//                .sampling(1)
-//                .color(Color.argb(10,255,255,255))
-//                .animate(500)
-//                .onto(nav_header_main)
         return true
     }
 
@@ -85,28 +86,18 @@ class MainActivity : AppCompatActivity(),
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+//            R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_home -> onFragmentClicked(DashboardFragment())
-            R.id.nav_prep -> {
-                val intent = Intent(this, PrepActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_improve -> {
-                val intent = Intent(this, ImproveActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment())
-            R.id.nav_pastexam -> {
-                val intent = Intent(this, PastexamActivity::class.java)
-                startActivity(intent)
-            }
+            R.id.nav_home -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
+            R.id.nav_prep -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
+            R.id.nav_improve -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
+            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
+            R.id.nav_pastexam -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
             R.id.nav_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
@@ -124,18 +115,18 @@ class MainActivity : AppCompatActivity(),
                 startActivity(intent)
             }
         }
-
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    fun onFragmentClicked(newFragment:Fragment){
+    fun onFragmentClicked(newFragment:Fragment,title:String){
         val args = Bundle()
         newFragment.setArguments(args)
         transaction.beginTransaction()
                 .replace(R.id.fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()
+        tool_bar!!.setTitle(title)
     }
 
 }

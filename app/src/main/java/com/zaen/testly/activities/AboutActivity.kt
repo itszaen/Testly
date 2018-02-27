@@ -14,7 +14,7 @@ class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar()?.setHomeAsUpIndicator(R.drawable.ic_action_close)
 
         val aboutPage = AboutPage(this)
                 .setDescription("a")

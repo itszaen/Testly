@@ -3,29 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/ic_menu_home">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_home"
-            android:title="Home" />
+            android:title="@string/nav_menu_home" />
     </group>
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/ic_menu_1">
         <item
             android:id="@+id/nav_prep"
             android:icon="@drawable/ic_menu_prep"
-            android:title="Prepare for exam" />
+            android:title="@string/nav_menu_prep" />
         <item
             android:id="@+id/nav_improve"
             android:icon="@drawable/ic_menu_improve"
-            android:title="Improve" />
+            android:title="@string/nav_menu_improve" />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/ic_menu_2">
         <item
             android:id="@+id/nav_handouts"
             android:icon="@drawable/ic_menu_pastexam"
-            android:title="handouts" />
+            android:title="@string/nav_menu_handouts" />
         <item
             android:id="@+id/nav_pastexam"
             android:icon="@drawable/ic_menu_pastexam"
-            android:title="Past Exam" />
+            android:title="@string/nav_menu_pastexam" />
     </group>
 
     <group
@@ -34,19 +39,19 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
-            android:title="Settings" />
+            android:title="@string/nav_menu_settings" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_help"
-            android:title="Help" />
+            android:title="@string/nav_menu_help" />
         <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/ic_menu_feedback"
-            android:title="Send feedback"/>
+            android:title="@string/nav_menu_feedback"/>
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
-            android:title="About" />
+            android:title="@string/nav_menu_about" />
     </group>
 
 </menu>

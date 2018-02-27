@@ -49,22 +49,13 @@
         </activity>
         <activity
             android:name=".activities.AboutActivity"
+            android:label="@string/title_activity_about"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.FeedbackActivity"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.HelpActivity"
-            android:parentActivityName=".activities.MainActivity" />
-        <activity
-            android:name=".activities.PastexamActivity"
-            android:parentActivityName=".activities.MainActivity" />
-        <activity
-            android:name=".activities.PrepActivity"
-            android:parentActivityName=".activities.MainActivity" />
-        <activity
-            android:name=".activities.ImproveActivity"
-            android:label=""
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.auth.LoginActivity"

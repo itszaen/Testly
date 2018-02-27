@@ -11,7 +11,7 @@ class FeedbackActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar()?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         setContentView(R.layout.activity_feedback)
     }
 
@@ -19,7 +19,7 @@ class FeedbackActivity : AppCompatActivity() {
         when (item.itemId) {
         // Up button
             android.R.id.home -> {
-                val upIntent = NavUtils.getParentActivityIntent(this) // WOW!~
+                val upIntent = NavUtils.getParentActivityIntent(this)
                 if (NavUtils.shouldUpRecreateTask(this, upIntent!!)) {
                     // This activity is NOT part of this app's task, so create a new task
                     // when navigating up, with a synthesized back stack.

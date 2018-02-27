@@ -11,7 +11,7 @@ class HelpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar()?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         setContentView(R.layout.activity_help)
     }
 
