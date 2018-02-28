@@ -53,9 +53,11 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.FeedbackActivity"
+            android:label="@string/title_activity_feedback"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.HelpActivity"
+            android:label="@string/title_activity_help"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.auth.LoginActivity"

@@ -11,8 +11,10 @@ class FeedbackActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         setContentView(R.layout.activity_feedback)
+        val toolbar = this.supportActionBar
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
+        toolbar?.setDisplayShowTitleEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 
 import com.zaen.testly.R
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -24,9 +23,7 @@ class SettingsActivity : AppCompatActivity(){
         setContentView(R.layout.activity_settings)
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
-        toolbar?.setTitle(getString(R.string.title_activity_settings))
-        actionBar?.setTitle(getString(R.string.title_activity_settings))
-        setTitle(getString(R.string.title_activity_settings))
+        toolbar?.setDisplayShowTitleEnabled(true)
 
         unbinder = ButterKnife.bind(this)
 
