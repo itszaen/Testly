@@ -17,11 +17,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
-import io.fabric.sdk.android.Fabric
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -33,9 +33,13 @@ class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener {
     val transaction = supportFragmentManager
     var tool_bar : Toolbar? = null
+    lateinit private var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mAuth = FirebaseAuth.getInstance()
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -56,6 +60,14 @@ class MainActivity : AppCompatActivity(),
             transaction.beginTransaction()
                     .add(R.id.fragment_container, dbFragment).commit()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Firebase check if already signed-in
+        var currentUser: FirebaseUser? = mAuth.getCurrentUser()
+        updateUI(currentUser)
+
     }
 //
 //    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -94,6 +106,7 @@ class MainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
+            R.id.nav_pinned -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
             R.id.nav_prep -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
             R.id.nav_improve -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
             R.id.nav_handouts -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
@@ -126,7 +139,23 @@ class MainActivity : AppCompatActivity(),
                 .replace(R.id.fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()
-        tool_bar!!.setTitle(title)
+        tool_bar?.setTitle(title)
     }
 
+    // Firebase stuff
+       private fun updateUI(user:FirebaseUser?) {
+        if (user != null) {
+//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
+//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+//
+//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+        } else {
+//            mStatusTextView.setText(R.string.signed_out);
+//            mDetailTextView.setText(null);
+//
+//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        }
+    }
 }
