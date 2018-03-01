@@ -1,9 +1,11 @@
 package com.zaen.testly.activities
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.preference.PreferenceManager
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         mAuth = FirebaseAuth.getInstance()
+        checkFirstRun()
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -68,6 +71,10 @@ class MainActivity : AppCompatActivity(),
         var currentUser: FirebaseUser? = mAuth.getCurrentUser()
         updateUI(currentUser)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 //
 //    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -143,7 +150,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     // Firebase stuff
-       private fun updateUI(user:FirebaseUser?) {
+    private fun updateUI(user:FirebaseUser?) {
         if (user != null) {
 //            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
@@ -157,5 +164,20 @@ class MainActivity : AppCompatActivity(),
 //            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
+    }
+    fun checkFirstRun(){
+        val IF_FIRST_START = getString(R.string.pref_if_firststart)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(baseContext)
+        val firstStart = prefs.getBoolean(IF_FIRST_START, true)
+        if (firstStart){
+            onFirstRun()
+            val edit = prefs.edit()
+            edit.putBoolean(IF_FIRST_START,false)
+            edit.commit()
+        }
+    }
+
+    fun onFirstRun(){
+
     }
 }

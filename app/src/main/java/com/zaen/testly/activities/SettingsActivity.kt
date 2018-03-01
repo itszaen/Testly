@@ -17,13 +17,18 @@ import butterknife.Unbinder
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
+import com.zaen.testly.fragments.DashboardFragment
+import com.zaen.testly.fragments.settings.SettingsMainFragment
+import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
 class SettingsActivity : AppCompatActivity(){
     companion object {
-        private val RC_SIGN_IN = 101
+        private val TAG = "SettingsActivity"
     }
     private lateinit var unbinder: Unbinder
+    val transaction = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -33,6 +38,16 @@ class SettingsActivity : AppCompatActivity(){
         toolbar?.setDisplayShowTitleEnabled(true)
 
         unbinder = ButterKnife.bind(this)
+
+        if (settings_fragment_container != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+            val mainFragment = SettingsMainFragment()
+            mainFragment.setArguments(getIntent().getExtras())
+            transaction.beginTransaction()
+                    .add(R.id.settings_fragment_container, mainFragment).commit()
+        }
 
     }
 
@@ -65,53 +80,5 @@ class SettingsActivity : AppCompatActivity(){
         unbinder?.unbind()
         super.onDestroy()
     }
-
-    // Button Clicked
-    @OnClick (R.id.pref_account)
-    fun onAccountSettingClicked(view:View){
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(Arrays.asList(
-//                                AuthUI.IdpConfig.EmailBuilder().build(),
-//                                AuthUI.IdpConfig.PhoneBuilder().build(),
-                                AuthUI.IdpConfig.GoogleBuilder().build()
-//                                AuthUI.IdpConfig.FacebookBuilder().build(),
-//                                AuthUI.IdpConfig.TwitterBuilder().build()
-                                ))
-                        .build(),
-                RC_SIGN_IN
-        )
-    }
-
-    override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent){
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_SIGN_IN){
-            val response = IdpResponse.fromResultIntent(data)
-            // Successful
-            if (resultCode == RESULT_OK){
-               // startActivity(SettingsActivity.createIntent(this,response))
-                finish()
-            } else {
-                //Failed
-                if (response == null){ // pressed back, cancelled
-                    Toast.makeText(this,"Sign in cancelled",Toast.LENGTH_SHORT).show(); return}
-                if (response?.errorCode == ErrorCodes.NO_NETWORK){ // network error
-                    Toast.makeText(this,"Internet Error",Toast.LENGTH_SHORT).show(); return}
-                // unknown
-                Toast.makeText(this,"Unknown Error",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    @OnClick (R.id.pref_provider)
-    fun onProviderSettingClicked(view:View){
-
-    }
-    @OnClick (R.id.pref_developer)
-    fun onDeveloperSettingClicked(view:View){
-
-    }
-
 
 }

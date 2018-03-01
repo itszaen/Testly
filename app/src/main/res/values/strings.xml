@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Testly</string>
 
+
     <string name="user_name">Zaen</string>
     <string name="user_email">chouzaen2002@gmail.com</string>
 
@@ -34,12 +35,20 @@
 
 
     <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_file_key_account">com.zaen.testly.account</string>
+    <string name="pref_file_key_progress">com.zaen.testly.progress</string>
+    <string name="pref_if_firststart">com.zaen.testly.progress</string>
+
     <string name="pref_general_title">General</string>
     <string name="pref_account_title">Account</string>
     <string name="pref_account_caption">Signed in as chouzaen2002@gmail.com</string>
     <string name="pref_language_title">Language</string>
     <string name="pref_language_caption">English</string>
     <string name="pref_theme_title">Theme</string>
+    <string name="pref_download_title">Download</string>
+    <string name="pref_download_auto">Auto Download All</string>
+    <string name="pref_download_auto_caption">Automatically download all available documents.</string>
     <string name="pref_notification_title">Notifications</string>
     <string name="pref_if_send_key">if_notification</string>
     <string name="pref_if_send_title">Turn on or off notifications</string>
