@@ -6,7 +6,7 @@ Now only for [Kaisei Highschool](http://kaiseigakuen.jp/)
 ## License
 
 ## Terms of Service
-[Terms of Service](terms-of-service)
+[Terms of Service](terms-of-service.html)
 
 ## Privacy Policy
 [Privacy Policy](privacy-policy.html)
