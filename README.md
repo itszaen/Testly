@@ -1,8 +1,12 @@
 # Testly
-Testly is an android app meant to help you study for your exam, in the train, on the go, everywhere. (with a smartphone of course)
+Testly is an android app meant to help you study for your exam, on the train, on the go, everywhere. (with a smartphone of course)
 
 Now only for [Kaisei Highschool](http://kaiseigakuen.jp/)
 
 ## License
 
-## Special thanks to
+## Terms of Service
+[Terms of Service](terms-of-service.html)
+
+## Privacy Policy
+[Privacy Policy](privacy-policy.html)
