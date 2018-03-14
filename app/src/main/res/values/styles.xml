@@ -11,6 +11,9 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
     </style>
 
     <style name="AppTheme.ActionBar">
@@ -33,4 +36,81 @@
         <item name="android:textSize">@dimen/action_bar_text_size</item>
         <item name="android:textColor">@color/md_white_1000</item>
     </style>
+
+    <!-- Welcome Screen -->
+    <style name="TestlyWelcomeScreenTheme" parent="WelcomeScreenTheme">
+        <item name="welcomeNormalTextStyle">@style/IntroText</item>
+        <item name="welcomeLargeTextStyle">@style/largeIntroText</item>
+        <item name="welcomeTitleTextStyle">@style/titleIntroText</item>
+        <item name="welcomeButtonBarFirstStyle">@style/buttonFirst</item>
+        <item name="welcomeButtonBarSecondStyle">@style/buttonSecond</item>
+    </style>
+    <style name="IntroText" parent="WelcomeScreenText.Centered"/>
+    <style name="normalIntroText" parent="IntroText">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+    </style>
+    <style name="largeIntroText" parent="IntroText">
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+    </style>
+    <style name="titleIntroText" parent="IntroText">
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+    </style>
+    <style name="buttonFirst" parent="WelcomeScreenTheme">
+        <item name="android:text">@string/intro_login</item>
+    </style>
+    <style name="buttonSecond" parent="WelcomeScreenTheme">
+        <item name="android:text">@string/intro_signup</item>
+    </style>
+
+    <!-- Log in & Sign up -->
+    <style name="Login" parent="AppTheme.NoActionBar">
+        <item name="android:editTextStyle">@style/whiteEditText</item>
+        <item name="editTextStyle">@style/whiteEditText</item>
+    </style>
+    <style name="Signup" parent="AppTheme.NoActionBar">
+        <item name="android:editTextStyle">@style/whiteEditText</item>
+        <item name="editTextStyle">@style/blackEditText</item>
+    </style>
+    <style name="whiteEditText" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/loginText</item>
+        <item name="android:textColorHint">@color/loginText</item>
+        <item name="colorControlNormal">@color/loginText</item>
+        <item name="colorControlActivated">@color/loginText</item>
+        <item name="colorControlHighlight">@color/loginText</item>
+        <item name="android:backgroundTint">@color/loginText</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_white</item>
+        <item name="backgroundTint">@color/loginText</item>
+    </style>
+    <style name="blackEditText" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/signupText</item>
+        <item name="android:textColorHint">@color/signupText</item>
+        <item name="colorControlNormal">@color/signupText</item>
+        <item name="colorControlActivated">@color/signupText</item>
+        <item name="colorControlHighlight">@color/signupText</item>
+        <item name="android:backgroundTint">@color/signupText</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_black</item>
+        <item name="backgroundTint">@color/signupText</item>
+    </style>
+    <style name="whiteLabel" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/md_grey_500</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/loginText</item>
+        <item name="colorControlNormal">@color/loginText</item>
+        <item name="colorControlActivated">@color/loginText</item>
+    </style>
+    <style name="blackLabel" parent="TextAppearance.AppCompat">
+    <!-- Hint color and label color in FALSE state -->
+    <item name="android:textColorHint">@color/md_grey_500</item>
+    <item name="android:textSize">@dimen/medium_text</item>
+    <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+    <item name="colorAccent">@color/signupText</item>
+    <item name="colorControlNormal">@color/signupText</item>
+    <item name="colorControlActivated">@color/signupText</item>
+</style>
+
 </resources>

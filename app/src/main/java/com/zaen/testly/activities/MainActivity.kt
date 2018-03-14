@@ -1,8 +1,7 @@
 package com.zaen.testly.activities
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
@@ -11,37 +10,35 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.stephentuso.welcome.WelcomeActivity
+import com.stephentuso.welcome.WelcomeHelper
+import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
 import com.zaen.testly.R
-import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
-import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener {
     val transaction = supportFragmentManager
     var tool_bar : Toolbar? = null
+    var welcomeScreen:WelcomeHelper? = null
     lateinit private var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         mAuth = FirebaseAuth.getInstance()
-        checkFirstRun()
+        if (checkFirstRun() or (mAuth.currentUser == null)) {
+            welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
+            welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
+        }
+        super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -82,6 +79,10 @@ class MainActivity : AppCompatActivity(),
 //        toggle.syncState()
 //    }
 
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        welcomeScreen?.onSaveInstanceState(outState)
+    }
     fun forceCrash(view: View) {
         throw RuntimeException("This is a crash")
     }
@@ -165,19 +166,35 @@ class MainActivity : AppCompatActivity(),
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
-    fun checkFirstRun(){
+    fun checkFirstRun():Boolean{
         val IF_FIRST_START = getString(R.string.pref_if_firststart)
         val prefs = PreferenceManager.getDefaultSharedPreferences(baseContext)
         val firstStart = prefs.getBoolean(IF_FIRST_START, true)
         if (firstStart){
-            onFirstRun()
             val edit = prefs.edit()
             edit.putBoolean(IF_FIRST_START,false)
             edit.commit()
-        }
+            return true
+        } else {return true}//false}
+            //TODO -> true
     }
 
-    fun onFirstRun(){
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Intro
+        if (requestCode == WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST) {
+            // The key of the welcome screen is in the Intent
+            val welcomeKey = data.getStringExtra(WelcomeActivity.WELCOME_SCREEN_KEY)
+
+            if (resultCode == Activity.RESULT_OK) {
+                // do something
+            } else {
+                finish() //Close app
+            }
+
+        }
 
     }
 }

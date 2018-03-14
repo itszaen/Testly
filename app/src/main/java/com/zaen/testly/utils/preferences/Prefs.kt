@@ -25,58 +25,14 @@ object Prefs {
         return prefs.get(Keys.SHOW_VIDEOS, Defaults.SHOW_VIDEOS)
     }
 
-    /**
-     * Should display count of media.
-     */
-    fun showMediaCount(): Boolean {
-        return prefs.get(Keys.SHOW_MEDIA_COUNT, Defaults.SHOW_MEDIA_COUNT)
-    }
-
-    /**
-     * Should display path of albums.
-     */
-    fun showAlbumPath(): Boolean {
-        return prefs.get(Keys.SHOW_ALBUM_PATH, Defaults.SHOW_ALBUM_PATH)
-    }
-
-    /**
-     * Should show the Emoji Easter Egg.
-     */
-    fun showEasterEgg(): Boolean {
-        return prefs.get(Keys.SHOW_EASTER_EGG, Defaults.SHOW_EASTER_EGG)
-    }
     fun sendNotification(value: Boolean){
         prefs.put(Keys.SEND_NOTIFICATION, Defaults.SEND_NOTIFICATION)
     }
 
-
-    /**
-     * Set show video files in media collection.
-     */
-    fun setShowVideos(value: Boolean) {
-        prefs.put(Keys.SHOW_VIDEOS, value)
+    fun setShowDevbar(value: Boolean){
+        prefs.put(Keys.SHOW_DEVBAR, Defaults.SHOW_DEVBAR)
     }
 
-    /**
-     * Set show the media count.
-     */
-    fun setShowMediaCount(value: Boolean) {
-        prefs.put(Keys.SHOW_MEDIA_COUNT, value)
-    }
-
-    /**
-     * Set show the full album path.
-     */
-    fun setShowAlbumPath(value: Boolean) {
-        prefs.put(Keys.SHOW_ALBUM_PATH, value)
-    }
-
-    /**
-     * Set show the Emoji Easter Egg.
-     */
-    fun setShowEasterEgg(value: Boolean) {
-        prefs.put(Keys.SHOW_EASTER_EGG, value)
-    }
 
     fun setSendNotification(value: Boolean){
         prefs.put(Keys.SEND_NOTIFICATION, value)

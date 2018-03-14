@@ -66,19 +66,19 @@ class DashBoardView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         private var mRecyclerView: RecyclerView? = null
 
-        override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
             super.onAttachedToRecyclerView(recyclerView)
             mRecyclerView = recyclerView
         }
 
-        override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+        override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
             super.onDetachedFromRecyclerView(recyclerView)
             mRecyclerView = null
 
         }
 
-        override fun onBindViewHolder(holder: RecyclerViewHolder?, position: Int) {
-            holder?.let {
+        override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+            holder.let {
                 it.itemExamTitle.text = itemExamList[position][0]
                 it.itemExamSubjectTitle.text = itemExamList[position][1]
             }
@@ -88,7 +88,7 @@ class DashBoardView @JvmOverloads constructor(context: Context, attrs: Attribute
             return itemExamList.size
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
 
             val layoutInflater = LayoutInflater.from(context)
             val mView = layoutInflater.inflate(R.layout.card_exam, parent, false)

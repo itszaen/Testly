@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content_activity_login"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,93 +20,94 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_spacing"
         android:textColor="@color/loginText"
-        android:textSize="@dimen/sub_large_text" />
+        android:textSize="@dimen/sub_large_text"
+        />
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 
     <ScrollView
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
-            android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:id="@+id/login_social"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/medium_spacing"
+                android:layout_marginHorizontal="@dimen/medium_spacing"
                 android:orientation="vertical">
-
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/login_social_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
                     android:layout_marginHorizontal="@dimen/small_spacing"
-                    android:text="Use social account to login"
-                    android:textColor="@color/loginText" />
-
+                    android:text="Use social account to login"/>
                 <LinearLayout
                     android:id="@+id/login_social_btns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/small_spacing"
-                    android:gravity="center">
-
+                    android:orientation="horizontal">
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_google"
                         android:layout_width="@dimen/btn_size_login_social"
                         android:layout_height="@dimen/btn_size_login_social"
-                        android:layout_margin="@dimen/btn_margin_login_social"
-                        android:padding="@dimen/btn_padding_login_social"
-                        android:onClick="onGoogleAuth"
-                        fancy:fb_defaultColor="@color/googleBackground"
-                        fancy:fb_focusColor="@color/googleFocus"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        fancy:fb_defaultColor="#FFFFFF"
+                        fancy:fb_focusColor="#FFFFFF"
+                        fancy:fb_iconPaddingLeft="0dp"
+                        fancy:fb_iconPaddingRight="0dp"
                         fancy:fb_iconResource="@mipmap/google"
                         fancy:fb_radius="@dimen/btn_size_login_social"
-                        fancy:fb_textColor="#FFFFFF" />
-
+                        fancy:fb_textColor="#FFFFFF"/>
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_facebook"
                         android:layout_width="@dimen/btn_size_login_social"
                         android:layout_height="@dimen/btn_size_login_social"
-                        android:layout_margin="@dimen/btn_margin_login_social"
-                        android:padding="@dimen/btn_padding_login_social"
-                        android:onClick="onFacebookAuth"
-                        fancy:fb_defaultColor="@color/facebookBackground"
-                        fancy:fb_focusColor="@color/facebookFocus"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        fancy:fb_defaultColor="#3f729b"
+                        fancy:fb_focusColor="#313131"
+                        fancy:fb_iconPaddingLeft="0dp"
+                        fancy:fb_iconPaddingRight="0dp"
                         fancy:fb_iconResource="@mipmap/facebook"
                         fancy:fb_radius="@dimen/btn_size_login_social"
-                        fancy:fb_textColor="#FFFFFF" />
-
+                        fancy:fb_textColor="#FFFFFF"/>
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_twitter"
                         android:layout_width="@dimen/btn_size_login_social"
                         android:layout_height="@dimen/btn_size_login_social"
-                        android:layout_margin="@dimen/btn_margin_login_social"
-                        android:padding="@dimen/btn_padding_login_social"
-                        android:onClick="onTwitterAuth"
-                        fancy:fb_defaultColor="@color/twitterBackground"
-                        fancy:fb_focusColor="@color/twitterFocus"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        fancy:fb_defaultColor="#55acee"
+                        fancy:fb_focusColor="#313131"
+                        fancy:fb_iconPaddingLeft="0dp"
+                        fancy:fb_iconPaddingRight="0dp"
                         fancy:fb_iconResource="@mipmap/twitter"
                         fancy:fb_radius="@dimen/btn_size_login_social"
-                        fancy:fb_textColor="#FFFFFF" />
-
+                        fancy:fb_textColor="#FFFFFF"/>
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_github"
                         android:layout_width="@dimen/btn_size_login_social"
                         android:layout_height="@dimen/btn_size_login_social"
-                        android:layout_margin="@dimen/btn_margin_login_social"
-                        android:padding="@dimen/btn_padding_login_social"
-                        android:onClick="onGithubAuth"
-                        fancy:fb_defaultColor="@color/githubBackground"
-                        fancy:fb_focusColor="@color/githubFocus"
+                        android:layout_margin="10dp"
+                        android:padding="10dp"
+                        fancy:fb_defaultColor="#000000"
+                        fancy:fb_focusColor="#000000"
+                        fancy:fb_iconPaddingLeft="0dp"
+                        fancy:fb_iconPaddingRight="0dp"
                         fancy:fb_iconResource="@mipmap/github"
                         fancy:fb_radius="@dimen/btn_size_login_social"
-                        fancy:fb_textColor="#FFFFFF" />
+                        fancy:fb_textColor="#FFFFFF"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:singleLine="true" />
+                        android:singleLine="true"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -153,44 +153,15 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <!-- Extra Buttons (Forgot Password, Create Account) -->
-                <LinearLayout
-                    android:id="@+id/login_email_extra"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/small_spacing"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:onClick="onForgotPassword"
-                            android:text="@string/text_forgot_password"
-                            android:textColor="@color/loginText"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/small_spacing"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:onClick="onCreateAccount"
-                            android:text="@string/text_create_account"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/loginText" />
-                </LinearLayout>
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
+                    android:background="@drawable/button_login_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/button_login_email"
-                    android:foreground="@drawable/ripple_grey"
                     android:text="@string/action_log_in"
-                    android:textStyle="bold"
-                    android:onClick="onEmailAuth"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>

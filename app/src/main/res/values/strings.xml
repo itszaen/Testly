@@ -1,6 +1,12 @@
 <resources>
+    <!-- App -->
     <string name="app_name">Testly</string>
 
+    <!-- Welcome Screen -->
+    <string name="intro_first_title">Testly</string>
+    <string name="intro_first_description">Welcome to Testly!</string>
+    <string name="intro_login">LOG IN</string>
+    <string name="intro_signup">SIGN UP</string>
 
     <string name="user_name">Zaen</string>
     <string name="user_email">chouzaen2002@gmail.com</string>
@@ -11,6 +17,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Navigation Drawer -->
     <string name="nav_menu_home">Home</string>
     <string name="nav_menu_pinned">Pinned</string>
     <string name="nav_menu_improve">Improve</string>
@@ -22,23 +29,23 @@
     <string name="nav_menu_feedback">Feedback</string>
     <string name="nav_menu_about">About</string>
 
+    <!-- Pinned -->
     <string name="title_fragment_pinned">Pinned</string>
 
+    <!-- Improve -->
     <string name="title_fragment_improve">Improve Ability</string>
 
+    <!-- Prep -->
     <string name="title_fragment_prep">Prepare for exams</string>
 
+    <!-- Handouts -->
     <string name="title_fragment_handouts">Handouts</string>
 
+    <!-- Past Exams -->
     <string name="title_fragment_pastexam">Past Exams</string>
 
-
-
+    <!-- Settings -->
     <string name="title_activity_settings">Settings</string>
-
-    <string name="pref_file_key_account">com.zaen.testly.account</string>
-    <string name="pref_file_key_progress">com.zaen.testly.progress</string>
-    <string name="pref_if_firststart">com.zaen.testly.progress</string>
 
     <string name="pref_general_title">General</string>
     <string name="pref_account_title">Account</string>
@@ -54,29 +61,76 @@
     <string name="pref_if_send_title">Turn on or off notifications</string>
     <string name="pref_if_send_caption">yeah</string>
     <string name="pref_advanced_title">Advanced</string>
+    <string name="pref_welcome_title">Roll intro</string>
+    <string name="pref_welcome_caption">Display the welcome screen.</string>
     <string name="pref_provider_title">Provider Options</string>
     <string name="pref_provider_caption">Provider Options</string>
     <string name="pref_developer_title">Developer Options</string>
     <string name="pref_developer_caption">You\'re Zaen, right?</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="pref_dev_devbar">Show Devbar</string>
+    <string name="pref_dev_devbar_title">Show Devbar</string>
 
-    <!-- Strings related to login -->
+    <!-- Log In -->
+    <string name="title_activity_login">Log in</string>
+    <string-array name="login_greetings">
+        <item>Welcome back, Captain!</item>
+        <item>Nice to see you again!</item>
+        <item>Glad to have you back!</item>
+    </string-array>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_log_in">Log in</string>
+    <string name="action_log_in_short">Log in</string>
+    <string name="text_forgot_password"><u>Forgot password?</u></string>
+    <string name="text_create_account"><u>Create Account</u></string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_auth_google_title">Authentication Failure</string>
+    <string name="error_auth_google_content">Unknown Error.</string>
 
+    <!-- Sign up -->
+    <string name="title_activity_signup">Sign up</string>
+    <string-array name="signup_greetings">
+        <item>Please fill out this form.</item>
+        <item>Nice to meet you!</item>
+        <item>Hello, newcomer.</item>
+    </string-array>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_fullname_last">First</string>
+    <string name="prompt_fullname_first">Last</string>
+    <string-array name="signup_schools">
+        <item>Kaisei High School</item>
+    </string-array>
+    <string name="action_sign_up">SIGN UP</string>
+
+    <!-- About -->
     <string name="title_activity_about">About</string>
+
+    <!-- Feedback -->
     <string name="title_activity_feedback">Feedback</string>
+
+    <!-- Help -->
     <string name="title_activity_help">Help</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Pref Keys -->
+    <string name="pref_file_key_account">com.zaen.testly.account</string>
+    <string name="pref_file_key_progress">com.zaen.testly.progress</string>
+    <string name="pref_if_firststart">com.zaen.testly.testly-1.0</string>
+    <string name="pref_github_token">com.zaen.testly.token.github</string>
+
+    <!-- Dialog -->
+    <string name="react_positive">OK</string>
+    <string name="react_negative">No</string>
+    <string name="react_refuse">Cancel</string>
+
+    <!-- Keys -->
+    <string name="web_client_id">436607122083-sj286moomli36fgehm1qt051lh75hlpk.apps.googleusercontent.com</string>
+    <string name="facebook_application_id">156347215050319</string>
+    <string name="fb_login_protocol_scheme">fb156347215050319</string>
+    <!-- Misc. -->
+    <string name="not_implemented_title">Oops!</string>
+    <string name="not_implemented_content">Not yet implemented.</string>
+
 </resources>

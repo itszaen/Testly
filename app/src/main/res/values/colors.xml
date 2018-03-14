@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary">@color/md_indigo_600</color>
+    <color name="primaryDark">@color/md_indigo_900</color>
+    <color name="primaryLight">@color/md_indigo_300</color>
+    <color name="colorAccent">@color/md_pink_A200</color>
+    <color name="introBackground">@color/md_pink_A200</color>
+    <color name="introText">@color/accent_white</color>
+    <color name="introFirstBackground">@color/accent_teal</color>
+    <color name="introSecondBackground">@color/accent_white</color>
+    <color name="introSecondary">@color/md_grey_100</color>
+
+    <!-- Sign in & up -->
+    <color name="emailBackground">#ff8800</color>
+    <color name="emailFocus">#313131</color>
+    <color name="googleBackground">@color/accent_white</color>
+    <color name="googleFocus">@color/accent_grey</color>
+    <color name="facebookBackground">#3f729b</color>
+    <color name="facebookFocus">#313131</color>
+    <color name="twitterBackground">#55acee</color>
+    <color name="twitterFocus">#313131</color>
+    <color name="githubBackground">@color/accent_black</color>
+    <color name="githubFocus">#313131</color>
+
+    <color name="loginBackground">@color/md_grey_900</color>
+    <color name="loginText">@color/accent_white</color>
+    <color name="loginEmailButtonBackground">@color/accent_white</color>
+    <color name="signupBackground">@color/md_light_background</color>
+    <color name="signupText">@color/md_light_primary_text</color>
     <!--Accent Color Collection-->
     <color name="accent_red">#f44336</color>
     <color name="accent_pink">#e91e63</color>
@@ -327,9 +354,5 @@
     <color name="transparent_black">#c4000000</color>
     <color name="transparent_md_amber_500">#99FFC107</color>
 
-    <color name="primary">@color/md_indigo_600</color>
-    <color name="primaryDark">@color/md_indigo_900</color>
-    <color name="primaryLight">@color/md_indigo_300</color>
 
-    <color name="colorAccent">@color/md_pink_A200</color>
 </resources>

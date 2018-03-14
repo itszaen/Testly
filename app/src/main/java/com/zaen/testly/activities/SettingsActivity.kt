@@ -1,39 +1,36 @@
 package com.zaen.testly.activities
 
 import android.app.TaskStackBuilder
-import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
+import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.widget.Toast
 
 import com.zaen.testly.R
 
 import butterknife.ButterKnife
-import butterknife.OnClick
 import butterknife.Unbinder
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
-import com.zaen.testly.fragments.DashboardFragment
+import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.content_main.*
-import java.util.*
 
-class SettingsActivity : AppCompatActivity(){
+class SettingsActivity : AppCompatActivity(),
+                SettingsMainFragment.FragmentClickListener,
+                DeveloperSettingsMainFragment.FragmentClickListener{
     companion object {
-        private val TAG = "SettingsActivity"
+        val TAG = "SettingsActivity"
     }
     private lateinit var unbinder: Unbinder
     val transaction = supportFragmentManager
+    var toolbar : ActionBar? = null
+    var inFragmentLevel = 0
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        val toolbar = this.supportActionBar
+        toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
 
@@ -55,21 +52,28 @@ class SettingsActivity : AppCompatActivity(){
         when (item.itemId) {
         // Up button
             android.R.id.home -> {
-                val upIntent = NavUtils.getParentActivityIntent(this) // WOW!~
-                if (NavUtils.shouldUpRecreateTask(this, upIntent!!)) {
-                    // This activity is NOT part of this app's task, so create a new task
-                    // when navigating up, with a synthesized back stack.
-                    TaskStackBuilder.create(this)
-                            // Add all of this activity's parents to the back stack
-                            .addNextIntentWithParentStack(upIntent)
-                            // Navigate up to the closest parent
-                            .startActivities()
+                if (inFragmentLevel > 0) {
+                    onBackPressed()
+                    inFragmentLevel -= 1
+                    if (inFragmentLevel == 0){inMainFragment()}
+                    return true
                 } else {
-                    // This activity is part of this app's task, so simply
-                    // navigate up to the logical parent activity.
-                    NavUtils.navigateUpTo(this, upIntent)
+                    val upIntent = NavUtils.getParentActivityIntent(this) // WOW!~
+                    if (NavUtils.shouldUpRecreateTask(this, upIntent!!)) {
+                        // This activity is NOT part of this app's task, so create a new task
+                        // when navigating up, with a synthesized back stack.
+                        TaskStackBuilder.create(this)
+                                // Add all of this activity's parents to the back stack
+                                .addNextIntentWithParentStack(upIntent)
+                                // Navigate up to the closest parent
+                                .startActivities()
+                    } else {
+                        // This activity is part of this app's task, so simply
+                        // navigate up to the logical parent activity.
+                        NavUtils.navigateUpTo(this, upIntent)
+                    }
+                    return true
                 }
-                return true
             }
 
         // ...
@@ -79,6 +83,29 @@ class SettingsActivity : AppCompatActivity(){
     override fun onDestroy(){
         unbinder?.unbind()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (inFragmentLevel > 0) {inFragmentLevel-=1}
+        if (inFragmentLevel == 0) {inMainFragment()}
+        super.onBackPressed()
+    }
+
+    override fun onFragmentCalled(newFragment: Fragment, title: String) {
+        val args = Bundle()
+        args.putString("TITLE",title)
+        newFragment.setArguments(args)
+        transaction.beginTransaction()
+                .replace(R.id.settings_fragment_container,newFragment)
+                .addToBackStack(null)
+                .commit()
+        toolbar?.setTitle(title)
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
+        inFragmentLevel += 1
+    }
+    fun inMainFragment(){
+        toolbar?.setTitle(getString(R.string.title_activity_settings))
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
     }
 
 }

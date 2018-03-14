@@ -21,7 +21,9 @@
     <dimen name="sub_medium_spacing">10dp</dimen>
 
     <dimen name="large_text">24sp</dimen>
+    <dimen name="sub_large_text">20sp</dimen>
     <dimen name="medium_text">16sp</dimen>
+    <dimen name="sub_medium_text">12sp</dimen>
     <dimen name="small_text">4sp</dimen>
 
     <dimen name="scrollbar_width">4dip</dimen>
@@ -40,5 +42,16 @@
     <dimen name="exam_card_progress_bar_width">4dp</dimen>
     <dimen name="exam_card_progress_rim_width">5dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Login -->
+    <dimen name="btn_size_login_social">52dp</dimen>
+    <dimen name="btn_padding_login_social">5dp</dimen>
+    <dimen name="btn_margin_login_social">8dp</dimen>
+
+    <!-- Signup -->
+    <dimen name="btn_size_signup_social">44dp</dimen>
+    <dimen name="btn_padding_signup_social">5dp</dimen>
+    <dimen name="btn_margin_signup_social">8dp</dimen>
+
 
 </resources>

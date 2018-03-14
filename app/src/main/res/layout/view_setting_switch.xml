@@ -19,6 +19,7 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginRight="@dimen/big_spacing"
             android:layout_marginLeft="@dimen/big_spacing"
+            app:iiv_color="@color/md_grey_600"
             app:iiv_icon="gmd-android"/>
         <RelativeLayout
             android:layout_width="match_parent"

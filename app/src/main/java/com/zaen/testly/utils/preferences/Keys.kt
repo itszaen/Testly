@@ -7,4 +7,5 @@ object Keys {
 
     val SHOW_EASTER_EGG = "show_easter_egg"
     val SEND_NOTIFICATION = "pref_if_send_key"
+    val SHOW_DEVBAR = "pref_show_devbar"
 }// Prevent class instantiation

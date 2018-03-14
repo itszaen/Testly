@@ -1,6 +1,7 @@
 package com.zaen.testly.fragments.settings
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,13 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toolbar
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
+import com.stephentuso.welcome.WelcomeHelper
 import com.zaen.testly.R
-import com.zaen.testly.activities.SettingsActivity
+import com.zaen.testly.activities.Intro2Activity
 import java.util.*
 
 /**
@@ -26,6 +29,15 @@ class SettingsMainFragment : Fragment() {
         private val RC_SIGN_IN = 101
     }
     var activity: Activity? = null
+    lateinit var toolbar :Toolbar
+    private var mListener: FragmentClickListener? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is FragmentClickListener){
+            mListener = context
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
         return inflater.inflate(R.layout.fragment_settings_main,container,false)
@@ -40,9 +52,11 @@ class SettingsMainFragment : Fragment() {
         activity = getActivity()
     }
 
-//    override fun onItemClick(view: View, position: Int) {
-//        Toast.makeText(activity?.applicationContext, "position $position was tapped", Toast.LENGTH_SHORT).show()
-//    }
+    override fun onDetach() {
+        super.onDetach()
+        mListener = null
+    }
+
 
     // Button Clicked
     @OnClick (R.id.pref_account)
@@ -82,16 +96,22 @@ class SettingsMainFragment : Fragment() {
         }
     }
 
+    @OnClick(R.id.pref_welcome)
+    fun onWelcomeClicked(view:View){
+        WelcomeHelper(activity, Intro2Activity::class.java).forceShow()
+    }
 
     @OnClick(R.id.pref_provider)
     fun onProviderSettingClicked(view:View){
-
+        mListener?.onFragmentCalled(ProviderSettingsMainFragment(),"Provider Settings")
     }
 
     @OnClick(R.id.pref_developer)
     fun onDeveloperSettingClicked(view:View){
-
+        mListener?.onFragmentCalled(DeveloperSettingsMainFragment(),"Developer Settings")
     }
 
-
+    interface FragmentClickListener{
+        fun onFragmentCalled(newFragment:Fragment,title:String)
+    }
 }
