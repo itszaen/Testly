@@ -7,6 +7,7 @@
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".App"
@@ -17,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="io.fabric.ApiKey" android:value="85052d97ebfe59b11ed6c2a476241d7d4066efdd" />
+            android:name="io.fabric.ApiKey"
+            android:value="85052d97ebfe59b11ed6c2a476241d7d4066efdd" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -31,6 +33,7 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -44,11 +47,11 @@
         <!-- IntroActivity -->
         <activity
             android:name=".activities.IntroActivity"
-            android:theme="@style/TestlyWelcomeScreenTheme"/>
+            android:theme="@style/TestlyWelcomeScreenTheme" />
         <!-- Intro2Activity -->
         <activity
             android:name=".activities.Intro2Activity"
-            android:theme="@style/TestlyWelcomeScreenTheme"/>
+            android:theme="@style/TestlyWelcomeScreenTheme" />
         <!-- SettingsActivity -->
         <activity
             android:name=".activities.SettingsActivity"
@@ -85,9 +88,13 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="testly-2014.firebaseapp.com/__/auth/handler" android:scheme="https"/>
+
+                <data
+                    android:host="testly-2014.firebaseapp.com/__/auth/handler"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -96,25 +103,28 @@
             android:name=".activities.auth.SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/Signup"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!-- Facebook SDK -->
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".LoginActivitySample"
+            android:label="@string/title_activity_login_sample"></activity>
     </application>
 
 </manifest>

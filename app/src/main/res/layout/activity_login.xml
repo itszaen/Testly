@@ -14,24 +14,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.zaen.testly.activities.auth.LoginActivity">
 
-    <!-- Greeting Message -->
-    <TextView
-        android:id="@+id/login_greeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_spacing"
-        android:textColor="@color/loginText"
-        android:textSize="@dimen/sub_large_text" />
-
     <ScrollView
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <!-- Greeting Message -->
+            <TextView
+                android:id="@+id/login_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_spacing"
+                android:textColor="@color/loginText"
+                android:textSize="@dimen/sub_large_text" />
 
             <LinearLayout
                 android:id="@+id/login_social"
@@ -121,10 +121,12 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/whiteLabel">
+                    android:theme="@style/whiteTextInputLayout"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/whiteErrorText">
 
                     <EditText
-                        android:id="@+id/email"
+                        android:id="@+id/edit_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_email"
@@ -137,10 +139,12 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/whiteLabel">
+                    android:theme="@style/whiteTextInputLayout"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/whiteErrorText">
 
                     <EditText
-                        android:id="@+id/password"
+                        android:id="@+id/edit_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_password"
@@ -160,25 +164,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/small_spacing"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:onClick="onForgotPassword"
-                            android:text="@string/text_forgot_password"
-                            android:textColor="@color/loginText"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/small_spacing"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:onClick="onCreateAccount"
-                            android:text="@string/text_create_account"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/loginText" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_spacing"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onForgotPassword"
+                        android:text="@string/text_forgot_password"
+                        android:textColor="@color/loginText"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/small_spacing"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onCreateAccount"
+                        android:text="@string/text_create_account"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/loginText" />
                 </LinearLayout>
                 <Button
                     android:id="@+id/email_sign_in_button"

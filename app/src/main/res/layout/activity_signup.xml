@@ -14,14 +14,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.zaen.testly.activities.auth.SignupActivity">
 
-    <!-- Greeting Message -->
-    <TextView
-        android:id="@+id/signup_greeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_spacing"
-        android:textColor="@color/signupText"
-        android:textSize="@dimen/sub_large_text" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,6 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <!-- Greeting Message -->
+            <TextView
+                android:id="@+id/signup_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_spacing"
+                android:textColor="@color/signupText"
+                android:textSize="@dimen/sub_large_text" />
+
             <LinearLayout
                 android:id="@+id/signup_type"
                 android:layout_width="match_parent"
@@ -45,7 +47,7 @@
                     android:layout_marginHorizontal="@dimen/small_spacing"
                     android:text="Email or Social?"
                     android:textColor="@color/signupText" />
-                <RadioGroup
+                <LinearLayout
                     android:id="@+id/signup_social_btns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,9 +61,10 @@
                         android:layout_height="@dimen/btn_size_signup_social"
                         android:layout_margin="@dimen/btn_margin_signup_social"
                         android:padding="@dimen/btn_padding_signup_social"
-                        android:onClick="onEmailSelect"
+                        android:onClick="onSocialButtonSelected"
                         fancy:fb_defaultColor="@color/emailBackground"
                         fancy:fb_focusColor="@color/emailFocus"
+                        fancy:fb_borderColor="@color/accent_pink"
                         fancy:fb_iconResource="@mipmap/email"
                         fancy:fb_radius="@dimen/btn_size_signup_social"
                         fancy:fb_textColor="#FFFFFF" />
@@ -72,9 +75,10 @@
                         android:layout_height="@dimen/btn_size_signup_social"
                         android:layout_margin="@dimen/btn_margin_signup_social"
                         android:padding="@dimen/btn_padding_signup_social"
-                        android:onClick="onGoogleSelect"
+                        android:onClick="onSocialButtonSelected"
                         fancy:fb_defaultColor="@color/googleBackground"
                         fancy:fb_focusColor="@color/googleFocus"
+                        fancy:fb_borderColor="@color/accent_pink"
                         fancy:fb_iconResource="@mipmap/google"
                         fancy:fb_radius="@dimen/btn_size_signup_social"
                         fancy:fb_textColor="#FFFFFF" />
@@ -85,9 +89,10 @@
                         android:layout_height="@dimen/btn_size_signup_social"
                         android:layout_margin="@dimen/btn_margin_signup_social"
                         android:padding="@dimen/btn_padding_signup_social"
-                        android:onClick="onFacebookSelect"
+                        android:onClick="onSocialButtonSelected"
                         fancy:fb_defaultColor="@color/facebookBackground"
                         fancy:fb_focusColor="@color/facebookFocus"
+                        fancy:fb_borderColor="@color/accent_pink"
                         fancy:fb_iconResource="@mipmap/facebook"
                         fancy:fb_radius="@dimen/btn_size_signup_social"
                         fancy:fb_textColor="#FFFFFF" />
@@ -98,9 +103,10 @@
                         android:layout_height="@dimen/btn_size_signup_social"
                         android:layout_margin="@dimen/btn_margin_signup_social"
                         android:padding="@dimen/btn_padding_signup_social"
-                        android:onClick="onTwitterSelect"
+                        android:onClick="onSocialButtonSelected"
                         fancy:fb_defaultColor="@color/twitterBackground"
                         fancy:fb_focusColor="@color/twitterFocus"
+                        fancy:fb_borderColor="@color/accent_pink"
                         fancy:fb_iconResource="@mipmap/twitter"
                         fancy:fb_radius="@dimen/btn_size_signup_social"
                         fancy:fb_textColor="#FFFFFF" />
@@ -111,13 +117,14 @@
                         android:layout_height="@dimen/btn_size_signup_social"
                         android:layout_margin="@dimen/btn_margin_signup_social"
                         android:padding="@dimen/btn_padding_signup_social"
-                        android:onClick="onGithubSelect"
+                        android:onClick="onSocialButtonSelected"
                         fancy:fb_defaultColor="@color/githubBackground"
                         fancy:fb_focusColor="@color/githubFocus"
+                        fancy:fb_borderColor="@color/accent_pink"
                         fancy:fb_iconResource="@mipmap/github"
                         fancy:fb_radius="@dimen/btn_size_signup_social"
                         fancy:fb_textColor="#FFFFFF" />
-                </RadioGroup>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/signup_form_info"
@@ -237,6 +244,7 @@
                 android:background="@drawable/button_signup"
                 android:foreground="@drawable/ripple_grey"
                 android:text="@string/action_sign_up"
+                android:onClick="onSignUp"
                     android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
