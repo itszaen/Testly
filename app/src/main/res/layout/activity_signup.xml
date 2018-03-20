@@ -132,23 +132,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_spacing"
                 android:orientation="vertical">
+
                 <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
                 <LinearLayout
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:layout_width="0px"
                     android:layout_height="0px"/>
+
                 <LinearLayout
                     android:id="@+id/signup_emailPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
+
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/blackLabel">
-                        <EditText
+                        android:theme="@style/blackTextInputLayout"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/blackErrorText">
+
+                        <android.support.design.widget.TextInputEditText
                             android:id="@+id/edit_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -156,25 +163,39 @@
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true" />
+
                     </android.support.design.widget.TextInputLayout>
+
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/blackLabel">
-                        <EditText
+                        android:theme="@style/blackTextInputLayout"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/blackErrorText"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/accent_black">
+
+                        <android.support.design.widget.TextInputEditText
                             android:id="@+id/edit_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_password"
+                            android:imeActionId="6"
+                            android:imeActionLabel="@string/action_log_in_short"
+                            android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:singleLine="true" />
+
                     </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/blackLabel">
+                    android:theme="@style/blackTextInputLayout">
                     <EditText
                         android:id="@+id/edit_username"
                         android:layout_width="match_parent"
@@ -192,7 +213,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:theme="@style/blackLabel">
+                        android:theme="@style/blackTextInputLayout">
                         <EditText
                             android:id="@+id/edit_fullname_last"
                             android:layout_width="match_parent"
@@ -206,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:theme="@style/blackLabel">
+                        android:theme="@style/blackTextInputLayout">
                         <EditText
                             android:id="@+id/edit_fullname_first"
                             android:layout_width="match_parent"

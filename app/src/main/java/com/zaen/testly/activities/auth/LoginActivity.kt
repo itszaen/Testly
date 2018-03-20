@@ -7,6 +7,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.zaen.testly.R
+import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
 
@@ -59,7 +60,7 @@ class LoginActivity : Auth() {
         githubAuth()
     }
     fun onEmailAuth (view:View){
-        emailAuth()
+        emailAuth(input_email,input_password)
     }
 
     override fun isEmailValid(email: String): Boolean {

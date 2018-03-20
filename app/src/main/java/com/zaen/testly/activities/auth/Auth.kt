@@ -3,10 +3,14 @@ package com.zaen.testly.activities.auth
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.facebook.AccessToken
@@ -37,7 +41,6 @@ import com.wuman.android.auth.oauth2.store.SharedPreferencesCredentialStore
 import com.zaen.testly.R
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.activity_login.*
 import java.io.IOException
 import java.util.*
 
@@ -190,29 +193,31 @@ abstract class Auth: AppCompatActivity() {
 //        firebaseAuthWithGithub(credential.accessToken)
     }
 
-    fun emailAuth(){
-        edit_email.error = null
-        edit_password.error = null
+    fun emailAuth(input_email: TextInputLayout, input_password:TextInputLayout){
+        input_email.error = null
+        input_password.error = null
+        val edit_email = (input_email.getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
+        val edit_password = (input_password.getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
         val emailStr = edit_email.text.toString()
         val passwordStr = edit_password.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
-        // Check if password xcvb xcnot empty but invalid
+        // Check if password is not empty but invalid
         if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {
-            edit_password.setError(resources.getString(R.string.error_invalid_password))
+            input_password.setError(resources.getString(R.string.error_invalid_password))
             focusView = edit_password
             cancel = true
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(emailStr)) {
-            edit_email.error = resources.getString(R.string.error_field_required)
+            input_email.error = resources.getString(R.string.error_field_required)
             focusView = edit_email
             cancel = true
         } else if (!isEmailValid(emailStr)) {
-            edit_email.error = resources.getString(R.string.error_invalid_email)
+            input_email.error = resources.getString(R.string.error_invalid_email)
             focusView = edit_email
             cancel = true
         }

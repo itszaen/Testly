@@ -85,7 +85,7 @@ class SignupActivity : Auth() {
     fun onSignUp(view:View){
         when(authMethod){
             null -> {}
-            AUTH_EMAIL -> emailAuth()
+            AUTH_EMAIL -> emailAuth(input_email,input_password)
             AUTH_GOOGLE -> googleAuth()
             AUTH_FACEBOOK -> facebookAuth()
             AUTH_TWITTER -> twitterAuth()

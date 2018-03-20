@@ -84,9 +84,16 @@
         <item name="android:textCursorDrawable">@drawable/cursor_white</item>
         <item name="backgroundTint">@color/accent_white</item>
     </style>
-    <style name="whiteErrorText" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textColor">@color/accent_white</item>
+    <style name="whiteErrorText" parent="TextAppearance.Design.Error">
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">12sp</item>
+    </style>
+    <style name="whiteTextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/md_grey_500</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="colorAccent">@color/loginText</item>
+        <item name="colorControlNormal">@color/loginText</item>
+        <item name="colorControlActivated">@color/loginText</item>
     </style>
     <style name="blackEditText" parent="android:Widget.EditText">
         <item name="android:textColor">@color/signupText</item>
@@ -98,20 +105,13 @@
         <item name="android:textCursorDrawable">@drawable/cursor_black</item>
         <item name="backgroundTint">@color/signupText</item>
     </style>
-    <style name="whiteTextInputLayout" parent="Widget.Design.TextInputLayout">
-        <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/md_grey_500</item>
-        <item name="android:textSize">@dimen/medium_text</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-        <item name="colorAccent">@color/loginText</item>
-        <item name="colorControlNormal">@color/loginText</item>
-        <item name="colorControlActivated">@color/loginText</item>
+    <style name="blackErrorText" parent="TextAppearance.Design.Error">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">12sp</item>
     </style>
-    <style name="blackLabel" parent="TextAppearance.AppCompat">
-        <!-- Hint color and label color in FALSE state -->
+    <style name="blackTextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/md_grey_500</item>
         <item name="android:textSize">@dimen/medium_text</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorAccent">@color/signupText</item>
         <item name="colorControlNormal">@color/signupText</item>
         <item name="colorControlActivated">@color/signupText</item>

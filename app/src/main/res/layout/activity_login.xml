@@ -118,14 +118,24 @@
                 android:layout_marginTop="@dimen/medium_spacing"
                 android:orientation="vertical">
 
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Or email and password"
+                    android:gravity="start"
+                    android:layout_marginHorizontal="@dimen/small_spacing"
+                    android:layout_marginBottom="@dimen/small_spacing"
+                    android:textColor="@color/loginText" />
+
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/whiteTextInputLayout"
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/whiteErrorText">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -137,13 +147,14 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/whiteTextInputLayout"
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/whiteErrorText">
 
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
