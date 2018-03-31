@@ -19,7 +19,7 @@
                 android:id="@+id/pref_dev_devbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:settingPreferenceKey="@string/pref_dev_devbar"
+                app:settingPreferenceKey="@string/key_pref_dev_devbar"
                 app:settingTitle="@string/pref_dev_devbar_title"/>
         </LinearLayout>
     </ScrollView>

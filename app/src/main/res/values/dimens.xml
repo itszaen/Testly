@@ -3,7 +3,7 @@
     <dimen name="activity_top_margin">40dp</dimen>
     <dimen name="activity_bottom_margin">16dp</dimen>
 
-    <dimen name="action_bar_height">48dp</dimen>
+    <dimen name="action_bar_height">52dp</dimen>
     <dimen name="action_bar_text_size">20sp</dimen>
 
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
@@ -15,11 +15,21 @@
     <dimen name="card_corner_radius">1dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
 
+    <!-- Entry -->
+    <dimen name="big_entry">24dp</dimen>
+    <dimen name="medium_entry">16dp</dimen>
+    <dimen name="sub_medium_entry">12dp</dimen>
+    <dimen name="small_entry">8dp</dimen>
+    <dimen name="sub_small_entry">4dp</dimen>
+
+    <!-- Spacing -->
     <dimen name="big_spacing">24dp</dimen>
     <dimen name="medium_spacing">16dp</dimen>
+    <dimen name="sub_medium_spacing">12dp</dimen>
     <dimen name="small_spacing">8dp</dimen>
-    <dimen name="sub_medium_spacing">10dp</dimen>
+    <dimen name="sub_small_spacing">4dp</dimen>
 
+    <!-- Text -->
     <dimen name="large_text">24sp</dimen>
     <dimen name="sub_large_text">20sp</dimen>
     <dimen name="medium_text">16sp</dimen>
@@ -52,6 +62,7 @@
     <dimen name="btn_size_signup_social">44dp</dimen>
     <dimen name="btn_padding_signup_social">5dp</dimen>
     <dimen name="btn_margin_signup_social">8dp</dimen>
+    <dimen name="input_signup_height">72dp</dimen>
 
 
 </resources>

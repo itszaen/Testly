@@ -4,14 +4,29 @@ import android.app.TaskStackBuilder
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NavUtils
+import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import com.zaen.testly.R
+import kotlinx.android.synthetic.main.activity_feedback.*
+import kotlinx.android.synthetic.main.form_feedback.*
+import com.zaen.testly.utils.ScreenProp
+
 
 class FeedbackActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
+        form_feedback.y = (ScreenProp(this).getHeight() - 48).toFloat()
+        form_feedback.bringToFront()
+        btn_submit_feedback.setIconResource(IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_send)
+                .color(ContextCompat.getColor(this,R.color.md_grey_600))
+                .sizeDp(32))
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
@@ -39,7 +54,33 @@ class FeedbackActivity : AppCompatActivity() {
             }
 
         // ...
+
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun onNewFeedback(view: View){
+        val slideUp = AnimationUtils.loadAnimation(applicationContext,
+                R.anim.slide_up)
+        slideUp.setAnimationListener(object: Animation.AnimationListener{
+            override fun onAnimationRepeat(animation: Animation?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                content_activity_feedback.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+        })
+        content_activity_feedback.startAnimation(slideUp)
+        form_feedback.startAnimation(slideUp)
+    }
+
+    fun onSendClick(view: View){
+
     }
 }

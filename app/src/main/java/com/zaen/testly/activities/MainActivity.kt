@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.preference.PreferenceManager
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
@@ -13,7 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.stephentuso.welcome.WelcomeActivity
@@ -27,22 +25,22 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener {
-    val transaction = supportFragmentManager
+
+    private val transaction = supportFragmentManager
     var tool_bar : Toolbar? = null
     var welcomeScreen:WelcomeHelper? = null
-    lateinit private var mAuth: FirebaseAuth
+    private var mAuth: FirebaseAuth? = null
+    var savedInstanceState: Bundle? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(bundle: Bundle?) {
         mAuth = FirebaseAuth.getInstance()
-        if (checkFirstRun() or (mAuth.currentUser == null)) {
-            welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
-            welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
-        }
+        savedInstanceState = bundle
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        // Two strings are for accessibility functions.
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -53,40 +51,42 @@ class MainActivity : AppCompatActivity(),
 
         if (fragment_container != null) {
             if (savedInstanceState != null) {
-                return;
+                return
             }
             val dbFragment = DashboardFragment()
-            dbFragment.setArguments(getIntent().getExtras())
+            dbFragment.arguments = intent.extras
             transaction.beginTransaction()
-                    .add(R.id.fragment_container, dbFragment).commit()
+                    .add(R.id.fragment_container, dbFragment)
+                    .commit()
         }
     }
 
     override fun onStart() {
         super.onStart()
         // Firebase check if already signed-in
-        var currentUser: FirebaseUser? = mAuth.getCurrentUser()
+        val currentUser: FirebaseUser? = mAuth?.currentUser
         updateUI(currentUser)
-
+        if (currentUser == null) {
+            welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
+            welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-//
+    //
 //    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
 //        super.onPostCreate(savedInstanceState, persistentState)
 //        toggle.syncState()
 //    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        savedInstanceState = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         super.onSaveInstanceState(outState, outPersistentState)
         welcomeScreen?.onSaveInstanceState(outState)
     }
-    fun forceCrash(view: View) {
-        throw RuntimeException("This is a crash")
-    }
-
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -140,14 +140,14 @@ class MainActivity : AppCompatActivity(),
         return true
     }
 
-    fun onFragmentClicked(newFragment:Fragment,title:String){
+    private fun onFragmentClicked(newFragment:Fragment, title:String){
         val args = Bundle()
-        newFragment.setArguments(args)
+        newFragment.arguments = args
         transaction.beginTransaction()
                 .replace(R.id.fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()
-        tool_bar?.setTitle(title)
+        tool_bar?.title = title
     }
 
     // Firebase stuff
@@ -165,18 +165,6 @@ class MainActivity : AppCompatActivity(),
 //            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
-    }
-    fun checkFirstRun():Boolean{
-        val IF_FIRST_START = getString(R.string.pref_if_firststart)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(baseContext)
-        val firstStart = prefs.getBoolean(IF_FIRST_START, true)
-        if (firstStart){
-            val edit = prefs.edit()
-            edit.putBoolean(IF_FIRST_START,false)
-            edit.commit()
-            return true
-        } else {return true}//false}
-            //TODO -> true
     }
 
 

@@ -1,0 +1,170 @@
+<LinearLayout
+    android:id="@+id/signup_form_info"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/medium_spacing"
+    android:orientation="vertical">
+
+    <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+
+    <!-- Username -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/input_signup_height"
+        android:orientation="vertical">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-16dp"
+            android:theme="@style/blackTextInputLayout"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/blackErrorText"
+            app:counterEnabled="true"
+            app:counterMaxLength="16">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <!-- First & Last name -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Last name -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_signup_height"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_fullname_last"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-16dp"
+                android:theme="@style/blackTextInputLayout"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/blackErrorText">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_fullname_last"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_fullname_last"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+        <!-- First name -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_signup_height"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_fullname_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-16dp"
+                android:theme="@style/blackTextInputLayout"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/blackErrorText">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_fullname_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_fullname_first"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- School & grade & class -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_spacing"
+        android:orientation="horizontal">
+        <!-- School -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/sub_small_spacing"
+                android:gravity="start"
+                android:text="School"
+                android:textSize="@dimen/sub_medium_text"
+                android:textColor="@color/md_grey_600" />
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/spinner_signup_school"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:hintText="Select School"
+                />
+        </LinearLayout>
+        <!-- Grade -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/sub_small_spacing"
+                android:gravity="start"
+                android:text="Grade"
+                android:textSize="@dimen/sub_medium_text"
+                android:textColor="@color/md_grey_600" />
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_signup_grade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="-"
+                app:ms_text_color="@color/accent_black"/>
+        </LinearLayout>
+        <!-- Class -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/sub_small_spacing"
+                android:gravity="start"
+                android:text="Class"
+                android:textSize="@dimen/sub_medium_text"
+                android:textColor="@color/md_grey_600" />
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_signup_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="-"
+                app:ms_text_color="@color/accent_black"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

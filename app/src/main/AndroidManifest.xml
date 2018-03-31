@@ -3,12 +3,6 @@
     package="com.zaen.testly">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -19,7 +13,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="85052d97ebfe59b11ed6c2a476241d7d4066efdd" />
+            android:value="@string/key_api_io_fabric" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -103,7 +97,18 @@
             android:name=".activities.auth.SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/Signup"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            >
+        </activity>
+        <!-- SignupInfoActivity -->
+        <activity
+            android:name=".activities.auth.SignupInfoActivity"
+            android:label="@string/title_activity_signup"
+            android:theme="@style/Signup"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            >
+
+        </activity>
 
         <!-- Facebook SDK -->
         <activity
@@ -122,9 +127,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivitySample"
-            android:label="@string/title_activity_login_sample"></activity>
     </application>
 
 </manifest>

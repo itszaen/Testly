@@ -1,196 +1,78 @@
 package com.zaen.testly.activities.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.api.client.auth.oauth2.BearerToken
-import com.google.api.client.auth.oauth2.ClientParametersAuthentication
-import com.google.api.client.extensions.android.http.AndroidHttp
-import com.google.api.client.http.GenericUrl
-import com.google.api.client.json.jackson.JacksonFactory
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.*
-import com.twitter.sdk.android.core.*
-import com.twitter.sdk.android.core.identity.TwitterAuthClient
-import com.wuman.android.auth.AuthorizationFlow
-import com.wuman.android.auth.DialogFragmentController
-import com.wuman.android.auth.OAuthManager
-import com.wuman.android.auth.oauth2.store.SharedPreferencesCredentialStore
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
+import com.zaen.testly.auth.FirebaseTestly
+import com.zaen.testly.auth.SignupUserinfo
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
-import java.io.IOException
+import kotlinx.android.synthetic.main.form_signup_userinfo.*
 import java.util.*
 
 /**
  * Created by zaen on 3/13/18.
  */
-abstract class Auth: AppCompatActivity() {
+abstract class Auth: AppCompatActivity(),
+        FirebaseTestly.HandleTask,SignupUserinfo.SuccessListener {
     companion object {
+        val TAG = "Auth"
         val RC_LOG_IN = 101
         val RC_SIGN_UP = 102
+        val RC_SIGN_UP_INFO = 103
     }
-    var mAuth: FirebaseAuth? = null
-    val transaction = supportFragmentManager
-    var notImplementedBuilder: MaterialDialog.Builder? = null
-    var mGoogleSignInClient: GoogleSignInClient? = null
-    var mCallbackManager: CallbackManager? = null
-    var mTwitterAuthClient: TwitterAuthClient? = null
-    var mGithubOAuth: OAuthManager? = null
+    var firebase: FirebaseTestly? = null
 
+    var mFirebaseAnalytics: FirebaseAnalytics? = null
+
+    // Login? Signup?
+    var request: Int? = null
+
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        notImplementedBuilder
-                ?.title(R.string.not_implemented_title)
-                ?.content(R.string.not_implemented_content)
-                ?.positiveText(R.string.react_positive)
 
         // Firebase
-        mAuth = FirebaseAuth.getInstance()
-
-        // Google Auth
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        // Facebook Auth
-        mCallbackManager = CallbackManager.Factory.create()
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-        object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult?) {
-                firebaseAuthWithFacebook(result?.getAccessToken())
-            }
-
-            override fun onCancel() {
-                Snacky.builder()
-                        .setActivity(this@Auth)
-                        .info()
-                        .setText("Facebook authentication cancelled.")
-            }
-
-            override fun onError(error: FacebookException?) {
-                if (error != null) {
-                    Snacky.builder()
-                            .setActivity(this@Auth)
-                            .error()
-                            .setText("An error has occured.")
-                } else {
-                    Snacky.builder()
-                            .setActivity(this@Auth)
-                            .error()
-                            .setText("An unknown error has occured.")
-                }
-            }
-        })
-
-        // Twitter Auth
-        val twitterConfig = TwitterConfig.Builder(this)
-                .logger(DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(TwitterAuthConfig("1hIteTpSElBMDilVOndDPLsJN", "b4phA6d5ey4zmM3lzWi7er4ltyOunV2wuFNYRFuiDB1L7LiuXw"))
-                .debug(true)
-                .build()
-        Twitter.initialize(twitterConfig)
-        mTwitterAuthClient = TwitterAuthClient()
-
-        // Github Auth
-
-        val credentialStore = SharedPreferencesCredentialStore(this, getString(R.string.pref_github_token), JacksonFactory())
-        val authFlowBuilder = AuthorizationFlow.Builder(
-                BearerToken.authorizationHeaderAccessMethod(),
-                AndroidHttp.newCompatibleTransport(),
-                JacksonFactory(),
-                GenericUrl("https://github.com/login/oauth/access_token"),
-                ClientParametersAuthentication("ce82854fc4ca8465da94", "96fcb57eead6633464e4ef6216f0e1fca0e9477c"),
-                "ce82854fc4ca8465da94", "https://github.com/login/oauth/authorize")
-        authFlowBuilder.setCredentialStore(credentialStore)
-        //        authFlowBuilder.setScopes()
-        val flow = authFlowBuilder.build()
-
-        val uiController = object : DialogFragmentController(fragmentManager, true) {
-            @Throws(IOException::class)
-            override fun getRedirectUri(): String {
-                return "https://github.com/login/oauth/access_token"
-            }
-
-            override fun isJavascriptEnabledForWebView(): Boolean {
-                return true
-            }
-
-            override fun disableWebViewCache(): Boolean {
-                return false
-            }
-
-            override fun removePreviousCookie(): Boolean {
-                return false
-            }
-        }
-        mGithubOAuth = OAuthManager(flow,uiController)
+        firebase = FirebaseTestly(this)
     }
 
     // Check if already signed in
     override fun onStart(){
         super.onStart()
-        if (mAuth?.getCurrentUser()!=null){
+        if (FirebaseAuth.getInstance().currentUser !=null){
             onSuccess()
         }
     }
 
     fun googleAuth(){
-        startActivityForResult(mGoogleSignInClient?.signInIntent, Auth.RC_LOG_IN)
+        firebase?.googleAuth(RC_LOG_IN)
     }
-
     fun facebookAuth(){
-        LoginManager.getInstance().logInWithReadPermissions(this@Auth, Arrays.asList("email","public_profile"))
+        firebase?.facebookAuth()
     }
-
     fun twitterAuth(){
-        mTwitterAuthClient?.authorize(this,object: Callback<TwitterSession>(){
-            override fun success(result: Result<TwitterSession>?) {
-                firebaseAuthWithTwitter(result)
-            }
-
-            override fun failure(exception: TwitterException?) {
-                Snacky.builder()
-                        .setActivity(this@Auth)
-                        .error()
-                        .setText("An error has occured.")
-            }
-        })
+        firebase?.twitterAuth()
     }
-
     fun githubAuth(){
-        notImplementedBuilder?.build()?.show()
-//        val callback = object:OAuthManager.OAuthCallback<Credential>{
-//            override fun run(future: OAuthManager.OAuthFuture<Credential>?) {
-//                val credential = future?.getResult()
-//            }
-//        }
-//        mGithubOAuth?.authorizeImplicitly("userID",callback,android.os.Handler())
-//        Handler.Callback {  }
-//        firebaseAuthWithGithub(credential.accessToken)
+        firebase?.githubAuth()
     }
 
     fun emailAuth(input_email: TextInputLayout, input_password:TextInputLayout){
@@ -204,19 +86,27 @@ abstract class Auth: AppCompatActivity() {
         var cancel = false
         var focusView: View? = null
 
+        // Check if password is empty
+        if (TextUtils.isEmpty(passwordStr)){
+            input_password.error = resources.getString(R.string.error_field_required)
+            focusView = edit_password
+            cancel = true
+        }
         // Check if password is not empty but invalid
-        if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {
-            input_password.setError(resources.getString(R.string.error_invalid_password))
+        else if (!isPasswordValid(passwordStr)) {
+            input_password.error = resources.getString(R.string.error_invalid_password)
             focusView = edit_password
             cancel = true
         }
 
-        // Check for a valid email address.
+        // Check if email address is empty
         if (TextUtils.isEmpty(emailStr)) {
             input_email.error = resources.getString(R.string.error_field_required)
             focusView = edit_email
             cancel = true
-        } else if (!isEmailValid(emailStr)) {
+        }
+        // Check if email address is not empty but invalid
+        else if (!isEmailValid(emailStr)) {
             input_email.error = resources.getString(R.string.error_invalid_email)
             focusView = edit_email
             cancel = true
@@ -225,8 +115,8 @@ abstract class Auth: AppCompatActivity() {
         if (cancel){
             focusView?.requestFocus()
         } else {
-            mAuth?.signInWithEmailAndPassword(emailStr, passwordStr)
-                    ?.addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(emailStr, passwordStr)
+                    .addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
                         override fun onComplete(task: Task<AuthResult>) {
                             handleTask(task)
                         }
@@ -234,95 +124,99 @@ abstract class Auth: AppCompatActivity() {
                     })
         }
     }
-    abstract fun isEmailValid(email: String): Boolean
+    open fun isEmailValid(email: String): Boolean{
+        return true
+    }
 
-    abstract fun isPasswordValid(password: String): Boolean
+    open fun isPasswordValid(password: String): Boolean{
+        return true
+    }
 
+    @SuppressLint("RestrictedApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        mCallbackManager?.onActivityResult(requestCode, resultCode, data)
-        mTwitterAuthClient?.onActivityResult(requestCode,resultCode,data)
+        firebase?.mFacebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
+        firebase?.mTwitterAuthClient?.onActivityResult(requestCode,resultCode,data)
         when (requestCode){
             Auth.RC_LOG_IN -> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                handleSignInResult(task)
+                firebase?.handleGoogleSignInResult(task)
             }
         }
     }
-
-    fun handleSignInResult(completedTask: Task<GoogleSignInAccount>){
-        try{
-            val account = completedTask.getResult(ApiException::class.java)
-            firebaseAuthWithGoogle(account)
-
-        } catch (e: ApiException) {
-            Log.w(LoginActivity.TAG, "handleSignInResult:failure code="+e.getStatusCode())
-            MaterialDialog.Builder(this)
-                    .title(R.string.error_auth_google_title)
-                    .content(R.string.error_auth_google_content)
-                    .positiveText(R.string.react_positive)
-        }
-    }
-
-    fun firebaseAuthWithGoogle(account: GoogleSignInAccount){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithGoogle:" + account.getId())
-        val credential = GoogleAuthProvider.getCredential(account.getIdToken(),null)
-        mAuth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(this, object:OnCompleteListener<AuthResult>{
-                    override fun onComplete(task: Task<AuthResult>) {
-                        handleTask(task)
-                    }
-
-                })
-    }
-    fun firebaseAuthWithFacebook(token: AccessToken?){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithFacebook:" + token!!.getToken())
-        val credential = FacebookAuthProvider.getCredential(token!!.getToken())
-        mAuth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(this,object:OnCompleteListener<AuthResult>{
-                    override fun onComplete(task: Task<AuthResult>) {
-                        handleTask(task)
-                    }
-
-                })
-    }
-    fun firebaseAuthWithTwitter(session: Result<TwitterSession>?){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithTwitter:" + session)
-        val credential = TwitterAuthProvider.getCredential(
-                session?.data?.authToken?.token!!,
-                session?.data?.authToken?.secret!!)
-        mAuth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(this, object:OnCompleteListener<AuthResult>{
-                    override fun onComplete(task: Task<AuthResult>) {
-                        handleTask(task)
-                    }
-                })
-    }
-    fun firebaseAuthWithGithub(token: String){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithGithub:" + token)
-        val credential = GithubAuthProvider.getCredential(token)
-        mAuth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(this, object:OnCompleteListener<AuthResult>{
-                    override fun onComplete(task: Task<AuthResult>) {
-                        handleTask(task)
-                    }
-                })
-    }
-    fun handleTask(task: Task<AuthResult>){
-        mAuth = FirebaseAuth.getInstance()
-        if (task.isSuccessful()) {
+    override fun handleTask(task: Task<AuthResult>){
+        val mAuth = FirebaseAuth.getInstance()
+        if (task.isSuccessful) {
             Log.d(LoginActivity.TAG, "signInWithCredential:success")
-            onSuccess()
             Toasty.success(this,"Signed in as "+mAuth?.currentUser?.email, Toast.LENGTH_SHORT,true).show()
+            if (request == Auth.RC_LOG_IN){
+                checkUserinfo()
+            } else if (request == Auth.RC_SIGN_UP){
+                 val userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
+                        .Build()
+                userinfo.registerUserInfo()
+            }
         } else {
             Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
-            Toasty.error(this,"Sign in Failed. See the following error:"+task.exception, Toast.LENGTH_LONG,true).show()
+            Snacky.builder()
+                    .setActivity(this)
+                    .setText("Sign in Failed.\n Click open to see exception.")
+                    .setDuration(Snacky.LENGTH_LONG)
+                    .setActionText("OPEN")
+                    .setActionClickListener {
+                        MaterialDialog.Builder(this@Auth)
+                                .title("Exception")
+                                .content(task.exception.toString())
+                                .positiveText(R.string.react_positive)
+                    }
+                    .error()
+                    .show()
         }
 
     }
-    fun onSuccess(){
+    override fun onSuccess(){
         setResult(RESULT_OK,intent)
         finish()
     }
 
+    fun onExceptionSnacky(exception: Exception,logText:String,errorText:String){
+        Log.w(TAG,logText)
+        Snacky.builder()
+                .setActivity(this)
+                .setText(errorText)
+                .setDuration(Snacky.LENGTH_LONG)
+                .setActionText("OPEN")
+                .setActionClickListener {
+                    MaterialDialog.Builder(this@Auth)
+                            .title("Exception")
+                            .content(exception.toString())
+                            .positiveText(R.string.react_positive)
+                            .show()
+                }
+                .error()
+                .show()
+    }
+
+    private fun checkUserinfo() {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        ref.get().addOnCompleteListener(object: OnCompleteListener<DocumentSnapshot>{
+            override fun onComplete(task: Task<DocumentSnapshot>) {
+                if (task.isSuccessful){
+                    val snapshot = task.result
+                    if (snapshot.exists()) {
+                        Log.w(TAG,"Snapshot: $snapshot")
+                        onSuccess()
+                    } else {
+                        setResult(RC_SIGN_UP_INFO,intent)
+                        finish()
+                    }
+                } else {
+                    onExceptionSnacky(task.exception as kotlin.Exception,
+                            "Get userinfo failed. Exception: " + task.exception,
+                            "An error has occurred getting your user information. Click open to see exception")
+                }
+            }
+        })
+
+    }
 }

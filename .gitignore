@@ -1,3 +1,6 @@
+# Keys
+strings_secrets.xml
+
 *.iml
 .gradle
 /local.properties

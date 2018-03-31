@@ -1,12 +1,9 @@
 package com.zaen.testly.views.settings
 
 import android.content.Context
-import android.graphics.drawable.Icon
-import android.os.Build
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -31,20 +28,17 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         val inflater = LayoutInflater.from(getContext())
         inflater.inflate(R.layout.view_setting, this)
 
-        val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingView)
-        iconString = a.getString(R.styleable.SettingView_settingIcon)
-        titleRes = a.getResourceId(R.styleable.SettingView_settingTitle, 0)
-        captionRes = a.getResourceId(R.styleable.SettingView_settingCaption, 0)
-        val minimumApi = a.getInteger(R.styleable.SettingView_settingMinApi, 0)
-        a.recycle()
-
-        if (Build.VERSION.SDK_INT < minimumApi) visibility = View.GONE
+        val attr = getContext().obtainStyledAttributes(attrs, R.styleable.SettingView)
+        iconString = attr.getString(R.styleable.SettingView_settingIcon)
+        titleRes = attr.getResourceId(R.styleable.SettingView_settingTitle, 0)
+        captionRes = attr.getResourceId(R.styleable.SettingView_settingCaption, 0)
+        attr.recycle()
     }
 
     override fun onFinishInflate() {
         ButterKnife.bind(this)
 
-        icon.setIcon(icon.getIcon().icon(iconString))
+        icon.icon = icon.icon.icon(iconString)
         title.setText(titleRes)
         caption.setText(captionRes)
 
@@ -53,6 +47,14 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         setMinimumHeight((int) getResources().getDimension(R.dimen.listitem_height_twoline));
         */
         super.onFinishInflate()
+    }
+
+    fun setTitleText(text: String){
+        title.text = text
+    }
+
+    fun setCaptionText(text: String){
+        caption.text = text
     }
 
 }

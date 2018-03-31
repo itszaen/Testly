@@ -1,17 +1,28 @@
 package com.zaen.testly.activities.auth
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.jaredrummler.materialspinner.MaterialSpinner
 import com.zaen.testly.R
+import com.zaen.testly.auth.SignupUserinfo
+import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.form_signup_userinfo.*
+
 import java.util.*
 
-class SignupActivity : Auth() {
+class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
     companion object {
         val TAG = "SignupActivity"
         val AUTH_EMAIL = 1
@@ -23,22 +34,19 @@ class SignupActivity : Auth() {
     @BindView(R.id.signup_greeting)
     lateinit var greeting: TextView
     var authMethod : Int? = null
+    var userinfo: SignupUserinfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
         ButterKnife.bind(this)
+        request = RC_SIGN_UP
 
         // Greetings
         val greetingsList = resources.getStringArray(R.array.signup_greetings)
         greeting.setText(greetingsList[Random().nextInt(greetingsList.size)])
-
-        // School spinner
-        spinner_signup_school.setTitle("Select School")
-        spinner_signup_school.setPositiveButton("OK")
-
-        // Grade spinner
-        spinner_signup_grade.setItems("---")
+        userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
+                .Build()
     }
 
 
@@ -56,8 +64,8 @@ class SignupActivity : Auth() {
             btn_mail.id -> {
                 signup_emailPassword.setVisibility(View.VISIBLE)
                 val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                params.setMargins(0,resources.getDimension(R.dimen.small_spacing).toInt(),0,0)
-                signup_form_info.setLayoutParams(params)
+                params.setMargins(0,0,0,0)
+                signup_form_info.layoutParams = params
                 btn_mail.setBorderWidth(5)
                 authMethod = AUTH_EMAIL
             }
@@ -76,20 +84,49 @@ class SignupActivity : Auth() {
 
             }
             btn_github.id -> {
-                btn_github.setBorderWidth(5)
-                authMethod = AUTH_GITHUB
+                firebase?.notImplementedBuilder?.build()?.show()
+                //btn_github.setBorderWidth(5)
+                //authMethod = AUTH_GITHUB
             }
         }
 
     }
     fun onSignUp(view:View){
         when(authMethod){
-            null -> {}
-            AUTH_EMAIL -> emailAuth(input_email,input_password)
-            AUTH_GOOGLE -> googleAuth()
-            AUTH_FACEBOOK -> facebookAuth()
-            AUTH_TWITTER -> twitterAuth()
-            AUTH_GITHUB -> githubAuth()
+            null -> {
+                Snacky.builder()
+                        .setActivity(this)
+                        .setText("Please tap one of the round buttons to select sign up method.")
+                        .setDuration(Snacky.LENGTH_LONG)
+                        .warning()
+                        .show()
+            }
+            AUTH_EMAIL -> {
+                userinfo!!.checkInfoField()
+                emailAuth(input_email,input_password)
+            }
+            AUTH_GOOGLE -> {
+                if (userinfo!!.checkInfoField()) {
+                    googleAuth()
+                }
+            }
+            AUTH_FACEBOOK -> {
+                if (userinfo!!.checkInfoField()) {
+                    facebookAuth()
+                }
+            }
+            AUTH_TWITTER -> {
+                if (userinfo!!.checkInfoField()) {
+                    twitterAuth()
+                }
+            }
+            AUTH_GITHUB -> {
+                githubAuth() // not implemented YET
+//                if (checkInfoField()) {
+//                    checkInfoField()
+//                    githubAuth()
+//                }
+            }
         }
     }
     override fun isEmailValid(email: String): Boolean {
@@ -99,4 +136,10 @@ class SignupActivity : Auth() {
     override fun isPasswordValid(password: String): Boolean {
         return password.length >= 8
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+    }
+
 }

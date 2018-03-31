@@ -8,15 +8,15 @@ import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.auth.SignupActivity
 import com.zaen.testly.fragments.intro.FaqFragment
 import com.stephentuso.welcome.WelcomeActivity
+import com.zaen.testly.activities.auth.Auth.Companion.RC_LOG_IN
+import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP
+import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP_INFO
+import com.zaen.testly.activities.auth.SignupInfoActivity
 
 /**
  * Created by zaen on 3/9/18.
  */
 class IntroActivity : WelcomeActivity() {
-    companion object {
-        val RC_LOG_IN = 101
-        val RC_SIGN_UP = 102
-    }
     override fun configuration():WelcomeConfiguration {
         return WelcomeConfiguration.Builder(this)
                 .page(BasicPage(R.drawable.ic_search, getString(R.string.intro_first_title), getString(R.string.intro_first_description))
@@ -55,11 +55,15 @@ class IntroActivity : WelcomeActivity() {
                         //completeWelcomeScreen();return
                         }
                     RC_SIGN_UP -> onButtonBarSecondPressed()
+                    RC_SIGN_UP_INFO -> {
+                        startActivityForResult(Intent(this, SignupInfoActivity::class.java), RC_SIGN_UP)
+                    }
                 }
             }
             RC_SIGN_UP -> {
-                when (resultCode){
-                    RESULT_OK -> {setResult(RESULT_OK,intent);finish()
+                when (resultCode) {
+                    RESULT_OK -> {
+                        setResult(RESULT_OK, intent);finish()
                         //completeWelcomeScreen();return
                     }
                 }

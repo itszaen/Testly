@@ -1,24 +1,41 @@
 package com.zaen.testly.activities
 
+import android.annotation.SuppressLint
 import android.app.TaskStackBuilder
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.widget.Toast
 
 import com.zaen.testly.R
 
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.zaen.testly.activities.auth.Auth
+import com.zaen.testly.activities.auth.LoginActivity
+import com.zaen.testly.auth.FirebaseTestly
+import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
+import de.mateware.snacky.Snacky
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
 class SettingsActivity : AppCompatActivity(),
                 SettingsMainFragment.FragmentClickListener,
-                DeveloperSettingsMainFragment.FragmentClickListener{
+                DeveloperSettingsMainFragment.FragmentClickListener,
+                FirebaseTestly.HandleTask{
     companion object {
         val TAG = "SettingsActivity"
     }
@@ -26,6 +43,7 @@ class SettingsActivity : AppCompatActivity(),
     val transaction = supportFragmentManager
     var toolbar : ActionBar? = null
     var inFragmentLevel = 0
+    var firebase: FirebaseTestly? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -108,4 +126,40 @@ class SettingsActivity : AppCompatActivity(),
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
     }
 
+    // Firebase in Account Setting
+    @SuppressLint("RestrictedApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode){
+            Auth.RC_LOG_IN -> {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                firebase = FirebaseTestly(this)
+                firebase?.handleGoogleSignInResult(task)
+            }
+        }
+    }
+    override fun handleTask(task: Task<AuthResult>) {
+        if (task.isSuccessful) {
+            Log.d(LoginActivity.TAG, "signInWithCredential:success")
+            Snacky.builder()
+                    .setActivity(this)
+                    .setText("Sign in succeeded. You may proceed.")
+        } else {
+            Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
+            Snacky.builder()
+                    .setActivity(this)
+                    .setText("Sign in Failed.\n Click open to see exception.")
+                    .setDuration(Snacky.LENGTH_LONG)
+                    .setActionText("OPEN")
+                    .setActionClickListener {
+                        MaterialDialog.Builder(this)
+                                .title("Exception")
+                                .content(task.exception.toString())
+                                .positiveText(R.string.react_positive)
+                    }
+                    .error()
+                    .show()
+        }
+
+    }
 }

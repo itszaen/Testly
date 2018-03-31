@@ -1,18 +1,18 @@
 <resources>
     <!-- App -->
-    <string name="app_name">Testly</string>
+    <string name="app_name" translatable="false">Testly</string>
+
+    <!-- Common -->
+    <string name="show_password">Show Password</string>
 
     <!-- Welcome Screen -->
-    <string name="intro_first_title">Testly</string>
+    <string name="intro_first_title" translatable="false">Testly</string>
     <string name="intro_first_description">Welcome to Testly!</string>
     <string name="intro_login">LOG IN</string>
     <string name="intro_signup">SIGN UP</string>
 
-    <string name="user_name">Zaen</string>
-    <string name="user_email">chouzaen2002@gmail.com</string>
-
-    <string name="search_hint">Search</string>
-    <string name="action_search">Search</string>
+    <string name="search_hint">Search …</string>
+    <string name="action_search" translatable="false">Search</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -49,29 +49,36 @@
 
     <string name="pref_general_title">General</string>
     <string name="pref_account_title">Account</string>
-    <string name="pref_account_caption">Signed in as chouzaen2002@gmail.com</string>
+    <string name="pref_account_caption">Signed in as %1$s</string>
+    <string name="pref_account_update_email_title">Change email address</string>
+    <string name="pref_account_update_password_title">Reset password</string>
+    <string name="pref_account_update_password_previous_forgot">Forgot old password?</string>
+    <string name="pref_account_update_password_prompt_previous">Old Password</string>
+    <string name="pref_account_update_password_prompt_new_first">New Password</string>
+    <string name="pref_account_update_password_prompt_new_second">New Password</string>
+    <string name="pref_account_logout_title">Logout</string>
+    <string name="pref_account_dangerous_title">Danger Zone</string>
+    <string name="pref_account_delete_title">Delete Account</string>
     <string name="pref_language_title">Language</string>
-    <string name="pref_language_caption">English</string>
+    <string name="pref_language_caption" translatable="false">English</string>
     <string name="pref_theme_title">Theme</string>
     <string name="pref_download_title">Download</string>
     <string name="pref_download_auto">Auto Download All</string>
     <string name="pref_download_auto_caption">Automatically download all available documents.</string>
     <string name="pref_notification_title">Notifications</string>
-    <string name="pref_if_send_key">if_notification</string>
-    <string name="pref_if_send_title">Turn on or off notifications</string>
-    <string name="pref_if_send_caption">yeah</string>
+    <string name="pref_if_send_key" translatable="false">if_notification</string>
+    <string name="pref_if_send_title" translatable="false">Turn on or off notifications</string>
+    <string name="pref_if_send_caption" translatable="false">yeah</string>
     <string name="pref_advanced_title">Advanced</string>
     <string name="pref_welcome_title">Roll intro</string>
     <string name="pref_welcome_caption">Display the welcome screen.</string>
     <string name="pref_provider_title">Provider Options</string>
-    <string name="pref_provider_caption">Provider Options</string>
-    <string name="pref_developer_title">Developer Options</string>
-    <string name="pref_developer_caption">You\'re Zaen, right?</string>
-    <string name="pref_dev_devbar">Show Devbar</string>
-    <string name="pref_dev_devbar_title">Show Devbar</string>
+    <string name="pref_developer_title" translatable="false">Developer Options</string>
+    <string name="pref_developer_caption" translatable="false">You\'re Zaen, right?</string>
+    <string name="pref_dev_devbar_title" translatable="false">Show Devbar</string>
 
-    <!-- Auth -->
-    <!-- Log In -->
+    <!-- * Auth -->
+    <!-- ** Log In -->
     <string name="title_activity_login">Log in</string>
     <string-array name="login_greetings">
         <item>Welcome back, Captain!</item>
@@ -86,58 +93,67 @@
     <string name="text_create_account"><u>Create Account</u></string>
     <string name="error_invalid_email">This email address is invalid.</string>
     <string name="error_invalid_password">Password must be 8 or more chars.</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password">This password is incorrect.</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_max_length_exceeded">Max length exceeded.</string>
     <string name="error_auth_google_title">Authentication Failure</string>
     <string name="error_auth_google_content">Unknown Error.</string>
 
-    <!-- Sign up -->
+    <!-- ** Sign Up -->
     <string name="title_activity_signup">Sign up</string>
     <string-array name="signup_greetings">
-        <item>Please fill out this form.</item>
+        <item>Signing you up for Testly.</item>
         <item>Nice to meet you!</item>
         <item>Hello, newcomer.</item>
     </string-array>
-    <string name="prompt_username">Username</string>
-    <string name="prompt_fullname_last">First</string>
-    <string name="prompt_fullname_first">Last</string>
-    <string-array name="signup_schools">
-        <item>Kaisei High School</item>
-    </string-array>
+    <string name="title_section_auth">Select one authorization method.</string>
+
+    <!-- ** Sign Up Info -->
+    <string name="signup_info_heading">Oops, looks like you are not signed up yet.\n No worry, just fill out this form please.</string>
+
     <string name="action_sign_up">SIGN UP</string>
+
+    <!-- ** User Info -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_fullname_last">Last</string>
+    <string name="prompt_fullname_first">First</string>
 
     <!-- About -->
     <string name="title_activity_about">About</string>
 
     <!-- Feedback -->
     <string name="title_activity_feedback">Feedback</string>
+    <string name="order_top">TOP POSTS</string>
+    <string name="order_new">NEW POSTS</string>
+    <string name="order_trending">Trending</string>
+    <string name="sort_all">All Post</string>
+    <string name="sort_mine">My Post</string>
+    <string name="tag_planned" translatable="false">PLANNED</string>
+    <string name="hint_title_feedback">New suggestion / problem</string>
 
     <!-- Help -->
     <string name="title_activity_help">Help</string>
 
     <!-- Pref Keys -->
-    <string name="pref_file_key_account">com.zaen.testly.account</string>
-    <string name="pref_file_key_progress">com.zaen.testly.progress</string>
-    <string name="pref_if_firststart">com.zaen.testly.testly-1.0</string>
-    <string name="pref_github_token">com.zaen.testly.token.github</string>
+    <string name="pref_file_key_account" translatable="false">com.zaen.testly.account</string>
+    <string name="pref_file_key_progress" translatable="false">com.zaen.testly.progress</string>
+    <string name="pref_if_firststart" translatable="false">com.zaen.testly.testly-1.0</string>
+    <string name="pref_github_token" translatable="false">com.zaen.testly.token.github</string>
+    <string name="key_pref_dev_devbar" translatable="false">Show Devbar</string>
 
     <!-- Dialog -->
     <string name="react_positive">OK</string>
+    <string name="react_rename">Rename</string>
+    <string name="react_change">Change</string>
+    <string name="react_logout">Log Out</string>
+    <string name="react_delete">Delete</string>
     <string name="react_negative">No</string>
     <string name="react_refuse">Cancel</string>
 
-    <!-- Keys -->
-    <string name="web_client_id">436607122083-sj286moomli36fgehm1qt051lh75hlpk.apps.googleusercontent.com</string>
-    <string name="facebook_application_id">156347215050319</string>
-    <string name="fb_login_protocol_scheme">fb156347215050319</string>
     <!-- Misc. -->
     <string name="not_implemented_title">Oops!</string>
     <string name="not_implemented_content">Not yet implemented.</string>
     <string name="title_activity_login_sample">Sign in</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-
 </resources>

@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.zaen.testly.activities.FeedbackActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <!-- Main Content -->
+    <LinearLayout
+        android:id="@+id/content_activity_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <!-- Toolbar -->
+        <include layout="@layout/bar_feedback"/>
+
+        <!-- List of feedback -->
+        <com.zaen.testly.views.recyclers.FeedbackView
+            android:id="@+id/content_list_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </com.zaen.testly.views.recyclers.FeedbackView>
+
+    </LinearLayout>
+    <!-- Submit new feedback -->
+    <!-- Form -->
+    <include layout="@layout/form_feedback"/>
+</FrameLayout>

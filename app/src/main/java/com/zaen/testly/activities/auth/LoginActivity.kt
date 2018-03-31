@@ -1,5 +1,6 @@
 package com.zaen.testly.activities.auth
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -24,17 +25,19 @@ class LoginActivity : Auth() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
+        request = RC_LOG_IN
 
         val greetingsList = resources.getStringArray(R.array.login_greetings)
         greeting.setText(greetingsList[Random().nextInt(greetingsList.size)])
 
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onStart() {
         super.onStart()
         val accountGoogle = GoogleSignIn.getLastSignedInAccount(this)
-        val accountFirebase = mAuth?.currentUser
-        if ((accountGoogle != null)or(accountFirebase != null)){
+        val accountFirebase = firebase?.mAuth?.currentUser
+        if ((accountGoogle != null)and(accountFirebase != null)){
             setResult(RESULT_OK, intent)
             finish()
         }

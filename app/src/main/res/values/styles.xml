@@ -5,7 +5,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Action Bar Style -->
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
-        <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="actionBarStyle">@style/AppTheme.ActionBar</item>\
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Scroll Style -->
+        <item name="android:listViewStyle">@style/Widget.AppTheme.ListView</item>
+        <item name="android:scrollViewStyle">@style/Widget.AppTheme.ScrollView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -35,6 +39,18 @@
     <style name="AppTheme.ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">@dimen/action_bar_text_size</item>
         <item name="android:textColor">@color/md_white_1000</item>
+    </style>
+
+    <!-- Scroll -->
+    <style name="Widget.AppTheme.ListView" parent="android:Widget.ListView">
+        <item name="android:overScrollMode">never</item>
+    </style>
+    <style name="Widget.AppTheme.ScrollView" parent="android:Widget.ScrollView">
+        <item name="android:overScrollMode">never</item>
+    </style>
+    <!-- Apparently there is no recyclerview as parent. PUNPUN -->
+    <style name="AppTheme.RecyclerView">
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <!-- Welcome Screen -->
@@ -86,7 +102,9 @@
     </style>
     <style name="whiteErrorText" parent="TextAppearance.Design.Error">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAlignment">textEnd</item>
+
     </style>
     <style name="whiteTextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/md_grey_500</item>
@@ -107,7 +125,8 @@
     </style>
     <style name="blackErrorText" parent="TextAppearance.Design.Error">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAlignment">textEnd</item>
     </style>
     <style name="blackTextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/md_grey_500</item>
