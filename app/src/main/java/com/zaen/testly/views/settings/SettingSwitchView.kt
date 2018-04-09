@@ -38,12 +38,12 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
         inflater.inflate(R.layout.view_setting_switch, this)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingSwitchView)
-        iconString = a.getString(R.styleable.SettingSwitchView_settingIcon)
+        iconString = a.getString(R.styleable.SettingSwitchView_cardItemIcon)
         val prefKeyRes = a.getResourceId(R.styleable.SettingSwitchView_settingPreferenceKey, 0)
         if (prefKeyRes == 0) throw IllegalArgumentException("Invalid preference reference")
         preferenceKey = resources.getString(prefKeyRes)
-        titleRes = a.getResourceId(R.styleable.SettingSwitchView_settingTitle, 0)
-        captionRes = a.getResourceId(R.styleable.SettingSwitchView_settingCaption, 0)
+        titleRes = a.getResourceId(R.styleable.SettingSwitchView_cardItemTitle, 0)
+        captionRes = a.getResourceId(R.styleable.SettingSwitchView_cardItemCaption, 0)
         defaultValue = a.getBoolean(R.styleable.SettingSwitchView_settingDefaultValue, false)
         val minimumApi = 0//a.getInteger(R.styleable.SettingWithSwitchView_settingMinApi, 0);
         a.recycle()
@@ -54,7 +54,7 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
     override fun onFinishInflate() {
         ButterKnife.bind(this)
 
-        icon.setIcon(icon.getIcon().icon(iconString))
+        icon.icon = icon.icon.icon(iconString)
         title.setText(titleRes)
         caption.setText(captionRes)
         toggle.isChecked = isChecked
@@ -80,13 +80,21 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
         if (clickListener != null) clickListener!!.onClick(this)
     }
 
-    val isChecked: Boolean
+    private val isChecked: Boolean
         get() = Prefs.getToggleValue(preferenceKey, defaultValue)
 
     fun toggle() {
         Prefs.setToggleValue(preferenceKey, !isChecked)
         val checked = isChecked
         toggle.isChecked = checked
+    }
+
+    fun setTitleText(text: String){
+        title.text = text
+    }
+
+    fun setCaptionText(text: String){
+        caption.text = text
     }
 
 }

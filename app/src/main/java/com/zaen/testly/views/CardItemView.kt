@@ -1,4 +1,4 @@
-package com.zaen.testly.views.settings
+package com.zaen.testly.views
 
 import android.content.Context
 import android.support.annotation.StringRes
@@ -11,7 +11,7 @@ import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
 
-class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private val iconString: String?
     @StringRes
     private val titleRes: Int
@@ -26,12 +26,12 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_setting, this)
+        inflater.inflate(R.layout.view_item_card, this)
 
-        val attr = getContext().obtainStyledAttributes(attrs, R.styleable.SettingView)
-        iconString = attr.getString(R.styleable.SettingView_cardItemIcon)
-        titleRes = attr.getResourceId(R.styleable.SettingView_cardItemTitle, 0)
-        captionRes = attr.getResourceId(R.styleable.SettingView_cardItemCaption, 0)
+        val attr = getContext().obtainStyledAttributes(attrs, R.styleable.CardItemView)
+        iconString = attr.getString(R.styleable.CardItemView_cardItemIcon)
+        titleRes = attr.getResourceId(R.styleable.CardItemView_cardItemTitle, 0)
+        captionRes = attr.getResourceId(R.styleable.CardItemView_cardItemCaption, 0)
         attr.recycle()
     }
 

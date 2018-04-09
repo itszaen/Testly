@@ -18,7 +18,7 @@ import com.zaen.testly.utils.preferences.Prefs
 /**
  * Created by zaen on 2/10/18.
  */
-class SettingSwitchTitleonlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
+class SettingSwitchTitleOnlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
     private val iconString: String?
     private val preferenceKey: String
     @StringRes
@@ -28,8 +28,6 @@ class SettingSwitchTitleonlyView @JvmOverloads constructor(context: Context, att
     lateinit var icon: IconicsImageView
     @BindView(R.id.title)
     lateinit var title: TextView
-    @BindView(R.id.caption)
-    lateinit var caption: TextView
     @BindView(R.id.toggle)
     lateinit var toggle: SwitchCompat
     private var clickListener: View.OnClickListener? = null
@@ -38,23 +36,20 @@ class SettingSwitchTitleonlyView @JvmOverloads constructor(context: Context, att
         val inflater = LayoutInflater.from(getContext())
         inflater.inflate(R.layout.view_setting_switch, this)
 
-        val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingSwitchView)
-        iconString = a.getString(R.styleable.SettingSwitchView_settingIcon)
-        val prefKeyRes = a.getResourceId(R.styleable.SettingSwitchView_settingPreferenceKey, 0)
+        val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingSwitchTitleOnlyView)
+        iconString = a.getString(R.styleable.SettingSwitchTitleOnlyView_cardItemIcon)
+        val prefKeyRes = a.getResourceId(R.styleable.SettingSwitchTitleOnlyView_settingPreferenceKey, 0)
         if (prefKeyRes == 0) throw IllegalArgumentException("Invalid preference reference")
         preferenceKey = resources.getString(prefKeyRes)
-        titleRes = a.getResourceId(R.styleable.SettingSwitchView_settingTitle, 0)
-        defaultValue = a.getBoolean(R.styleable.SettingSwitchView_settingDefaultValue, false)
-        val minimumApi = 0//a.getInteger(R.styleable.SettingWithSwitchView_settingMinApi, 0);
+        titleRes = a.getResourceId(R.styleable.SettingSwitchTitleOnlyView_cardItemTitle, 0)
+        defaultValue = a.getBoolean(R.styleable.SettingSwitchTitleOnlyView_settingDefaultValue, false)
         a.recycle()
-
-        if (Build.VERSION.SDK_INT < minimumApi) visibility = View.GONE
     }
 
     override fun onFinishInflate() {
         ButterKnife.bind(this)
 
-        icon.setIcon(icon.getIcon().icon(iconString))
+        icon.icon = icon.icon.icon(iconString)
         title.setText(titleRes)
         toggle.isChecked = isChecked
         super.setOnClickListener(this)
@@ -79,13 +74,17 @@ class SettingSwitchTitleonlyView @JvmOverloads constructor(context: Context, att
         if (clickListener != null) clickListener!!.onClick(this)
     }
 
-    val isChecked: Boolean
+    private val isChecked: Boolean
         get() = Prefs.getToggleValue(preferenceKey, defaultValue)
 
     fun toggle() {
         Prefs.setToggleValue(preferenceKey, !isChecked)
         val checked = isChecked
         toggle.isChecked = checked
+    }
+
+    fun setTitleText(text: String){
+        title.text = text
     }
 
 }

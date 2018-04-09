@@ -1,6 +1,5 @@
 package com.zaen.testly.fragments.settings
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,19 +12,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
 import butterknife.ButterKnife
-import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.R
-import kotlinx.android.synthetic.main.fragment_settings_account_main.*
-import android.support.annotation.NonNull
-import android.support.v4.content.ContextCompat.startActivity
 import butterknife.OnClick
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.zaen.testly.activities.SettingsActivity
 import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.auth.FirebaseTestly
+import de.mateware.snacky.Snacky
+import com.zaen.testly.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
 
 
 /**
@@ -137,37 +134,38 @@ class AccountSettingsMainFragment : Fragment(){
                 .positiveText(R.string.react_delete)
                 .negativeText(R.string.react_refuse)
                 .onPositive{dialog,which->
-                    try {
-                        val user = FirebaseAuth.getInstance().currentUser!!
-                        user.delete()
-                                .addOnCompleteListener{
-                                    if (it.isSuccessful){
-                                        Log.d(TAG,"User account deleted.")
-                                        FirebaseFirestore.getInstance().collection("users").document(user.uid)
-                                                .delete()
-                                                .addOnSuccessListener { Log.d(TAG,"Userinfo deleted.") }
-                                                .addOnFailureListener { Log.w(TAG,"Userinfo deletion failed. Exception: $it")}
-                                        val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
-                                                activity?.baseContext?.packageName
-                                        )
-                                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                        activity?.finish()
-                                        startActivity(intent)
-                                    }else{
-                                        dialog.dismiss()
-                                        onReauthenticateUser()
-                                    }
-                                }
-                    } catch (e: FirebaseAuthRecentLoginRequiredException){
+                    val user = FirebaseAuth.getInstance().currentUser!!
+                    if (!isReauthenticatedDeleteUser){
                         dialog.dismiss()
-                        onReauthenticateUser()
+                        reAuthenticateUser()
+                    } else {
+                        // Delete User info
+                        deleteUserInfo(user)
+                        // Delete user
+                        deleteUser(user,dialog)
                     }
                 }
                 .onNegative{dialog,which->dialog.dismiss()}
                 .show()
     }
-
-    fun onReauthenticateUser(){
+    fun onExceptionSnacky(e: Exception){
+        Snacky.builder()
+                .setActivity(activity)
+                .setText("An error has occurred.\nClick open to see exception.")
+                .setDuration(Snacky.LENGTH_LONG)
+                .setActionText("OPEN")
+                .setActionClickListener {
+                    MaterialDialog.Builder(activity!!)
+                            .title("Exception")
+                            .content(e.toString())
+                            .positiveText(R.string.react_positive)
+                            .show()
+                }
+                .setDuration(Snacky.LENGTH_LONG)
+                .error()
+                .show()
+    }
+    fun reAuthenticateUser(){
         MaterialDialog.Builder(activity!!)
                 .title("Re-authenticate")
                 .content("The action requires you to be signed in recently.\nTo continue, please click OK to re-authenticate.")
@@ -186,6 +184,30 @@ class AccountSettingsMainFragment : Fragment(){
                 }
                 .onNegative{dialog,which->dialog.dismiss()}
                 .show()
+    }
+    fun deleteUser(user: FirebaseUser, dialog: MaterialDialog){
+        user.delete()
+                .addOnCompleteListener{
+                    if (it.isSuccessful){
+                        Log.d(TAG,"User account deleted.")
+                        val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
+                                activity?.baseContext?.packageName
+                        )
+                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        activity?.finish()
+                        startActivity(intent)
+                    }else{
+                        val e = it.exception
+                        dialog.dismiss()
+                        onExceptionSnacky(e as Exception)
+                    }
+                }
+    }
+    fun deleteUserInfo(user: FirebaseUser){
+        FirebaseFirestore.getInstance().collection("users").document(user.uid)
+                .delete()
+                .addOnSuccessListener { Log.d(TAG,"Userinfo deleted.") }
+                .addOnFailureListener { Log.w(TAG,"Userinfo deletion failed. Exception: $it")}
     }
 
 

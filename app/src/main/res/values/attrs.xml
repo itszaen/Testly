@@ -8,36 +8,49 @@
         <attr name="examProgress" format="integer"/>
     </declare-styleable>
 
+    <!-- Card Item -->
+    <attr name="cardItemIcon" format="string"/>
+    <attr name="cardItemTitle" format="reference"/>
+    <attr name="cardItemCaption" format="reference"/>
 
-    <!-- Setting -->
-    <attr name="settingIcon" format="string"/>
-    <attr name="settingTitle" format="reference"/>
-    <attr name="settingCaption" format="reference"/>
+    <!-- Setting Item -->
     <attr name="settingMinApi" format="integer"/>
     <attr name="settingDefaultValue" format="boolean"/>
     <attr name="settingPreferenceKey" format="integer"/>
+
+
+    <declare-styleable name="CardItemView">
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
+        <attr name="cardItemCaption"/>
+    </declare-styleable>
+    <declare-styleable name="CardItemTitleOnlyView">
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
+        <attr name="cardItemCaption"/>
+    </declare-styleable>
     <declare-styleable name="SettingView">
-        <attr name="settingIcon"/>
-        <attr name="settingTitle"/>
-        <attr name="settingCaption"/>
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
+        <attr name="cardItemCaption"/>
         <attr name="settingMinApi"/>
     </declare-styleable>
-    <declare-styleable name="SettingTitleonlyView">
-        <attr name="settingIcon"/>
-        <attr name="settingTitle"/>
+    <declare-styleable name="SettingTitleOnlyView">
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
         <attr name="settingMinApi"/>
     </declare-styleable>
     <declare-styleable name="SettingSwitchView">
-        <attr name="settingIcon"/>
-        <attr name="settingTitle"/>
-        <attr name="settingCaption"/>
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
+        <attr name="cardItemCaption"/>
         <attr name="settingMinApi"/>
         <attr name="settingDefaultValue"/>
         <attr name="settingPreferenceKey"/>
     </declare-styleable>
-    <declare-styleable name="SettingSwitchTitleonlyView">
-        <attr name="settingIcon"/>
-        <attr name="settingTitle"/>
+    <declare-styleable name="SettingSwitchTitleOnlyView">
+        <attr name="cardItemIcon"/>
+        <attr name="cardItemTitle"/>
         <attr name="settingMinApi"/>
         <attr name="settingDefaultValue"/>
         <attr name="settingPreferenceKey"/>

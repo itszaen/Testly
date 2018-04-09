@@ -34,13 +34,12 @@ import java.util.*
 abstract class Auth: AppCompatActivity(),
         FirebaseTestly.HandleTask,SignupUserinfo.SuccessListener {
     companion object {
-        val TAG = "Auth"
-        val RC_LOG_IN = 101
-        val RC_SIGN_UP = 102
-        val RC_SIGN_UP_INFO = 103
+        const val TAG = "Auth"
+        const val RC_LOG_IN = 101
+        const val RC_SIGN_UP = 102
+        const val RC_SIGN_UP_INFO = 103
     }
     var firebase: FirebaseTestly? = null
-
     var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     // Login? Signup?

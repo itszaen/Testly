@@ -64,16 +64,19 @@ class SettingsMainFragment : Fragment() {
         mListener?.onFragmentCalled(AccountSettingsMainFragment(),"Account Settings")
     }
 
+    @Optional
     @OnClick(R.id.pref_welcome)
     fun onWelcomeClicked(view:View){
         WelcomeHelper(activity, Intro2Activity::class.java).forceShow()
     }
 
+    @Optional
     @OnClick(R.id.pref_provider)
     fun onProviderSettingClicked(view:View){
         mListener?.onFragmentCalled(ProviderSettingsMainFragment(),"Provider Settings")
     }
 
+    @Optional
     @OnClick(R.id.pref_developer)
     fun onDeveloperSettingClicked(view:View){
         mListener?.onFragmentCalled(DeveloperSettingsMainFragment(),"Developer Settings")

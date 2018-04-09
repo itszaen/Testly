@@ -13,7 +13,7 @@ import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
 
-class SettingTitleonlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class SettingTitleOnlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private val iconString: String?
     @StringRes
     private val titleRes: Int
@@ -26,10 +26,10 @@ class SettingTitleonlyView @JvmOverloads constructor(context: Context, attrs: At
         val inflater = LayoutInflater.from(getContext())
         inflater.inflate(R.layout.view_setting_titleonly, this)
 
-        val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingTitleonlyView)
-        iconString = a.getString(R.styleable.SettingTitleonlyView_settingIcon)
-        titleRes = a.getResourceId(R.styleable.SettingTitleonlyView_settingTitle, 0)
-        val minimumApi = a.getInteger(R.styleable.SettingTitleonlyView_settingMinApi, 0)
+        val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingTitleOnlyView)
+        iconString = a.getString(R.styleable.SettingTitleOnlyView_cardItemIcon)
+        titleRes = a.getResourceId(R.styleable.SettingTitleOnlyView_cardItemTitle, 0)
+        val minimumApi = a.getInteger(R.styleable.SettingTitleOnlyView_settingMinApi, 0)
         a.recycle()
 
         if (Build.VERSION.SDK_INT < minimumApi) visibility = View.GONE
@@ -46,6 +46,10 @@ class SettingTitleonlyView @JvmOverloads constructor(context: Context, attrs: At
         setMinimumHeight((int) getResources().getDimension(R.dimen.listitem_height_twoline));
         */
         super.onFinishInflate()
+    }
+
+    fun setTitleText(text: String){
+        title.text = text
     }
 
 }

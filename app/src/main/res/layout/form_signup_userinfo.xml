@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/sub_small_spacing"
                 android:gravity="start"
-                android:text="School"
+                android:text="@string/hint_school"
                 android:textSize="@dimen/sub_medium_text"
                 android:textColor="@color/md_grey_600" />
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/sub_small_spacing"
                 android:gravity="start"
-                android:text="Grade"
+                android:text="@string/hint_grade"
                 android:textSize="@dimen/sub_medium_text"
                 android:textColor="@color/md_grey_600" />
             <com.jaredrummler.materialspinner.MaterialSpinner
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/sub_small_spacing"
                 android:gravity="start"
-                android:text="Class"
+                android:text="@string/hint_class"
                 android:textSize="@dimen/sub_medium_text"
                 android:textColor="@color/md_grey_600" />
             <com.jaredrummler.materialspinner.MaterialSpinner

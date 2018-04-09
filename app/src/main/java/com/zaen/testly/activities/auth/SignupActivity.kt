@@ -1,19 +1,12 @@
 package com.zaen.testly.activities.auth
 
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.jaredrummler.materialspinner.MaterialSpinner
 import com.zaen.testly.R
 import com.zaen.testly.auth.SignupUserinfo
 import de.mateware.snacky.Snacky
@@ -24,12 +17,12 @@ import java.util.*
 
 class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
     companion object {
-        val TAG = "SignupActivity"
-        val AUTH_EMAIL = 1
-        val AUTH_GOOGLE = 2
-        val AUTH_FACEBOOK = 3
-        val AUTH_TWITTER = 4
-        val AUTH_GITHUB = 5
+        const val TAG = "SignupActivity"
+        const val AUTH_EMAIL = 1
+        const val AUTH_GOOGLE = 2
+        const val AUTH_FACEBOOK = 3
+        const val AUTH_TWITTER = 4
+        const val AUTH_GITHUB = 5
     }
     @BindView(R.id.signup_greeting)
     lateinit var greeting: TextView

@@ -14,7 +14,7 @@ import java.util.*
 
 class LoginActivity : Auth() {
     companion object {
-        val TAG = "LoginActivity"
+        const val TAG = "LoginActivity"
     }
 
     @BindView(R.id.login_greeting)

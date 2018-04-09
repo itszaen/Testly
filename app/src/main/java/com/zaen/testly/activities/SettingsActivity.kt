@@ -37,9 +37,10 @@ class SettingsActivity : AppCompatActivity(),
                 DeveloperSettingsMainFragment.FragmentClickListener,
                 FirebaseTestly.HandleTask{
     companion object {
-        val TAG = "SettingsActivity"
+        const val TAG = "SettingsActivity"
+        var isReauthenticatedDeleteUser = false
     }
-    private lateinit var unbinder: Unbinder
+    private var unbinder: Unbinder? = null
     val transaction = supportFragmentManager
     var toolbar : ActionBar? = null
     var inFragmentLevel = 0
@@ -59,7 +60,7 @@ class SettingsActivity : AppCompatActivity(),
                 return;
             }
             val mainFragment = SettingsMainFragment()
-            mainFragment.setArguments(getIntent().getExtras())
+            mainFragment.arguments = intent.extras
             transaction.beginTransaction()
                     .add(R.id.settings_fragment_container, mainFragment).commit()
         }
@@ -112,17 +113,17 @@ class SettingsActivity : AppCompatActivity(),
     override fun onFragmentCalled(newFragment: Fragment, title: String) {
         val args = Bundle()
         args.putString("TITLE",title)
-        newFragment.setArguments(args)
+        newFragment.arguments = args
         transaction.beginTransaction()
                 .replace(R.id.settings_fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()
-        toolbar?.setTitle(title)
+        toolbar?.title = title
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
         inFragmentLevel += 1
     }
-    fun inMainFragment(){
-        toolbar?.setTitle(getString(R.string.title_activity_settings))
+    private fun inMainFragment(){
+        toolbar?.title = getString(R.string.title_activity_settings)
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
     }
 
@@ -143,7 +144,11 @@ class SettingsActivity : AppCompatActivity(),
             Log.d(LoginActivity.TAG, "signInWithCredential:success")
             Snacky.builder()
                     .setActivity(this)
-                    .setText("Sign in succeeded. You may proceed.")
+                    .setText("Re-authentication succeeded. You may proceed.")
+                    .success()
+                    .setDuration(Snacky.LENGTH_LONG)
+                    .show()
+            isReauthenticatedDeleteUser = true
         } else {
             Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
             Snacky.builder()

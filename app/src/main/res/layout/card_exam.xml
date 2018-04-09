@@ -16,8 +16,10 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:padding="4dp">
 
         <android.support.v7.widget.AppCompatTextView
@@ -39,11 +41,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:padding="4dp"
-            android:text="数学"
+            android:text="Subject Title"
             android:textColor="@color/md_grey_900"
             android:textSize="@dimen/exam_card_medium_text"
             card_view:layout_constraintStart_toEndOf="@+id/exam_title"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/exam_date"
@@ -51,7 +54,8 @@
             android:layout_height="wrap_content"
             android:text="2018.05.25"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <at.grabner.circleprogress.CircleProgressView
             android:id="@+id/circleView"
@@ -86,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginEnd="4dp"
-            android:text="Start"
+            android:text="@string/btn_start_dashboard"
             android:textSize="@dimen/exam_card_button_text"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintRight_toRightOf="parent" />

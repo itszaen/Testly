@@ -37,7 +37,8 @@
                 android:id="@+id/login_social"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/medium_spacing"
+                android:layout_marginTop="@dimen/medium_spacing"
+                android:layout_marginBottom="@dimen/medium_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -45,8 +46,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:layout_marginHorizontal="@dimen/small_spacing"
-                    android:text="Use social account to login"
+                    android:layout_marginStart="@dimen/small_spacing"
+                    android:layout_marginEnd="@dimen/small_spacing"
+                    android:text="@string/text_sign_in_with_social"
                     android:textColor="@color/loginText" />
 
                 <LinearLayout
@@ -121,9 +123,10 @@
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Or email and password"
+                    android:text="@string/text_sign_in_with_email_and_password"
                     android:gravity="start"
-                    android:layout_marginHorizontal="@dimen/small_spacing"
+                    android:layout_marginStart="@dimen/small_spacing"
+                    android:layout_marginEnd="@dimen/small_spacing"
                     android:layout_marginBottom="@dimen/small_spacing"
                     android:textColor="@color/loginText" />
 

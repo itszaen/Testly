@@ -110,6 +110,10 @@
 
         </activity>
 
+        <!-- ImageViewActivity -->
+        <activity android:name=".activities.ImageViewActivity" >
+
+        </activity>
         <!-- Facebook SDK -->
         <activity
             android:name="com.facebook.FacebookActivity"

@@ -80,7 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Caption"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <!-- Comment icon & number -->
@@ -112,7 +113,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:layout_gravity="center"
-                    android:text="0"/>
+                    android:text="0"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         </FrameLayout>
 

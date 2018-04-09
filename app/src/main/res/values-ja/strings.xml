@@ -88,4 +88,10 @@
     <string name="pref_general_title">いろいろ</string>
     <string name="pref_account_delete_title">アカウント削除</string>
     <string name="title_section_auth">認証方式を1つ選択してください。</string>
+    <string name="text_sign_in_with_social">SNSアカウントでログイン</string>
+    <string name="text_sign_in_with_email_and_password">メールとパスワードでログイン</string>
+    <string name="hint_school">学校</string>
+    <string name="hint_grade">学年</string>
+    <string name="hint_class">クラス</string>
+    <string name="btn_start_dashboard">"開始! "</string>
 </resources>

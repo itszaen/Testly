@@ -1,6 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name" translatable="false">Testly</string>
+    <string name="app_version" translatable="false">0.1</string>
 
     <!-- Common -->
     <string name="show_password">Show Password</string>
@@ -28,6 +29,9 @@
     <string name="nav_menu_help">Help</string>
     <string name="nav_menu_feedback">Feedback</string>
     <string name="nav_menu_about">About</string>
+
+    <!-- Dashboard -->
+    <string name="btn_start_dashboard">Start</string>
 
     <!-- Pinned -->
     <string name="title_fragment_pinned">Pinned</string>
@@ -89,6 +93,8 @@
     <string name="prompt_password">Password</string>
     <string name="action_log_in">Log in</string>
     <string name="action_log_in_short">Log in</string>
+    <string name="text_sign_in_with_social">Use social account to login</string>
+    <string name="text_sign_in_with_email_and_password">Or email and password</string>
     <string name="text_forgot_password"><u>Forgot password?</u></string>
     <string name="text_create_account"><u>Create Account</u></string>
     <string name="error_invalid_email">This email address is invalid.</string>
@@ -112,6 +118,9 @@
     <string name="signup_info_heading">Oops, looks like you are not signed up yet.\n No worry, just fill out this form please.</string>
 
     <string name="action_sign_up">SIGN UP</string>
+    <string name="hint_school">School</string>
+    <string name="hint_grade">Grade</string>
+    <string name="hint_class">Class</string>
 
     <!-- ** User Info -->
     <string name="prompt_username">Username</string>
@@ -119,7 +128,13 @@
     <string name="prompt_fullname_first">First</string>
 
     <!-- About -->
-    <string name="title_activity_about">About</string>
+    <string name="title_activity_about">About Testly</string>
+    <string name="about_info_app_version">Version</string>
+    <string name="about_info_app_changelog">Change Log</string>
+    <string name="about_info_rate">Rate the app</string>
+    <string name="about_title_contributors_authors">Author</string>
+    <string name="about_title_contributors_authors_zaen">Zaen</string>
+    <string name="about_title_contributors_developers">Developers</string>
 
     <!-- Feedback -->
     <string name="title_activity_feedback">Feedback</string>

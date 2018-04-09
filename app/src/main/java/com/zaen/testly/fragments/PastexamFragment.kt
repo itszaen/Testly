@@ -12,8 +12,12 @@ import com.zaen.testly.R
 /**
  * Created by zaen on 2/27/18.
  */
-class PastexamFragment : Fragment() {
-    var activity: Activity? = null
+class PastexamFragment : FileBrowserFragment() {
+    companion object {
+        const val TAG = "PastexamFragment"
+        const val bucket = "testly-2014.appspot.com"
+        const val sub = "subdirectories"
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
         return inflater.inflate(R.layout.fragment_pastexam,container,false)

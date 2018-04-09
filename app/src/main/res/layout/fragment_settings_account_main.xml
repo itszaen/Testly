@@ -15,6 +15,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/card_pref_account_general"
                 android:clickable="true"
+                android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_spacing"
@@ -25,33 +26,36 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/small_spacing">
-                    <com.zaen.testly.views.settings.SettingTitleonlyView
+                    <com.zaen.testly.views.settings.SettingTitleOnlyView
                         android:id="@+id/pref_account_update_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/small_spacing"
                         android:paddingBottom="@dimen/small_spacing"
                         android:clickable="true"
-                        app:settingIcon="gmd_email"
-                        app:settingTitle="@string/pref_account_update_email_title"/>
-                    <com.zaen.testly.views.settings.SettingTitleonlyView
+                        app:cardItemIcon="gmd_email"
+                        app:cardItemTitle="@string/pref_account_update_email_title"
+                        android:focusable="true" />
+                    <com.zaen.testly.views.settings.SettingTitleOnlyView
                         android:id="@+id/pref_account_update_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/small_spacing"
                         android:paddingBottom="@dimen/small_spacing"
                         android:clickable="true"
-                        app:settingIcon="cmd_textbox_password"
-                        app:settingTitle="@string/pref_account_update_password_title"/>
-                    <com.zaen.testly.views.settings.SettingTitleonlyView
+                        app:cardItemIcon="cmd_textbox_password"
+                        app:cardItemTitle="@string/pref_account_update_password_title"
+                        android:focusable="true" />
+                    <com.zaen.testly.views.settings.SettingTitleOnlyView
                         android:id="@+id/pref_account_logout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/small_spacing"
                         android:paddingBottom="@dimen/small_spacing"
                         android:clickable="true"
-                        app:settingIcon="ion_android_exit"
-                        app:settingTitle="@string/pref_account_logout_title"/>
+                        app:cardItemIcon="ion_android_exit"
+                        app:cardItemTitle="@string/pref_account_logout_title"
+                        android:focusable="true" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -61,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_spacing"
                 card_view:cardCornerRadius="@dimen/card_corner_radius"
-                card_view:cardElevation="@dimen/card_elevation">
+                card_view:cardElevation="@dimen/card_elevation"
+                android:focusable="true">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,19 +77,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/medium_spacing"
+                        android:paddingEnd="@dimen/medium_spacing"
                         android:paddingTop="@dimen/medium_spacing"
                         android:text="@string/pref_account_dangerous_title"
                         android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
-                    <com.zaen.testly.views.settings.SettingTitleonlyView
+                    <com.zaen.testly.views.settings.SettingTitleOnlyView
                         android:id="@+id/pref_account_delete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/small_spacing"
                         android:paddingBottom="@dimen/small_spacing"
-                        app:settingIcon="faw_trash"
-                        app:settingTitle="@string/pref_account_delete_title"/>
+                        app:cardItemIcon="faw_trash"
+                        app:cardItemTitle="@string/pref_account_delete_title"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

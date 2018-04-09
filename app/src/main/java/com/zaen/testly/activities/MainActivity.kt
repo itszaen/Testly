@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -18,17 +19,19 @@ import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
 import com.zaen.testly.R
+import com.zaen.testly.R.id.toolbar
 import com.zaen.testly.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        FileBrowserFragment.RenameToolbar{
 
     private val transaction = supportFragmentManager
-    var tool_bar : Toolbar? = null
-    var welcomeScreen:WelcomeHelper? = null
+    var mToolbar : Toolbar? = null
+    private var welcomeScreen:WelcomeHelper? = null
     private var mAuth: FirebaseAuth? = null
     var savedInstanceState: Bundle? = null
 
@@ -45,9 +48,10 @@ class MainActivity : AppCompatActivity(),
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         nav_view.setNavigationItemSelectedListener(this)
+//        nav_view.setBackgroundColor(ContextCompat.getColor(this,R.color.accent_green))
         toggle.syncState()
 
-        tool_bar = toolbar
+        mToolbar = toolbar
 
         if (fragment_container != null) {
             if (savedInstanceState != null) {
@@ -106,7 +110,7 @@ class MainActivity : AppCompatActivity(),
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-//            R.id.action_settings -> return true
+            //R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -147,7 +151,7 @@ class MainActivity : AppCompatActivity(),
                 .replace(R.id.fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()
-        tool_bar?.title = title
+        mToolbar?.title = title
     }
 
     // Firebase stuff
@@ -185,4 +189,10 @@ class MainActivity : AppCompatActivity(),
         }
 
     }
+
+    override fun renameToolbar(new: String) {
+        mToolbar?.title = new
+    }
+
+
 }

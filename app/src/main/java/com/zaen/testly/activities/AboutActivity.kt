@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import com.zaen.testly.R
-import mehdi.sakout.aboutpage.AboutPage
-import mehdi.sakout.aboutpage.Element
 
 
 class AboutActivity : AppCompatActivity() {
@@ -17,20 +15,7 @@ class AboutActivity : AppCompatActivity() {
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
-
-        val aboutPage = AboutPage(this)
-                .setDescription("a")
-                .isRTL(false)
-                .setImage(R.drawable.kaisei)
-                .addItem(Element().setTitle("Version 1.0"))
-                .addGroup("Contact")
-                .addEmail("chouzaen2002@gmail.com")
-                .addTwitter("zaen200233")
-                //.addPlayStore("com.")
-                .addGitHub("zaen323")
-                .create()
-        setContentView(aboutPage)
-//        setContentView(R.layout.activity_about)
+        setContentView(R.layout.activity_about)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
