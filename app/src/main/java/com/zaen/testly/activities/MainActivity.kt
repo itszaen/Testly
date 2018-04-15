@@ -11,29 +11,82 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.entypo_typeface_library.Entypo
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.SectionDrawerItem
+import com.mikepenz.materialize.color.Material
+import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
+import com.zaen.testly.Global
 import com.zaen.testly.R
-import com.zaen.testly.R.id.toolbar
+import com.zaen.testly.R.id.*
 import com.zaen.testly.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener,
+//        NavigationView.OnNavigationItemSelectedListener,
         FileBrowserFragment.RenameToolbar{
+    companion object {
+        const val TAG = "MainActivity"
+    }
 
-    private val transaction = supportFragmentManager
-    var mToolbar : Toolbar? = null
-    private var welcomeScreen:WelcomeHelper? = null
-    private var mAuth: FirebaseAuth? = null
     var savedInstanceState: Bundle? = null
+    private val transaction = supportFragmentManager
+    private var mToolbar : Toolbar? = null
+
+    // Material Drawer
+    private var drawer: Drawer? = null
+    private var hasProviderItem: Boolean? = null
+    /// Items
+    val nav_home = PrimaryDrawerItem().withName(R.string.nav_menu_home).withIcon(GoogleMaterial.Icon.gmd_home)
+            .withIdentifier(1).withSelectable(true)
+    val nav_pinned = PrimaryDrawerItem().withName(R.string.nav_menu_pinned).withIcon(CommunityMaterial.Icon.cmd_pin)
+            .withIdentifier(2).withSelectable(true)
+    val nav_prep = PrimaryDrawerItem().withName(R.string.nav_menu_prep).withIcon(Octicons.Icon.oct_checklist)
+            .withIdentifier(3).withSelectable(true)
+    val nav_improve = PrimaryDrawerItem().withName(R.string.nav_menu_improve).withIcon(MaterialDesignIconic.Icon.gmi_labels)
+            .withIdentifier(4).withSelectable(true)
+    val nav_handouts = PrimaryDrawerItem().withName(R.string.nav_menu_handouts).withIcon(MaterialDesignIconic.Icon.gmi_file)
+            .withIdentifier(5).withSelectable(true)
+    val nav_pastexam = PrimaryDrawerItem().withName(R.string.nav_menu_pastexam).withIcon(CommunityMaterial.Icon.cmd_archive)
+            .withIdentifier(6).withSelectable(true)
+    val nav_section_provider = SectionDrawerItem().withName("Provider")
+            .withIdentifier(7)
+    val nav_create = PrimaryDrawerItem().withName(R.string.nav_menu_create).withIcon(CommunityMaterial.Icon.cmd_file_plus)
+            .withIdentifier(71).withSelectable(true)
+    val nav_upload = PrimaryDrawerItem().withName(R.string.nav_menu_upload).withIcon(CommunityMaterial.Icon.cmd_upload)
+            .withIdentifier(72).withSelectable(true)
+    val nav_settings = PrimaryDrawerItem().withName(R.string.nav_menu_settings).withIcon(GoogleMaterial.Icon.gmd_settings)
+            .withIdentifier(8).withSelectable(true)
+    val nav_help = PrimaryDrawerItem().withName(R.string.nav_menu_help).withIcon(Entypo.Icon.ent_help_with_circle)
+            .withIdentifier(9).withSelectable(true)
+    val nav_feedback = PrimaryDrawerItem().withName(R.string.nav_menu_feedback).withIcon(GoogleMaterial.Icon.gmd_feedback)
+            .withIdentifier(10).withSelectable(true)
+    val nav_about = PrimaryDrawerItem().withName(R.string.nav_menu_about).withIcon(Entypo.Icon.ent_info_with_circle)
+            .withIdentifier(11).withSelectable(true)
+
+
+    private var welcomeScreen:WelcomeHelper? = null
+
+    private var mAuth: FirebaseAuth? = null
+    private var userinfoSnapshot: DocumentSnapshot? = null
 
     override fun onCreate(bundle: Bundle?) {
         mAuth = FirebaseAuth.getInstance()
@@ -42,17 +95,91 @@ class MainActivity : AppCompatActivity(),
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        // Two strings are for accessibility functions.
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        nav_view.setNavigationItemSelectedListener(this)
-//        nav_view.setBackgroundColor(ContextCompat.getColor(this,R.color.accent_green))
-        toggle.syncState()
-
         mToolbar = toolbar
 
+        // Firebase
+        /// Userinfo set up listener & Hide (or show)elements
+        val userinfoRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
+        userinfoRef.addSnapshotListener{snapshot,exception ->
+            if (exception != null){
+                Log.w(TAG, "Userinfo listen failed. Exception: $exception")
+                return@addSnapshotListener
+            }
+            if (snapshot != null && snapshot.exists()){
+                Log.d(TAG, "Userinfo listened. Current data: ${snapshot.data}")
+                onUserinfoUpdate(snapshot)
+            } else {
+                Log.d(TAG, "Userinfo listened. Current data: null")
+                onUserinfoUpdate(null)
+            }
+        }
+
+        // Navigation Drawer
+        /// Two strings are for accessibility functions.
+//        val toggle = ActionBarDrawerToggle(
+//                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+//        drawer_layout.addDrawerListener(toggle)
+//        nav_view.setNavigationItemSelectedListener(this)
+////        nav_view.setBackgroundColor(ContextCompat.getColor(this,R.color.accent_green))
+//        toggle.syncState()
+
+        /// Build
+        drawer = DrawerBuilder().withActivity(this).withToolbar(toolbar)
+                .withTranslucentStatusBar(false)
+                .withHeader(R.layout.header_drawer_main)
+                .addDrawerItems(
+                        nav_home,
+                        nav_pinned,
+                        DividerDrawerItem(),
+                        nav_prep,
+                        nav_improve,
+                        nav_handouts,
+                        nav_pastexam,
+                        nav_section_provider,
+                        nav_create,
+                        nav_upload,
+                        DividerDrawerItem(),
+                        nav_help,
+                        nav_feedback,
+                        nav_about
+                )
+                .addStickyDrawerItems(
+                        nav_settings
+                )
+                .withOnDrawerItemClickListener{view,position,drawerItem ->
+                    if (drawerItem != null){
+                        var intent: Intent? = null
+                        when (drawerItem.identifier){
+                            1L  -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
+                            2L  -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
+                            3L  -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
+                            4L  -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
+                            5L  -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
+                            6L  -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
+                            71L  -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
+                            72L  -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
+                            8L  -> intent = Intent(this, SettingsActivity::class.java)
+                            9L -> intent = Intent(this, HelpActivity::class.java)
+                            10L -> intent = Intent(this, FeedbackActivity::class.java)
+                            11L -> intent = Intent(this, AboutActivity::class.java)
+                        }
+                        if (intent != null){
+                            startActivity(intent)
+                        }
+                        drawer?.closeDrawer()
+                    }
+                    return@withOnDrawerItemClickListener true
+                }
+                .withSavedInstance(savedInstanceState)
+                .build()
+        //// has provider
+        hasProviderItem = true
+        /// Config
+        if (savedInstanceState == null) {
+            drawer?.setSelection(1,false)
+        }
+
+        // Initialize with Dashboard
         if (fragment_container != null) {
             if (savedInstanceState != null) {
                 return
@@ -69,7 +196,6 @@ class MainActivity : AppCompatActivity(),
         super.onStart()
         // Firebase check if already signed-in
         val currentUser: FirebaseUser? = mAuth?.currentUser
-        updateUI(currentUser)
         if (currentUser == null) {
             welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
             welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
@@ -88,14 +214,15 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        super.onSaveInstanceState(outState, outPersistentState)
+        drawer?.saveInstanceState(outState)
         welcomeScreen?.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
+        if (drawer != null && drawer!!.isDrawerOpen) {
+            drawer!!.closeDrawer()
+        }else{
             super.onBackPressed()
         }
     }
@@ -115,33 +242,50 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_home -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
-            R.id.nav_pinned -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
-            R.id.nav_prep -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
-            R.id.nav_improve -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
-            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
-            R.id.nav_pastexam -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
-            R.id.nav_settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.nav_home -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
+//            R.id.nav_pinned -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
+//            R.id.nav_prep -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
+//            R.id.nav_improve -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
+//            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
+//            R.id.nav_pastexam -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
+//            R.id.nav_settings -> {
+//                val intent = Intent(this, SettingsActivity::class.java)
+//                startActivity(intent)
+//            }
+//            R.id.nav_help -> {
+//                val intent = Intent(this, HelpActivity::class.java)
+//                startActivity(intent)
+//            }
+//            R.id.nav_feedback -> {
+//                val intent = Intent(this, FeedbackActivity::class.java)
+//                startActivity(intent)
+//            }
+//            R.id.nav_about -> {
+//                val intent = Intent(this, AboutActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
+//        drawer_layout.closeDrawer(GravityCompat.START)
+//        return true
+//    }
+    private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){
+        userinfoSnapshot = snapshot
+        toggleProviderDrawerItems()
+    }
+    private fun toggleProviderDrawerItems(){
+        if (userinfoSnapshot != null && (userinfoSnapshot!!.data!!["provider"] as Boolean)) {
+            if (hasProviderItem == false){
+                addDrawerItem(arrayOf(
+                        nav_section_provider,
+                        nav_create,
+                        nav_upload))
             }
-            R.id.nav_help -> {
-                val intent = Intent(this, HelpActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_feedback -> {
-                val intent = Intent(this, FeedbackActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_about -> {
-                val intent = Intent(this, AboutActivity::class.java)
-                startActivity(intent)
-            }
+        }else{
+            deleteDrawerItem(arrayOf(7,71,72))
+            hasProviderItem = false
         }
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
     }
 
     private fun onFragmentClicked(newFragment:Fragment, title:String){
@@ -153,24 +297,19 @@ class MainActivity : AppCompatActivity(),
                 .commit()
         mToolbar?.title = title
     }
-
-    // Firebase stuff
-    private fun updateUI(user:FirebaseUser?) {
-        if (user != null) {
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
-//
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+    private fun addDrawerItem(items: Array<Any>){
+        for (item in items){
+            when (item){
+                is PrimaryDrawerItem -> drawer?.addItem(item)
+                is SecondaryDrawerItem -> drawer?.addItem(item)
+                is DividerDrawerItem -> drawer?.addItem(item)
+                is SectionDrawerItem -> drawer?.addItem(item)
+            }
         }
     }
-
+    private fun deleteDrawerItem(identifier: Array<Int>){
+        for (i in identifier) {drawer?.removeItem(i.toLong())}
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)

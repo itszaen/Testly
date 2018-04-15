@@ -3,9 +3,11 @@
     <dimen name="activity_top_margin">40dp</dimen>
     <dimen name="activity_bottom_margin">16dp</dimen>
 
+    <!-- Action Bar -->
     <dimen name="action_bar_height">52dp</dimen>
     <dimen name="action_bar_text_size">20sp</dimen>
 
+    <!-- Navigation Drawer -->
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">150dp</dimen>
 
@@ -52,6 +54,9 @@
     <dimen name="exam_card_progress_bar_width">4dp</dimen>
     <dimen name="exam_card_progress_rim_width">5dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Cards -->
+
 
     <!-- Login -->
     <dimen name="btn_size_login_social">52dp</dimen>

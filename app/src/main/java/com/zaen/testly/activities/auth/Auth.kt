@@ -41,6 +41,7 @@ abstract class Auth: AppCompatActivity(),
     }
     var firebase: FirebaseTestly? = null
     var mFirebaseAnalytics: FirebaseAnalytics? = null
+    var userinfo: SignupUserinfo? = null
 
     // Login? Signup?
     var request: Int? = null
@@ -151,9 +152,7 @@ abstract class Auth: AppCompatActivity(),
             if (request == Auth.RC_LOG_IN){
                 checkUserinfo()
             } else if (request == Auth.RC_SIGN_UP){
-                 val userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
-                        .Build()
-                userinfo.registerUserInfo()
+                userinfo?.registerUserInfo()
             }
         } else {
             Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
@@ -198,24 +197,22 @@ abstract class Auth: AppCompatActivity(),
 
     private fun checkUserinfo() {
         val ref = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
-        ref.get().addOnCompleteListener(object: OnCompleteListener<DocumentSnapshot>{
-            override fun onComplete(task: Task<DocumentSnapshot>) {
-                if (task.isSuccessful){
-                    val snapshot = task.result
-                    if (snapshot.exists()) {
-                        Log.w(TAG,"Snapshot: $snapshot")
-                        onSuccess()
-                    } else {
-                        setResult(RC_SIGN_UP_INFO,intent)
-                        finish()
-                    }
+        ref.get().addOnCompleteListener {
+            if (it.isSuccessful){
+                val snapshot = it.result
+                if (snapshot.exists()) {
+                    Log.w(TAG,"Snapshot: $snapshot")
+                    onSuccess()
                 } else {
-                    onExceptionSnacky(task.exception as kotlin.Exception,
-                            "Get userinfo failed. Exception: " + task.exception,
-                            "An error has occurred getting your user information. Click open to see exception")
+                    setResult(RC_SIGN_UP_INFO,intent)
+                    finish()
                 }
+            } else {
+                onExceptionSnacky(it.exception as kotlin.Exception,
+                        "Get userinfo failed. Exception: " + it.exception,
+                        "An error has occurred getting your user information. Click open to see exception")
             }
-        })
+        }
 
     }
 }

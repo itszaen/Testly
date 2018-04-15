@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.R
 import butterknife.OnClick
+import butterknife.Unbinder
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.activities.SettingsActivity
@@ -30,13 +31,14 @@ import com.zaen.testly.activities.SettingsActivity.Companion.isReauthenticatedDe
  */
 class AccountSettingsMainFragment : Fragment(){
     companion object {
-        val TAG = "AccountSettingsMainFrag"
+        const val TAG = "AccountSettingsMainFrag"
     }
 
     var activity: Activity? = null
     var firebase: FirebaseTestly? = null
     lateinit var toolbar : Toolbar
     private var mListener: DeveloperSettingsMainFragment.FragmentClickListener? = null
+    var unbinder: Unbinder? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -45,12 +47,13 @@ class AccountSettingsMainFragment : Fragment(){
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        return inflater.inflate(R.layout.fragment_settings_account_main,container,false)
+        val view = inflater.inflate(R.layout.fragment_settings_account_main,container,false)
+        unbinder = ButterKnife.bind(this,view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this,view)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -59,6 +62,11 @@ class AccountSettingsMainFragment : Fragment(){
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unbinder?.unbind()
     }
 
     interface FragmentClickListener{
@@ -165,7 +173,7 @@ class AccountSettingsMainFragment : Fragment(){
                 .error()
                 .show()
     }
-    fun reAuthenticateUser(){
+    private fun reAuthenticateUser(){
         MaterialDialog.Builder(activity!!)
                 .title("Re-authenticate")
                 .content("The action requires you to be signed in recently.\nTo continue, please click OK to re-authenticate.")

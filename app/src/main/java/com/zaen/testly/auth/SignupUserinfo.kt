@@ -66,7 +66,7 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
 
     val context = context
     var mExceptionHandler: ExceptionHandler? = null
-    var mSuccessListener: SuccessListener? = null
+    private var mSuccessListener: SuccessListener? = null
 
     init{
         schoolSpinner.setTitle("Select School")
@@ -212,20 +212,21 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
                 .setDisplayName(usernameStr)
                 .build()
         user.updateProfile(profileUpdates)
-                .addOnCompleteListener(object: OnCompleteListener<Void> {
-                    override fun onComplete(task: Task<Void>) {
-                        if (task.isSuccessful){
-                            Log.d(Auth.TAG,"Username Updated.")
-                            onCompleteListenerForRegisterInfo(1)
-                        }
+                .addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Log.d(Auth.TAG,"Username Updated.")
+                        onCompleteListenerForRegisterInfo(1)
                     }
-                })
+                }
                 .addOnFailureListener{
                     exception -> onRegisterFirebaseFailure(exception,"username")
                 }
 
         // Firestore (Username, fullname, school, grade, class)
         userinfo["uid"] = user.uid
+        userinfo["admin"] = false
+        userinfo["developer"] = false
+        userinfo["provider"] = false
         userinfo["username"] = usernameStr
         userinfo["last"] = lastNameStr
         userinfo["first"] = firstNameStr
@@ -236,7 +237,7 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
                 .document(user.uid)
                 .set(userinfo)
                 .addOnSuccessListener {
-                    documentReference -> Log.d(Auth.TAG, "Userinfo -> Firestore Success.\n DocumentSnapshot added with uid: ${user.uid}")
+                    Log.d(Auth.TAG, "Userinfo -> Firestore Success.\n DocumentSnapshot added with uid: ${user.uid}")
                     onCompleteListenerForRegisterInfo(2)
                 }
                 .addOnFailureListener {

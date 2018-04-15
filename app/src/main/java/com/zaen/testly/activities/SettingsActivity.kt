@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity(),
     private var unbinder: Unbinder? = null
     val transaction = supportFragmentManager
     var toolbar : ActionBar? = null
-    var inFragmentLevel = 0
+    private var inFragmentLevel = 0
     var firebase: FirebaseTestly? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -141,7 +141,7 @@ class SettingsActivity : AppCompatActivity(),
     }
     override fun handleTask(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            Log.d(LoginActivity.TAG, "signInWithCredential:success")
+            Log.d(LoginActivity.TAG, "signInWithCredential succeeded.")
             Snacky.builder()
                     .setActivity(this)
                     .setText("Re-authentication succeeded. You may proceed.")
@@ -150,7 +150,7 @@ class SettingsActivity : AppCompatActivity(),
                     .show()
             isReauthenticatedDeleteUser = true
         } else {
-            Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
+            Log.w(LoginActivity.TAG, "signInWithCredential failed. Exception: ${task.exception}")
             Snacky.builder()
                     .setActivity(this)
                     .setText("Sign in Failed.\n Click open to see exception.")

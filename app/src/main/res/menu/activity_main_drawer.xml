@@ -24,9 +24,6 @@
             android:id="@+id/nav_improve"
             android:icon="@drawable/ic_menu_improve"
             android:title="@string/nav_menu_improve" />
-    </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/ic_menu_2">
         <item
             android:id="@+id/nav_handouts"
             android:icon="@drawable/ic_menu_pastexam"
@@ -36,6 +33,21 @@
             android:icon="@drawable/ic_menu_pastexam"
             android:title="@string/nav_menu_pastexam" />
     </group>
+
+    <item android:title="Provider">
+        <menu>
+            <group
+                android:checkableBehavior="single"
+                android:id="@+id/ic_menu_provider">
+                <item
+                    android:id="@+id/nav_create"
+                    android:title="@string/nav_menu_create" />
+                <item
+                    android:id="@+id/nav_upload"
+                    android:title="@string/nav_menu_upload" />
+            </group>
+        </menu>
+    </item>
 
     <group
         android:checkableBehavior="single"

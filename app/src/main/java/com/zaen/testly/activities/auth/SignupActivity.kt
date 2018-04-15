@@ -27,7 +27,6 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
     @BindView(R.id.signup_greeting)
     lateinit var greeting: TextView
     var authMethod : Int? = null
-    var userinfo: SignupUserinfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +84,7 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
 
     }
     fun onSignUp(view:View){
+
         when(authMethod){
             null -> {
                 Snacky.builder()
