@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(),
     // Material Drawer
     private var drawer: Drawer? = null
     private var hasProviderItem: Boolean? = null
+    private var hasDeveloperItem: Boolean? = null
     /// Items
     val nav_home = PrimaryDrawerItem().withName(R.string.nav_menu_home).withIcon(GoogleMaterial.Icon.gmd_home)
             .withIdentifier(1).withSelectable(true)
@@ -142,6 +143,8 @@ class MainActivity : AppCompatActivity(),
                         nav_section_provider,
                         nav_create,
                         nav_upload,
+                        nav_section_developer,
+                        nav_dev_chat,
                         DividerDrawerItem(),
                         nav_help,
                         nav_feedback,
@@ -160,9 +163,9 @@ class MainActivity : AppCompatActivity(),
                             4L   -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
                             5L   -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
                             6L   -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
-                            71L  -> onFragmentClicked(CreateFragment(),getString(R.string.title_fragment_pastexam))
-                            72L  -> onFragmentClicked(UploadFragment(),getString(R.string.title_fragment_pastexam))
-                            81L  -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
+                            71L  -> onFragmentClicked(CreateFragment(),getString(R.string.title_fragment_create))
+                            72L  -> onFragmentClicked(UploadFragment(),getString(R.string.title_fragment_upload))
+                            81L  -> onFragmentClicked(DeveloperChatFragment(),getString(R.string.title_fragment_dev_chat))
                             100L -> intent = Intent(this, SettingsActivity::class.java)
                             101L -> intent = Intent(this, HelpActivity::class.java)
                             102L -> intent = Intent(this, FeedbackActivity::class.java)
@@ -177,8 +180,9 @@ class MainActivity : AppCompatActivity(),
                 }
                 .withSavedInstance(savedInstanceState)
                 .build()
-        //// has provider
+        //// has provider & developer
         hasProviderItem = true
+        hasDeveloperItem = true
         /// Config
         if (savedInstanceState == null) {
             drawer?.setSelection(1,false)
@@ -247,49 +251,41 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.nav_home -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
-//            R.id.nav_pinned -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
-//            R.id.nav_prep -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
-//            R.id.nav_improve -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
-//            R.id.nav_handouts -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
-//            R.id.nav_pastexam -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
-//            R.id.nav_settings -> {
-//                val intent = Intent(this, SettingsActivity::class.java)
-//                startActivity(intent)
-//            }
-//            R.id.nav_help -> {
-//                val intent = Intent(this, HelpActivity::class.java)
-//                startActivity(intent)
-//            }
-//            R.id.nav_feedback -> {
-//                val intent = Intent(this, FeedbackActivity::class.java)
-//                startActivity(intent)
-//            }
-//            R.id.nav_about -> {
-//                val intent = Intent(this, AboutActivity::class.java)
-//                startActivity(intent)
-//            }
-//        }
-//        drawer_layout.closeDrawer(GravityCompat.START)
-//        return true
-//    }
+
     private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){
         userinfoSnapshot = snapshot
         toggleProviderDrawerItems()
     }
     private fun toggleProviderDrawerItems(){
-        if (userinfoSnapshot != null && (userinfoSnapshot!!.data!!["provider"] as Boolean)) {
-            if (hasProviderItem == false){
-                addDrawerItem(arrayOf(
-                        nav_section_provider,
-                        nav_create,
-                        nav_upload))
+        if (userinfoSnapshot != null){
+            if (userinfoSnapshot!!.data!!["provider"] as Boolean) {
+                if (hasProviderItem == false){
+                    addDrawerItem(arrayOf(
+                            nav_section_provider,
+                            nav_create,
+                            nav_upload
+                    ))
+                }
+            } else {
+                deleteDrawerItem(arrayOf(7,71,72))
+                hasProviderItem = false
+            }
+            if (userinfoSnapshot!!.data!!["developer"] as Boolean){
+                if (hasDeveloperItem == false){
+                    addDrawerItem(arrayOf(
+                            nav_section_developer,
+                            nav_dev_chat
+                    ))
+                }
+            } else {
+                deleteDrawerItem(arrayOf(8,81))
+                hasDeveloperItem = false
             }
         }else{
             deleteDrawerItem(arrayOf(7,71,72))
+            deleteDrawerItem(arrayOf(8,81))
             hasProviderItem = false
+            hasDeveloperItem = false
         }
     }
 

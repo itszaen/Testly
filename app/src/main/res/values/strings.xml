@@ -53,6 +53,15 @@
     <!-- Past Exams -->
     <string name="title_fragment_pastexam">Past Exams</string>
 
+    <!-- Create -->
+    <string name="title_fragment_create">Create cards / sets</string>
+
+    <!-- Upload -->
+    <string name="title_fragment_upload">Upload files</string>
+
+    <!-- Developer Chat -->
+    <string name="title_fragment_dev_chat">Developer Chat</string>
+
     <!-- Cards -->
 
     <!-- Settings -->
