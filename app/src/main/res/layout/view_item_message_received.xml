@@ -20,7 +20,7 @@
     <!-- Message sender name -->
     <TextView
         android:id="@+id/text_message_received_name"
-        android:text="John Doe"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -32,7 +32,7 @@
     <!-- Message content -->
     <TextView
         android:id="@+id/text_message_received_body"
-        android:text="hi man, how are you?"
+        android:text=""
         android:background="@drawable/rounded_rectangle_orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,12 +47,12 @@
     <!-- Timestamp -->
     <TextView
         android:id="@+id/text_message_received_time"
-        android:text="11:40"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/text_message_received_body"
-        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/text_message_received_body" />
 
 </android.support.constraint.ConstraintLayout>

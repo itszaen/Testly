@@ -247,10 +247,10 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
 
         // Analytics for school
         val mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
-        mFirebaseAnalytics?.setUserProperty(
+        mFirebaseAnalytics.setUserProperty(
                 "Prop1", schoolStr
         )
-        mFirebaseAnalytics?.setUserProperty(
+        mFirebaseAnalytics.setUserProperty(
                 "Prop2", gradeStr
         )
     }

@@ -12,55 +12,37 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.zaen.testly.DeveloperChat
 import com.zaen.testly.R
+import com.zaen.testly.data.DevChatMessageData
+import com.zaen.testly.data.DevChatUserData
+import com.zaen.testly.utils.Common
 import kotlinx.android.synthetic.main.view_item_message_received.view.*
 import java.util.ArrayList
 
-class DeveloperChatMessagesView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr) {
+class DeveloperChatMessagesView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RecyclerView(context, attrs, defStyleAttr),
+    DeveloperChat.DeveloperChatListener{
 
     companion object {
         const val TAG = "DeveloperChatMessages"
+        val mDevChat = DeveloperChat(this)
     }
     init {
         val inflater = LayoutInflater.from(getContext())
         layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         inflater.inflate(R.layout.recycler_dev_chat,null)
+        mDevChat.getMessages()
     }
-
-    fun getMessages():ArrayList<Message>{
-        var messageList = arrayListOf<Message>()
-        // TODO Set archive date
-        FirebaseFirestore.getInstance().collection("chats").document("dev").collection("messages")
-                .get()
-                .addOnCompleteListener {
-                    if (it.isSuccessful){
-                        for (document in it.result){
-                            Log.d(TAG, "Getting chat messages. ${document.id} -> ${document.data}")
-                            document.data[""]
-                            messageList.add()
-                        }
-                        // Set adapter with acquired data
-                        this.adapter = MessageListAdapter(context,messageList)
-                    } else {
-                        Log.w(TAG,"Error getting chat message Documents. Exception: ${it.exception}")
-                    }
-                }
-    }
-
-    data class Message(val message:String, val sender:User, val createdAt: Long)
-    data class User(val userId: String, val displayName:String, val profileUrl: Uri)
 
     class MessageReceivedHolder(view: View) : RecyclerView.ViewHolder(view){
-//        interface ItemClickListener{
-//            fun onItemClick(view: View, position: Int)
-//        }
         val messageText: TextView = view.findViewById(R.id.text_message_received_body)
         val timestampText: TextView = view.findViewById(R.id.text_message_received_time)
         val nameText: TextView = view.findViewById(R.id.text_message_received_name)
         val profileImage: ImageView = view.findViewById(R.id.image_message_received_profile)
 
-        fun bind(message: Message){
+        fun bind(message: DevChatMessageData){
             messageText.text = message.message
             timestampText.text = message.createdAt.toString()
             nameText.text = message.sender.displayName
@@ -72,14 +54,14 @@ class DeveloperChatMessagesView @JvmOverloads constructor(context: Context, attr
         val messageText: TextView = view.findViewById(R.id.text_message_received_body)
         val timestampText: TextView = view.findViewById(R.id.text_message_received_time)
 
-        fun bind(message: Message){
+        fun bind(message: DevChatMessageData){
             messageText.text = message.message
             timestampText.text = message.createdAt.toString()
         }
     }
 
     class MessageListAdapter(private val context: Context,
-                             private val mMessageList: ArrayList<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                             private val mMessageList: ArrayList<DevChatMessageData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
         val MESSAGE_TYPE_RECEIVED = 1
         val MESSAGE_TYPE_SENT = 2
@@ -103,10 +85,10 @@ class DeveloperChatMessagesView @JvmOverloads constructor(context: Context, attr
 
         override fun getItemViewType(position:Int):Int{
             val message = mMessageList[position]
-            if (message.sender.userId == FirebaseAuth.getInstance().currentUser!!.uid){
-                return MESSAGE_TYPE_SENT
+            return if (message.sender.userId == FirebaseAuth.getInstance().currentUser!!.uid){
+                MESSAGE_TYPE_SENT
             } else {
-                return MESSAGE_TYPE_RECEIVED
+                MESSAGE_TYPE_RECEIVED
             }
         }
 
@@ -135,5 +117,9 @@ class DeveloperChatMessagesView @JvmOverloads constructor(context: Context, attr
         }
 
 
+    }
+
+    override fun onGotMessages(messageList: ArrayList<DevChatMessageData>) {
+        this.adapter = DeveloperChatMessagesView.MessageListAdapter(context, messageList)
     }
 }
