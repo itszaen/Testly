@@ -33,7 +33,7 @@ class DashBoardView @JvmOverloads constructor(context: Context, attrs: Attribute
 
     fun readFileData(): ArrayList<ArrayList<String>> {
         val scan = Scanner(getResources().openRawResource(R.raw.list1))
-        var list: ArrayList<ArrayList<String>> = ArrayList<ArrayList<String>>()
+        val list: ArrayList<ArrayList<String>> = ArrayList<ArrayList<String>>()
 
         while (scan.hasNextLine()) {
             val line = scan.nextLine()

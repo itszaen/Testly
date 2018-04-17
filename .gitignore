@@ -1,6 +1,9 @@
 # Keys
 strings_secrets.xml
 
+# ajcore
+ajcore.*
+
 *.iml
 .gradle
 /local.properties
