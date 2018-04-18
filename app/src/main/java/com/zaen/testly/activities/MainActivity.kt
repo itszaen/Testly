@@ -33,7 +33,9 @@ import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
+import com.zaen.testly.FirebaseAuthUser
 import com.zaen.testly.Global
+import com.zaen.testly.Global.Companion.userinfoRef
 import com.zaen.testly.R
 import com.zaen.testly.R.id.*
 import com.zaen.testly.fragments.*
@@ -91,10 +93,12 @@ class MainActivity : AppCompatActivity(),
     private var welcomeScreen:WelcomeHelper? = null
 
     private var mAuth: FirebaseAuth? = null
+    private var mAuthUser: FirebaseAuthUser? = null
     private var userinfoSnapshot: DocumentSnapshot? = null
 
     override fun onCreate(bundle: Bundle?) {
         mAuth = FirebaseAuth.getInstance()
+        mAuthUser = FirebaseAuthUser()
         savedInstanceState = bundle
         super.onCreate(savedInstanceState)
 
@@ -102,25 +106,29 @@ class MainActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
         mToolbar = toolbar
 
-        // Firebase
-        /// Userinfo set up listener & Hide (or show)elements
-        val userinfoRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
-        userinfoRef.addSnapshotListener{snapshot,exception ->
-            if (exception != null){
-                Log.w(TAG, "Userinfo listen failed. Exception: $exception")
-                return@addSnapshotListener
-            }
-            if (snapshot != null && snapshot.exists()){
-                Log.d(TAG, "Userinfo listened. Current data: ${snapshot.data}")
-                onUserinfoUpdate(snapshot)
-            } else {
-                Log.d(TAG, "Userinfo listened. Current data: null")
-                onUserinfoUpdate(null)
-            }
-        }
+        if (!mAuthUser!!.isSignedIn()){
+            welcome()
+        } else {
 
-        // Navigation Drawer
-        /// Two strings are for accessibility functions.
+            // Firebase
+            /// Userinfo set up listener & Hide (or show)elements
+            val userinfoRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
+            userinfoRef.addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.w(TAG, "Userinfo listen failed. Exception: $exception")
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(TAG, "Userinfo listened. Current data: ${snapshot.data}")
+                    onUserinfoUpdate(snapshot)
+                } else {
+                    Log.d(TAG, "Userinfo listened. Current data: null")
+                    onUserinfoUpdate(null)
+                }
+            }
+
+            // Navigation Drawer
+            /// Two strings are for accessibility functions.
 //        val toggle = ActionBarDrawerToggle(
 //                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 //        drawer_layout.addDrawerListener(toggle)
@@ -128,86 +136,85 @@ class MainActivity : AppCompatActivity(),
 ////        nav_view.setBackgroundColor(ContextCompat.getColor(this,R.color.accent_green))
 //        toggle.syncState()
 
-        /// Build
-        drawer = DrawerBuilder().withActivity(this).withToolbar(toolbar)
-                .withTranslucentStatusBar(false)
-                .withHeader(R.layout.header_drawer_main)
-                .addDrawerItems(
-                        nav_home,
-                        nav_pinned,
-                        DividerDrawerItem(),
-                        nav_prep,
-                        nav_improve,
-                        nav_handouts,
-                        nav_pastexam,
-                        nav_section_provider,
-                        nav_create,
-                        nav_upload,
-                        nav_section_developer,
-                        nav_dev_chat,
-                        DividerDrawerItem(),
-                        nav_help,
-                        nav_feedback,
-                        nav_about
-                )
-                .addStickyDrawerItems(
-                        nav_settings
-                )
-                .withOnDrawerItemClickListener{view,position,drawerItem ->
-                    if (drawerItem != null){
-                        var intent: Intent? = null
-                        when (drawerItem.identifier){
-                            1L   -> onFragmentClicked(DashboardFragment(),getString(R.string.app_name))
-                            2L   -> onFragmentClicked(PinnedFragment(),getString(R.string.title_fragment_pinned))
-                            3L   -> onFragmentClicked(PrepFragment(),getString(R.string.title_fragment_prep))
-                            4L   -> onFragmentClicked(ImproveFragment(),getString(R.string.title_fragment_improve))
-                            5L   -> onFragmentClicked(HandoutsFragment(),getString(R.string.title_fragment_handouts))
-                            6L   -> onFragmentClicked(PastexamFragment(),getString(R.string.title_fragment_pastexam))
-                            71L  -> onFragmentClicked(CreateFragment(),getString(R.string.title_fragment_create))
-                            72L  -> onFragmentClicked(UploadFragment(),getString(R.string.title_fragment_upload))
-                            81L  -> onFragmentClicked(DeveloperChatFragment(),getString(R.string.title_fragment_dev_chat))
-                            100L -> intent = Intent(this, SettingsActivity::class.java)
-                            101L -> intent = Intent(this, HelpActivity::class.java)
-                            102L -> intent = Intent(this, FeedbackActivity::class.java)
-                            103L -> intent = Intent(this, AboutActivity::class.java)
+            /// Build
+            drawer = DrawerBuilder().withActivity(this).withToolbar(toolbar)
+                    .withTranslucentStatusBar(false)
+                    .withHeader(R.layout.header_drawer_main)
+                    .addDrawerItems(
+                            nav_home,
+                            nav_pinned,
+                            DividerDrawerItem(),
+                            nav_prep,
+                            nav_improve,
+                            nav_handouts,
+                            nav_pastexam,
+                            nav_section_provider,
+                            nav_create,
+                            nav_upload,
+                            nav_section_developer,
+                            nav_dev_chat,
+                            DividerDrawerItem(),
+                            nav_help,
+                            nav_feedback,
+                            nav_about
+                    )
+                    .addStickyDrawerItems(
+                            nav_settings
+                    )
+                    .withOnDrawerItemClickListener { view, position, drawerItem ->
+                        if (drawerItem != null) {
+                            var intent: Intent? = null
+                            when (drawerItem.identifier) {
+                                1L -> onFragmentClicked(DashboardFragment(), getString(R.string.app_name))
+                                2L -> onFragmentClicked(PinnedFragment(), getString(R.string.title_fragment_pinned))
+                                3L -> onFragmentClicked(PrepFragment(), getString(R.string.title_fragment_prep))
+                                4L -> onFragmentClicked(ImproveFragment(), getString(R.string.title_fragment_improve))
+                                5L -> onFragmentClicked(HandoutsFragment(), getString(R.string.title_fragment_handouts))
+                                6L -> onFragmentClicked(PastexamFragment(), getString(R.string.title_fragment_pastexam))
+                                71L -> onFragmentClicked(CreateFragment(), getString(R.string.title_fragment_create))
+                                72L -> onFragmentClicked(UploadFragment(), getString(R.string.title_fragment_upload))
+                                81L -> onFragmentClicked(DeveloperChatFragment(), getString(R.string.title_fragment_dev_chat))
+                                100L -> intent = Intent(this, SettingsActivity::class.java)
+                                101L -> intent = Intent(this, HelpActivity::class.java)
+                                102L -> intent = Intent(this, FeedbackActivity::class.java)
+                                103L -> intent = Intent(this, AboutActivity::class.java)
+                            }
+                            if (intent != null) {
+                                startActivity(intent)
+                            }
+                            drawer?.closeDrawer()
                         }
-                        if (intent != null){
-                            startActivity(intent)
-                        }
-                        drawer?.closeDrawer()
+                        return@withOnDrawerItemClickListener true
                     }
-                    return@withOnDrawerItemClickListener true
-                }
-                .withSavedInstance(savedInstanceState)
-                .build()
-        //// has provider & developer
-        hasProviderItem = true
-        hasDeveloperItem = true
-        /// Config
-        if (savedInstanceState == null) {
-            drawer?.setSelection(1,false)
-        }
-
-        // Initialize with Dashboard
-        if (fragment_container != null) {
-            if (savedInstanceState != null) {
-                return
+                    .withSavedInstance(savedInstanceState)
+                    .build()
+            //// has provider & developer
+            hasProviderItem = true
+            hasDeveloperItem = true
+            /// Config
+            if (savedInstanceState == null) {
+                drawer?.setSelection(1, false)
             }
-            val dbFragment = DashboardFragment()
-            dbFragment.arguments = intent.extras
-            transaction.beginTransaction()
-                    .add(R.id.fragment_container, dbFragment)
-                    .commit()
+
+            // Initialize with Dashboard
+            if (fragment_container != null) {
+                if (savedInstanceState != null) {
+                    return
+                }
+                val dbFragment = DashboardFragment()
+                dbFragment.arguments = intent.extras
+                transaction.beginTransaction()
+                        .add(R.id.fragment_container, dbFragment)
+                        .commit()
+            }
         }
     }
 
     override fun onStart() {
         super.onStart()
         // Firebase check if already signed-in
-        val currentUser: FirebaseUser? = mAuth?.currentUser
-        if (currentUser == null) {
-            welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
-            welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
+        if (!mAuthUser!!.isSignedIn()){
+            welcome()
         }
     }
 
@@ -251,6 +258,10 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    fun welcome(){
+        welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
+        welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
+    }
 
     private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){
         userinfoSnapshot = snapshot

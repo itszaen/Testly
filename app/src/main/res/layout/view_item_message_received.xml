@@ -12,7 +12,7 @@
         android:id="@+id/image_message_received_profile"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/rounded_rectangle_orange"
+        android:background="@drawable/material_drawer_circle_mask"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent" />

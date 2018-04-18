@@ -6,15 +6,19 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.zaen.testly.data.DevChatMessageData
 import com.zaen.testly.data.DevChatUserData
-import com.zaen.testly.fragments.DeveloperChatFragment
 import com.zaen.testly.utils.Common
+import java.util.*
 
 class DeveloperChat(context: Any){
     companion object {
         const val TAG = "DeveloperChat"
     }
     private var mListener: DeveloperChatListener? = null
+
     var messageList = arrayListOf<DevChatMessageData>()
+    var latestMessageTime : Long = 0
+    var isListening = false
+    var storedMessages = arrayListOf<String>()
 
     val chatPath = FirebaseFirestore.getInstance().collection("chats").document("dev")
 
@@ -25,12 +29,15 @@ class DeveloperChat(context: Any){
     init {
         if (context is DeveloperChatListener){
             mListener = context
+        } else {
+            throw Exception()
         }
     }
 
     fun downloadMessages(){
         // TODO Set archive date
         chatPath.collection("messages")
+                .orderBy("timestampUnix")
                 .get()
                 .addOnCompleteListener {
                     if (it.isSuccessful){
@@ -40,7 +47,7 @@ class DeveloperChat(context: Any){
                         }
                         mListener?.onGotMessages()
                     } else {
-                        Log.w(DeveloperChatMessagesView.TAG,"Error getting chat message Documents. Exception: ${it.exception}")
+                        Log.w(TAG,"Error getting chat message Documents. Exception: ${it.exception}")
                     }
                 }
     }
@@ -50,39 +57,51 @@ class DeveloperChat(context: Any){
         if (Common().allNotNull(
                         document.data?.get("sender"),
                         document.data?.get("text"),
-                        document.data?.get("timestamp")
+                        document.data?.get("timestamp"),
+                        document.data?.get("timestampUnix")
                 )){
             Log.w(TAG, "Invalid Chat message. Id:${document.id}")
             return
         } else {
-            val senderField = document.data!!["sender"] as Map<*, *>
+            val senderField = document.data!!["sender"] as ArrayList<*>
             val sender = DevChatUserData(
-                    senderField["userId"] as String,
-                    senderField["displayName"] as String,
-                    Uri.parse(senderField["profileUrl"] as String)
+                    senderField[0] as String,
+                    senderField[1] as String,
+                    Uri.parse(senderField[2] as String)
             )
             val message = DevChatMessageData(
                     document.data!!["text"] as String,
                     sender,
-                    document.data!!["timestamp"] as FieldValue
+                    document.data!!["timestampUnix"] as Long
             )
-            messageList.add(message)
+
+            if (storedMessages.contains(document.id)){
+                messageList.set(storedMessages.indexOf(document.id),message)
+            } else {
+                messageList.add(message)
+                storedMessages.add(document.id)
+                latestMessageTime = document.data?.get("timestampUnix") as Long
+            }
         }
     }
     fun listenToMessages(){
         chatPath.collection("messages")
+                .orderBy("timestampUnix")
+                .whereGreaterThan("timestampUnix",latestMessageTime)
                 .addSnapshotListener{ query: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                     if (exception != null){
                         Log.w(TAG,"Listen on Message failed. Exception: $exception")
                     }
                     for (document in query!!.documents){
-                        storeMessage(document)
+                            storeMessage(document)
                     }
+                    isListening = true
                     mListener?.onGotMessages()
                 }
     }
     fun uploadMessage(text: String, user: FirebaseUser){
         val timestamp = FieldValue.serverTimestamp()
+        val timestampUnix: Long = System.currentTimeMillis() / 1000L
         val uid = user.uid
         val displayName = user.displayName!!
         val photoUrl = user.photoUrl.toString()
@@ -92,15 +111,16 @@ class DeveloperChat(context: Any){
         val document = HashMap<String,Any?>()
         document["text"] = text
         document["timestamp"] = timestamp
+        document["timestampUnix"] = timestampUnix
         document["sender"] = sender
 
         chatPath.collection("messages")
                 .add(document)
                 .addOnSuccessListener {
-                    Log.d(DeveloperChatFragment.TAG,"Developer Chat document -> Firestore success. Added with id: ${it.id}")
+                    Log.d(TAG,"Developer Chat document -> Firestore success. Added with id: ${it.id}")
                 }
                 .addOnFailureListener {
-                    Log.w(DeveloperChatFragment.TAG,"Developer chat upload message failed. Exception: $it")
+                    Log.w(TAG,"Developer chat upload message failed. Exception: $it")
                 }
 
 

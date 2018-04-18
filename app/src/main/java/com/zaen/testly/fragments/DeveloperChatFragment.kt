@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.fragment_dev_chat.*
 
 class DeveloperChatFragment : Fragment(),
         DeveloperChat.DeveloperChatListener{
-
     companion object {
         const val TAG = "DeveloperChatFrag"
     }
+
     var activity: Activity? = null
     private var unbinder: Unbinder? = null
     private var mDevChat = DeveloperChat(this)
@@ -35,16 +35,14 @@ class DeveloperChatFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this,view)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
+        recycler_dev_chat.layoutManager = LinearLayoutManager(activity)
 
         mDevChat = DeveloperChat(this)
-
-        recycler_dev_chat.layoutManager = LinearLayoutManager(activity)
-        recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
+        mDevChat.downloadMessages()
 
     }
 
@@ -57,15 +55,19 @@ class DeveloperChatFragment : Fragment(),
     @Optional
     @OnClick(R.id.button_chatbox_send)
     fun onSendMessage(view: View){
-        // Clear EditText
-        edit_chatbox.text.clear()
-
         // Upload Message
         val firebaseUser = FirebaseAuth.getInstance().currentUser!!
         val messageText = edit_chatbox.text.toString()
         mDevChat.uploadMessage(messageText,firebaseUser)
+
+        // Clear EditText
+        edit_chatbox.text.clear()
     }
     override fun onGotMessages() {
-
+        // First time (download) call listener
+        if (!mDevChat.isListening) {
+            mDevChat.listenToMessages()
+        }
+        recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
     }
 }

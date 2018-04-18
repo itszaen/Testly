@@ -10,12 +10,15 @@ import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.R
 import com.zaen.testly.data.DevChatMessageData
-import java.util.ArrayList
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    val MESSAGE_TYPE_RECEIVED = 1
-    val MESSAGE_TYPE_SENT = 2
+    private val MESSAGE_TYPE_RECEIVED = 1
+    private val MESSAGE_TYPE_SENT = 2
 
     private var mRecyclerView: RecyclerView? = null
 
@@ -62,17 +65,17 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = mMessageList[position]
         when(holder.itemViewType) {
-            MESSAGE_TYPE_SENT -> (holder as MessageSentHolder).bind(message)
+            MESSAGE_TYPE_SENT     -> (holder as MessageSentHolder).bind(message)
             MESSAGE_TYPE_RECEIVED -> (holder as MessageReceivedHolder).bind(message)
         }
     }
 
 
     class MessageReceivedHolder(view: View) : RecyclerView.ViewHolder(view){
-        val messageText: TextView = view.findViewById(R.id.text_message_received_body)
-        val timestampText: TextView = view.findViewById(R.id.text_message_received_time)
-        val nameText: TextView = view.findViewById(R.id.text_message_received_name)
-        val profileImage: ImageView = view.findViewById(R.id.image_message_received_profile)
+        private val messageText: TextView = view.findViewById(R.id.text_message_received_body)
+        private val timestampText: TextView = view.findViewById(R.id.text_message_received_time)
+        private val nameText: TextView = view.findViewById(R.id.text_message_received_name)
+        private val profileImage: ImageView = view.findViewById(R.id.image_message_received_profile)
 
         fun bind(message: DevChatMessageData){
             messageText.text = message.message
@@ -83,12 +86,12 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
     }
 
     class MessageSentHolder(view: View) : RecyclerView.ViewHolder(view){
-        val messageText: TextView = view.findViewById(R.id.text_message_received_body)
-        val timestampText: TextView = view.findViewById(R.id.text_message_received_time)
+        private val messageText: TextView = view.findViewById(R.id.text_message_sent_body)
+        private val timestampText: TextView = view.findViewById(R.id.text_message_sent_time)
 
         fun bind(message: DevChatMessageData){
             messageText.text = message.message
-            timestampText.text = message.createdAt.toString()
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt*1000L)).toString()
         }
     }
 }
