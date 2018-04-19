@@ -61,6 +61,8 @@
 
     <!-- Developer Chat -->
     <string name="title_fragment_dev_chat">Developer Chat</string>
+    <string name="hint_message_dev_chat">Write a message</string>
+    <string name="btn_send_dev_chat">SEND</string>
 
     <!-- Cards -->
 

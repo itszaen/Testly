@@ -51,8 +51,10 @@ class IntroActivity : WelcomeActivity() {
         when (requestCode){
             RC_LOG_IN -> {
                 when (resultCode){
-                    RESULT_OK -> {setResult(RESULT_OK,intent);finish()
-                        //completeWelcomeScreen();return
+                    RESULT_OK -> {
+                        setResult(RESULT_OK,intent)
+                        completeWelcomeScreen()
+                        return
                         }
                     RC_SIGN_UP -> onButtonBarSecondPressed()
                     RC_SIGN_UP_INFO -> {

@@ -24,8 +24,21 @@ class DeveloperChatFragment : Fragment(),
     var activity: Activity? = null
     private var unbinder: Unbinder? = null
     private var mDevChat = DeveloperChat(this)
+    private var isOncreate = false
 
     var chatPath = FirebaseFirestore.getInstance().collection("chats").document("dev")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isOncreate = true
+
+        mDevChat = DeveloperChat(this)
+        mDevChat.downloadMessages()
+
+        isOncreate = false
+
+        retainInstance = true
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
         val view = inflater.inflate(R.layout.fragment_dev_chat,container,false)
@@ -35,15 +48,19 @@ class DeveloperChatFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
         button_chatbox_send.setOnClickListener(null)
-        recycler_dev_chat.layoutManager = LinearLayoutManager(activity)
+        button_chatbox_send.isEnabled = false
 
-        mDevChat = DeveloperChat(this)
-        mDevChat.downloadMessages()
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.reverseLayout = true
+        recycler_dev_chat.layoutManager = layoutManager
+
+        recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
 
     }
 
@@ -51,7 +68,11 @@ class DeveloperChatFragment : Fragment(),
     @OnTextChanged(R.id.edit_chatbox)
     fun onTextChanged(text: CharSequence?){
         if (text != null && text.toString() != ""){
-            ButterKnife.inject(button_chatbox_send)
+            button_chatbox_send.isEnabled = true
+            ButterKnife.bind(button_chatbox_send)
+        } else {
+            button_chatbox_send.setOnClickListener(null)
+            button_chatbox_send.isEnabled = false
         }
 
     }
@@ -72,6 +93,8 @@ class DeveloperChatFragment : Fragment(),
         if (!mDevChat.isListening) {
             mDevChat.listenToMessages()
         }
-        recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
+        if (!isOncreate) {
+            recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
+        }
     }
 }

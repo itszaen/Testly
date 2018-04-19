@@ -69,5 +69,8 @@
     <dimen name="btn_margin_signup_social">8dp</dimen>
     <dimen name="input_signup_height">72dp</dimen>
 
+    <!-- Developer Chat -->
+    <dimen name="btn_text_dev_chat">14sp</dimen>
+
 
 </resources>
