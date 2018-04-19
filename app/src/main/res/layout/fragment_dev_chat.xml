@@ -7,10 +7,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_dev_chat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:overScrollMode="never"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -30,7 +28,7 @@
     <!-- Chatbox -->
     <LinearLayout
         android:id="@+id/chatbox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +56,8 @@
             android:text="SEND"
             android:textSize="14dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true"
+            android:clickable="false"
+            android:focusable="auto"
             android:gravity="center"
             android:layout_gravity="bottom" />
 

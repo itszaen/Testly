@@ -39,6 +39,7 @@ class DeveloperChatFragment : Fragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
+        button_chatbox_send.setOnClickListener(null)
         recycler_dev_chat.layoutManager = LinearLayoutManager(activity)
 
         mDevChat = DeveloperChat(this)
@@ -49,7 +50,10 @@ class DeveloperChatFragment : Fragment(),
 
     @OnTextChanged(R.id.edit_chatbox)
     fun onTextChanged(text: CharSequence?){
-        button_chatbox_send.isClickable = text != null && text != ""
+        if (text != null && text.toString() != ""){
+            ButterKnife.inject(button_chatbox_send)
+        }
+
     }
 
     @Optional

@@ -103,7 +103,6 @@ open class FirebaseTestly(context: Activity){
                 .positiveText(R.string.react_positive)
     }
 
-    @SuppressLint("RestrictedApi")
     fun googleAuth(request: Int){
         val intent = mGoogleSignInClient?.signInIntent!!
         startActivityForResult(context,intent, request,null)

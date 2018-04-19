@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import com.zaen.testly.GlideApp
 import com.zaen.testly.R
 import com.zaen.testly.data.DevChatMessageData
 import java.text.DateFormat
@@ -79,9 +80,12 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
 
         fun bind(message: DevChatMessageData){
             messageText.text = message.message
-            timestampText.text = message.createdAt.toString()
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt*1000L)).toString()
             nameText.text = message.sender.displayName
-            profileImage.setImageURI(message.sender.profileUrl)
+            GlideApp.with(profileImage.context)
+                    .load(message.sender.profileUrl)
+                    .circleCrop()
+                    .into(profileImage)
         }
     }
 
