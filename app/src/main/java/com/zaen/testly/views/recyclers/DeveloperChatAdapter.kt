@@ -83,7 +83,7 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
             timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt*1000L)).toString()
             nameText.text = message.sender.displayName
             GlideApp.with(profileImage.context)
-                    .load(message.sender.profileUrl)
+                    .load(message.sender.profileUrl.toString())
                     .circleCrop()
                     .into(profileImage)
         }
