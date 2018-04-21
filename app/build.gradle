@@ -169,6 +169,9 @@ dependencies {
 
     //    }
 
+    // Android Floating Action Button https://github.com/futuresimple/android-floating-action-button
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
     // Glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
