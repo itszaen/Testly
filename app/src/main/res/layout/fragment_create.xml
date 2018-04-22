@@ -2,18 +2,50 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_create"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_create_card"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:ico_color="@color/accent_grey"
-        app:ico_icon="gmd-add"
-        app:ico_size="48dp"
-        />
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_addButtonColorNormal="@color/fab_background"
+        fab:fab_addButtonColorPressed="@color/fab_pressed"
+        fab:fab_addButtonPlusIconColor="@color/fab_icon">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_create_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="normal"
+            fab:fab_colorNormal="@color/fab_background"
+            fab:fab_colorPressed="@color/fab_pressed"
+            fab:fab_icon="@drawable/ic_menu_set"
+            fab:fab_title="Create set" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_create_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="normal"
+            fab:fab_colorNormal="@color/fab_background"
+            fab:fab_colorPressed="@color/fab_pressed"
+            fab:fab_icon="@drawable/ic_menu_card"
+            fab:fab_title="Create card"
+            />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 
 </android.support.design.widget.CoordinatorLayout>

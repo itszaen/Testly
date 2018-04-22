@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toolbar
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -19,9 +18,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.stephentuso.welcome.WelcomeHelper
 import com.zaen.testly.R
-import com.zaen.testly.R.id.nav_create
-import com.zaen.testly.R.id.nav_upload
-import com.zaen.testly.R.string.pref_account_caption
 import com.zaen.testly.activities.Intro2Activity
 import com.zaen.testly.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_settings_main.*

@@ -10,6 +10,11 @@
     <color name="introSecondBackground">@color/accent_white</color>
     <color name="introSecondary">@color/md_grey_100</color>
 
+    <!-- FAB Menu -->
+    <color name="fab_pressed">@color/md_grey_200</color>
+    <color name="fab_background">@color/accent_white</color>
+    <color name="fab_icon">@color/md_grey_600</color>
+
     <!-- Sign in & up -->
     <color name="emailBackground">#ff8800</color>
     <color name="emailFocus">#313131</color>

@@ -55,6 +55,8 @@
 
     <!-- Create -->
     <string name="title_fragment_create">Create cards / sets</string>
+    <string name="action_toggle_to_grid">Grid Mode</string>
+    <string name="action_toggle_to_list">List Mode</string>
 
     <!-- Upload -->
     <string name="title_fragment_upload">Upload files</string>

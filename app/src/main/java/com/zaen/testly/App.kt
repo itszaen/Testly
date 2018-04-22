@@ -33,10 +33,6 @@ class App : Application(){
         initialiseStorage()
     }
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(base))
-    }
-
     private fun registerFontIcons() {
         Iconics.registerFont(GoogleMaterial())
         Iconics.registerFont(CommunityMaterial())

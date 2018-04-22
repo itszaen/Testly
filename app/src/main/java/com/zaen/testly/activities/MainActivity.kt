@@ -1,6 +1,7 @@
 package com.zaen.testly.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.context.IconicsContextWrapper
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
@@ -50,8 +52,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     var savedInstanceState: Bundle? = null
-    private val transaction = supportFragmentManager
     private var mToolbar : Toolbar? = null
+
+    // Fragments
+    private var mContent: Fragment? = null
 
     // Material Drawer
     private var drawer: Drawer? = null
@@ -96,11 +100,16 @@ class MainActivity : AppCompatActivity(),
     private var mAuthUser: FirebaseAuthUser? = null
     private var userinfoSnapshot: DocumentSnapshot? = null
 
-    override fun onCreate(bundle: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null){
+            mContent = supportFragmentManager.getFragment(savedInstanceState,"lastFragment")
+        }
+
         mAuth = FirebaseAuth.getInstance()
         mAuthUser = FirebaseAuthUser()
-        savedInstanceState = bundle
-        super.onCreate(savedInstanceState)
+
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -165,15 +174,15 @@ class MainActivity : AppCompatActivity(),
                         if (drawerItem != null) {
                             var intent: Intent? = null
                             when (drawerItem.identifier) {
-                                1L -> onFragmentClicked(DashboardFragment(), getString(R.string.app_name))
-                                2L -> onFragmentClicked(PinnedFragment(), getString(R.string.title_fragment_pinned))
-                                3L -> onFragmentClicked(PrepFragment(), getString(R.string.title_fragment_prep))
-                                4L -> onFragmentClicked(ImproveFragment(), getString(R.string.title_fragment_improve))
-                                5L -> onFragmentClicked(HandoutsFragment(), getString(R.string.title_fragment_handouts))
-                                6L -> onFragmentClicked(PastexamFragment(), getString(R.string.title_fragment_pastexam))
-                                71L -> onFragmentClicked(CreateFragment(), getString(R.string.title_fragment_create))
-                                72L -> onFragmentClicked(UploadFragment(), getString(R.string.title_fragment_upload))
-                                81L -> onFragmentClicked(DeveloperChatFragment(), getString(R.string.title_fragment_dev_chat))
+                                1L -> onFragmentClicked(DashboardFragment(),"dashboard", getString(R.string.app_name))
+                                2L -> onFragmentClicked(PinnedFragment(),"pinned", getString(R.string.title_fragment_pinned))
+                                3L -> onFragmentClicked(PrepFragment(),"prep", getString(R.string.title_fragment_prep))
+                                4L -> onFragmentClicked(ImproveFragment(),"improve", getString(R.string.title_fragment_improve))
+                                5L -> onFragmentClicked(HandoutsFragment(),"handouts", getString(R.string.title_fragment_handouts))
+                                6L -> onFragmentClicked(PastexamFragment(),"pastexam", getString(R.string.title_fragment_pastexam))
+                                71L -> onFragmentClicked(CreateFragment(),"create", getString(R.string.title_fragment_create))
+                                72L -> onFragmentClicked(UploadFragment(),"upload", getString(R.string.title_fragment_upload))
+                                81L -> onFragmentClicked(DeveloperChatFragment(),"devchat", getString(R.string.title_fragment_dev_chat))
                                 100L -> intent = Intent(this, SettingsActivity::class.java)
                                 101L -> intent = Intent(this, HelpActivity::class.java)
                                 102L -> intent = Intent(this, FeedbackActivity::class.java)
@@ -201,13 +210,15 @@ class MainActivity : AppCompatActivity(),
                 if (savedInstanceState != null) {
                     return
                 }
-                val dbFragment = DashboardFragment()
-                dbFragment.arguments = intent.extras
-                transaction.beginTransaction()
-                        .add(R.id.fragment_container, dbFragment)
-                        .commit()
+                onFragmentClicked(DashboardFragment(),"dashboard",resources.getString(R.string.app_name))
             }
         }
+    }
+
+
+    override fun attachBaseContext(base: Context?) {
+        // Iconics
+        super.attachBaseContext(IconicsContextWrapper.wrap(base))
     }
 
     override fun onStart() {
@@ -233,12 +244,17 @@ class MainActivity : AppCompatActivity(),
         drawer?.saveInstanceState(outState)
         welcomeScreen?.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
+
+        // Fragments
+        supportFragmentManager.putFragment(outState,"lastFragment",mContent)
     }
 
     override fun onBackPressed() {
         if (drawer != null && drawer!!.isDrawerOpen) {
             drawer!!.closeDrawer()
-        }else{
+        } else if (supportFragmentManager.backStackEntryCount != 0) {
+            supportFragmentManager.popBackStack()
+        } else {
             super.onBackPressed()
         }
     }
@@ -300,15 +316,23 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun onFragmentClicked(newFragment:Fragment, title:String){
+    private fun onFragmentClicked(newFragment:Fragment, tag:String, title:String){
         val args = Bundle()
-        newFragment.arguments = args
-        transaction.beginTransaction()
-                .replace(R.id.fragment_container,newFragment)
+
+        var fragment = supportFragmentManager.findFragmentByTag(tag)
+        if (fragment == null){
+            fragment = newFragment
+        }
+        fragment.arguments = args
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,fragment,tag)
                 .addToBackStack(null)
                 .commit()
+
         mToolbar?.title = title
     }
+
     private fun addDrawerItem(items: Array<Any>){
         for (item in items){
             when (item){

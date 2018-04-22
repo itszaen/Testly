@@ -1,15 +1,24 @@
 package com.zaen.testly.data
 
-import android.databinding.BaseObservable
+import android.net.Uri
 
 /**
  * Created by zaen on 2/21/18.
  */
-class UserData() : BaseObservable() {
-    var id: Int? = null
-    var email: String? = null
-    var password: String? = null
-    var name: String? = null
-    var nickname: String? = null
+data class UserData(
+        //
+        val isAdmin: Boolean,
+        val isDeveloper: Boolean,
+        val isProvider: Boolean,
 
-}
+        val userId: Int,
+        val email: String,
+        val name: String,
+        val displayName: String,
+        val profileUrl: Uri,
+
+        // User
+        val school: String,
+        val grade: Int,
+        val class_: Int
+)

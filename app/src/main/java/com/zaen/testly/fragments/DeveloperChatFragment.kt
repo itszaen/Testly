@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import butterknife.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -26,14 +27,16 @@ class DeveloperChatFragment : Fragment(),
     private var mDevChat = DeveloperChat(this)
     private var onGotMessageCount = 0
 
-    var chatPath = FirebaseFirestore.getInstance().collection("chats").document("dev")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        retainInstance = true
+        if (savedInstanceState != null){
+
+        }
+
         mDevChat = DeveloperChat(this)
         mDevChat.downloadMessages()
 
-        retainInstance = true
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
@@ -46,20 +49,28 @@ class DeveloperChatFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         checkTextField(edit_chatbox.text.toString())
 
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.reverseLayout = true
-        recycler_dev_chat.layoutManager = layoutManager
-
-//        recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
+        recycler_dev_chat.apply{
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,true)
+            adapter = DeveloperChatAdapter(mDevChat.messageList)
+        }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
+        if (savedInstanceState != null){
 
+        }
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+//        outState.put
+    }
 
+    @Optional
     @OnTextChanged(R.id.edit_chatbox)
     fun onTextChanged(text: CharSequence?){
         checkTextField(text.toString())
