@@ -7,7 +7,7 @@ open class FirebaseAuthUserData{
     var id: String = ""
     var mail: String = ""
     var profileUrl: Uri = Uri.EMPTY
-    fun FirebaseAuthUserData(id: kotlin.String, mail: kotlin.String, profileUrl: Uri){
+    fun FirebaseAuthUserData(id: String, mail: String, profileUrl: Uri){
         this.id = id
         this.mail = mail
         this.profileUrl = profileUrl

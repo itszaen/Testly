@@ -1,18 +1,30 @@
 package com.zaen.testly.data
 
-data class SetData(
-        val id: String,
-        // Unique document id
+open class SetData {
+    var id: String = ""
+    // Unique document id
 
-        val type: String,
-        // check, test
+    var casType: String = "set"
+    // card, *set
 
-        val cardType: String,
-        // mixed, vocabulary, spelling
+    var type: String = ""
+    // check, test
 
-        val subjectType: String,
-        // mixed, english, math, japanese...
+    var cardType: String = ""
+    // mixed, vocabulary, spelling
 
-        val cards: ArrayList<String>
-        // List of cards to look for
-)
+    var subjectType: String = ""
+    // mixed, english, math, japanese...
+
+    var cards: ArrayList<String> = arrayListOf()
+    // List of cards to look for
+
+    fun SetData(id: String, casType: String, type: String, cardType: String, subjectType: String, cards: ArrayList<String>){
+        this.id = id
+        this.casType = casType
+        this.type = type
+        this.cardType = cardType
+        this.subjectType = subjectType
+        this.cards = cards
+    }
+}

@@ -40,7 +40,7 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
 
     override fun getItemViewType(position:Int):Int{
         val message = mMessageList[position]
-        return if (message.sender.userId == FirebaseAuth.getInstance().currentUser!!.uid){
+        return if (message.sender!!.id == FirebaseAuth.getInstance().currentUser!!.uid){
             MESSAGE_TYPE_SENT
         } else {
             MESSAGE_TYPE_RECEIVED
@@ -80,10 +80,10 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
 
         fun bind(message: DevChatMessageData){
             messageText.text = message.message
-            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt*1000L)).toString()
-            nameText.text = message.sender.displayName
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt!!*1000L)).toString()
+            nameText.text = message.sender!!.displayName
             GlideApp.with(profileImage.context)
-                    .load(message.sender.profileUrl.toString())
+                    .load(message.sender!!.profileUrl.toString())
                     .circleCrop()
                     .into(profileImage)
         }
@@ -95,7 +95,7 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
 
         fun bind(message: DevChatMessageData){
             messageText.text = message.message
-            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt*1000L)).toString()
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt!!*1000L)).toString()
         }
     }
 }

@@ -13,7 +13,6 @@ class Cas(cardList: ArrayList<CardData?>?, setList: ArrayList<SetData?>?) {
     init {
         this.cardList = cardList
         this.setList = setList
-
     }
 }
 
@@ -26,9 +25,9 @@ class CreateCasData (context: Any) {
     var cardList = arrayListOf<CardData?>()
     var setList = arrayListOf<SetData?>()
     var casList = Cas(cardList,setList)
-    var latestDataTime : Long = 0
+    var latestCasTime : Long = 0
     var isListening = false
-    var storedMessages = arrayListOf<String>()
+    var storedCas = arrayListOf<String>()
 
     var cardCollection = FirebaseFirestore.getInstance().collection("cards")
     var setCollection = FirebaseFirestore.getInstance().collection("sets")

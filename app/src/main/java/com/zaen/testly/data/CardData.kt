@@ -2,19 +2,22 @@ package com.zaen.testly.data
 
 open class CardData {
     var id: String = ""
-// Unique document id
+    // Unique document id
 
     var language: String = ""
-// unsorted, english, japanese, chinese
+    // unsorted, english, japanese, chinese
+
+    var casType: String = "card"
+    // *card, set
 
     var type: String = ""
-// unsorted, *vocabulary, spelling,
+    // unsorted, *vocabulary, spelling,
 
     var subject: String = ""
-// unsorted, english, math, japanese...
+    // unsorted, english, math, japanese...
 
     var hasAnswerCard: Boolean = false
-// Whether to have a separate answer card
+    // Whether to have a separate answer card
 
     fun CardData(id : String, language : String, type: String, subject: String, hasAnswerCard: Boolean) {
         this.id = id
@@ -34,6 +37,7 @@ class VocabularyCardData : CardData() {
 
     var returnType: Any? = null
     // boolean?
+
     fun VocabularyCardData(id : String, language : String, type: String, subject: String, hasAnswerCard: Boolean,
                            question: String, options : ArrayList<String>, answer: String, returnType: Any?) {
         CardData(id, language, type, subject, hasAnswerCard)
