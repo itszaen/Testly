@@ -5,20 +5,49 @@ import android.net.Uri
 /**
  * Created by zaen on 2/21/18.
  */
-data class UserData(
-        //
-        val isAdmin: Boolean,
-        val isDeveloper: Boolean,
-        val isProvider: Boolean,
+class UserData : FirebaseAuthUserData(){
 
-        val userId: Int,
-        val email: String,
-        val name: String,
-        val displayName: String,
-        val profileUrl: Uri,
+    //
+    var isAdmin: Boolean = false
+    var isDeveloper: Boolean = false
+    var isProvider: Boolean = false
 
-        // User
-        val school: String,
-        val grade: Int,
-        val class_: Int
-)
+    var firstName = ""
+    var lastName = ""
+
+    // User
+    var school: String = ""
+    var grade: Int = 0
+    var class_: String = ""
+
+    fun UserData(
+            id: String,
+            mail: String,
+            profileUrl: Uri,
+            isAdmin: Boolean,
+            isDeveloper: Boolean,
+            isProvider: Boolean,
+            firstName: String,
+            lastName: String,
+            school: String,
+            grade: Int,
+            class_: String
+    ){
+        FirebaseAuthUserData(id,mail,profileUrl)
+        this.isAdmin = isAdmin
+        this.isDeveloper = isDeveloper
+        this.isProvider = isProvider
+        this.firstName = firstName
+        this.lastName = lastName
+        this.school = school
+        this.grade = grade
+        this.class_ = class_
+    }
+}
+
+class DeveloperData{
+    var clearance: Int = 5
+    fun DeveloperData(){
+
+    }
+}

@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.zaen.testly.data.DevChatMessageData
 import com.zaen.testly.data.DevChatUserData
+import com.zaen.testly.data.FirebaseAuthUserData
 import com.zaen.testly.utils.Common
 import java.util.*
 
@@ -64,7 +65,7 @@ class DeveloperChat(context: Any){
             return
         } else {
             val senderField = document.data!!["sender"] as ArrayList<*>
-            val sender = DevChatUserData(
+            val sender = FirebaseAuthUserData(
                     senderField[0] as String,
                     senderField[1] as String,
                     Uri.parse(senderField[2] as String)
