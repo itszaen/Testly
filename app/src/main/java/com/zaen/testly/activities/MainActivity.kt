@@ -7,16 +7,11 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
@@ -36,20 +31,15 @@ import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
 import com.zaen.testly.FirebaseAuthUser
-import com.zaen.testly.Global
-import com.zaen.testly.Global.Companion.userinfoRef
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
+import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(),
-//        NavigationView.OnNavigationItemSelectedListener,
+class MainActivity : BaseActivity(),
         FileBrowserFragment.RenameToolbar{
-    companion object {
-        const val TAG = "MainActivity"
-    }
 
     var savedInstanceState: Bundle? = null
     private var mToolbar : Toolbar? = null
@@ -101,6 +91,7 @@ class MainActivity : AppCompatActivity(),
     private var userinfoSnapshot: DocumentSnapshot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_main
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null){
@@ -109,7 +100,6 @@ class MainActivity : AppCompatActivity(),
 
         mAuth = FirebaseAuth.getInstance()
         mAuthUser = FirebaseAuthUser()
-
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -124,14 +114,14 @@ class MainActivity : AppCompatActivity(),
             val userinfoRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
             userinfoRef.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Log.w(TAG, "Userinfo listen failed. Exception: $exception")
+                    Log.w(TAG(this), "Userinfo listen failed. Exception: $exception")
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Userinfo listened. Current data: ${snapshot.data}")
+                    Log.d(TAG(this), "Userinfo listened. Current data: ${snapshot.data}")
                     onUserinfoUpdate(snapshot)
                 } else {
-                    Log.d(TAG, "Userinfo listened. Current data: null")
+                    Log.d(TAG(this), "Userinfo listened. Current data: null")
                     onUserinfoUpdate(null)
                 }
             }
@@ -180,7 +170,7 @@ class MainActivity : AppCompatActivity(),
                                 4L -> onFragmentClicked(ImproveFragment(),"improve", getString(R.string.title_fragment_improve))
                                 5L -> onFragmentClicked(HandoutsFragment(),"handouts", getString(R.string.title_fragment_handouts))
                                 6L -> onFragmentClicked(PastexamFragment(),"pastexam", getString(R.string.title_fragment_pastexam))
-                                71L -> onFragmentClicked(CreateFragment(),"create", getString(R.string.title_fragment_create))
+                                71L -> onFragmentClicked(CreateCasFragment(),"create", getString(R.string.title_fragment_create))
                                 72L -> onFragmentClicked(UploadFragment(),"upload", getString(R.string.title_fragment_upload))
                                 81L -> onFragmentClicked(DeveloperChatFragment(),"devchat", getString(R.string.title_fragment_dev_chat))
                                 100L -> intent = Intent(this, SettingsActivity::class.java)

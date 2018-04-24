@@ -8,39 +8,31 @@ import android.support.v4.app.Fragment
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 
 import com.zaen.testly.R
 
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.activities.auth.LoginActivity
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.FirebaseTestly
-import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
 import de.mateware.snacky.Snacky
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
-class SettingsActivity : AppCompatActivity(),
+class SettingsActivity : BaseActivity(),
                 SettingsMainFragment.FragmentClickListener,
                 DeveloperSettingsMainFragment.FragmentClickListener,
                 FirebaseTestly.HandleTask{
     companion object {
-        const val TAG = "SettingsActivity"
         var isReauthenticatedDeleteUser = false
     }
-    private var unbinder: Unbinder? = null
+
     val transaction = supportFragmentManager
     var toolbar : ActionBar? = null
     private var inFragmentLevel = 0
@@ -52,8 +44,6 @@ class SettingsActivity : AppCompatActivity(),
         toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
-
-        unbinder = ButterKnife.bind(this)
 
         if (settings_fragment_container != null) {
             if (savedInstanceState != null) {
@@ -98,10 +88,6 @@ class SettingsActivity : AppCompatActivity(),
         // ...
         }
         return super.onOptionsItemSelected(item)
-    }
-    override fun onDestroy(){
-        unbinder?.unbind()
-        super.onDestroy()
     }
 
     override fun onBackPressed() {

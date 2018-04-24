@@ -6,16 +6,17 @@ import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import com.zaen.testly.R
+import com.zaen.testly.activities.base.BaseActivity
 
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_about
         super.onCreate(savedInstanceState)
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
-        setContentView(R.layout.activity_about)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

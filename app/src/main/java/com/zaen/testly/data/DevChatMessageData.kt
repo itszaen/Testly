@@ -14,9 +14,9 @@ class DevChatMessageData (message: String, sender: DevChatUserData, createdAt: L
     }
 }
 
-class DevChatUserData : FirebaseAuthUserData(){
+class DevChatUserData(id: String, displayName: String, mail: String, profileUrl: Uri) : FirebaseAuthUserData(){
     var displayName: String = ""
-    fun DevChatUserData(id: String, mail: String, profileUrl: Uri, displayName: String){
+    init{
         FirebaseAuthUserData(id,mail,profileUrl)
         this.displayName = displayName
     }

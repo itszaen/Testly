@@ -65,10 +65,11 @@ class DeveloperChat(context: Any){
             return
         } else {
             val senderField = document.data!!["sender"] as ArrayList<*>
-            val sender = FirebaseAuthUserData(
+            val sender = DevChatUserData(
                     senderField[0] as String,
                     senderField[1] as String,
-                    Uri.parse(senderField[2] as String)
+                    senderField[2] as String,
+                    Uri.parse(senderField[3] as String)
             )
             val message = DevChatMessageData(
                     document.data!!["text"] as String,
@@ -105,9 +106,15 @@ class DeveloperChat(context: Any){
         val timestampUnix: Long = System.currentTimeMillis() / 1000L
         val uid = user.uid
         val displayName = user.displayName!!
+        val email = user.email!!
         val photoUrl = user.photoUrl.toString()
 
-        val sender = listOf(uid,displayName,photoUrl)
+        val sender = listOf(
+                uid,          // 0
+                displayName,  // 1
+                email,        // 2
+                photoUrl      // 3
+        )
 
         val document = HashMap<String,Any?>()
         document["text"] = text

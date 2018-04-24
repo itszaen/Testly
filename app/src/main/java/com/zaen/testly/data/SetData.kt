@@ -1,11 +1,7 @@
 package com.zaen.testly.data
 
-open class SetData {
-    var id: String = ""
-    // Unique document id
-
-    var casType: String = "set"
-    // card, *set
+open class SetData : CasData() {
+    var title: String = ""
 
     var type: String = ""
     // check, test
@@ -19,9 +15,9 @@ open class SetData {
     var cards: ArrayList<String> = arrayListOf()
     // List of cards to look for
 
-    fun SetData(id: String, casType: String, type: String, cardType: String, subjectType: String, cards: ArrayList<String>){
-        this.id = id
-        this.casType = casType
+    fun SetData(id: String, title: String, type: String, cardType: String, subjectType: String, cards: ArrayList<String>){
+        CasData(id)
+        this.title = title
         this.type = type
         this.cardType = cardType
         this.subjectType = subjectType

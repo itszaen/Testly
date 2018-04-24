@@ -97,6 +97,7 @@ class DeveloperChatFragment : Fragment(),
         // Clear EditText
         edit_chatbox.text.clear()
     }
+
     override fun onGotMessages() {
         // First time (download) call listener
         if (!mDevChat.isListening) {

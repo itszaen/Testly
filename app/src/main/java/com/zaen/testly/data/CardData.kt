@@ -1,14 +1,9 @@
 package com.zaen.testly.data
 
-open class CardData {
-    var id: String = ""
-    // Unique document id
+open class CardData : CasData(){
 
     var language: String = ""
     // unsorted, english, japanese, chinese
-
-    var casType: String = "card"
-    // *card, set
 
     var type: String = ""
     // unsorted, *vocabulary, spelling,
@@ -20,7 +15,7 @@ open class CardData {
     // Whether to have a separate answer card
 
     fun CardData(id : String, language : String, type: String, subject: String, hasAnswerCard: Boolean) {
-        this.id = id
+        CasData(id)
         this.language = language
         this.type = type
         this.subject = subject

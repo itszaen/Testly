@@ -1,17 +1,17 @@
 package com.zaen.testly.activities
 
 import android.app.TaskStackBuilder
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import com.zaen.testly.R
+import com.zaen.testly.activities.base.BaseActivity
 
-class HelpActivity : AppCompatActivity() {
+class HelpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_help
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_help)
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)

@@ -1,34 +1,29 @@
 package com.zaen.testly.fragments
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.view.LayoutInflaterCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import android.widget.GridLayout
-import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
-import butterknife.ButterKnife
-import butterknife.Unbinder
-import com.google.firebase.firestore.FirebaseFirestore
-import com.mikepenz.iconics.context.IconicsLayoutInflater2
+import butterknife.OnClick
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.views.recyclers.CreateCasAdapter
+import com.zaen.testly.activities.CreateCardActivity
+import com.zaen.testly.data.CreateSetActivity
+import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.views.recyclers.CreateCasGridAdapter
 import kotlinx.android.synthetic.main.fragment_create.*
 
-class CreateCasFragment : Fragment() {
-    var activity: Activity? = null
-    private var unbinder: Unbinder? = null
-
+class CreateCasFragment : BaseFragment(),
+    CreateCasData.CreateCasDataListener{
     val MODE_GRID = 1
     val MODE_LIST = 2
 
     private var viewMode = MODE_GRID
+    private var mCreateCas = CreateCasData(this)
+    private var onGotCasDataFuncCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +34,9 @@ class CreateCasFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        val view = inflater.inflate(R.layout.fragment_create,container,false)
-        unbinder = ButterKnife.bind(this,view)
+        layoutRes = R.layout.fragment_create
         setHasOptionsMenu(true)
-        return view
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -65,7 +59,6 @@ class CreateCasFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
         if (savedInstanceState != null){
 
         }
@@ -93,12 +86,20 @@ class CreateCasFragment : Fragment() {
     fun toggleViewMode(){
         var mlayoutManager: RecyclerView.LayoutManager? = null
         when (viewMode) {
-            MODE_GRID -> mlayoutManager = GridLayoutManager(activity,3, GridLayout.VERTICAL,true)
-            MODE_LIST -> mlayoutManager = LinearLayoutManager(activity, VERTICAL,true)
-        }
-        recycler_create.apply {
-            layoutManager = mlayoutManager
-            adapter = CreateCasAdapter(CreateCasData.dataList)
+            MODE_GRID -> {
+                mlayoutManager = GridLayoutManager(activity, 3, VERTICAL, true)
+                recycler_create.apply {
+                    layoutManager = mlayoutManager
+                    adapter = CreateCasGridAdapter(mCreateCas.casList)
+                }
+            }
+            MODE_LIST -> {
+                mlayoutManager = LinearLayoutManager(activity, VERTICAL,true)
+                recycler_create.apply {
+                    layoutManager = mlayoutManager
+                    adapter = CreateCasGridAdapter(mCreateCas.casList)
+                }
+            }
         }
     }
 
@@ -116,5 +117,36 @@ class CreateCasFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onGotCasData() {
+        if (!mCreateCas.isListening){
+
+        }
+        if (onGotCasDataFuncCount > 0){
+            toggleViewMode()
+        }
+        onGotCasDataFuncCount += 1
+    }
+
+    @OnClick(R.id.fab_create_card)
+    fun onCreateCardClick(view: View){
+        onButtonClick(view)
+    }
+
+    @OnClick(R.id.fab_create_set)
+    fun onCreateSetClick(view: View){
+        onButtonClick(view)
+    }
+
+    fun onButtonClick(view: View){
+        var intent: Intent? = null
+        when(view.id){
+            R.id.fab_create_card -> intent = Intent(activity,CreateCardActivity::class.java)
+            R.id.fab_create_set  -> intent = Intent(activity, CreateSetActivity::class.java)
+        }
+        if (intent != null){
+            startActivity(intent)
+        }
     }
 }

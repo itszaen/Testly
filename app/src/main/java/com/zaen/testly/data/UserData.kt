@@ -1,6 +1,9 @@
 package com.zaen.testly.data
 
 import android.net.Uri
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.zaen.testly.R
 
 /**
  * Created by zaen on 2/21/18.
@@ -49,5 +52,13 @@ class DeveloperData{
     var clearance: Int = 5
     fun DeveloperData(){
 
+    }
+}
+
+class CreateSetActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_create_set)
     }
 }

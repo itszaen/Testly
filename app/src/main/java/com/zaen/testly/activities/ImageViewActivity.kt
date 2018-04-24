@@ -16,6 +16,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.zaen.testly.GlideApp
 import com.zaen.testly.R
+import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.utils.LogUtils.Companion.TAG
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_view_image.*
 
@@ -23,19 +25,14 @@ import kotlinx.android.synthetic.main.activity_view_image.*
  * Created by zaen on 4/2/18.
  */
 
-class ImageViewActivity : AppCompatActivity() {
-    companion object {
-        const val TAG = "ImageViewActivity"
-    }
+class ImageViewActivity : BaseActivity() {
     var path: String? = null
     var ref: StorageReference? = null
     var toolbar : ActionBar? = null
-    private var unbinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_view_image
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_image)
-        unbinder = ButterKnife.bind(this)
         toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
@@ -53,7 +50,7 @@ class ImageViewActivity : AppCompatActivity() {
                         toolbar?.title = it.name
                     }
                     .addOnFailureListener {
-                        Log.w(TAG,"Error getting the filename of $ref. Exception: $it")
+                        Log.w(TAG(this),"Error getting the filename of $ref. Exception: $it")
                         Snacky.builder().setActivity(this)
                             .setText("Error getting the filename")
                             .setDuration(Snacky.LENGTH_SHORT)
@@ -88,9 +85,5 @@ class ImageViewActivity : AppCompatActivity() {
         // ...
         }
         return super.onOptionsItemSelected(item)
-    }
-    override fun onDestroy(){
-        unbinder?.unbind()
-        super.onDestroy()
     }
 }
