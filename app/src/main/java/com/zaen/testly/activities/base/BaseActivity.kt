@@ -11,6 +11,7 @@ import com.zaen.testly.utils.LogUtils.Companion.TAG
 /**
  * Created by zaen on 2/27/18.
  */
+
 abstract class BaseActivity : AppCompatActivity(){
     companion object {
     }

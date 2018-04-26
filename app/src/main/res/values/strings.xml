@@ -58,6 +58,21 @@
     <string name="action_toggle_to_grid">Grid Mode</string>
     <string name="action_toggle_to_list">List Mode</string>
 
+    <!-- Create Card-->
+    <string name="title_create_card_title">Name</string>
+    <string name="hint_create_card_title">Name</string>
+    <string name="title_create_card_type">Type</string>
+    <string name="radio_create_card_type_unsorted">Unsorted</string>
+    <string name="radio_create_card_type_selection">Selection</string>
+    <string name="radio_create_card_type_selection_multiple">Multiple</string>
+    <string name="radio_create_card_type_selection_multiple_ordered">Ordered</string>
+    <string name="radio_create_card_type_spelling">Spelling</string>
+    <string name="title_create_card_question">Question</string>
+    <string name="hint_create_card_question">Question</string>
+    <string name="title_create_card_options">Options</string>
+    <string name="title_create_card_answer">Answer</string>
+    <string name="title_create_card_answer_card">Answer Card</string>
+
     <!-- Upload -->
     <string name="title_fragment_upload">Upload files</string>
 

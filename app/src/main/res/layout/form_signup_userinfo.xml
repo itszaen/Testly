@@ -46,7 +46,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <!-- Last name -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,6 +72,7 @@
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+
         <!-- First name -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +104,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_spacing"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <!-- School -->
         <LinearLayout
             android:layout_width="match_parent"
