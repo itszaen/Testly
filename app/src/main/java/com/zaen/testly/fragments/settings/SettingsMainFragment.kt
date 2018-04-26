@@ -1,6 +1,5 @@
 package com.zaen.testly.fragments.settings
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,30 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
-import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.Optional
-import butterknife.Unbinder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.stephentuso.welcome.WelcomeHelper
 import com.zaen.testly.R
 import com.zaen.testly.activities.Intro2Activity
-import com.zaen.testly.activities.MainActivity
+import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.fragment_settings_main.*
 
 /**
  * Created by zaen on 3/1/18.
  */
-class SettingsMainFragment : Fragment() {
+class SettingsMainFragment : BaseFragment() {
     companion object {
-        const val TAG = "SettingsMainFrag"
     }
-    var activity: Activity? = null
     lateinit var toolbar :Toolbar
     private var mListener: FragmentClickListener? = null
-    var unbinder: Unbinder? = null
     private var userinfoSnapshot: DocumentSnapshot? = null
     private var hasProviderView: Boolean? = null
     private var hasDeveloperView: Boolean? = null
@@ -45,14 +40,14 @@ class SettingsMainFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        val view = inflater.inflate(R.layout.fragment_settings_main,container,false)
-        unbinder = ButterKnife.bind(this,view)
-        return view
+        layoutRes = R.layout.fragment_settings_main
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
@@ -62,14 +57,14 @@ class SettingsMainFragment : Fragment() {
         val userinfoRef = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().currentUser!!.uid)
         userinfoRef.addSnapshotListener{snapshot,exception ->
             if (exception != null){
-                Log.w(MainActivity.TAG, "Userinfo listen failed. Exception: $exception")
+                Log.w(TAG(this), "Userinfo listen failed. Exception: $exception")
                 return@addSnapshotListener
             }
             if (snapshot != null && snapshot.exists()){
-                Log.d(MainActivity.TAG, "Userinfo listened. Current data: ${snapshot.data}")
+                Log.d(TAG(this), "Userinfo listened. Current data: ${snapshot.data}")
                 onUserinfoUpdate(snapshot)
             } else {
-                Log.d(MainActivity.TAG, "Userinfo listened. Current data: null")
+                Log.d(TAG(this), "Userinfo listened. Current data: null")
                 onUserinfoUpdate(null)
             }
         }
@@ -82,7 +77,6 @@ class SettingsMainFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        unbinder?.unbind()
     }
 
     // Button Clicked

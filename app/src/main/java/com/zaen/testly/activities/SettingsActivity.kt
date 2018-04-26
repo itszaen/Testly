@@ -39,15 +39,16 @@ class SettingsActivity : BaseActivity(),
     var firebase: FirebaseTestly? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
+        layoutRes = R.layout.activity_settings
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+
         toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
 
         if (settings_fragment_container != null) {
             if (savedInstanceState != null) {
-                return;
+                return
             }
             val mainFragment = SettingsMainFragment()
             mainFragment.arguments = intent.extras
