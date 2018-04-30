@@ -33,7 +33,6 @@ class SettingsActivity : BaseActivity(),
         var isReauthenticatedDeleteUser = false
     }
 
-    val transaction = supportFragmentManager
     var toolbar : ActionBar? = null
     private var inFragmentLevel = 0
     var firebase: FirebaseTestly? = null
@@ -52,7 +51,7 @@ class SettingsActivity : BaseActivity(),
             }
             val mainFragment = SettingsMainFragment()
             mainFragment.arguments = intent.extras
-            transaction.beginTransaction()
+            supportFragmentManager.beginTransaction()
                     .add(R.id.settings_fragment_container, mainFragment).commit()
         }
 
@@ -101,7 +100,7 @@ class SettingsActivity : BaseActivity(),
         val args = Bundle()
         args.putString("TITLE",title)
         newFragment.arguments = args
-        transaction.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .replace(R.id.settings_fragment_container,newFragment)
                 .addToBackStack(null)
                 .commit()

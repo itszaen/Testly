@@ -28,7 +28,7 @@ class CreateSetActivity : BaseActivity(),
             val mainFragment = CreateCardFragment()
             mainFragment.arguments = intent.extras
             supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_create_card,mainFragment)
+                    .add(R.id.fragment_container_create_set,mainFragment)
                     .commit()
         }
     }

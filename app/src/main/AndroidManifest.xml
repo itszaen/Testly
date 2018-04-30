@@ -128,8 +128,11 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <!-- Create Card -->
         <activity android:name=".activities.CreateCardActivity" />
-        <activity android:name=".data.CreateSetActivity" />
+
+        <!-- Create Set -->
         <activity android:name=".activities.CreateSetActivity">
 
         </activity>
