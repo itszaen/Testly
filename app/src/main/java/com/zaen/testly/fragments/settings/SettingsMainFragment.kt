@@ -26,6 +26,11 @@ import kotlinx.android.synthetic.main.fragment_settings_main.*
 class SettingsMainFragment : BaseFragment() {
     companion object {
     }
+
+    interface FragmentClickListener{
+        fun onFragmentCalled(newFragment:BaseFragment,title:String)
+    }
+
     lateinit var toolbar :Toolbar
     private var mListener: FragmentClickListener? = null
     private var userinfoSnapshot: DocumentSnapshot? = null
@@ -99,10 +104,6 @@ class SettingsMainFragment : BaseFragment() {
     @OnClick(R.id.pref_developer)
     fun onDeveloperSettingClicked(view:View){
         mListener?.onFragmentCalled(DeveloperSettingsMainFragment(),"Developer Settings")
-    }
-
-    interface FragmentClickListener{
-        fun onFragmentCalled(newFragment:BaseFragment,title:String)
     }
 
     private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){

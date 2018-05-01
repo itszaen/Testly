@@ -17,7 +17,7 @@ import com.zaen.testly.activities.auth.SignupInfoActivity
  * Created by zaen on 3/9/18.
  */
 class IntroActivity : WelcomeActivity() {
-    override fun configuration():WelcomeConfiguration {
+    override fun configuration() : WelcomeConfiguration {
         return WelcomeConfiguration.Builder(this)
                 .page(BasicPage(R.drawable.ic_search, getString(R.string.intro_first_title), getString(R.string.intro_first_description))
                         .background(R.color.introFirstBackground))
@@ -46,8 +46,6 @@ class IntroActivity : WelcomeActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
         when (requestCode){
             RC_LOG_IN -> {
                 when (resultCode){
@@ -70,6 +68,7 @@ class IntroActivity : WelcomeActivity() {
                 }
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }

@@ -30,6 +30,8 @@
     <string name="nav_menu_upload">Upload</string>
     <string name="nav_menu_section_developer">Developer</string>
     <string name="nav_menu_dev_chat">Developer Chat</string>
+    <string name="nav_menu_section_admin">Admin</string>
+    <string name="nav_menu_admin_panel">Admin Panel</string>
     <string name="nav_menu_settings">Settings</string>
     <string name="nav_menu_help">Help</string>
     <string name="nav_menu_feedback">Feedback</string>
@@ -82,6 +84,9 @@
     <string name="title_fragment_dev_chat">Developer Chat</string>
     <string name="hint_message_dev_chat">Write a message</string>
     <string name="btn_send_dev_chat">SEND</string>
+
+    <!-- Admin Panel -->
+    <string name="title_fragment_admin_panel">Administrator Panel</string>
 
     <!-- Cards -->
 

@@ -53,7 +53,6 @@ class DeveloperChatFragment : BaseFragment(),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
         if (savedInstanceState != null){
 
         }
