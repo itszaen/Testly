@@ -43,11 +43,11 @@ class CreateCardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_add_option.setIconResource(IconicsDrawable(activity).icon(GoogleMaterial.Icon.gmd_add).color(Color.GRAY).sizeDp(15))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        btn_add_option.setIconResource(IconicsDrawable(activity).icon(GoogleMaterial.Icon.gmd_add).color(Color.GRAY).sizeDp(10))
     }
 
     @OnClick(R.id.btn_add_option)

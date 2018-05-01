@@ -72,6 +72,8 @@
     <string name="title_create_card_options">Options</string>
     <string name="title_create_card_answer">Answer</string>
     <string name="title_create_card_answer_card">Answer Card</string>
+    <string name="radio_create_card_answer_card_true">Yes</string>
+    <string name="radio_create_card_answer_card_false">No</string>
 
     <!-- Upload -->
     <string name="title_fragment_upload">Upload files</string>

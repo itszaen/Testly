@@ -15,15 +15,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/big_spacing"
+            android:layout_marginStart="@dimen/big_spacing"
+            android:layout_marginEnd="@dimen/big_spacing"
             android:orientation="vertical">
 
             <!-- Title -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -52,8 +53,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -109,8 +110,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -127,7 +128,6 @@
                         android:id="@+id/edit_create_card_question"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_create_card_question"
                         android:inputType="text"
                         android:singleLine="false"/>
                 </android.support.design.widget.TextInputLayout>
@@ -138,8 +138,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -179,8 +179,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -202,8 +202,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sub_medium_spacing"
-                android:layout_marginBottom="@dimen/sub_medium_spacing"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -217,13 +217,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <android.support.v7.widget.AppCompatRadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""/>
-                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/radio_btn_answer_card_false"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""/>
+                        android:text="@string/radio_create_card_answer_card_false"/>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/radio_btn_answer_card_true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_create_card_answer_card_true"/>
                 </RadioGroup>
 
             </LinearLayout>

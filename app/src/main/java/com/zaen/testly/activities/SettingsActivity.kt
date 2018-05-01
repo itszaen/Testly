@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.MenuItem
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
@@ -46,14 +45,11 @@ class SettingsActivity : BaseActivity(),
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
         toolbar?.setDisplayShowTitleEnabled(true)
 
-        if (settings_fragment_container != null) {
+        if (fragment_container_activity_settings != null) {
             if (savedInstanceState != null) {
                 return
             }
-            val mainFragment = SettingsMainFragment()
-            mainFragment.arguments = intent.extras
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.settings_fragment_container, mainFragment).commit()
+            loadRootFragment(R.id.fragment_container_activity_settings,SettingsMainFragment(),true,true)
         }
 
     }
@@ -106,8 +102,8 @@ class SettingsActivity : BaseActivity(),
 //                .replace(R.id.settings_fragment_container,newFragment)
 //                .addToBackStack(null)
 //                .commit()
-//        toolbar?.title = title
-//        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
+        toolbar?.title = title
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
 //        inFragmentLevel += 1
     }
     private fun inMainFragment(){

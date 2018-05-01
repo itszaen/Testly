@@ -50,7 +50,6 @@ class SettingsMainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
         pref_account.setCaptionText(resources.getString(R.string.pref_account_caption, FirebaseAuth.getInstance().currentUser!!.email))
 
         // Hide child

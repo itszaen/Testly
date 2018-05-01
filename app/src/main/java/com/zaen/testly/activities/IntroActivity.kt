@@ -52,7 +52,6 @@ class IntroActivity : WelcomeActivity() {
             RC_LOG_IN -> {
                 when (resultCode){
                     RESULT_OK -> {
-                        setResult(RESULT_OK,intent)
                         completeWelcomeScreen()
                         return
                         }
@@ -65,8 +64,8 @@ class IntroActivity : WelcomeActivity() {
             RC_SIGN_UP -> {
                 when (resultCode) {
                     RESULT_OK -> {
-                        setResult(RESULT_OK, intent);finish()
-                        //completeWelcomeScreen();return
+                        completeWelcomeScreen()
+                        return
                     }
                 }
             }

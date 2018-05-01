@@ -130,7 +130,13 @@
         </activity>
 
         <!-- Create Card -->
-        <activity android:name=".activities.CreateCardActivity" />
+        <activity
+            android:name=".activities.CreateCardActivity"
+            android:label="Create Card"
+            android:parentActivityName=".activities.MainActivity"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.zaen.testly.activities.MainActivity" />
 
         <!-- Create Set -->
         <activity android:name=".activities.CreateSetActivity">

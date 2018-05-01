@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -25,7 +24,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.SectionDrawerItem
-import com.mikepenz.materialize.color.Material
 import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
@@ -201,12 +199,11 @@ class MainActivity : BaseActivity(),
             }
 
             // Initialize with Dashboard
-            if (fragment_container != null) {
+            if (fragment_container_activity_main != null) {
                 if (savedInstanceState != null) {
                     return
                 }
-                loadRootFragment(R.id.fragment_container,DashboardFragment(),true,true)
-                onFragmentClicked(DashboardFragment(),"dashboard",resources.getString(R.string.app_name))
+                loadRootFragment(R.id.fragment_container_activity_main,DashboardFragment(),true,true)
             }
         }
     }
@@ -314,6 +311,7 @@ class MainActivity : BaseActivity(),
 
     private fun onFragmentClicked(newFragment: BaseFragment, tag:String, title:String){
         start(newFragment)
+        mToolbar?.title = title
 //        val args = Bundle()
 //
 //        var fragment = supportFragmentManager.findFragmentByTag(tag)

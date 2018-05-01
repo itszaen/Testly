@@ -20,16 +20,15 @@ abstract class BaseActivity : SupportActivity(){
     protected var unbinder: Unbinder? = null
     protected var layoutRes: Int? = null
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG(this),"onCreate")
-        super.onCreate(savedInstanceState, persistentState)
+        super.onCreate(savedInstanceState)
         if (layoutRes != null) {
             setContentView(layoutRes!!)
             unbinder = ButterKnife.bind(this)
         } else {
             Log.w(TAG(this),"No layout resource specified, not inflating.")
         }
-
     }
 
     override fun onStart() {
@@ -39,7 +38,7 @@ abstract class BaseActivity : SupportActivity(){
 
     override fun onDestroy() {
         Log.d(TAG(this),"onDestroy")
-        super.onDestroy()
         unbinder?.unbind()
+        super.onDestroy()
     }
 }
