@@ -103,7 +103,7 @@ class SettingsMainFragment : BaseFragment() {
     }
 
     interface FragmentClickListener{
-        fun onFragmentCalled(newFragment:Fragment,title:String)
+        fun onFragmentCalled(newFragment:BaseFragment,title:String)
     }
 
     private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){

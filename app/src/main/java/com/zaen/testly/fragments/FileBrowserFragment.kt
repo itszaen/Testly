@@ -7,20 +7,18 @@ import android.support.v4.app.Fragment
 import android.view.View
 import butterknife.ButterKnife
 import com.zaen.testly.activities.ImageViewActivity
+import com.zaen.testly.fragments.base.BaseFragment
 
 /**
  * Created by zaen on 4/4/18.
  */
-open class FileBrowserFragment : Fragment() {
-    var activity: Activity? = null
+open class FileBrowserFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this,view)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
     }
 
     fun viewImage(path: String){

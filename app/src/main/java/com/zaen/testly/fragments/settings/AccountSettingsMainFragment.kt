@@ -24,21 +24,20 @@ import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.auth.FirebaseTestly
 import de.mateware.snacky.Snacky
 import com.zaen.testly.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
+import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.utils.LogUtils.Companion.TAG
 
 
 /**
  * Created by zaen on 3/25/18.
  */
-class AccountSettingsMainFragment : Fragment(){
+class AccountSettingsMainFragment : BaseFragment(){
     companion object {
-        const val TAG = "AccountSettingsMainFrag"
     }
 
-    var activity: Activity? = null
     var firebase: FirebaseTestly? = null
     lateinit var toolbar : Toolbar
     private var mListener: DeveloperSettingsMainFragment.FragmentClickListener? = null
-    var unbinder: Unbinder? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -47,9 +46,8 @@ class AccountSettingsMainFragment : Fragment(){
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        val view = inflater.inflate(R.layout.fragment_settings_account_main,container,false)
-        unbinder = ButterKnife.bind(this,view)
-        return view
+        layoutRes = R.layout.fragment_settings_account_main
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,7 +64,6 @@ class AccountSettingsMainFragment : Fragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        unbinder?.unbind()
     }
 
     interface FragmentClickListener{
@@ -86,7 +83,7 @@ class AccountSettingsMainFragment : Fragment(){
                         { dialog, input -> FirebaseAuth.getInstance().currentUser!!.updateEmail(input.toString())
                                 .addOnCompleteListener{
                                     if(it.isSuccessful){
-                                        Log.d(TAG,"User email updated: $input")
+                                        Log.d(TAG(this),"User email updated: $input")
                                     }
                                 }
                         })
@@ -106,7 +103,7 @@ class AccountSettingsMainFragment : Fragment(){
                      auth.sendPasswordResetEmail(email)
                              .addOnCompleteListener{
                                  if(it.isSuccessful){
-                                  Log.d(TAG, "Password Reset Email sent to $email")
+                                  Log.d(TAG(this), "Password Reset Email sent to $email")
                                  }
                              }
                 }
@@ -197,7 +194,7 @@ class AccountSettingsMainFragment : Fragment(){
         user.delete()
                 .addOnCompleteListener{
                     if (it.isSuccessful){
-                        Log.d(TAG,"User account deleted.")
+                        Log.d(TAG(this),"User account deleted.")
                         val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
                                 activity?.baseContext?.packageName
                         )
@@ -214,8 +211,8 @@ class AccountSettingsMainFragment : Fragment(){
     fun deleteUserInfo(user: FirebaseUser){
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
                 .delete()
-                .addOnSuccessListener { Log.d(TAG,"Userinfo deleted.") }
-                .addOnFailureListener { Log.w(TAG,"Userinfo deletion failed. Exception: $it")}
+                .addOnSuccessListener { Log.d(TAG(this),"Userinfo deleted.") }
+                .addOnFailureListener { Log.w(TAG(this),"Userinfo deletion failed. Exception: $it")}
     }
 
 

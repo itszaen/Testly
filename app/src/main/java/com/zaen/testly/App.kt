@@ -9,6 +9,7 @@ import com.mikepenz.iconics.Iconics
 import com.mikepenz.iconics.context.IconicsContextWrapper
 import com.squareup.leakcanary.LeakCanary
 import com.zaen.testly.utils.preferences.Prefs
+import me.yokeyword.fragmentation.Fragmentation
 
 
 class App : Application(){
@@ -31,6 +32,11 @@ class App : Application(){
         }
         registerFontIcons()
         initialiseStorage()
+
+        Fragmentation.builder()
+                .stackViewMode(Fragmentation.BUBBLE)
+                .debug(BuildConfig.DEBUG)
+                .install()
     }
 
     private fun registerFontIcons() {

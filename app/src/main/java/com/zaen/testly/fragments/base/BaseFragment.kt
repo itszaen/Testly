@@ -12,9 +12,11 @@ import butterknife.Unbinder
 import com.zaen.testly.R
 import com.zaen.testly.utils.LogUtils
 import com.zaen.testly.utils.LogUtils.Companion.TAG
+import me.yokeyword.fragmentation.ISupportFragment
+import me.yokeyword.fragmentation.SupportFragment
 
 
-abstract class BaseFragment : Fragment(){
+abstract class BaseFragment : SupportFragment(){
     companion object {
     }
 

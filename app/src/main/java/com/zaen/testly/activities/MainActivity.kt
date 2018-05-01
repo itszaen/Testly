@@ -34,9 +34,11 @@ import com.zaen.testly.FirebaseAuthUser
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
+import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import me.yokeyword.fragmentation.SupportFragment
 
 class MainActivity : BaseActivity(),
         FileBrowserFragment.RenameToolbar{
@@ -46,6 +48,9 @@ class MainActivity : BaseActivity(),
 
     // Fragments
     private var mContent: Fragment? = null
+    private var mFragments: ArrayList<SupportFragment> = arrayListOf<SupportFragment>(
+
+    )
 
     // Material Drawer
     private var drawer: Drawer? = null
@@ -200,6 +205,7 @@ class MainActivity : BaseActivity(),
                 if (savedInstanceState != null) {
                     return
                 }
+                loadRootFragment(R.id.fragment_container,DashboardFragment(),true,true)
                 onFragmentClicked(DashboardFragment(),"dashboard",resources.getString(R.string.app_name))
             }
         }
@@ -239,15 +245,15 @@ class MainActivity : BaseActivity(),
         supportFragmentManager.putFragment(outState,"lastFragment",mContent)
     }
 
-    override fun onBackPressed() {
-        if (drawer != null && drawer!!.isDrawerOpen) {
-            drawer!!.closeDrawer()
-        } else if (supportFragmentManager.backStackEntryCount != 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (drawer != null && drawer!!.isDrawerOpen) {
+//            drawer!!.closeDrawer()
+//        } else if (supportFragmentManager.backStackEntryCount != 0) {
+//            supportFragmentManager.popBackStack()
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -306,21 +312,22 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun onFragmentClicked(newFragment:Fragment, tag:String, title:String){
-        val args = Bundle()
-
-        var fragment = supportFragmentManager.findFragmentByTag(tag)
-        if (fragment == null){
-            fragment = newFragment
-        }
-        fragment.arguments = args
-
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,fragment,tag)
-                .addToBackStack(null)
-                .commit()
-
-        mToolbar?.title = title
+    private fun onFragmentClicked(newFragment: BaseFragment, tag:String, title:String){
+        start(newFragment)
+//        val args = Bundle()
+//
+//        var fragment = supportFragmentManager.findFragmentByTag(tag)
+//        if (fragment == null){
+//            fragment = newFragment
+//        }
+//        fragment.arguments = args
+//
+//        supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container,fragment,tag)
+//                .addToBackStack(null)
+//                .commit()
+//
+//        mToolbar?.title = title
     }
 
     private fun addDrawerItem(items: Array<Any>){

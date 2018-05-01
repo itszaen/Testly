@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toolbar
 import butterknife.ButterKnife
 import com.zaen.testly.R
+import com.zaen.testly.fragments.base.BaseFragment
 
 /**
  * Created by zaen on 3/1/18.
  */
-class DeveloperSettingsMainFragment : Fragment() {
-    var activity: Activity? = null
+class DeveloperSettingsMainFragment : BaseFragment() {
     lateinit var toolbar : Toolbar
     private var mListener: DeveloperSettingsMainFragment.FragmentClickListener? = null
 
@@ -26,16 +26,15 @@ class DeveloperSettingsMainFragment : Fragment() {
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        return inflater.inflate(R.layout.fragment_settings_developer_main,container,false)
+        layoutRes = R.layout.fragment_settings_main
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this,view)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
     }
     override fun onDetach() {
         super.onDetach()
@@ -45,7 +44,7 @@ class DeveloperSettingsMainFragment : Fragment() {
 
 
     interface FragmentClickListener{
-        fun onFragmentCalled(newFragment:Fragment,title:String)
+        fun onFragmentCalled(newFragment: BaseFragment, title:String)
     }
 
 }

@@ -7,12 +7,13 @@ import android.util.Log
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.zaen.testly.utils.LogUtils.Companion.TAG
+import me.yokeyword.fragmentation.SupportActivity
 
 /**
  * Created by zaen on 2/27/18.
  */
 
-abstract class BaseActivity : AppCompatActivity(){
+abstract class BaseActivity : SupportActivity(){
     companion object {
     }
 

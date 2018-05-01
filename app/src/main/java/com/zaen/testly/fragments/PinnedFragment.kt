@@ -8,24 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.zaen.testly.R
+import com.zaen.testly.fragments.base.BaseFragment
 
 /**
  * Created by zaen on 2/28/18.
  */
-class PinnedFragment : Fragment() {
-    var activity: Activity? = null
+class PinnedFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        return inflater.inflate(R.layout.fragment_pinned,container,false)
+        layoutRes = R.layout.fragment_pinned
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this,view)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
     }
 
 //    override fun onItemClick(view: View, position: Int) {

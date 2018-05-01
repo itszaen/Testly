@@ -20,6 +20,7 @@ import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.FirebaseTestly
+import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
 import de.mateware.snacky.Snacky
@@ -90,23 +91,24 @@ class SettingsActivity : BaseActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        if (inFragmentLevel > 0) {inFragmentLevel-=1}
-        if (inFragmentLevel == 0) {inMainFragment()}
-        super.onBackPressed()
-    }
+//    override fun onBackPressed() {
+//        if (inFragmentLevel > 0) {inFragmentLevel-=1}
+//        if (inFragmentLevel == 0) {inMainFragment()}
+//        super.onBackPressed()
+//    }
 
-    override fun onFragmentCalled(newFragment: Fragment, title: String) {
-        val args = Bundle()
-        args.putString("TITLE",title)
-        newFragment.arguments = args
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.settings_fragment_container,newFragment)
-                .addToBackStack(null)
-                .commit()
-        toolbar?.title = title
-        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
-        inFragmentLevel += 1
+    override fun onFragmentCalled(newFragment: BaseFragment, title: String) {
+        start(newFragment)
+//        val args = Bundle()
+//        args.putString("TITLE",title)
+//        newFragment.arguments = args
+//        supportFragmentManager.beginTransaction()
+//                .replace(R.id.settings_fragment_container,newFragment)
+//                .addToBackStack(null)
+//                .commit()
+//        toolbar?.title = title
+//        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
+//        inFragmentLevel += 1
     }
     private fun inMainFragment(){
         toolbar?.title = getString(R.string.title_activity_settings)

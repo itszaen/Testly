@@ -13,17 +13,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.zaen.testly.DeveloperChat
 import com.zaen.testly.R
+import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.DeveloperChatAdapter
 import kotlinx.android.synthetic.main.fragment_dev_chat.*
 
-class DeveloperChatFragment : Fragment(),
+class DeveloperChatFragment : BaseFragment(),
         DeveloperChat.DeveloperChatListener{
-    companion object {
-        const val TAG = "DeveloperChatFrag"
-    }
 
-    var activity: Activity? = null
-    private var unbinder: Unbinder? = null
     private var mDevChat = DeveloperChat(this)
     private var onGotMessageCount = 0
 
@@ -40,9 +36,8 @@ class DeveloperChatFragment : Fragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        val view = inflater.inflate(R.layout.fragment_dev_chat,container,false)
-        unbinder = ButterKnife.bind(this,view)
-        return view
+        layoutRes = R.layout.fragment_dev_chat
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
