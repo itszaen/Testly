@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.data.DevChatMessageData
 import com.zaen.testly.data.DevChatUserData
 import com.zaen.testly.data.FirebaseAuthUserData
@@ -94,8 +95,8 @@ class DeveloperChat(context: Any){
                     if (exception != null){
                         Log.w(TAG,"Listen on Message failed. Exception: $exception")
                     }
-                    for (document in query!!.documents){
-                            storeMessage(document)
+                    for (snapshot in query!!.documents){
+                            storeMessage(snapshot)
                     }
                     isListening = true
                     mListener?.onGotMessages()

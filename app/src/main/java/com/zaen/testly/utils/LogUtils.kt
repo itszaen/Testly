@@ -37,7 +37,7 @@ class LogUtils {
             try {
                 val elements = Thread.currentThread().stackTrace
                 for (ste in elements) {
-                    // 最後の改行がないとリンクされない
+                    // Need \n to link
                     if (ste.className.startsWith(PACKAGE_NAME)) return ste.toString() + "\n"
                 }
             } catch (e: Exception) {

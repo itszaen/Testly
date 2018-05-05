@@ -141,4 +141,8 @@
         <item name="android:textColor">@color/accent_white</item>
     </style>
 
+    <style name="cardQuestionText" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+    </style>
 </resources>

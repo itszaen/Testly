@@ -26,7 +26,7 @@ class DeveloperSettingsMainFragment : BaseFragment() {
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
-        layoutRes = R.layout.fragment_settings_main
+        layoutRes = R.layout.fragment_settings_developer_main
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

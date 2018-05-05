@@ -15,8 +15,8 @@ open class SetData : CasData() {
     var cards: ArrayList<String> = arrayListOf()
     // List of cards to look for
 
-    fun SetData(id: String, title: String, type: String, cardType: String, subjectType: String, cards: ArrayList<String>){
-        CasData(id)
+    fun SetData(id: String, timestamp: Long, title: String, type: String, cardType: String, subjectType: String, cards: ArrayList<String>){
+        CasData(id, timestamp)
         this.title = title
         this.type = type
         this.cardType = cardType

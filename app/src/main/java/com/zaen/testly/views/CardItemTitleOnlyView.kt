@@ -1,11 +1,9 @@
 package com.zaen.testly.views
 
 import android.content.Context
-import android.os.Build
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import butterknife.BindView
@@ -24,7 +22,7 @@ class CardItemTitleOnlyView @JvmOverloads constructor(context: Context, attrs: A
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_item_card_titleonly, this)
+        inflater.inflate(R.layout.item_card_titleonly, this)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.CardItemTitleOnlyView)
         iconString = a.getString(R.styleable.CardItemTitleOnlyView_cardItemIcon)

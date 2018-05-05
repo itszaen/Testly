@@ -24,7 +24,7 @@ class SettingTitleOnlyView @JvmOverloads constructor(context: Context, attrs: At
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_setting_titleonly, this)
+        inflater.inflate(R.layout.item_setting_titleonly, this)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingTitleOnlyView)
         iconString = a.getString(R.styleable.SettingTitleOnlyView_cardItemIcon)

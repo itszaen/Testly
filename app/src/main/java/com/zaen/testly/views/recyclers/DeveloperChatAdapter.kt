@@ -1,6 +1,5 @@
 package com.zaen.testly.views.recyclers
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.GlideApp
 import com.zaen.testly.R
 import com.zaen.testly.data.DevChatMessageData
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -52,7 +48,7 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
         val inflater = LayoutInflater.from(parent.context)
         when(viewType){
             MESSAGE_TYPE_SENT     -> {
-                view = inflater.inflate(R.layout.view_item_message_sent,parent,false)
+                view = inflater.inflate(R.layout.item_message_sent,parent,false)
                 return MessageSentHolder(view)
             }
             MESSAGE_TYPE_RECEIVED -> {

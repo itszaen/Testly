@@ -35,7 +35,7 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_setting_switch, this)
+        inflater.inflate(R.layout.item_setting_switch, this)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingSwitchView)
         iconString = a.getString(R.styleable.SettingSwitchView_cardItemIcon)

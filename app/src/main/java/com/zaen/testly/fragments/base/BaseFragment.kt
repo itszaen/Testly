@@ -52,6 +52,11 @@ abstract class BaseFragment : SupportFragment(){
         activity = getActivity()
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG(this),"onStart")
+    }
+
     override fun onDestroyView() {
         Log.d(TAG(this),"onDestroyView")
         super.onDestroyView()

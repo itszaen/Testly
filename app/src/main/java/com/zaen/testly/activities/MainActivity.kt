@@ -3,18 +3,14 @@ package com.zaen.testly.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -30,20 +26,16 @@ import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
-import com.zaen.testly.FirebaseAuthUser
-import com.zaen.testly.Global.Companion.userinfoRef
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.R
-import com.zaen.testly.R.id.fragment_container_activity_main
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import me.yokeyword.fragmentation.SupportFragment
 
 class MainActivity : BaseActivity(),
-        FirebaseAuthUser.UserinfoListener,
         FileBrowserFragment.RenameToolbar{
 
     var savedInstanceState: Bundle? = null
@@ -100,7 +92,7 @@ class MainActivity : BaseActivity(),
     private var welcomeScreen:WelcomeHelper? = null
 
     private var mAuth: FirebaseAuth? = null
-    private var mAuthUser = FirebaseAuthUser(this)
+    private var mAuthUser = TestlyUser(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutRes = R.layout.activity_main
@@ -123,9 +115,14 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    fun onCreateSignedIn() {// Firebase
+    fun onCreateSignedIn() {
+        // Firebase
         /// Userinfo set up listener & Hide (or show)elements
-        mAuthUser.listenUserinfo()
+        mAuthUser.addUserinfoListener(object: TestlyUser.UserinfoListener{
+            override fun onUserinfoUpdate(snapshot: DocumentSnapshot?) {
+                toggleProviderDrawerItems()
+            }
+        })
 
         /// Build
         drawer = DrawerBuilder().withActivity(this).withToolbar(toolbar)
@@ -264,9 +261,6 @@ class MainActivity : BaseActivity(),
         welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
     }
 
-    override fun onUserinfoUpdate(snapshot: DocumentSnapshot?){
-        toggleProviderDrawerItems()
-    }
     private fun toggleProviderDrawerItems(){
         if (mAuthUser.userinfoSnapshot != null){
             if (mAuthUser.userinfoSnapshot!!.data!!["provider"] as Boolean) {

@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -36,16 +37,40 @@
                     android:id="@+id/input_create_card_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintEnabled="false">
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
+                    app:hintEnabled="false"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/blackErrorText">
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_create_card_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint=""
                         android:inputType="text"
+                        android:maxLength="20"
                         android:maxLines="1"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- Subject -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_create_card_subject"/>
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_text_color="@color/accent_black"/>
+
 
             </LinearLayout>
 
@@ -72,35 +97,29 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <android.support.v7.widget.AppCompatRadioButton
-                            android:id="@+id/radio_btn_unsorted"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/radio_create_card_type_unsorted"/>
-                        <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_selection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/radio_create_card_type_selection"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                            android:text="@string/radio_create_card_type_selection"
+                            android:textSize="@dimen/sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_selection_multiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/radio_create_card_type_selection_multiple"/>
+                            android:text="@string/radio_create_card_type_selection_multiple"
+                            android:textSize="@dimen/sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_selection_multiple_ordered"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/radio_create_card_type_selection_multiple_ordered"/>
+                            android:text="@string/radio_create_card_type_selection_multiple_ordered"
+                            android:textSize="@dimen/sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_spelling"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/radio_create_card_type_spelling"/>
+                            android:text="@string/radio_create_card_type_spelling"
+                            android:textSize="@dimen/sub_medium_text"/>
                     </LinearLayout>
                 </RadioGroup>
 
@@ -123,24 +142,32 @@
                     android:id="@+id/input_create_card_question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/blackErrorText"
+                    app:counterMaxLength="120"
+                    app:counterEnabled="true"
                     app:hintEnabled="false">
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_create_card_question"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:singleLine="false"/>
+                        android:singleLine="false"
+                        android:maxLength="120"/>
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
+
             <!-- Options -->
             <LinearLayout
+                android:id="@+id/create_card_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_spacing"
                 android:layout_marginBottom="@dimen/small_spacing"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,26 +179,44 @@
                         android:layout_height="wrap_content"
                         android:text="@string/title_create_card_options"/>
 
+                    <TextView
+                        android:id="@+id/count_create_card_options_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/sub_medium_spacing"
+                        android:layout_marginEnd="@dimen/sub_medium_spacing"
+                        android:text=""
+                        android:layout_gravity="center"/>
+
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_add_option"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="5dp"
-                        android:padding="3dp"
+                        fancy:fb_text="+"
+                        fancy:fb_textColor="@color/primary"
                         fancy:fb_defaultColor="#FEFEFE"
                         fancy:fb_focusColor="@color/facebookFocus"
-                        fancy:fb_radius="20dp">
-
-                    </mehdi.sakout.fancybuttons.FancyButton>
+                        fancy:fb_radius="20dp"/>
 
                 </LinearLayout>
 
-                <GridLayout
-                    android:id="@+id/input_container_create_card_question"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/input_container_create_card_options"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
 
-                </GridLayout>
+                </android.support.v7.widget.RecyclerView>
+
+                <!-- Error messages-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/error_create_card_option_cannot_be_blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_create_card_option_cannot_be_blank"
+                    style="@style/whiteErrorText"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -188,13 +233,68 @@
                     android:layout_height="wrap_content"
                     android:text="@string/title_create_card_answer"/>
 
+                <!-- Selection -->
                 <LinearLayout
+                    android:id="@+id/answer_container_create_card_selection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+                    <RadioGroup
+                        android:id="@+id/radio_group_create_card_selection_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:orientation="horizontal">
+                    </RadioGroup>
                 </LinearLayout>
+
+                <!-- Selection Multiple -->
+                <LinearLayout
+                    android:id="@+id/answer_container_create_card_selection_multiple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                </LinearLayout>
+
+                <!-- Selection Multiple Ordered -->
+                <LinearLayout
+                    android:id="@+id/answer_container_create_card_selection_multiple_ordered"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                </LinearLayout>
+
+                <!-- Spelling -->
+                <LinearLayout
+                    android:id="@+id/answer_container_create_card_spelling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                </LinearLayout>
+
+                <!-- Error messages -->
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/error_create_card_answer_not_enough"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_create_card_answer_not_enough"
+                    style="@style/whiteErrorText"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/error_create_card_mask_not_enough"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_create_card_mask_not_enough"
+                    style="@style/whiteErrorText"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -227,6 +327,25 @@
                         android:layout_height="wrap_content"
                         android:text="@string/radio_create_card_answer_card_true"/>
                 </RadioGroup>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_create_card_answer_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/blackErrorText"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="120"
+                    app:hintEnabled="false"
+                    android:visibility="gone">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edit_create_card_answer_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:singleLine="false"
+                        android:maxLength="120"/>
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 

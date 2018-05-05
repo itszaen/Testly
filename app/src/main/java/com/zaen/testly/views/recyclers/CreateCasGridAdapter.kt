@@ -45,7 +45,7 @@ class CreateCasGridAdapter(private val casList: ArrayList<CasData>) : RecyclerVi
         val inflater = LayoutInflater.from(parent.context)
         when(viewType){
             CARD     -> {
-                view = inflater.inflate(R.layout.view_item_message_sent,parent,false)
+                view = inflater.inflate(R.layout.item_message_sent,parent,false)
                 return CreateCasGridAdapter.CardHolder(view)
             }
             SET -> {

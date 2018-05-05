@@ -33,6 +33,7 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
                            fullnameLastEdit: TextInputEditText, fullnameFirstInput: TextInputLayout, fullnameFirstEdit: TextInputEditText,
                            schoolSpinner: SearchableSpinner, gradeSpinner: MaterialSpinner, classSpinner: MaterialSpinner){
     var schoolSnapList = ArrayList<DocumentSnapshot>()
+    var schoolIdList = ArrayList<String>()
     var schoolDataList = HashMap<String,Any>()
     var schoolNameList = ArrayList<String>()
     var gradeSnapList = ArrayList<DocumentSnapshot>()
@@ -56,7 +57,8 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
     var firstNameStr: String? = null
     var lastNameStr: String? = null
     var schoolSelected: String? = null // Need, when user set the school to blank, set grade spinner unusable
-    var schoolStr: String? = null
+    var schoolNameStr: String? = null
+    var schoolIdStr: String? = null
     var gradeStr: String? = null
     var classStr: String? = null
     // Register Flags
@@ -88,8 +90,9 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
                         Log.d(SignupActivity.TAG,"Getting school names..")
                         schoolSnapList.clear()
                         schoolNameList.clear()
-                        for (schoolSnap in it.getResult()){
+                        for (schoolSnap in it.result){
                             schoolSnapList.add(schoolSnap)
+                            schoolIdList.add(schoolSnap.id as String)
                             schoolNameList.add(schoolSnap.get("name") as String)
                         }
                         val schoolSpinnerArrayAdapter = ArrayAdapter<String>(context, R.layout.view_item_spinner_schools_signup,schoolNameList)
@@ -106,14 +109,15 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                schoolStr = schoolNameList[position]
+                schoolNameStr = schoolNameList[position]
+                schoolIdStr = schoolIdList[position]
                 schoolSnapList[position].reference.collection("grades").get()
                         .addOnCompleteListener {
                             if (it.isSuccessful){
                                 Log.d(SignupActivity.TAG,"Getting grade names...")
                                 gradeSnapList.clear()
                                 gradeNameList.clear()
-                                for (gradeSnap in it.getResult()){
+                                for (gradeSnap in it.result){
                                     gradeSnapList.add(gradeSnap)
                                     gradeNameList.add(gradeSnap.get("name") as String)
                                 }
@@ -128,34 +132,28 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
 
         }
         // Grade selected
-        gradeSpinner.setOnItemSelectedListener(object: MaterialSpinner.OnItemSelectedListener<String>{
-            override fun onItemSelected(view: MaterialSpinner?, position: Int, id: Long, item: String?) {
-                gradeStr = gradeNameList[position]
-                gradeSnapList[position].reference.collection("classes").get()
-                        .addOnCompleteListener{
-                            if (it.isSuccessful){
-                                Log.d(SignupActivity.TAG,"Getting class names...")
-                                classSnapList.clear()
-                                classNameList.clear()
-                                for (classSnap in it.getResult()){
-                                    classSnapList.add(classSnap)
-                                    classNameList.add(classSnap.get("name") as String)
-                                }
-                                val classSpinnerArrayAdapter = ArrayAdapter<String>(context,R.layout.view_item_spinner_schools_signup,classNameList)
-                                classSpinner.setAdapter(classSpinnerArrayAdapter)
-                                classSpinner.isEnabled = true
-                            } else {
-                                mExceptionHandler?.onExceptionSnacky(it.exception as kotlin.Exception, "Error getting school names. Exception: ${it.exception}","An error occurred trying to get the list of classes. Click open to see the exception.")
+        gradeSpinner.setOnItemSelectedListener { view, position, id, item ->
+            gradeStr = gradeNameList[position]
+            gradeSnapList[position].reference.collection("classes").get()
+                    .addOnCompleteListener{
+                        if (it.isSuccessful){
+                            Log.d(SignupActivity.TAG,"Getting class names...")
+                            classSnapList.clear()
+                            classNameList.clear()
+                            for (classSnap in it.result){
+                                classSnapList.add(classSnap)
+                                classNameList.add(classSnap.get("name") as String)
                             }
+                            val classSpinnerArrayAdapter = ArrayAdapter<String>(context,R.layout.view_item_spinner_schools_signup,classNameList)
+                            classSpinner.setAdapter(classSpinnerArrayAdapter)
+                            classSpinner.isEnabled = true
+                        } else {
+                            mExceptionHandler?.onExceptionSnacky(it.exception as kotlin.Exception, "Error getting school names. Exception: ${it.exception}","An error occurred trying to get the list of classes. Click open to see the exception.")
                         }
-            }
-        })
+                    }
+        }
         // Class selected
-        classSpinner.setOnItemSelectedListener(object: MaterialSpinner.OnItemSelectedListener<String>{
-            override fun onItemSelected(view: MaterialSpinner?, position: Int, id: Long, item: String?) {
-                classStr = classNameList[position]
-            }
-        })
+        classSpinner.setOnItemSelectedListener { view, position, id, item -> classStr = classNameList[position] }
         return this
     }
     fun checkInfoField():Boolean{
@@ -230,7 +228,8 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
         userinfo["username"] = usernameStr
         userinfo["last"] = lastNameStr
         userinfo["first"] = firstNameStr
-        userinfo["school"] = schoolStr
+        userinfo["schoolName"] = schoolNameStr
+        userinfo["school"] = schoolIdStr
         userinfo["grade"] = gradeStr
         userinfo["class"] = classStr
         db.collection("users")
@@ -248,7 +247,7 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
         // Analytics for school
         val mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
         mFirebaseAnalytics.setUserProperty(
-                "Prop1", schoolStr
+                "Prop1", schoolIdStr
         )
         mFirebaseAnalytics.setUserProperty(
                 "Prop2", gradeStr

@@ -14,10 +14,7 @@ import com.baoyz.widget.PullRefreshLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.zaen.testly.R
-import com.zaen.testly.R.id.count_upvote
-import com.zaen.testly.R.id.visible
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.view_item_feedback.*
 import java.util.*
 
 /**
@@ -135,7 +132,7 @@ class FeedbackView @JvmOverloads constructor(context: Context, attrs: AttributeS
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
 
             val layoutInflater = LayoutInflater.from(context)
-            val mView = layoutInflater.inflate(R.layout.view_item_feedback, parent, false)
+            val mView = layoutInflater.inflate(R.layout.item_feedback, parent, false)
 
             mView.setOnClickListener { view ->
                 mRecyclerView?.let {

@@ -26,7 +26,7 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_setting, this)
+        inflater.inflate(R.layout.item_setting, this)
 
         val attr = getContext().obtainStyledAttributes(attrs, R.styleable.SettingView)
         iconString = attr.getString(R.styleable.SettingView_cardItemIcon)

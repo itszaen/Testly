@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zaen.testly.R
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
@@ -16,15 +17,15 @@ import kotlinx.android.synthetic.main.form_signup_userinfo.*
  * Created by zaen on 3/22/18.
  */
 
-class SignupInfoActivity : AppCompatActivity(), SignupUserinfo.ExceptionHandler, SignupUserinfo.SuccessListener {
+class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, SignupUserinfo.SuccessListener {
     companion object {
         val TAG = "SignupInfoActivity"
     }
     var userinfo: SignupUserinfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_signup_info
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup_info)
         userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
                 .Build()
     }

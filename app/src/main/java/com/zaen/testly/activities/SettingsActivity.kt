@@ -104,7 +104,7 @@ class SettingsActivity : BaseActivity(),
 //                .commit()
         toolbar?.title = title
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
-//        inFragmentLevel += 1
+        inFragmentLevel += 1
     }
     private fun inMainFragment(){
         toolbar?.title = getString(R.string.title_activity_settings)

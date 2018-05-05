@@ -4,7 +4,11 @@ open class CasData {
     var id: String = ""
     // Unique document id
 
-    fun CasData(id: String){
+    var timestamp: Long = 0L
+    // Unix timestamp when created
+
+    fun CasData(id: String, timestamp: Long){
         this.id = id
+        this.timestamp = timestamp
     }
 }

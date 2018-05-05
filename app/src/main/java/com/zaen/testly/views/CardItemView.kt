@@ -26,7 +26,7 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_item_card, this)
+        inflater.inflate(R.layout.item_card, this)
 
         val attr = getContext().obtainStyledAttributes(attrs, R.styleable.CardItemView)
         iconString = attr.getString(R.styleable.CardItemView_cardItemIcon)

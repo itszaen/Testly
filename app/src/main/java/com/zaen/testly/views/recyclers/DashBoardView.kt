@@ -22,7 +22,7 @@ class DashBoardView @JvmOverloads constructor(context: Context, attrs: Attribute
     init {
         val inflater = LayoutInflater.from(getContext())
         layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        inflater.inflate(R.layout.view_dashboard,null)
+        inflater.inflate(R.layout.recycler_dashboard,null)
         this.adapter = RecyclerAdapter(context, object: RecyclerViewHolder.ItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 //Toast.makeText(context, "position $position was tapped", Toast.LENGTH_SHORT).show()

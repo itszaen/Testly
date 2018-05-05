@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
+import butterknife.Optional
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.CreateCardActivity
@@ -60,7 +61,7 @@ class CreateCasFragment : BaseFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null){
-
+            return
         }
     }
 
@@ -129,16 +130,8 @@ class CreateCasFragment : BaseFragment(),
         onGotCasDataFuncCount += 1
     }
 
-    @OnClick(R.id.fab_create_card)
-    fun onCreateCardClick(view: View){
-        onButtonClick(view)
-    }
-
-    @OnClick(R.id.fab_create_set)
-    fun onCreateSetClick(view: View){
-        onButtonClick(view)
-    }
-
+    @Optional
+    @OnClick(R.id.fab_create_card,R.id.fab_create_set)
     fun onButtonClick(view: View){
         var intent: Intent? = null
         when(view.id){

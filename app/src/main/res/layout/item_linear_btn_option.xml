@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/item_linear_btn_option"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    grid:layout_columnWeight="1"
+    grid:layout_rowWeight="1"
+    grid:layout_gravity="fill">
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/btn_remove_option"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        fancy:fb_text="-"
+        fancy:fb_textColor="@color/primary"
+        fancy:fb_defaultColor="#FEFEFE"
+        fancy:fb_focusColor="@color/facebookFocus"
+        fancy:fb_radius="25dp"/>
+
+    <TextView
+        android:id="@+id/text_create_card_option_number"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text=""/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_create_card_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:hintEnabled="false">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edit_create_card_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:singleLine="true"
+            android:maxLength="20"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

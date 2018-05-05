@@ -8,7 +8,6 @@ import com.zaen.testly.data.SpellingCardData
 
 class CreateCasData (context: Any) {
     companion object {
-        const val TAG = "CreateCasData"
     }
     private var mListener: CreateCasData? = null
 

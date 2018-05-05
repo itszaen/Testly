@@ -1,7 +1,6 @@
 package com.zaen.testly.views.settings
 
 import android.content.Context
-import android.os.Build
 import android.support.annotation.StringRes
 import android.support.v7.widget.SwitchCompat
 import android.util.AttributeSet
@@ -34,7 +33,7 @@ class SettingSwitchTitleOnlyView @JvmOverloads constructor(context: Context, att
 
     init {
         val inflater = LayoutInflater.from(getContext())
-        inflater.inflate(R.layout.view_setting_switch, this)
+        inflater.inflate(R.layout.item_setting_switch, this)
 
         val a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingSwitchTitleOnlyView)
         iconString = a.getString(R.styleable.SettingSwitchTitleOnlyView_cardItemIcon)

@@ -36,17 +36,17 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
 
         // Greetings
         val greetingsList = resources.getStringArray(R.array.signup_greetings)
-        greeting.setText(greetingsList[Random().nextInt(greetingsList.size)])
+        greeting.text = greetingsList[Random().nextInt(greetingsList.size)]
         userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
                 .Build()
     }
 
 
     fun onSocialButtonSelected(view:View){
-        signup_emailPassword.setVisibility(View.GONE)
+        signup_emailPassword.visibility = View.GONE
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.setMargins(0,resources.getDimension(R.dimen.medium_spacing).toInt(),0,0)
-        signup_form_info.setLayoutParams(params)
+        signup_form_info.layoutParams = params
         btn_mail.setBorderWidth(0)
         btn_google.setBorderWidth(0)
         btn_facebook.setBorderWidth(0)
@@ -54,7 +54,7 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
         btn_github.setBorderWidth(0)
         when(view.id){
             btn_mail.id -> {
-                signup_emailPassword.setVisibility(View.VISIBLE)
+                signup_emailPassword.visibility = View.VISIBLE
                 val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 params.setMargins(0,0,0,0)
                 signup_form_info.layoutParams = params

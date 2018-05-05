@@ -60,9 +60,10 @@
     <string name="action_toggle_to_grid">Grid Mode</string>
     <string name="action_toggle_to_list">List Mode</string>
 
-    <!-- Create Card-->
+    <!-- Create Card -->
     <string name="title_create_card_title">Name</string>
     <string name="hint_create_card_title">Name</string>
+    <string name="title_create_card_subject">Subject</string>
     <string name="title_create_card_type">Type</string>
     <string name="radio_create_card_type_unsorted">Unsorted</string>
     <string name="radio_create_card_type_selection">Selection</string>
@@ -76,6 +77,18 @@
     <string name="title_create_card_answer_card">Answer Card</string>
     <string name="radio_create_card_answer_card_true">Yes</string>
     <string name="radio_create_card_answer_card_false">No</string>
+    <string name="error_create_card_option_cannot_be_blank">Options cannot be blank</string>
+    <string name="error_create_card_answer_not_enough">Select at least two answers.</string>
+    <string name="error_create_card_mask_not_enough">Mask at least one character.</string>
+    <string name="action_preview">Preview</string>
+
+    <!-- Create Card Preview -->
+    <string name="btn_preview_cancel">Cancel</string>
+    <string name="btn_preview_submit">Submit</string>
+
+    <!-- Cards -->
+    <string name="btn_card_boolean_false">No</string>
+    <string name="btn_card_boolean_true">Yes</string>
 
     <!-- Upload -->
     <string name="title_fragment_upload">Upload files</string>
@@ -87,8 +100,6 @@
 
     <!-- Admin Panel -->
     <string name="title_fragment_admin_panel">Administrator Panel</string>
-
-    <!-- Cards -->
 
     <!-- Settings -->
     <string name="title_activity_settings">Settings</string>
