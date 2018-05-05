@@ -4,21 +4,19 @@ import android.annotation.SuppressLint
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
 import android.util.Log
-
-import com.zaen.testly.R
-
+import android.view.MenuItem
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.zaen.testly.R
 import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.base.BaseActivity
-import com.zaen.testly.auth.FirebaseTestly
+import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
@@ -28,14 +26,14 @@ import kotlinx.android.synthetic.main.activity_settings.*
 class SettingsActivity : BaseActivity(),
                 SettingsMainFragment.FragmentClickListener,
                 DeveloperSettingsMainFragment.FragmentClickListener,
-                FirebaseTestly.HandleTask{
+                TestlyFirebaseAuth.HandleTask{
     companion object {
         var isReauthenticatedDeleteUser = false
     }
 
     var toolbar : ActionBar? = null
     private var inFragmentLevel = 0
-    var firebase: FirebaseTestly? = null
+    var firebaseAuth: TestlyFirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         layoutRes = R.layout.activity_settings
@@ -118,8 +116,8 @@ class SettingsActivity : BaseActivity(),
         when (requestCode){
             Auth.RC_LOG_IN -> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                firebase = FirebaseTestly(this)
-                firebase?.handleGoogleSignInResult(task)
+                firebaseAuth = TestlyFirebaseAuth(this)
+                firebaseAuth?.handleGoogleSignInResult(task)
             }
         }
     }

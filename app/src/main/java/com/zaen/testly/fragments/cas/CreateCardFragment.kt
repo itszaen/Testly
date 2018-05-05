@@ -17,9 +17,9 @@ import butterknife.Optional
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.zaen.testly.TestlyUser
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.SelectionCardData
 import com.zaen.testly.data.SelectionMultipleCardData
@@ -28,7 +28,6 @@ import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.fragment_create_card.*
 import mehdi.sakout.fancybuttons.FancyButton
-import kotlin.collections.ArrayList
 
 class CreateCardFragment : BaseFragment(){
     companion object {
@@ -119,7 +118,7 @@ class CreateCardFragment : BaseFragment(){
                     val grade = snapshot.get("grade") as String
                     TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
                                     .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
-                        override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?) {
+                        override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?, exception: Exception?) {
                             if (snapshot != null) {
                                 val subjectList = snapshot.get("subjects") as ArrayList<String>
                                 val adapter = ArrayAdapter<String>(activity, R.layout.item_spinner_create_card_subject, subjectList)

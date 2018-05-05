@@ -1,7 +1,6 @@
 package com.zaen.testly.activities
 
 import android.app.TaskStackBuilder
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
@@ -13,9 +12,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.utils.ScreenProp
 import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.form_feedback.*
-import com.zaen.testly.utils.ScreenProp
 
 
 class FeedbackActivity : BaseActivity() {

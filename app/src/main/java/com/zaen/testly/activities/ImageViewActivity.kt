@@ -4,14 +4,9 @@ import android.app.TaskStackBuilder
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
-import butterknife.ButterKnife
-import butterknife.Unbinder
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.zaen.testly.GlideApp

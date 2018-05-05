@@ -1,64 +1,53 @@
 package com.zaen.testly.data
 
-import android.net.Uri
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.zaen.testly.R
-
 /**
  * Created by zaen on 2/21/18.
  */
-class UserData : FirebaseAuthUserData(){
+class UserData(
+        id: String, email: String, profileUrl: String,
+        isAdmin: Boolean, isDeveloper: Boolean, isProvider: Boolean,
+        displayName: String,
+        firstName: String, lastName: String,
+        schoolId: String, schoolName: String,
+        gradeId: String, grade: String,
+        classId: String, class_: String)
+    : FirebaseAuthUserData(){
 
-    //
+    // Check User Privilege
     var isAdmin: Boolean = false
     var isDeveloper: Boolean = false
     var isProvider: Boolean = false
 
+    // User
+    var displayName: String = ""
     var firstName = ""
     var lastName = ""
-
-    // User
-    var school: String = ""
-    var grade: Int = 0
+    var schoolId: String = ""
+    var schoolName: String = ""
+    var gradeId: String = ""
+    var grade: String = ""
+    var classId: String = ""
     var class_: String = ""
 
-    fun UserData(
-            id: String,
-            mail: String,
-            profileUrl: Uri,
-            isAdmin: Boolean,
-            isDeveloper: Boolean,
-            isProvider: Boolean,
-            firstName: String,
-            lastName: String,
-            school: String,
-            grade: Int,
-            class_: String
-    ){
-        FirebaseAuthUserData(id,mail,profileUrl)
+    // Provider
+
+    // Developer
+
+    // Admin
+
+    init {
+        FirebaseAuthUserData(id,email,profileUrl)
         this.isAdmin = isAdmin
         this.isDeveloper = isDeveloper
         this.isProvider = isProvider
+        this.displayName = displayName
         this.firstName = firstName
         this.lastName = lastName
-        this.school = school
+        this.schoolId = schoolId
+        this.schoolName = schoolName
+        this.gradeId = gradeId
         this.grade = grade
+        this.classId = classId
         this.class_ = class_
-    }
-}
-
-class DeveloperData{
-    var clearance: Int = 5
-    fun DeveloperData(){
-
-    }
-}
-
-class CreateSetActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_set)
     }
 }

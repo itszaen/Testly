@@ -2,8 +2,6 @@ package com.zaen.testly.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import org.parceler.Parcel
-import org.parceler.ParcelConstructor
 
 @Parcelize
 open class CardData : CasData(), Parcelable {

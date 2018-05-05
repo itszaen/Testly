@@ -1,11 +1,8 @@
 package com.zaen.testly.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
-import android.util.AttributeSet
-import android.view.View
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.cas.CreateCardFragment

@@ -8,22 +8,22 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jaredrummler.materialspinner.MaterialSpinner
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
+import com.zaen.testly.TestlyFirestore
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.auth.Auth
 import com.zaen.testly.activities.auth.SignupActivity
-import kotlinx.android.synthetic.main.form_signup_userinfo.*
-import java.util.ArrayList
-import java.util.HashMap
+import com.zaen.testly.data.UserData
+import java.util.*
 
 /**
  * Created by zaen on 3/26/18.
@@ -202,47 +202,45 @@ open class SignupUserinfo (context: Activity, usernameInput: TextInputLayout, us
     }
     // Register userinfo
     fun registerUserInfo(){
-        val user = FirebaseAuth.getInstance().currentUser!!
+        val user = TestlyUser(this).currentUser!!
         val db = FirebaseFirestore.getInstance()
-        val userinfo = HashMap<String,Any?>()
+
         // Username
-        val profileUpdates = UserProfileChangeRequest.Builder()
+        val request = UserProfileChangeRequest.Builder()
                 .setDisplayName(usernameStr)
                 .build()
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener {
-                    if (it.isSuccessful){
-                        Log.d(Auth.TAG,"Username Updated.")
-                        onCompleteListenerForRegisterInfo(1)
-                    }
+        TestlyUser(this). updateProfile(request,object: TestlyUser.ProfileUpdateListener{
+            override fun onProfileUpdated(successful: Boolean, exception: Exception?) {
+                if (successful){
+                    onCompleteListenerForRegisterInfo(1)
+                } else {
+                    onRegisterFirebaseFailure(exception!!,"username")
                 }
-                .addOnFailureListener{
-                    exception -> onRegisterFirebaseFailure(exception,"username")
-                }
+            }
+        })
 
-        // Firestore (Username, fullname, school, grade, class)
-        userinfo["uid"] = user.uid
-        userinfo["admin"] = false
-        userinfo["developer"] = false
-        userinfo["provider"] = false
-        userinfo["username"] = usernameStr
-        userinfo["last"] = lastNameStr
-        userinfo["first"] = firstNameStr
-        userinfo["schoolName"] = schoolNameStr
-        userinfo["school"] = schoolIdStr
-        userinfo["grade"] = gradeStr
-        userinfo["class"] = classStr
-        db.collection("users")
-                .document(user.uid)
-                .set(userinfo)
-                .addOnSuccessListener {
-                    Log.d(Auth.TAG, "Userinfo -> Firestore Success.\n DocumentSnapshot added with uid: ${user.uid}")
+        // Userinfo (Username, fullname, school, grade, class)
+        val userinfo = UserData(
+                user.uid,
+                user.email!!,
+                user.photoUrl.toString(),
+                false, false, false,
+                usernameStr!!,
+                firstNameStr!!, lastNameStr!!,
+                schoolIdStr!!, schoolNameStr!!,
+                gradeStr!!, gradeStr!!,
+                classStr!!, classStr!!
+        )
+
+        TestlyFirestore(this).addDocumentToCollection(db.collection("users"),user.uid,userinfo,object: TestlyFirestore.UploadToCollectionListener{
+            override fun onDocumentUpload(path: CollectionReference, reference: DocumentReference?, exception: Exception?) {
+                if (reference != null){
                     onCompleteListenerForRegisterInfo(2)
+                } else {
+                    onRegisterFirebaseFailure(exception!!,"userinfo")
                 }
-                .addOnFailureListener {
-                    exception -> onRegisterFirebaseFailure(exception,"userinfo")
-                }
-
+            }
+        })
 
         // Analytics for school
         val mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)

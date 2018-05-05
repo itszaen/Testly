@@ -2,25 +2,14 @@ package com.zaen.testly.activities
 
 import android.os.Bundle
 import android.support.v7.app.ActionBar
-import android.view.MotionEvent
-import com.zaen.testly.BuildConfig
 import com.zaen.testly.R
-import com.zaen.testly.R.id.fragment_container_create_card
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.data.CardData
-import com.zaen.testly.fragments.DashboardFragment
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.cas.CreateCardFragment
 import com.zaen.testly.fragments.cas.PreviewCardFragment
 import com.zaen.testly.fragments.cas.PreviewCardFragment.Companion.CARD
 import kotlinx.android.synthetic.main.activity_create_card.*
-import kotlinx.android.synthetic.main.activity_main.*
-import me.yokeyword.fragmentation.ExtraTransaction
-import me.yokeyword.fragmentation.Fragmentation
-import me.yokeyword.fragmentation.ISupportActivity
-import me.yokeyword.fragmentation.SupportActivityDelegate
-import me.yokeyword.fragmentation.anim.FragmentAnimator
-import org.greenrobot.eventbus.util.ErrorDialogFragments
 import org.parceler.Parcels
 
 class CreateCardActivity : BaseActivity(),

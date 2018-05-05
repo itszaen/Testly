@@ -1,6 +1,5 @@
 package com.zaen.testly.fragments.settings
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,21 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
-import butterknife.ButterKnife
+import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.zaen.testly.R
-import butterknife.OnClick
-import butterknife.Unbinder
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.zaen.testly.activities.SettingsActivity
-import com.zaen.testly.activities.auth.Auth
-import com.zaen.testly.auth.FirebaseTestly
-import de.mateware.snacky.Snacky
+import com.zaen.testly.R
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
+import com.zaen.testly.activities.auth.Auth
+import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.utils.LogUtils.Companion.TAG
+import de.mateware.snacky.Snacky
 
 
 /**
@@ -35,7 +32,7 @@ class AccountSettingsMainFragment : BaseFragment(){
     companion object {
     }
 
-    var firebase: FirebaseTestly? = null
+    var firebaseAuth: TestlyFirebaseAuth? = null
     lateinit var toolbar : Toolbar
     private var mListener: DeveloperSettingsMainFragment.FragmentClickListener? = null
 
@@ -139,7 +136,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                 .positiveText(R.string.react_delete)
                 .negativeText(R.string.react_refuse)
                 .onPositive{dialog,which->
-                    val user = FirebaseAuth.getInstance().currentUser!!
+                    val user = TestlyUser(this).currentUser!!
                     if (!isReauthenticatedDeleteUser){
                         dialog.dismiss()
                         reAuthenticateUser()
@@ -177,10 +174,10 @@ class AccountSettingsMainFragment : BaseFragment(){
                 .positiveText(R.string.react_positive)
                 .negativeText(R.string.react_refuse)
                 .onPositive{dialog,which->
-                    firebase = FirebaseTestly(activity!!)
+                    firebaseAuth = TestlyFirebaseAuth(activity!!)
                         when (FirebaseAuth.getInstance().currentUser!!.providerData.get(1).providerId){
                         "password" -> {}
-                        "google.com" -> {FirebaseTestly(activity!!).googleAuth(Auth.RC_LOG_IN)}
+                        "google.com" -> {TestlyFirebaseAuth(activity!!).googleAuth(Auth.RC_LOG_IN)}
                         "facebook.com" -> {}
                         "twitter.com" -> {}
                         "github.com" -> {}

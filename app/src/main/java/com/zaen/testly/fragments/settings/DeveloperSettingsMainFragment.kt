@@ -1,14 +1,11 @@
 package com.zaen.testly.fragments.settings
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
-import butterknife.ButterKnife
 import com.zaen.testly.R
 import com.zaen.testly.fragments.base.BaseFragment
 

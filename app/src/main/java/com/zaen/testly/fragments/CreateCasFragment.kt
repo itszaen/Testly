@@ -12,7 +12,7 @@ import butterknife.Optional
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.CreateCardActivity
-import com.zaen.testly.data.CreateSetActivity
+import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
 import kotlinx.android.synthetic.main.fragment_create.*

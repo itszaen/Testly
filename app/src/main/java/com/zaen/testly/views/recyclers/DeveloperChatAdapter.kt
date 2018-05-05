@@ -75,11 +75,11 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
         private val profileImage: ImageView = view.findViewById(R.id.image_message_received_profile)
 
         fun bind(message: DevChatMessageData){
-            messageText.text = message.message
-            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt!!*1000L)).toString()
+            messageText.text = message.text
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.timestamp!!*1000L)).toString()
             nameText.text = message.sender!!.displayName
             GlideApp.with(profileImage.context)
-                    .load(message.sender!!.profileUrl.toString())
+                    .load(message.sender!!.profileUrl)
                     .circleCrop()
                     .into(profileImage)
         }
@@ -90,8 +90,8 @@ class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageDat
         private val timestampText: TextView = view.findViewById(R.id.text_message_sent_time)
 
         fun bind(message: DevChatMessageData){
-            messageText.text = message.message
-            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.createdAt!!*1000L)).toString()
+            messageText.text = message.text
+            timestampText.text = SimpleDateFormat("HH:mm",Locale.US).format(Date(message.timestamp!!*1000L)).toString()
         }
     }
 }

@@ -1,27 +1,26 @@
 package com.zaen.testly.fragments
 
-import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import butterknife.*
+import butterknife.ButterKnife
+import butterknife.OnClick
+import butterknife.OnTextChanged
+import butterknife.Optional
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
 import com.zaen.testly.DeveloperChat
 import com.zaen.testly.R
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.DeveloperChatAdapter
 import kotlinx.android.synthetic.main.fragment_dev_chat.*
 
-class DeveloperChatFragment : BaseFragment(),
-        DeveloperChat.DeveloperChatListener{
+class DeveloperChatFragment : BaseFragment(){
 
     private var mDevChat = DeveloperChat(this)
-    private var onGotMessageCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +30,14 @@ class DeveloperChatFragment : BaseFragment(),
         }
 
         mDevChat = DeveloperChat(this)
-        mDevChat.downloadMessages()
-
+        mDevChat.listenToMessages(object: DeveloperChat.DeveloperChatListener{
+            override fun onMessage() {
+                // First time (download) call listener
+                if (mDevChat.storedDocuments.size > 0) {
+                    recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
+                }
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
@@ -46,7 +51,7 @@ class DeveloperChatFragment : BaseFragment(),
 
         recycler_dev_chat.apply{
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,true)
+            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
             adapter = DeveloperChatAdapter(mDevChat.messageList)
         }
     }
@@ -84,22 +89,10 @@ class DeveloperChatFragment : BaseFragment(),
     @OnClick(R.id.button_chatbox_send)
     fun onSendMessage(view: View){
         // Upload Message
-        val firebaseUser = FirebaseAuth.getInstance().currentUser!!
         val messageText = edit_chatbox.text.toString()
-        mDevChat.uploadMessage(messageText,firebaseUser)
+        mDevChat.uploadMessage(messageText, TestlyUser(this).currentUser!!)
 
         // Clear EditText
         edit_chatbox.text.clear()
-    }
-
-    override fun onGotMessages() {
-        // First time (download) call listener
-        if (!mDevChat.isListening) {
-            mDevChat.listenToMessages()
-        }
-        if (onGotMessageCount > 0) {
-            recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
-        }
-        onGotMessageCount += 1
     }
 }

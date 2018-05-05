@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
@@ -26,14 +25,15 @@ import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
-import com.zaen.testly.TestlyUser
 import com.zaen.testly.R
+import com.zaen.testly.R.id.fragment_container_activity_main
+import com.zaen.testly.R.id.toolbar
+import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.*
 import com.zaen.testly.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import me.yokeyword.fragmentation.SupportFragment
 
 class MainActivity : BaseActivity(),
         FileBrowserFragment.RenameToolbar{
@@ -43,9 +43,6 @@ class MainActivity : BaseActivity(),
 
     // Fragments
     private var mContent: Fragment? = null
-    private var mFragments: ArrayList<SupportFragment> = arrayListOf<SupportFragment>(
-
-    )
 
     // Material Drawer
     private var drawer: Drawer? = null
@@ -91,7 +88,6 @@ class MainActivity : BaseActivity(),
 
     private var welcomeScreen:WelcomeHelper? = null
 
-    private var mAuth: FirebaseAuth? = null
     private var mAuthUser = TestlyUser(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,9 +98,6 @@ class MainActivity : BaseActivity(),
             mContent = supportFragmentManager.getFragment(savedInstanceState,"lastFragment")
         }
 
-        mAuth = FirebaseAuth.getInstance()
-
-        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         mToolbar = toolbar
 
@@ -262,8 +255,9 @@ class MainActivity : BaseActivity(),
     }
 
     private fun toggleProviderDrawerItems(){
-        if (mAuthUser.userinfoSnapshot != null){
-            if (mAuthUser.userinfoSnapshot!!.data!!["provider"] as Boolean) {
+        val userinfo = mAuthUser.userinfo
+        if (userinfo != null){
+            if (userinfo.isProvider) {
                 if (!hasProviderItem){
                     addDrawerItem(arrayOf(
                             nav_section_provider,
@@ -275,7 +269,7 @@ class MainActivity : BaseActivity(),
                 deleteDrawerItem(arrayOf(7,71,72))
                 hasProviderItem = false
             }
-            if (mAuthUser.userinfoSnapshot!!.data!!["developer"] as Boolean){
+            if (userinfo.isDeveloper){
                 if (!hasDeveloperItem){
                     addDrawerItem(arrayOf(
                             nav_section_developer,
@@ -286,7 +280,7 @@ class MainActivity : BaseActivity(),
                 deleteDrawerItem(arrayOf(8,81))
                 hasDeveloperItem = false
             }
-            if (mAuthUser.userinfoSnapshot!!.data!!["admin"] as Boolean){
+            if (userinfo.isAdmin){
                 if (!hasAdminItem){
                     addDrawerItem((arrayOf(
                             nav_section_admin,

@@ -1,15 +1,12 @@
 package com.zaen.testly.data
 
-import android.net.Uri
-import java.net.URL
-
 open class FirebaseAuthUserData{
     var id: String = ""
-    var mail: String = ""
-    var profileUrl: Uri = Uri.EMPTY
-    fun FirebaseAuthUserData(id: String, mail: String, profileUrl: Uri){
+    var email: String? = ""
+    var profileUrl: String = ""
+    fun FirebaseAuthUserData(id: String, email: String, profileUrl: String){
         this.id = id
-        this.mail = mail
+        this.email = email
         this.profileUrl = profileUrl
     }
 }

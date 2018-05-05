@@ -18,6 +18,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_application_id"/>
 
         <!-- MainActivity -->
         <activity
@@ -82,7 +85,7 @@
             android:name=".activities.auth.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Login"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -133,13 +136,19 @@
         <activity
             android:name=".activities.CreateCardActivity"
             android:label="Create Card"
+            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".activities.MainActivity"/>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.zaen.testly.activities.MainActivity" />
 
         <!-- Create Set -->
-        <activity android:name=".activities.CreateSetActivity">
+        <activity
+            android:name=".activities.CreateSetActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:label="Create Set"
+            android:parentActivityName=".activities.MainActivity"
+            >
 
         </activity>
     </application>

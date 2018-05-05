@@ -1,20 +1,18 @@
 package com.zaen.testly.data
 
-import android.net.Uri
 
-
-class DevChatMessageData (message: String, sender: DevChatUserData, createdAt: Long){
-    var message: String? = null
+class DevChatMessageData (message: String, sender: DevChatUserData, timestamp: Long){
+    var text: String? = null
     var sender: DevChatUserData? = null
-    var createdAt: Long? = null
+    var timestamp: Long? = null
     init {
-        this.message = message
+        this.text = message
         this.sender = sender
-        this.createdAt = createdAt
+        this.timestamp = timestamp
     }
 }
 
-class DevChatUserData(id: String, displayName: String, mail: String, profileUrl: Uri) : FirebaseAuthUserData(){
+class DevChatUserData(id: String, displayName: String, mail: String, profileUrl: String) : FirebaseAuthUserData(){
     var displayName: String = ""
     init{
         FirebaseAuthUserData(id,mail,profileUrl)

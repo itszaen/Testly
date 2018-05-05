@@ -36,7 +36,7 @@ class LoginActivity : Auth() {
     override fun onStart() {
         super.onStart()
         val accountGoogle = GoogleSignIn.getLastSignedInAccount(this)
-        val accountFirebase = firebase?.mAuth?.currentUser
+        val accountFirebase = firebaseAuth?.mAuth?.currentUser
         if ((accountGoogle != null)and(accountFirebase != null)){
             setResult(RESULT_OK, intent)
             finish()

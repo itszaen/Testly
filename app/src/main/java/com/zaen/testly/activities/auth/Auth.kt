@@ -2,7 +2,6 @@ package com.zaen.testly.activities.auth
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
@@ -17,29 +16,27 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.*
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
-import com.zaen.testly.auth.FirebaseTestly
 import com.zaen.testly.auth.SignupUserinfo
+import com.zaen.testly.auth.TestlyFirebaseAuth
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.form_signup_userinfo.*
-import java.util.*
 
 /**
  * Created by zaen on 3/13/18.
  */
 abstract class Auth: AppCompatActivity(),
-        FirebaseTestly.HandleTask,SignupUserinfo.SuccessListener {
+        TestlyFirebaseAuth.HandleTask,SignupUserinfo.SuccessListener {
     companion object {
         const val TAG = "Auth"
         const val RC_LOG_IN = 101
         const val RC_SIGN_UP = 102
         const val RC_SIGN_UP_INFO = 103
     }
-    var firebase: FirebaseTestly? = null
+    var firebaseAuth: TestlyFirebaseAuth? = null
     var mFirebaseAnalytics: FirebaseAnalytics? = null
     var userinfo: SignupUserinfo? = null
 
@@ -51,7 +48,7 @@ abstract class Auth: AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         // Firebase
-        firebase = FirebaseTestly(this)
+        firebaseAuth = TestlyFirebaseAuth(this)
     }
 
     // Check if already signed in
@@ -63,16 +60,16 @@ abstract class Auth: AppCompatActivity(),
     }
 
     fun googleAuth(){
-        firebase?.googleAuth(RC_LOG_IN)
+        firebaseAuth?.googleAuth(RC_LOG_IN)
     }
     fun facebookAuth(){
-        firebase?.facebookAuth()
+        firebaseAuth?.facebookAuth()
     }
     fun twitterAuth(){
-        firebase?.twitterAuth()
+        firebaseAuth?.twitterAuth()
     }
     fun githubAuth(){
-        firebase?.githubAuth()
+        firebaseAuth?.githubAuth()
     }
 
     fun emailAuth(input_email: TextInputLayout, input_password:TextInputLayout){
@@ -135,12 +132,12 @@ abstract class Auth: AppCompatActivity(),
     @SuppressLint("RestrictedApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        firebase?.mFacebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
-        firebase?.mTwitterAuthClient?.onActivityResult(requestCode,resultCode,data)
+        firebaseAuth?.mFacebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
+        firebaseAuth?.mTwitterAuthClient?.onActivityResult(requestCode,resultCode,data)
         when (requestCode){
             Auth.RC_LOG_IN -> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                firebase?.handleGoogleSignInResult(task)
+                firebaseAuth?.handleGoogleSignInResult(task)
             }
         }
     }

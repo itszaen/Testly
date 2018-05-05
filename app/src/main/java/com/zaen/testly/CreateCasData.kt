@@ -1,10 +1,7 @@
 package com.zaen.testly
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
-import com.zaen.testly.data.SetData
-import com.zaen.testly.data.SpellingCardData
 
 class CreateCasData (context: Any) {
     companion object {

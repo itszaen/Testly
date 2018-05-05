@@ -1,9 +1,6 @@
-<LinearLayout
-    android:id="@+id/signup_form_info"
+<LinearLayout android:id="@+id/signup_form_info"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/medium_spacing"

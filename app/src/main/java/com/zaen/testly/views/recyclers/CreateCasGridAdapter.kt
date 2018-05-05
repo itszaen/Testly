@@ -9,7 +9,7 @@ import com.zaen.testly.R
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
 import com.zaen.testly.data.SetData
-import java.util.ArrayList
+import java.util.*
 
 class CreateCasGridAdapter(private val casList: ArrayList<CasData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val CARD = 1

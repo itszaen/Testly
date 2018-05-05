@@ -76,7 +76,7 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
 
             }
             btn_github.id -> {
-                firebase?.notImplementedBuilder?.build()?.show()
+                firebaseAuth?.notImplementedBuilder?.build()?.show()
                 //btn_github.setBorderWidth(5)
                 //authMethod = AUTH_GITHUB
             }

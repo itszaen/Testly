@@ -1,11 +1,8 @@
 package com.zaen.testly.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
-import butterknife.ButterKnife
 import com.zaen.testly.activities.ImageViewActivity
 import com.zaen.testly.fragments.base.BaseFragment
 

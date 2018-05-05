@@ -3,7 +3,6 @@ package com.zaen.testly.fragments.cas
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.constraint.Constraints
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +14,9 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
-import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.data.*
 import com.zaen.testly.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_create_card_preview.*
-import kotlinx.android.synthetic.main.item_layout_linear_card_selection_option.*
 import kotlinx.android.synthetic.main.view_card_selection.*
 import org.parceler.Parcels
 
@@ -164,7 +161,7 @@ class PreviewCardFragment : BaseFragment() {
         card!!.timestamp = System.currentTimeMillis() / 1000L
         val path = FirebaseFirestore.getInstance().collection("cards")
         TestlyFirestore(this).addDocumentToCollection(path,card!!,object: TestlyFirestore.UploadToCollectionListener{
-            override fun onDocumentUpload(path: CollectionReference, reference: DocumentReference?) {
+            override fun onDocumentUpload(path: CollectionReference, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
                     mListener?.onSubmitSuccessful()
                 }

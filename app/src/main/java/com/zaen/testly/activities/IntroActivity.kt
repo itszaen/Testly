@@ -1,17 +1,17 @@
 package com.zaen.testly.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.Fragment
 import com.stephentuso.welcome.*
 import com.zaen.testly.R
-import com.zaen.testly.activities.auth.LoginActivity
-import com.zaen.testly.activities.auth.SignupActivity
-import com.zaen.testly.fragments.intro.FaqFragment
-import com.stephentuso.welcome.WelcomeActivity
 import com.zaen.testly.activities.auth.Auth.Companion.RC_LOG_IN
 import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP
 import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP_INFO
+import com.zaen.testly.activities.auth.LoginActivity
+import com.zaen.testly.activities.auth.SignupActivity
 import com.zaen.testly.activities.auth.SignupInfoActivity
+import com.zaen.testly.fragments.intro.FaqFragment
 
 /**
  * Created by zaen on 3/9/18.
@@ -50,7 +50,9 @@ class IntroActivity : WelcomeActivity() {
             RC_LOG_IN -> {
                 when (resultCode){
                     RESULT_OK -> {
-                        completeWelcomeScreen()
+                        //completeWelcomeScreen()
+                        setResult(Activity.RESULT_OK)
+                        finish()
                         return
                         }
                     RC_SIGN_UP -> onButtonBarSecondPressed()
@@ -62,7 +64,9 @@ class IntroActivity : WelcomeActivity() {
             RC_SIGN_UP -> {
                 when (resultCode) {
                     RESULT_OK -> {
-                        completeWelcomeScreen()
+                        //completeWelcomeScreen()
+                        setResult(Activity.RESULT_OK)
+                        finish()
                         return
                     }
                 }
