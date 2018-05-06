@@ -15,16 +15,17 @@ import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
+import com.zaen.testly.views.recyclers.CreateCasLinearAdapter
 import kotlinx.android.synthetic.main.fragment_create.*
 
-class CreateCasFragment : BaseFragment(),
-    CreateCasData.CreateCasDataListener{
-    val MODE_GRID = 1
-    val MODE_LIST = 2
+class CreateCasFragment : BaseFragment(){
+    companion object {
+        const val MODE_GRID = 1
+        const val MODE_LIST = 2
+    }
 
-    private var viewMode = MODE_GRID
+    private var viewMode = MODE_LIST
     private var mCreateCas = CreateCasData(this)
-    private var onGotCasDataFuncCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class CreateCasFragment : BaseFragment(),
         if (savedInstanceState != null){
 
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
@@ -47,15 +49,22 @@ class CreateCasFragment : BaseFragment(),
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         selectMenu(menu)
+        toggleViewMode()
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // recycler
         toggleViewMode()
 
+        mCreateCas.listenToCard(object: CreateCasData.CreateCasDataListener{
+            override fun onCasData() {
+                if (mCreateCas.casList.size > 0){
+                    toggleViewMode()
+                }
+            }
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,20 +94,20 @@ class CreateCasFragment : BaseFragment(),
     }
 
     fun toggleViewMode(){
-        var mlayoutManager: RecyclerView.LayoutManager? = null
+        var mLayoutManager: RecyclerView.LayoutManager? = null
         when (viewMode) {
             MODE_GRID -> {
-                mlayoutManager = GridLayoutManager(activity, 3, VERTICAL, true)
+                mLayoutManager = GridLayoutManager(activity, 3, VERTICAL, false)
                 recycler_create.apply {
-                    layoutManager = mlayoutManager
+                    layoutManager = mLayoutManager
                     adapter = CreateCasGridAdapter(mCreateCas.casList)
                 }
             }
             MODE_LIST -> {
-                mlayoutManager = LinearLayoutManager(activity, VERTICAL,true)
+                mLayoutManager = LinearLayoutManager(activity, VERTICAL,false)
                 recycler_create.apply {
-                    layoutManager = mlayoutManager
-                    adapter = CreateCasGridAdapter(mCreateCas.casList)
+                    layoutManager = mLayoutManager
+                    adapter = CreateCasLinearAdapter(mCreateCas.casList)
                 }
             }
         }
@@ -118,16 +127,6 @@ class CreateCasFragment : BaseFragment(),
             }
         }
 
-    }
-
-    override fun onGotCasData() {
-        if (!mCreateCas.isListening){
-
-        }
-        if (onGotCasDataFuncCount > 0){
-            toggleViewMode()
-        }
-        onGotCasDataFuncCount += 1
     }
 
     @Optional

@@ -17,6 +17,7 @@ import butterknife.Optional
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
@@ -114,10 +115,12 @@ class CreateCardFragment : BaseFragment(){
         TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
             override fun onUserinfoUpdate(snapshot: DocumentSnapshot?) {
                 if (snapshot != null) {
-                    val school = snapshot.get("school") as String
-                    val grade = snapshot.get("grade") as String
+                    val school = snapshot.get("schoolId") as String
+                    val grade = snapshot.get("gradeId") as String
                     TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
                                     .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
+                        override fun handleListener(listener: ListenerRegistration?) {
+                        }
                         override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?, exception: Exception?) {
                             if (snapshot != null) {
                                 val subjectList = snapshot.get("subjects") as ArrayList<String>

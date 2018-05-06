@@ -10,7 +10,6 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import butterknife.Optional
-import com.google.firebase.auth.FirebaseAuth
 import com.zaen.testly.DeveloperChat
 import com.zaen.testly.R
 import com.zaen.testly.TestlyUser
@@ -29,15 +28,6 @@ class DeveloperChatFragment : BaseFragment(){
 
         }
 
-        mDevChat = DeveloperChat(this)
-        mDevChat.listenToMessages(object: DeveloperChat.DeveloperChatListener{
-            override fun onMessage() {
-                // First time (download) call listener
-                if (mDevChat.storedDocuments.size > 0) {
-                    recycler_dev_chat.adapter = DeveloperChatAdapter(mDevChat.messageList)
-                }
-            }
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?  {
@@ -48,12 +38,16 @@ class DeveloperChatFragment : BaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkTextField(edit_chatbox.text.toString())
+        mDevChat.listenToMessages(object: DeveloperChat.DeveloperChatListener{
+            override fun onMessage() {
+                recycler_dev_chat.apply{
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
+                    adapter = DeveloperChatAdapter(mDevChat.messageList)
+                }
+            }
+        })
 
-        recycler_dev_chat.apply{
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
-            adapter = DeveloperChatAdapter(mDevChat.messageList)
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

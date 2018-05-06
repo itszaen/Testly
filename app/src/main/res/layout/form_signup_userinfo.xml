@@ -121,8 +121,16 @@
                 android:id="@+id/spinner_signup_school"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:focusable="true"
                 app:hintText="Select School"
                 />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/error_signup_school_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/error_school_required"
+                style="@style/whiteErrorText"/>
         </LinearLayout>
         <!-- Grade -->
         <LinearLayout
@@ -142,8 +150,16 @@
                 android:id="@+id/spinner_signup_grade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 app:ms_hint="-"
                 app:ms_text_color="@color/accent_black"/>
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/error_signup_grade_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/error_grade_required"
+                style="@style/whiteErrorText"/>
         </LinearLayout>
         <!-- Class -->
         <LinearLayout
@@ -163,8 +179,16 @@
                 android:id="@+id/spinner_signup_class"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 app:ms_hint="-"
                 app:ms_text_color="@color/accent_black"/>
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/error_signup_class_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/error_class_required"
+                style="@style/whiteErrorText"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

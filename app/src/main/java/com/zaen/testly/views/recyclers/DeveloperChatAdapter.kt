@@ -14,8 +14,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DeveloperChatAdapter(private val mMessageList: ArrayList<DevChatMessageData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val MESSAGE_TYPE_RECEIVED = 1
-    private val MESSAGE_TYPE_SENT = 2
+    companion object {
+        const val MESSAGE_TYPE_RECEIVED = 1
+        const val MESSAGE_TYPE_SENT = 2
+    }
 
     private var mRecyclerView: RecyclerView? = null
 

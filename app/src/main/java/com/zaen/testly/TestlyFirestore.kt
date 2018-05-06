@@ -13,9 +13,14 @@ open class TestlyFirestore(val context: Any) {
         fun onDocumentUpdate(path: DocumentReference,snapshot: DocumentSnapshot?,exception: Exception?)
     }
 
-    interface CollectionListener{
+    interface CollectionSingleListener{
         fun handleListener(listener: ListenerRegistration?)
-        fun onDocumentsUpdate(path: Query, snapshot: DocumentSnapshot?, exception: Exception?)
+        fun onDocumentsUpdate(path: Query, snapshots: QuerySnapshot?, exception: Exception?)
+    }
+
+    interface CollectionMultipleListener{
+        fun handleListener(listener: ListenerRegistration?)
+        fun onDocumentsUpdate(path: Query, snapshot: QueryDocumentSnapshot?, exception: Exception?)
     }
 
     interface CollectionChangeListener{
@@ -104,7 +109,20 @@ open class TestlyFirestore(val context: Any) {
         }
     }
 
-    fun getDocuments(path: Query, listener: CollectionListener){
+    fun getDocuments(path: Query, listener: CollectionSingleListener){
+        path.get()
+                .addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Log.d(LogUtils.TAG(context),"[Success] Getting documents from collection($path).")
+                        listener.onDocumentsUpdate(path,it.result,null)
+                    } else {
+                        Log.d(LogUtils.TAG(context),"[Failure] Getting documents from collection($path) failed.")
+                        listener.onDocumentsUpdate(path,null,it.exception)
+                    }
+                }
+    }
+
+    fun getDocuments(path: Query, listener: CollectionMultipleListener){
         path.get()
                 .addOnCompleteListener {
                     if (it.isSuccessful){

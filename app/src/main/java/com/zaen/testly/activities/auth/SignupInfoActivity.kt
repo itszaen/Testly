@@ -25,7 +25,7 @@ class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, Sign
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutRes = R.layout.activity_signup_info
         super.onCreate(savedInstanceState)
-        userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
+        userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class, error_signup_school_required,error_signup_grade_required,error_signup_class_required)
                 .Build()
     }
 

@@ -12,6 +12,7 @@ import butterknife.OnClick
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.data.*
@@ -161,7 +162,7 @@ class PreviewCardFragment : BaseFragment() {
         card!!.timestamp = System.currentTimeMillis() / 1000L
         val path = FirebaseFirestore.getInstance().collection("cards")
         TestlyFirestore(this).addDocumentToCollection(path,card!!,object: TestlyFirestore.UploadToCollectionListener{
-            override fun onDocumentUpload(path: CollectionReference, reference: DocumentReference?, exception: Exception?) {
+            override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
                     mListener?.onSubmitSuccessful()
                 }

@@ -8,17 +8,14 @@ import com.zaen.testly.data.DevChatUserData
 import com.zaen.testly.utils.Common
 import com.zaen.testly.utils.LogUtils
 
-class DeveloperChat(context: Any){
+class DeveloperChat(val context: Any){
     companion object {
     }
-    private var mListener: DeveloperChatListener? = null
 
     var registration: ListenerRegistration? = null
 
     var messageList = arrayListOf<DevChatMessageData>()
-//    var latestMessageTime : Long = 0
-//    var isListening = false
-    var storedDocuments = arrayListOf<String>()
+    var storedDocuments = arrayListOf<DocumentSnapshot>()
 
     val chatDocumentPath = FirebaseFirestore.getInstance().collection("chats").document("dev")
 
@@ -27,11 +24,6 @@ class DeveloperChat(context: Any){
     }
 
     init {
-        if (context is DeveloperChatListener){
-            mListener = context
-        } else {
-            throw Exception()
-        }
     }
 
     fun listenToMessages(listener: DeveloperChatListener){
@@ -54,7 +46,10 @@ class DeveloperChat(context: Any){
                     override fun onModifyDocument(path: Query, snapshot: DocumentSnapshot) {
                         val message = getMessageFromDocument(snapshot)
                         if (message != null){
-                            messageList[storedDocuments.indexOf(snapshot.id)] = message
+                            // TODO check if this works
+                            // compare snapshot
+                            storedDocuments[storedDocuments.indexOf(snapshot)] = snapshot
+                            messageList[storedDocuments.indexOf(snapshot)] = message
                         }
                         listener.onMessage()
                     }
@@ -90,7 +85,7 @@ class DeveloperChat(context: Any){
 //                messageList[storedDocuments.indexOf(snapshot.id)] = message
 //            } else {
                 messageList.add(message)
-                storedDocuments.add(snapshot.id)
+                storedDocuments.add(snapshot)
 //                latestMessageTime = snapshot.data?.get("timestamp") as Long
         }
     }
@@ -144,11 +139,10 @@ class DeveloperChat(context: Any){
                 senderField["email"] as String,
                 senderField["profileUrl"] as String
         )
-        val message = DevChatMessageData(
+        return DevChatMessageData(
                 snapshot.data!!["text"] as String,
                 sender,
                 snapshot.data!!["timestamp"] as Long
         )
-        return message
     }
 }

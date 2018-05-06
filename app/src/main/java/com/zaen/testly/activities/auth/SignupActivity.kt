@@ -24,6 +24,7 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
         const val AUTH_TWITTER = 4
         const val AUTH_GITHUB = 5
     }
+
     @BindView(R.id.signup_greeting)
     lateinit var greeting: TextView
     var authMethod : Int? = null
@@ -37,7 +38,13 @@ class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
         // Greetings
         val greetingsList = resources.getStringArray(R.array.signup_greetings)
         greeting.text = greetingsList[Random().nextInt(greetingsList.size)]
-        userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class)
+        userinfo = SignupUserinfo(this,
+                input_username,edit_username,
+                input_fullname_last,edit_fullname_last,
+                input_fullname_first,edit_fullname_first,
+                spinner_signup_school,spinner_signup_grade,spinner_signup_class,
+                error_signup_school_required,error_signup_grade_required,error_signup_class_required
+        )
                 .Build()
     }
 
