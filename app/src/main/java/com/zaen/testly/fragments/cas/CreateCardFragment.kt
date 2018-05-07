@@ -22,6 +22,10 @@ import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.CardData
+import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION
+import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION_MULTIPLE
+import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION_MULTIPLE_ORDERED
+import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SPELLING
 import com.zaen.testly.data.SelectionCardData
 import com.zaen.testly.data.SelectionMultipleCardData
 import com.zaen.testly.data.SelectionMultipleOrderedCardData
@@ -48,11 +52,7 @@ class CreateCardFragment : BaseFragment(){
     var subject: String? = null
 
     // Card Type
-    val CARD_TYPE_SELECTION = 1
-    val CARD_TYPE_SELECTION_MULTIPLE = 2
-    val CARD_TYPE_SELECTION_MULTIPLE_ORDERED = 3
-    val CARD_TYPE_SPELLING = 4
-    private var cardType = 1
+    private var cardType = CARD_TYPE_SELECTION
 
     // Option
     private var addingOption = false

@@ -9,16 +9,4 @@ open class CasData(
         const val set = "set"
     }
     open var casType: String = ""
-    // card - "card", set - "set"
-
-//    var id: String = ""
-//    // Unique document id
-//
-//    var timestamp: Long = 0L
-//    // Unix timestamp when created
-
-//    fun CasData(id: String, timestamp: Long){
-//        this.id = id
-//        this.timestamp = timestamp
-//    }
 }

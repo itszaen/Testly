@@ -13,8 +13,6 @@ import com.zaen.testly.utils.LogUtils
 
 /*
 * DO NOT SAVE DOCUMENT WHEN NOT VALID
-*
-*
 * */
 
 class CreateCasData (val context: Any) {
@@ -54,7 +52,7 @@ class CreateCasData (val context: Any) {
             }
 
             override fun onModifyDocument(path: Query, snapshot: DocumentSnapshot) {
-                val card = getCardFromDocument(snapshot)
+                val card = getCardDataFromDocument(snapshot)
                 if (card != null){
                     storedCasDocuments[storedCasDocuments.indexOf(snapshot)] = snapshot
                     casList[storedCasDocuments.indexOf(snapshot)] = card
@@ -72,11 +70,10 @@ class CreateCasData (val context: Any) {
                     storedCardDocuments.remove(snapshot)
                 }
                 listener.onCasData()
-
             }
 
             override fun onDeleteDocument(path: Query, snapshot: DocumentSnapshot) {
-                val card = getCardFromDocument(snapshot)
+                val card = getCardDataFromDocument(snapshot)
                 if (card != null) {
                     casList.removeAt(storedCasDocuments.indexOf(snapshot))
                     cardList.removeAt(storedCardDocuments.indexOf(snapshot))
@@ -99,12 +96,40 @@ class CreateCasData (val context: Any) {
             }
 
             override fun onNewDocument(path: Query, snapshot: DocumentSnapshot) {
+                saveCas(snapshot)
+                listener.onCasData()
             }
 
             override fun onModifyDocument(path: Query, snapshot: DocumentSnapshot) {
+                val set = getSetDataFromDocument(snapshot)
+                if (set != null){
+                    storedCasDocuments[storedCasDocuments.indexOf(snapshot)] = snapshot
+                    casList[storedCasDocuments.indexOf(snapshot)] = set
+                    storedSetDocuments[storedSetDocuments.indexOf(snapshot)] = snapshot
+                    setList[(storedSetDocuments.indexOf(snapshot))] = set
+                } else {
+                    // remove if it was previously valid
+                    if (storedCasDocuments.contains(snapshot)){
+                        casList.removeAt(storedCasDocuments.indexOf(snapshot))
+                    }
+                    if (storedSetDocuments.contains(snapshot)){
+                        setList.removeAt(storedSetDocuments.indexOf(snapshot))
+                    }
+                    storedCasDocuments.remove(snapshot)
+                    storedSetDocuments.remove(snapshot)
+                }
+                listener.onCasData()
             }
 
             override fun onDeleteDocument(path: Query, snapshot: DocumentSnapshot) {
+                val set = getCardDataFromDocument(snapshot)
+                if (set != null) {
+                    casList.removeAt(storedCasDocuments.indexOf(snapshot))
+                    setList.removeAt(storedSetDocuments.indexOf(snapshot))
+                }
+                storedSetDocuments.remove(snapshot)
+                storedCasDocuments.remove(snapshot)
+                listener.onCasData()
             }
         })
     }
@@ -115,7 +140,7 @@ class CreateCasData (val context: Any) {
                 saveCard(snapshot)
             }
             CasData.set -> {
-
+                saveSet(snapshot)
             }
             else -> {
                 // invalid data
@@ -125,12 +150,22 @@ class CreateCasData (val context: Any) {
     }
 
     fun saveCard(snapshot: DocumentSnapshot){
-        val card = getCardFromDocument(snapshot)
+        val card = getCardDataFromDocument(snapshot)
         if (card != null){
             storedCasDocuments.add(snapshot)
             storedCardDocuments.add(snapshot)
             casList.add(card)
             cardList.add(card)
+        }
+    }
+
+    fun saveSet(snapshot: DocumentSnapshot){
+        val set = getSetDataFromDocument(snapshot)
+        if (set != null){
+            storedCasDocuments.add(snapshot)
+            storedSetDocuments.add(snapshot)
+            casList.add(set)
+            setList.add(set)
         }
     }
 
@@ -142,11 +177,7 @@ class CreateCasData (val context: Any) {
         }
     }
 
-    fun saveSet(snapshot: DocumentSnapshot){
-
-    }
-
-    fun getCardFromDocument(snapshot: DocumentSnapshot):CardData?{
+    fun getCardDataFromDocument(snapshot: DocumentSnapshot):CardData?{
         if (Common().allNotNull(
                         snapshot.get("id"),
                         snapshot.get("timestamp"),
@@ -155,7 +186,7 @@ class CreateCasData (val context: Any) {
                         snapshot.get("hasAnswerCard"),
                         snapshot.get("question")
                 )){
-            Log.w(LogUtils.TAG(this),"Invalid card data. Id:${snapshot.id}")
+            Log.w(LogUtils.TAG(this),"[Failure] Invalid card data. Id:${snapshot.id}")
             return null
         }
         return CardData(
@@ -169,8 +200,22 @@ class CreateCasData (val context: Any) {
         )
     }
 
-    fun getSetFromDocument(snapshot: DocumentSnapshot){
-
+    fun getSetDataFromDocument(snapshot: DocumentSnapshot):SetData?{
+        if (Common().allNotNull(
+                        snapshot.get("")
+                )){
+            Log.w(LogUtils.TAG(this),"[Failure] Invalid set data. Id:${snapshot.id}")
+            return null
+        }
+        return SetData(
+                snapshot.get("id") as String,
+                snapshot.get("timestamp") as Long,
+                snapshot.get("title") as String,
+                snapshot.get("type") as String,
+                snapshot.get("cardType") as String,
+                snapshot.get("subjectType") as String,
+                snapshot.get("cards") as ArrayList<String>
+        )
     }
 
 }

@@ -99,7 +99,6 @@ class PreviewCardFragment : BaseFragment() {
                     optionCount = options.size
                     for ((i,v) in (card as SelectionCardData).options.withIndex()){
                         val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-//                        text_card_selection_option.text = v
                         ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
                         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
                         optionLayout.layoutParams = params
@@ -117,7 +116,6 @@ class PreviewCardFragment : BaseFragment() {
                     answers = (card as SelectionMultipleCardData).answerList
                     for ((i,v) in (card as SelectionMultipleCardData).options.withIndex()){
                         val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-//                        text_card_selection_option.text = v
                         ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
                         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
                         optionLayout.layoutParams = params
@@ -134,7 +132,6 @@ class PreviewCardFragment : BaseFragment() {
                     optionCount = options.size
                     for ((i,v) in (card as SelectionMultipleOrderedCardData).options.withIndex()){
                         val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-//                        text_card_selection_option.text = v
                         ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
                         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
                         optionLayout.layoutParams = params

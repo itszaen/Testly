@@ -12,37 +12,14 @@ open class CardData(
         open var hasAnswerCard: Boolean,
         open var question: String,
         open var answerText: String?) : CasData(id, timestamp), Parcelable {
+    companion object {
+        const val CARD_TYPE_SELECTION = "selection"
+        const val CARD_TYPE_SELECTION_MULTIPLE = "multiple"
+        const val CARD_TYPE_SELECTION_MULTIPLE_ORDERED = "ordered"
+        const val CARD_TYPE_SPELLING = "spelling"
+    }
     open var type = ""
     override var casType = CasData.card
-
-//    var title: String = ""
-//    // Unique name
-//
-//    open var type: String = ""
-//    // unsorted, selection, multiple, ordered, spelling,
-//
-//    var subject: String = ""
-//    // unsorted, english, math, japanese...
-//
-//    var question: String = ""
-//    // question
-//
-//    var hasAnswerCard: Boolean = false
-//    // Whether to have a separate answer card
-//
-//    var answerText: String? = null
-//    // If has answer card, content
-
-//    fun CardData(id : String, timestamp: Long, title: String, type: String, subject: String, hasAnswerCard: Boolean,
-//                 question: String, answerText: String?) {
-//        CasData(id,timestamp)
-//        this.title = title
-//        this.type = type
-//        this.subject = subject
-//        this.question = question
-//        this.hasAnswerCard = hasAnswerCard
-//        this.answerText = answerText
-//    }
 }
 
 open class SelectionCardData(
@@ -57,16 +34,7 @@ open class SelectionCardData(
         override var answerText: String?
 )
     : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = "selection"
-
-//    var options: ArrayList<String> = ArrayList<String>()
-//
-//    open var answer: Int = 0
-
-//    init {
-//        this.options.addAll(options)
-//        this.answer = answer
-//    }
+    override var type = CARD_TYPE_SELECTION
 }
 
 open class SelectionMultipleCardData(
@@ -81,17 +49,7 @@ open class SelectionMultipleCardData(
         override var answerText: String?
 )
     : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = "multiple"
-
-//    var options: ArrayList<String> = ArrayList<String>()
-//
-//    var answerList: ArrayList<Int> = ArrayList<Int>()
-//
-//    init {
-//        CardData(id, timestamp, title, type, subject, hasAnswerCard, question, answerText)
-//        this.options.addAll(options)
-//        this.answerList.addAll(answers)
-//    }
+    override var type = CARD_TYPE_SELECTION_MULTIPLE
 }
 
 class SelectionMultipleOrderedCardData(
@@ -106,7 +64,7 @@ class SelectionMultipleOrderedCardData(
         override var answerText: String?
 )
     : SelectionMultipleCardData(id, timestamp, title, subject, hasAnswerCard, question, options, orderedAnswers, answerText){
-    override var type = "ordered"
+    override var type = CARD_TYPE_SELECTION_MULTIPLE_ORDERED
 }
 
 class SpellingCardData(
@@ -121,17 +79,6 @@ class SpellingCardData(
         override var answerText: String?
 )
     : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = "spelling"
-
-//    var mask: ArrayList<Int> = ArrayList<Int>()
-//
-//    var answerMasks: ArrayList<Int> = ArrayList<Int>()
-
-    fun SpellingCardData(id : String, timestamp: Long, title: String, subject: String, hasAnswerCard: Boolean,
-                         question: String, mask: ArrayList<Int>, answerMasks: ArrayList<Int>, answerText: String?) {
-//        CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText)
-//        this.mask = mask
-//        this.answerMasks.addAll(answerMasks)
-    }
+    override var type = CARD_TYPE_SPELLING
 
 }
