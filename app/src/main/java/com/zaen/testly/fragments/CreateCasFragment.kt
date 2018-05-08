@@ -59,7 +59,7 @@ class CreateCasFragment : BaseFragment(){
         // recycler
         toggleViewMode()
 
-        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null,null)
+        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null)
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){

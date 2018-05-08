@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_spacing"
             android:layout_marginStart="@dimen/big_spacing"
             android:layout_marginEnd="@dimen/big_spacing"
             android:orientation="vertical">
@@ -192,12 +193,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/title_create_set_card_select"/>
+                            android:text="@string/title_create_set_card_select"
+                            style="@style/TextAppearance.AppCompat"/>
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/error_create_set_cards_not_selected"
@@ -207,13 +210,11 @@
                             android:visibility="gone"
                             style="@style/whiteErrorText"/>
 
-                        <FrameLayout
-                            android:id="@+id/fragment_container_create_set_cards"
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler_create_set_cards"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="true">
-
-                        </FrameLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/debug_border"/>
 
                     </LinearLayout>
 

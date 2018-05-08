@@ -33,7 +33,7 @@ class CreateCasData (val context: Any) {
         fun onCasData()
     }
 
-    fun createCasRequest(type: String, orderBy: String?, vararg wheres: HashMap<String,Any?>?):Query?{
+    fun createCasRequest(type: String, orderBy: String?, wheres: HashMap<String,Any?>?):Query?{
         var reference: Query?
         reference = when (type){
             CasData.card -> cardCollectionRef
@@ -44,9 +44,10 @@ class CreateCasData (val context: Any) {
             reference = reference?.orderBy(orderBy)
         }
 
-        for (where: HashMap<String,Any?>? in wheres) {
-            for ((key: String, value: Any?) in where!!.iterator())
+        if (wheres != null) {
+            for ((key: String, value: Any?) in wheres.iterator()){
                 reference = reference?.whereEqualTo(key, value)
+            }
         }
 
         return reference

@@ -30,6 +30,7 @@ import com.zaen.testly.R.id.fragment_container_activity_main
 import com.zaen.testly.R.id.toolbar
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.*
 import com.zaen.testly.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -112,7 +113,7 @@ class MainActivity : BaseActivity(),
         // Firebase
         /// Userinfo set up listener & Hide (or show)elements
         mAuthUser.addUserinfoListener(object: TestlyUser.UserinfoListener{
-            override fun onUserinfoUpdate(snapshot: DocumentSnapshot?) {
+            override fun onUserinfoUpdate(userinfo: UserData?) {
                 toggleProviderDrawerItems()
             }
         })

@@ -1,14 +1,11 @@
 package com.zaen.testly.activities
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
-import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.fragments.cas.CreateCardFragment
 import com.zaen.testly.fragments.cas.CreateSetFragment
-import kotlinx.android.synthetic.main.activity_create_card.*
+import kotlinx.android.synthetic.main.activity_create_set.*
 
 class CreateSetActivity : BaseActivity(){
     var toolbar: ActionBar? = null
@@ -19,7 +16,7 @@ class CreateSetActivity : BaseActivity(){
 
         toolbar = this.supportActionBar
 
-        if (fragment_container_create_card != null){
+        if (fragment_container_create_set != null){
             if (savedInstanceState != null){
                 return
             }

@@ -2,9 +2,11 @@ package com.zaen.testly.fragments.cas
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import butterknife.OnClick
 import com.google.firebase.firestore.*
@@ -23,6 +25,8 @@ import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_SINGLE
 import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.views.recyclers.CreateCasGridAdapter
+import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.fragment_create_set.*
 
 class CreateSetFragment  : BaseFragment(){
@@ -102,17 +106,44 @@ class CreateSetFragment  : BaseFragment(){
                 }
             }
         })
-
         updateUI()
+        getCards()
+    }
 
+    private fun getCards(){
+        val orderBy = "timestamp"
+        val wheres = HashMap<String,Any?>()
+
+        when (setCardType){
+            SET_CARD_TYPE_SELECTION -> {
+                wheres["type"] = CardData.CARD_TYPE_SELECTION
+                wheres["type"] = CardData.CARD_TYPE_SELECTION_MULTIPLE
+                wheres["type"] = CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED
+            }
+            SET_CARD_TYPE_SPELLING -> {
+                wheres["type"] = CardData.CARD_TYPE_SPELLING
+            }
+        }
+
+        if (cardSubject != null){
+            wheres["subject"] = cardSubject
+        }
+        val request = mCreateCas.createCasRequest(CasData.set,orderBy,wheres)
+        mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
+            override fun onCasData() {
+                updateUI()
+            }
+        })
     }
 
     private fun updateUI(){
-        // get cards
-        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null,null)
-        request = when (setCardType){
-            SET_CARD_TYPE_SELECTION -> mCreateCas.createCasRequest(CasData.card,"timestamp", hashMapOf("type", CardData.CARD_TYPE_SELECTION))
+
+        val mLayoutManager = GridLayoutManager(activity, 3, LinearLayout.VERTICAL, false)
+        recycler_create_set_cards.apply {
+            layoutManager = mLayoutManager
+            adapter = CreateCasGridAdapter(mCreateCas.casList)
         }
+        recycler_create_set_cards
     }
 
     @OnClick(R.id.radio_btn_set_card_mixed,R.id.radio_btn_set_card_selection,R.id.radio_btn_set_card_spelling)
@@ -171,7 +202,7 @@ class CreateSetFragment  : BaseFragment(){
 
         if (cardsSelected.size < 1){
             error_create_set_cards_not_selected.visibility = View.VISIBLE
-            focusView = fragment_container_create_set_cards
+            focusView = recycler_create_set_cards
             cancel = true
         }
 
