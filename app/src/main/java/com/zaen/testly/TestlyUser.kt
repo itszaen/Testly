@@ -17,7 +17,7 @@ class TestlyUser(val context: Any){
     }
 
     interface UserinfoListener{
-        fun onUserinfoUpdate(snapshot:DocumentSnapshot?)
+        fun onUserinfoUpdate(userinfo: UserData?)
     }
 
     interface ProfileUpdateListener{
@@ -63,7 +63,7 @@ class TestlyUser(val context: Any){
                             snapshot.get("classId") as String,
                             snapshot.get("class_") as String
                     )
-                    listener.onUserinfoUpdate(snapshot)
+                    listener.onUserinfoUpdate(userinfo)
                 } else {
                     userinfoSnapshot = null
                     listener.onUserinfoUpdate(null)

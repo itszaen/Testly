@@ -2,15 +2,28 @@ package com.zaen.testly.fragments.cas
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.RadioButton
+import butterknife.OnClick
+import com.google.firebase.firestore.*
+import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
+import com.zaen.testly.TestlyUser
+import com.zaen.testly.data.CardData
+import com.zaen.testly.data.CasData
+import com.zaen.testly.data.SetData
 import com.zaen.testly.data.SetData.Companion.SET_CARD_TYPE_MIXED
+import com.zaen.testly.data.SetData.Companion.SET_CARD_TYPE_SELECTION
+import com.zaen.testly.data.SetData.Companion.SET_CARD_TYPE_SPELLING
 import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_MIXED
+import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_SINGLE
 import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
+import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_create_set.*
 
 class CreateSetFragment  : BaseFragment(){
     companion object {
@@ -21,11 +34,18 @@ class CreateSetFragment  : BaseFragment(){
     }
     private var mListener: SubmitSetListener? = null
 
+    private var mCreateCas = CreateCasData(this)
+
     private var setType = SET_TYPE_CHECK
 
     private var setCardType = SET_CARD_TYPE_MIXED
 
-    private var setSubjectType = SET_SUBJECT_TYPE_MIXED
+    private var setSubjectType: String? = SET_SUBJECT_TYPE_MIXED
+    private var subjectList: ArrayList<String>? = null
+
+    private var cardSubject: String? = null
+
+    private var cardsSelected = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +68,11 @@ class CreateSetFragment  : BaseFragment(){
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_fragment_create_set,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
@@ -57,9 +82,134 @@ class CreateSetFragment  : BaseFragment(){
         if (savedInstanceState != null){
             return
         }
+        TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
+            override fun onUserinfoUpdate(userinfo: UserData?) {
+                if (userinfo != null) {
+                    val school = userinfo.schoolId
+                    val grade = userinfo.gradeId
+                    TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
+                            .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
+                        override fun handleListener(listener: ListenerRegistration?) {
+                        }
+                        override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?, exception: Exception?) {
+                            if (snapshot != null) {
+                                val subjectList = snapshot.get("subjects") as ArrayList<String>
+                            } else {
+                                // error getting subjects
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+        updateUI()
+
     }
 
     private fun updateUI(){
+        // get cards
+        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null,null)
+        request = when (setCardType){
+            SET_CARD_TYPE_SELECTION -> mCreateCas.createCasRequest(CasData.card,"timestamp", hashMapOf("type", CardData.CARD_TYPE_SELECTION))
+        }
+    }
 
+    @OnClick(R.id.radio_btn_set_card_mixed,R.id.radio_btn_set_card_selection,R.id.radio_btn_set_card_spelling)
+    fun onSetCardTypeClicked(radioButton: RadioButton){
+        radio_group_create_set_card_type.clearCheck()
+        when (radioButton.id){
+            R.id.radio_btn_set_card_mixed -> {
+                radio_group_create_set_card_type.check(R.id.radio_btn_set_card_mixed)
+                setCardType = SET_CARD_TYPE_MIXED
+            }
+            R.id.radio_btn_set_card_selection -> {
+                radio_group_create_set_card_type.check(R.id.radio_btn_set_card_selection)
+                setCardType = SET_CARD_TYPE_SELECTION
+            }
+            R.id.radio_btn_set_card_spelling -> {
+                radio_group_create_set_card_type.check(R.id.radio_btn_set_card_spelling)
+                setCardType = SET_CARD_TYPE_SPELLING
+            }
+        }
+        updateUI()
+    }
+
+    @OnClick(R.id.check_create_set_card_subject_mixed)
+    fun onSetCardSubjectClicked(checkBox: CheckBox){
+        if (checkBox.isChecked){
+            setSubjectType = SET_SUBJECT_TYPE_MIXED
+            spinner_create_set_card_subjects.isEnabled = false
+            cardSubject = null
+        } else {
+            setSubjectType = SET_SUBJECT_TYPE_SINGLE
+            spinner_create_set_card_subjects.isEnabled = true
+            val adapter = ArrayAdapter<String>(activity, R.layout.item_spinner_create_set_card_subject, subjectList)
+            spinner_create_set_card_subjects.setAdapter(adapter)
+            spinner_create_set_card_subjects.setOnItemSelectedListener { view, position, id, item ->
+                cardSubject = item.toString()
+            }
+        }
+        updateUI()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.action_submit_set -> {
+                submitSet()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun checkError():Boolean{
+        error_create_set_subject_not_selected.visibility = View.GONE
+        error_create_set_cards_not_selected.visibility = View.GONE
+
+        var cancel = false
+        var focusView: View? = null
+
+        if (cardsSelected.size < 1){
+            error_create_set_cards_not_selected.visibility = View.VISIBLE
+            focusView = fragment_container_create_set_cards
+            cancel = true
+        }
+
+        if (setSubjectType == null && cardSubject == null){
+            error_create_set_subject_not_selected.visibility = View.VISIBLE
+            focusView = spinner_create_set_card_subjects
+            cancel = true
+        }
+
+        return if (cancel){
+            focusView?.requestFocus()
+            true
+        } else {
+            false
+        }
+    }
+
+    fun submitSet(){
+        if (checkError()){
+            return
+        }
+        val id = ""
+        val timestamp = System.currentTimeMillis() / 1000L
+        val title = edit_create_set_title.text.toString()
+        val type = setType
+        val cardType = setCardType
+        val subjectType = setSubjectType
+        val cards = arrayListOf<String>()
+        val set = SetData(
+            id, timestamp, title, type, cardType, subjectType!!, cards
+        )
+        val path = FirebaseFirestore.getInstance().collection("sets")
+        TestlyFirestore(this).addDocumentToCollection(path,set,object: TestlyFirestore.UploadToCollectionListener{
+            override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
+                if (reference != null){
+                    mListener?.onSubmitSetSuccessful()
+                }
+            }
+        })
     }
 }

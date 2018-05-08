@@ -1,6 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateSetActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/big_spacing"
+            android:layout_marginEnd="@dimen/big_spacing"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_create_set_title"
+                    style="@style/TextAppearance.AppCompat.Body2"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_create_set_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    app:hintEnabled="false"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/blackErrorText">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edit_create_set_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_create_card_type"
+                    style="@style/TextAppearance.AppCompat.Body2"/>
+
+                <RadioGroup
+                    android:id="@+id/radio_group_create_set_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/radio_btn_set_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/radio_create_set_type_check"/>
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/radio_btn_set_test"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/radio_create_set_type_test"/>
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <!-- Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_spacing"
+                android:layout_marginBottom="@dimen/small_spacing"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_create_set_card"
+                    style="@style/TextAppearance.AppCompat.Body2"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_spacing"
+                    android:layout_marginBottom="@dimen/small_spacing"
+                    android:layout_marginStart="@dimen/medium_spacing"
+                    android:layout_marginEnd="@dimen/medium_spacing"
+                    android:orientation="vertical">
+
+                    <!-- Type -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_create_set_card_type"
+                            style="@style/TextAppearance.AppCompat"/>
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_create_set_card_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <android.support.v7.widget.AppCompatRadioButton
+                                android:id="@+id/radio_btn_set_card_mixed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/radio_create_set_card_type_mixed"/>
+                            <android.support.v7.widget.AppCompatRadioButton
+                                android:id="@+id/radio_btn_set_card_selection"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/radio_create_set_card_type_selection"/>
+                            <android.support.v7.widget.AppCompatRadioButton
+                                android:id="@+id/radio_btn_set_card_spelling"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/radio_create_set_card_type_spelling"/>
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <!-- Subject -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_create_set_card_subject"
+                            style="@style/TextAppearance.AppCompat"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.AppCompatCheckBox
+                                android:id="@+id/check_create_set_card_subject_mixed"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/check_create_set_card_subject_mixed"
+                                android:checked="true"/>
+
+                            <com.jaredrummler.materialspinner.MaterialSpinner
+                                android:id="@+id/spinner_create_set_card_subjects"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="7"
+                                android:focusable="true"/>
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/error_create_set_subject_not_selected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="@string/error_create_set_subject_not_selected"
+                            android:visibility="gone"
+                            style="@style/whiteErrorText"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_create_set_card_select"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/error_create_set_cards_not_selected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_create_set_cards_not_selected"
+                            android:visibility="gone"
+                            style="@style/whiteErrorText"/>
+
+                        <FrameLayout
+                            android:id="@+id/fragment_container_create_set_cards"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true">
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -21,14 +21,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
-import com.zaen.testly.data.CardData
+import com.zaen.testly.data.*
 import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION
 import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION_MULTIPLE
 import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SELECTION_MULTIPLE_ORDERED
 import com.zaen.testly.data.CardData.Companion.CARD_TYPE_SPELLING
-import com.zaen.testly.data.SelectionCardData
-import com.zaen.testly.data.SelectionMultipleCardData
-import com.zaen.testly.data.SelectionMultipleOrderedCardData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.utils.LogUtils.Companion.TAG
 import kotlinx.android.synthetic.main.fragment_create_card.*
@@ -68,11 +65,6 @@ class CreateCardFragment : BaseFragment(){
     // Whether to have answer card
     var hasAnswerCard = false
 
-    var mListener :FragmentClickListener? = null
-    interface FragmentClickListener{
-        fun onFragmentCalled(newFragment: Fragment, title:String)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
@@ -83,9 +75,6 @@ class CreateCardFragment : BaseFragment(){
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is FragmentClickListener){
-            mListener = context
-        }
         if (context is Preview){
             mPreview = context
         }
@@ -94,7 +83,6 @@ class CreateCardFragment : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         layoutRes = R.layout.fragment_create_card
         setHasOptionsMenu(true)
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -113,10 +101,10 @@ class CreateCardFragment : BaseFragment(){
             return
         }
         TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
-            override fun onUserinfoUpdate(snapshot: DocumentSnapshot?) {
-                if (snapshot != null) {
-                    val school = snapshot.get("schoolId") as String
-                    val grade = snapshot.get("gradeId") as String
+            override fun onUserinfoUpdate(userinfo: UserData?) {
+                if (userinfo != null) {
+                    val school = userinfo.schoolId
+                    val grade = userinfo.gradeId
                     TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
                                     .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
                         override fun handleListener(listener: ListenerRegistration?) {
@@ -383,7 +371,7 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    fun checkNoError():Boolean{
+    fun checkError():Boolean{
         var cancel = false
         var focusView : View? = null
 
@@ -456,9 +444,9 @@ class CreateCardFragment : BaseFragment(){
 
         return if (cancel){
             focusView?.requestFocus()
-            false
-        } else {
             true
+        } else {
+            false
         }
     }
 
@@ -538,7 +526,7 @@ class CreateCardFragment : BaseFragment(){
     }
 
     private fun preview(){
-        if (!checkNoError()){
+        if (checkError()){
             return
         }
 

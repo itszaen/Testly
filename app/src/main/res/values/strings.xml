@@ -86,6 +86,23 @@
     <string name="btn_preview_cancel">Cancel</string>
     <string name="btn_preview_submit">Submit</string>
 
+    <!-- Create Set -->
+    <string name="title_create_set_title">Name</string>
+    <string name="hint_create_set_title">Name</string>
+    <string name="radio_create_set_type_check">Check</string>
+    <string name="radio_create_set_type_test">Test</string>
+    <string name="title_create_set_card">Card</string>
+    <string name="title_create_set_card_type">Type</string>
+    <string name="radio_create_set_card_type_mixed">Mixed</string>
+    <string name="radio_create_set_card_type_selection">Selection</string>
+    <string name="radio_create_set_card_type_spelling">Spelling</string>
+    <string name="title_create_set_card_subject">Subject</string>
+    <string name="check_create_set_card_subject_mixed">Mixed</string>
+    <string name="error_create_set_subject_not_selected">Set to mixed or select one subject.</string>
+    <string name="title_create_set_card_select">Select</string>
+    <string name="error_create_set_cards_not_selected">Select at least one card.</string>
+    <string name="action_submit">Submit</string>
+
     <!-- Cards -->
     <string name="btn_card_boolean_false">No</string>
     <string name="btn_card_boolean_true">Yes</string>

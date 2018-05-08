@@ -5,11 +5,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.cas.CreateCardFragment
+import com.zaen.testly.fragments.cas.CreateSetFragment
 import kotlinx.android.synthetic.main.activity_create_card.*
 
-class CreateSetActivity : BaseActivity(),
-    CreateCardFragment.FragmentClickListener{
+class CreateSetActivity : BaseActivity(){
     var toolbar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,24 +23,8 @@ class CreateSetActivity : BaseActivity(),
             if (savedInstanceState != null){
                 return
             }
-            val mainFragment = CreateCardFragment()
-            mainFragment.arguments = intent.extras
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_create_set,mainFragment)
-                    .commit()
+            loadRootFragment(R.id.fragment_container_create_set,CreateSetFragment(),true,true)
         }
-    }
-
-    override fun onFragmentCalled(newFragment: Fragment, title: String) {
-        val args = Bundle()
-        args.putString("TITLE",title)
-        newFragment.arguments = args
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_create_card,newFragment)
-                .addToBackStack(null)
-                .commit()
-        toolbar?.title = title
-
     }
 
 

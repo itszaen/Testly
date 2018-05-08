@@ -1,10 +1,7 @@
 package com.zaen.testly
 
 import android.util.Log
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
 import com.zaen.testly.data.SetData
@@ -36,8 +33,27 @@ class CreateCasData (val context: Any) {
         fun onCasData()
     }
 
-    fun listenToCard(listener: CreateCasDataListener){
-        TestlyFirestore(this).addCollectionListener(cardCollectionRef.orderBy("timestamp"),object: TestlyFirestore.CollectionChangeListener{
+    fun createCasRequest(type: String, orderBy: String?, vararg wheres: HashMap<String,Any?>?):Query?{
+        var reference: Query?
+        reference = when (type){
+            CasData.card -> cardCollectionRef
+            CasData.set  -> setCollectionRef
+            else -> null
+        }
+        if (orderBy != null){
+            reference = reference?.orderBy(orderBy)
+        }
+
+        for (where: HashMap<String,Any?>? in wheres) {
+            for ((key: String, value: Any?) in where!!.iterator())
+                reference = reference?.whereEqualTo(key, value)
+        }
+
+        return reference
+    }
+
+    fun listenToCard(query: Query,listener: CreateCasDataListener){
+        TestlyFirestore(this).addCollectionListener(query,object: TestlyFirestore.CollectionChangeListener{
             override fun handleListener(listener: ListenerRegistration?) {
                 registrationCard = listener
             }

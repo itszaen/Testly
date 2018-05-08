@@ -13,6 +13,7 @@ import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
+import com.zaen.testly.data.CasData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
 import com.zaen.testly.views.recyclers.CreateCasLinearAdapter
@@ -58,7 +59,8 @@ class CreateCasFragment : BaseFragment(){
         // recycler
         toggleViewMode()
 
-        mCreateCas.listenToCard(object: CreateCasData.CreateCasDataListener{
+        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null,null)
+        mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
                     toggleViewMode()
