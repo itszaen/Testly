@@ -77,7 +77,8 @@
                             android:id="@+id/radio_btn_set_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/radio_create_set_type_check"/>
+                            android:text="@string/radio_create_set_type_check"
+                            android:checked="true"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_set_test"
                             android:layout_width="wrap_content"
@@ -131,7 +132,8 @@
                                 android:id="@+id/radio_btn_set_card_mixed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/radio_create_set_card_type_mixed"/>
+                                android:text="@string/radio_create_set_card_type_mixed"
+                                android:checked="true"/>
                             <android.support.v7.widget.AppCompatRadioButton
                                 android:id="@+id/radio_btn_set_card_selection"
                                 android:layout_width="wrap_content"

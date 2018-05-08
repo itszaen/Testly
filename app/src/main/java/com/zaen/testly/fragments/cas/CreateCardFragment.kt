@@ -235,14 +235,6 @@ class CreateCardFragment : BaseFragment(){
         // Option Counter
         count_create_card_options_num.text = optionNum.toString()
 
-        // Option number
-//        val optionLayoutNum = input_container_create_card_options.childCount
-//        for (i in 0 until optionLayoutNum){
-//            val optionLayout = input_container_create_card_options.getChildAt(i) as LinearLayout
-//            val optionLayoutNum = optionLayout.getChildAt(1) as TextView
-//            optionLayoutNum.text = (i+1).toString() + "."
-//        }
-
         // Answer
         if (optionNum > 0) {
             /// Selection
@@ -371,7 +363,7 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    fun checkError():Boolean{
+    private fun checkError():Boolean{
         var cancel = false
         var focusView : View? = null
 
