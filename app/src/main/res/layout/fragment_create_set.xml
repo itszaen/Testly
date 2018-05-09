@@ -215,8 +215,7 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler_create_set_cards"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/debug_border"/>
+                            android:layout_height="match_parent"/>
 
                     </LinearLayout>
 
