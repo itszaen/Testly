@@ -227,7 +227,7 @@ class CreateSetFragment  : BaseFragment(){
         }
     }
 
-    fun submitSet(){
+    private fun submitSet(){
         if (checkError()){
             return
         }

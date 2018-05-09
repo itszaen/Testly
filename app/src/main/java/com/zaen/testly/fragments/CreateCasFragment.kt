@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
+import com.mikepenz.fastadapter.items.AbstractItem
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.CreateCardActivity
@@ -143,4 +144,11 @@ class CreateCasFragment : BaseFragment(){
             startActivity(intent)
         }
     }
+
+    class CasLinearRecyclerItem : AbstractItem<CasLinearRecyclerItem,CasLinearRecyclerItem.ViewHolder>{
+        override fun getType(): Int {
+            return R.id.item_
+        }
+    }
+
 }
