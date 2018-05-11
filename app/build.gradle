@@ -222,6 +222,13 @@ dependencies {
     implementation 'com.mikepenz:fastadapter-extensions:3.2.5'
     implementation 'com.mikepenz:fastadapter-extensions-expandable:3.2.5'
 
+    // FlexibleAdapter https://github.com/davideas/FlexibleAdapter#setup
+    implementation 'eu.davidea:flexible-adapter:5.0.4'
+    implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b4'
+    implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b2'
+    /// From 1.0.0-b3, library is compiled with data binding v2
+    implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b3'
+
     // Circle Progress View https://github.com/jakob-grabner/Circle-Progress-View
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
 
