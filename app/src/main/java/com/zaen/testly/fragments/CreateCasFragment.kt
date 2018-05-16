@@ -16,7 +16,8 @@ import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.data.CasData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
-import com.zaen.testly.views.recyclers.CreateCasLinearAdapter
+import com.zaen.testly.views.recyclers.items.CasCardLinearItem
+import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.android.synthetic.main.fragment_create.*
 
 class CreateCasFragment : BaseFragment(){
@@ -100,6 +101,7 @@ class CreateCasFragment : BaseFragment(){
         when (viewMode) {
             MODE_GRID -> {
                 mLayoutManager = GridLayoutManager(activity, 3, VERTICAL, false)
+                val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
                 recycler_create.apply {
                     layoutManager = mLayoutManager
                     adapter = CreateCasGridAdapter(mCreateCas.casList)
@@ -107,9 +109,10 @@ class CreateCasFragment : BaseFragment(){
             }
             MODE_LIST -> {
                 mLayoutManager = LinearLayoutManager(activity, VERTICAL,false)
+                val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
                 recycler_create.apply {
                     layoutManager = mLayoutManager
-                    adapter = CreateCasLinearAdapter(mCreateCas.casList)
+                    adapter = FlexibleAdapter<CasCardLinearItem>(items)
                 }
             }
         }

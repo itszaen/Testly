@@ -112,7 +112,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 
-    // Firebase https://github.com/firebase/
+        // Firebase https://github.com/firebase/
     implementation 'com.google.firebase:firebase-core:15.0.2'
     /// Firebase Firestore
     implementation "com.google.firebase:firebase-firestore:16.0.0"
