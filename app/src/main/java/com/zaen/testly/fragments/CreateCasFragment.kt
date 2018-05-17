@@ -18,6 +18,7 @@ import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
 import com.zaen.testly.views.recyclers.items.CasCardLinearItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_create.*
 
 class CreateCasFragment : BaseFragment(){
@@ -58,7 +59,7 @@ class CreateCasFragment : BaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // recycler
-        toggleViewMode()
+//        toggleViewMode()
 
         val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null)
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
@@ -108,10 +109,15 @@ class CreateCasFragment : BaseFragment(){
                 }
             }
             MODE_LIST -> {
+                val items: MutableList<CasCardLinearItem> = mutableListOf()
                 mLayoutManager = LinearLayoutManager(activity, VERTICAL,false)
-                val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
+                if (mCreateCas.cardList.size>0) {
+                    for (card in mCreateCas.cardList) {
+                        items.add(CasCardLinearItem(card))
+                    }
+                }
                 recycler_create.apply {
-                    layoutManager = mLayoutManager
+                    layoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,false)
                     adapter = FlexibleAdapter<CasCardLinearItem>(items)
                 }
             }
