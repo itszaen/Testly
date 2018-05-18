@@ -9,16 +9,22 @@ import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
+import com.twitter.sdk.android.core.models.Card
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
+import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
+import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
+import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
 import com.zaen.testly.views.recyclers.items.CasCardLinearItem
+import com.zaen.testly.views.recyclers.items.CasSetLinearItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.android.synthetic.main.fragment_create.*
 
 class CreateCasFragment : BaseFragment(){
@@ -61,7 +67,7 @@ class CreateCasFragment : BaseFragment(){
         // recycler
 //        toggleViewMode()
 
-        val request = mCreateCas.createCasRequest(CasData.card,"timestamp",null)
+        val request = mCreateCas.createCasRequest(CasData.CARD,"timestamp",null)
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
@@ -101,8 +107,8 @@ class CreateCasFragment : BaseFragment(){
         var mLayoutManager: RecyclerView.LayoutManager? = null
         when (viewMode) {
             MODE_GRID -> {
-                mLayoutManager = GridLayoutManager(activity, 3, VERTICAL, false)
-                val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
+                mLayoutManager = GridLayoutManager(activity, 3, VERTICAL, true)
+                //val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
                 recycler_create.apply {
                     layoutManager = mLayoutManager
                     adapter = CreateCasGridAdapter(mCreateCas.casList)
@@ -110,15 +116,18 @@ class CreateCasFragment : BaseFragment(){
             }
             MODE_LIST -> {
                 val items: MutableList<CasCardLinearItem> = mutableListOf()
-                mLayoutManager = LinearLayoutManager(activity, VERTICAL,false)
-                if (mCreateCas.cardList.size>0) {
-                    for (card in mCreateCas.cardList) {
-                        items.add(CasCardLinearItem(card))
+                mLayoutManager = LinearLayoutManager(activity, VERTICAL,true)
+                if (mCreateCas.casList.size>0) {
+                    for (cas in mCreateCas.casList) {
+                        when (cas){
+                            is CardData -> items.add(CasCardLinearItem(cas))
+                            is SetData  -> items.add(CasSetLinearItem(cas))
+                        }
                     }
                 }
                 recycler_create.apply {
-                    layoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,false)
-                    adapter = FlexibleAdapter<CasCardLinearItem>(items)
+                    layoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,true)
+                    adapter = FlexibleAdapter<AbstractFlexibleItem>(items)
                 }
             }
         }

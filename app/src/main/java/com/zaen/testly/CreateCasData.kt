@@ -1,7 +1,10 @@
 package com.zaen.testly
 
 import android.util.Log
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
 import com.zaen.testly.data.SetData
@@ -36,8 +39,8 @@ class CreateCasData (val context: Any) {
     fun createCasRequest(type: String, orderBy: String?, wheres: HashMap<String,Any?>?):Query?{
         var reference: Query?
         reference = when (type){
-            CasData.card -> cardCollectionRef
-            CasData.set  -> setCollectionRef
+            CasData.CARD -> cardCollectionRef
+            CasData.SET  -> setCollectionRef
             else -> null
         }
         if (orderBy != null){
@@ -153,10 +156,10 @@ class CreateCasData (val context: Any) {
 
     fun saveCas(snapshot: DocumentSnapshot){
         when (checkType(snapshot)){
-            CasData.card -> {
+            CasData.CARD -> {
                 saveCard(snapshot)
             }
-            CasData.set -> {
+            CasData.SET -> {
                 saveSet(snapshot)
             }
             else -> {
@@ -188,8 +191,8 @@ class CreateCasData (val context: Any) {
 
     fun checkType(snapshot: DocumentSnapshot):String?{
         return when (snapshot.get("casType") as String){
-            CasData.card -> CasData.card
-            CasData.set -> CasData.set
+            CasData.CARD -> CasData.CARD
+            CasData.SET -> CasData.SET
             else -> null
         }
     }
@@ -203,7 +206,7 @@ class CreateCasData (val context: Any) {
                         snapshot.get("hasAnswerCard"),
                         snapshot.get("question")
                 )){
-            Log.w(LogUtils.TAG(this),"[Failure] Invalid card data. Id:${snapshot.id}")
+            Log.w(LogUtils.TAG(this),"[Failure] Invalid CARD data. Id:${snapshot.id}")
             return null
         }
         return CardData(
@@ -221,7 +224,7 @@ class CreateCasData (val context: Any) {
         if (Common().allNotNull(
                         snapshot.get("")
                 )){
-            Log.w(LogUtils.TAG(this),"[Failure] Invalid set data. Id:${snapshot.id}")
+            Log.w(LogUtils.TAG(this),"[Failure] Invalid SET data. Id:${snapshot.id}")
             return null
         }
         return SetData(

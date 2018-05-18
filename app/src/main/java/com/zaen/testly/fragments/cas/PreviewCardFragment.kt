@@ -9,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import butterknife.OnClick
-import com.google.firebase.firestore.CollectionReference
+import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.data.*
+import com.zaen.testly.data.CasData.Companion.CARD
 import com.zaen.testly.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_create_card_preview.*
 import kotlinx.android.synthetic.main.view_card_selection.*
@@ -23,7 +24,6 @@ import org.parceler.Parcels
 
 class PreviewCardFragment : BaseFragment() {
     companion object {
-        const val CARD = "card"
     }
 
     interface SubmitCardSuccess{
@@ -156,12 +156,28 @@ class PreviewCardFragment : BaseFragment() {
 
     @OnClick(R.id.btn_preview_submit)
     fun onSubmit(){
+        // Progress
+        val dialog = MaterialDialog.Builder(activity!!)
+                .title("Uploading...")
+                .content("")
+                .progress(false,1,true)
+                .canceledOnTouchOutside(false)
+                .show()
+
+
+
         card!!.timestamp = System.currentTimeMillis() / 1000L
         val path = FirebaseFirestore.getInstance().collection("cards")
         TestlyFirestore(this).addDocumentToCollection(path,card!!,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
                     mListener?.onSubmitSuccessful()
+                    while(dialog.currentProgress < dialog.maxProgress){
+                        if (dialog.isCancelled){
+                            break
+                        }
+                        dialog.incrementProgress(1)
+                    }
                 }
             }
         })

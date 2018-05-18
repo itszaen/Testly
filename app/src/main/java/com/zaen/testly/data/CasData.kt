@@ -5,8 +5,8 @@ open class CasData(
         open var timestamp: Long
 ) {
     companion object {
-        const val card = "card"
-        const val set = "set"
+        const val CARD = "card"
+        const val SET = "set"
     }
     open var casType: String = ""
 }

@@ -1,16 +1,10 @@
 package com.zaen.testly.views.recyclers
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.zaen.testly.R
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
-import com.zaen.testly.data.SetData
-import com.zaen.testly.fragments.cas.PreviewCardFragment.Companion.CARD
-import java.util.ArrayList
+import java.util.*
 
 abstract class CreateCasAdapter(private val casList: ArrayList<CasData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {

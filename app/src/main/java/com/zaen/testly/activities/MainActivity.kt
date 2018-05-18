@@ -111,7 +111,7 @@ class MainActivity : BaseActivity(),
 
     fun onCreateSignedIn() {
         // Firebase
-        /// Userinfo set up listener & Hide (or show)elements
+        /// Userinfo SET up listener & Hide (or show)elements
         mAuthUser.addUserinfoListener(object: TestlyUser.UserinfoListener{
             override fun onUserinfoUpdate(userinfo: UserData?) {
                 toggleProviderDrawerItems()

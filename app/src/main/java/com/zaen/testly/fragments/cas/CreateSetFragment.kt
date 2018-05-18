@@ -27,7 +27,6 @@ import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.CreateCasGridAdapter
-import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.fragment_create_set.*
 
 class CreateSetFragment  : BaseFragment(){
@@ -130,7 +129,7 @@ class CreateSetFragment  : BaseFragment(){
         if (cardSubject != null){
             wheres["subject"] = cardSubject
         }
-        val request = mCreateCas.createCasRequest(CasData.card,orderBy,wheres)
+        val request = mCreateCas.createCasRequest(CasData.CARD,orderBy,wheres)
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 updateUI()

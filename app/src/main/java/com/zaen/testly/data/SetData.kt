@@ -22,5 +22,5 @@ open class SetData(
         const val SET_SUBJECT_TYPE_MIXED = "mixed"
         const val SET_SUBJECT_TYPE_SINGLE = "single"
     }
-    override var casType = CasData.set
+    override var casType = CasData.SET
 }

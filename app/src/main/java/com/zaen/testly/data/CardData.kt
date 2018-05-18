@@ -19,7 +19,7 @@ open class CardData(
         const val CARD_TYPE_SPELLING = "spelling"
     }
     open var type = ""
-    override var casType = CasData.card
+    override var casType = CasData.CARD
 }
 
 open class SelectionCardData(

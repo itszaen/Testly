@@ -3,13 +3,13 @@ package com.zaen.testly.activities
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import com.zaen.testly.R
+import com.zaen.testly.R.id.fragment_container_create_card
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.data.CardData
+import com.zaen.testly.data.CasData.Companion.CARD
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.cas.CreateCardFragment
 import com.zaen.testly.fragments.cas.PreviewCardFragment
-import com.zaen.testly.fragments.cas.PreviewCardFragment.Companion.CARD
-import kotlinx.android.synthetic.main.activity_create_card.*
 import org.parceler.Parcels
 
 class CreateCardActivity : BaseActivity(),
