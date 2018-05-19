@@ -25,6 +25,7 @@ import com.zaen.testly.views.recyclers.items.CasSetLinearItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.fragment_create.*
 
 class CreateCasFragment : BaseFragment(){
@@ -115,7 +116,7 @@ class CreateCasFragment : BaseFragment(){
                 }
             }
             MODE_LIST -> {
-                val items: MutableList<CasCardLinearItem> = mutableListOf()
+                val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
                 mLayoutManager = LinearLayoutManager(activity, VERTICAL,true)
                 if (mCreateCas.casList.size>0) {
                     for (cas in mCreateCas.casList) {
@@ -127,7 +128,7 @@ class CreateCasFragment : BaseFragment(){
                 }
                 recycler_create.apply {
                     layoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,true)
-                    adapter = FlexibleAdapter<AbstractFlexibleItem>(items)
+                    adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
                 }
             }
         }
