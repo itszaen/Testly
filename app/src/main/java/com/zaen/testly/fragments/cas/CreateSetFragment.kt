@@ -2,7 +2,6 @@ package com.zaen.testly.fragments.cas
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
 import android.view.*
 import android.widget.ArrayAdapter
@@ -26,7 +25,12 @@ import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_SINGLE
 import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.views.recyclers.CreateCasGridAdapter
+import com.zaen.testly.views.recyclers.items.CasCardGridItem
+import com.zaen.testly.views.recyclers.items.CasSetGridItem
+import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.fragment_create_set.*
 
 class CreateSetFragment  : BaseFragment(){
@@ -130,6 +134,9 @@ class CreateSetFragment  : BaseFragment(){
             wheres["subject"] = cardSubject
         }
         val request = mCreateCas.createCasRequest(CasData.CARD,orderBy,wheres)
+        mCreateCas.casList.clear()
+        mCreateCas.cardList.clear()
+        mCreateCas.setList.clear()
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 updateUI()
@@ -138,13 +145,23 @@ class CreateSetFragment  : BaseFragment(){
     }
 
     private fun updateUI(){
-
-        val mLayoutManager = GridLayoutManager(activity, 3, LinearLayout.VERTICAL, false)
+        // cards
+        val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
+        val mLayoutManager = SmoothScrollGridLayoutManager(activity,3, LinearLayout.VERTICAL,false)
+        if (mCreateCas.casList.size > 0) {
+            val casList = mCreateCas.casList
+            casList.reverse()
+            for (cas in casList) {
+                when (cas){
+                    is CardData -> items.add(CasCardGridItem(cas))
+                    is SetData -> items.add(CasSetGridItem(cas))
+                }
+            }
+        }
         recycler_create_set_cards.apply {
             layoutManager = mLayoutManager
-            adapter = CreateCasGridAdapter(mCreateCas.casList)
+            adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
         }
-        recycler_create_set_cards
     }
 
     @OnClick(R.id.radio_btn_set_card_mixed,R.id.radio_btn_set_card_selection,R.id.radio_btn_set_card_spelling)
@@ -164,7 +181,7 @@ class CreateSetFragment  : BaseFragment(){
     }
 
     @OnClick(R.id.check_create_set_card_subject_mixed)
-    fun onSetCardSubjectClicked(checkBox: CheckBox){
+    fun onSetCardSubjectMixedClicked(checkBox: CheckBox){
         if (checkBox.isChecked){
             setSubjectType = SET_SUBJECT_TYPE_MIXED
             spinner_create_set_card_subjects.isEnabled = false
@@ -176,11 +193,16 @@ class CreateSetFragment  : BaseFragment(){
                 val adapter = ArrayAdapter<String>(activity, R.layout.item_spinner_create_set_card_subject, subjectList)
                 spinner_create_set_card_subjects.setAdapter(adapter)
                 spinner_create_set_card_subjects.setOnItemSelectedListener { view, position, id, item ->
-                    cardSubject = item.toString()
+                    onSetCardSubctSelected(item)
                 }
             }
         }
         updateUI()
+    }
+
+    private fun onSetCardSubctSelected(item: Any){
+        cardSubject = item.toString()
+        getCards()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

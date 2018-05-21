@@ -12,7 +12,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CasCardGridItem(val card: CardData) : AbstractFlexibleItem<CasCardGridItem.ViewHolder>() {
+class CasCardGridItem(val card: CardData) : AbstractFlexibleItem<FlexibleViewHolder>() {
     override fun equals(other: Any?): Boolean {
         return this === other
     }
@@ -29,10 +29,12 @@ class CasCardGridItem(val card: CardData) : AbstractFlexibleItem<CasCardGridItem
         return ViewHolder(view,adapter)
     }
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
-        holder?.titleText?.text = card.title
-        holder?.titleText?.isEnabled = true
-        holder?.dateText?.text = SimpleDateFormat("MMM d, yyyy", Locale.US).format(Date(card.timestamp*1000L)).toString()
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: FlexibleViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        if (holder is ViewHolder){
+            holder.titleText?.text = card.title
+            holder.titleText?.isEnabled = true
+            holder.dateText?.text = SimpleDateFormat("MMM d, yyyy", Locale.US).format(Date(card.timestamp*1000L)).toString()
+        }
     }
 
     class ViewHolder(val view: View?, val adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?) : FlexibleViewHolder(view,adapter) {

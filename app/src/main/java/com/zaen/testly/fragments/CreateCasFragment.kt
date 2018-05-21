@@ -2,27 +2,24 @@ package com.zaen.testly.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
-import com.twitter.sdk.android.core.models.Card
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.CasData
 import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.views.recyclers.CreateCasGridAdapter
+import com.zaen.testly.views.recyclers.items.CasCardGridItem
 import com.zaen.testly.views.recyclers.items.CasCardLinearItem
+import com.zaen.testly.views.recyclers.items.CasSetGridItem
 import com.zaen.testly.views.recyclers.items.CasSetLinearItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.viewholders.FlexibleViewHolder
@@ -105,29 +102,41 @@ class CreateCasFragment : BaseFragment(){
     }
 
     fun toggleViewMode(){
-        var mLayoutManager: RecyclerView.LayoutManager? = null
         when (viewMode) {
             MODE_GRID -> {
-                mLayoutManager = GridLayoutManager(activity, 3, VERTICAL, true)
-                //val items = mutableListOf(CasCardLinearItem(mCreateCas.cardList[0]))
-                recycler_create.apply {
-                    layoutManager = mLayoutManager
-                    adapter = CreateCasGridAdapter(mCreateCas.casList)
-                }
-            }
-            MODE_LIST -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                mLayoutManager = LinearLayoutManager(activity, VERTICAL,true)
-                if (mCreateCas.casList.size>0) {
-                    for (cas in mCreateCas.casList) {
+                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,VERTICAL,false)
+                if (mCreateCas.casList.size > 0) {
+                    val casList = mCreateCas.casList
+                    casList.reverse()
+                    for (cas in casList) {
                         when (cas){
-                            is CardData -> items.add(CasCardLinearItem(cas))
-                            is SetData  -> items.add(CasSetLinearItem(cas))
+                            is CardData -> items.add(CasCardGridItem(cas))
+                            is SetData -> items.add(CasSetGridItem(cas))
                         }
                     }
                 }
                 recycler_create.apply {
-                    layoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,true)
+                    layoutManager = mLayoutManager
+                    adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
+                }
+            }
+            MODE_LIST -> {
+                val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
+                val mLayoutManager = SmoothScrollLinearLayoutManager(activity,VERTICAL,false)
+                mLayoutManager.stackFromEnd = true
+                if (mCreateCas.casList.size > 0) {
+                    val casList = mCreateCas.casList
+                    casList.reverse()
+                    for (cas in casList) {
+                        when (cas){
+                            is CardData -> items.add(CasCardLinearItem(cas))
+                            is SetData -> items.add(CasSetLinearItem(cas))
+                        }
+                    }
+                }
+                recycler_create.apply {
+                    layoutManager = mLayoutManager
                     adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
                 }
             }

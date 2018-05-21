@@ -10,7 +10,7 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class CasSetLinearItem(val set: SetData) : AbstractFlexibleItem<CasSetLinearItem.ViewHolder>() {
+class CasSetLinearItem(val set: SetData) : AbstractFlexibleItem<FlexibleViewHolder>() {
     override fun equals(other: Any?): Boolean {
         return this === other
     }
@@ -27,10 +27,12 @@ class CasSetLinearItem(val set: SetData) : AbstractFlexibleItem<CasSetLinearItem
         return ViewHolder(view,adapter)
     }
 
-    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
-        holder?.titleText?.text = set.title
-        holder?.titleText?.isEnabled = true
+    override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?, holder: FlexibleViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        if (holder is ViewHolder){
+            holder.titleText?.text = set.title
+            holder.titleText?.isEnabled = true
 //        holder?.dateText?.text = SimpleDateFormat("MMM d, yyyy", Locale.US).format(Date(set.timestamp*1000L)).toString()
+        }
     }
 
     class ViewHolder(val view: View?, val adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?) : FlexibleViewHolder(view,adapter) {
