@@ -9,22 +9,22 @@ open class TestlyFirestore(val context: Any) {
     }
 
     interface DocumentListener{
-        fun handleListener(listener: ListenerRegistration?)
+        fun handleListener(registration: ListenerRegistration?)
         fun onDocumentUpdate(path: DocumentReference,snapshot: DocumentSnapshot?,exception: Exception?)
     }
 
     interface CollectionSingleListener{
-        fun handleListener(listener: ListenerRegistration?)
+        fun handleListener(registration: ListenerRegistration?)
         fun onDocumentsUpdate(path: Query, snapshots: QuerySnapshot?, exception: Exception?)
     }
 
     interface CollectionMultipleListener{
-        fun handleListener(listener: ListenerRegistration?)
+        fun handleListener(registration: ListenerRegistration?)
         fun onDocumentsUpdate(path: Query, snapshot: QueryDocumentSnapshot?, exception: Exception?)
     }
 
     interface CollectionChangeListener{
-        fun handleListener(listener: ListenerRegistration?)
+        fun handleListener(registration: ListenerRegistration?)
         fun onFailure(exception: Exception?)
         fun onNewDocument(path: Query, snapshot: DocumentSnapshot)
         fun onModifyDocument(path: Query, snapshot: DocumentSnapshot)
@@ -41,11 +41,24 @@ open class TestlyFirestore(val context: Any) {
         mDb = FirebaseFirestore.getInstance()
     }
 
-    fun addDocumentToCollection(path: CollectionReference, data: Any, listener: UploadToCollectionListener){
-        path.add(data)
+    fun addDocumentToCollection(path: DocumentReference, data: Any, listener: UploadToCollectionListener){
+        path.set(data)
                 .addOnSuccessListener {
                     Log.d(LogUtils.TAG(context), "[Success] Uploading document($path) successful. Reference: $it")
-                    listener.onDocumentUpload(path,it,null)
+                    listener.onDocumentUpload(path.parent,path,null)
+                }
+                .addOnFailureListener{
+                    Log.w(LogUtils.TAG(context), "[Failure] Uploading document($path) failed. Exception: $it")
+                    listener.onDocumentUpload(path.parent,path,null)
+                }
+    }
+
+    fun addDocumentToCollection(path: CollectionReference, data: Any, listener: UploadToCollectionListener){
+        val ref = path.document()
+        ref.set(data)
+                .addOnSuccessListener {
+                    Log.d(LogUtils.TAG(context), "[Success] Uploading document($path) successful. Reference: $it")
+                    listener.onDocumentUpload(path,ref,null)
                 }
                 .addOnFailureListener{
                     Log.w(LogUtils.TAG(context), "[Failure] Uploading document($path) failed. Exception: $it")
@@ -83,6 +96,59 @@ open class TestlyFirestore(val context: Any) {
                         listener.onDocumentUpdate(path,null,it.exception)
                     }
                 }
+    }
+
+    fun updateDocument(path: DocumentReference, key: String, value: Any?, listener: DocumentListener){
+        path.update(key,value)
+                .addOnCompleteListener {
+                    Log.d(LogUtils.TAG(context),"[Success] Update document($path).")
+                    listener.onDocumentUpdate(path,null,null)
+                }
+                .addOnFailureListener {
+                    Log.w(LogUtils.TAG(context), "[Failure] Error updating document($path). Exception: $it")
+                    listener.onDocumentUpdate(path,null,it)
+                }
+    }
+
+    fun multipleUpdateDocument(path: DocumentReference, updates: HashMap<String, Any?>?, listener: DocumentListener){
+        if (updates != null){
+            val updatesCount = updates.size
+            var doneUpdates = 0
+            var failCount = 0
+            val task = path
+            for ((key: String, value: Any?) in updates.iterator()){
+                task.update(key,value)
+                        .addOnCompleteListener {
+                            doneUpdates += 1
+                            Log.d(LogUtils.TAG(context),"[Success] Update document($path).")
+                            if (doneUpdates == updatesCount){
+                                onUpdatesComplete(path, listener, failCount)
+                            }
+                        }
+                        .addOnFailureListener {
+                            doneUpdates += 1
+                            failCount += 1
+                            Log.w(LogUtils.TAG(context), "[Failure] Error updating document($path). Exception:$it")
+                            if (doneUpdates == updatesCount){
+                                onUpdatesComplete(path, listener, failCount)
+                            }
+                        }
+            }
+        } else {
+            Log.w(LogUtils.TAG(context),"[Failure] No update specified.")
+            listener.onDocumentUpdate(path,null,null)
+        }
+    }
+
+    private fun onUpdatesComplete(path: DocumentReference, listener: DocumentListener, failCount: Int){
+        if (failCount == 0){
+            Log.d(LogUtils.TAG(context),"[Success] Multiple updates to document($path) completed.")
+            listener.onDocumentUpdate(path,null,null)
+        } else {
+            Log.w(LogUtils.TAG(context), "[Failure] $failCount error(s) occured. See the exceptions above.")
+            listener.onDocumentUpdate(path,null,null)
+        }
+
     }
 
     fun addDocumentListener(path: DocumentReference, listener: DocumentListener){

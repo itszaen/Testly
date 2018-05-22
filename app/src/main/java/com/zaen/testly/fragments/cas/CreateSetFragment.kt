@@ -2,7 +2,9 @@ package com.zaen.testly.fragments.cas
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
@@ -25,15 +27,20 @@ import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_SINGLE
 import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.views.recyclers.items.CasCardGridItem
-import com.zaen.testly.views.recyclers.items.CasSetGridItem
+import com.zaen.testly.utils.LogUtils
+import com.zaen.testly.views.recyclers.items.SelectCardItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.SelectableAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.helpers.ActionModeHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.fragment_create_set.*
 
-class CreateSetFragment  : BaseFragment(){
+class CreateSetFragment  : BaseFragment(),
+        android.support.v7.view.ActionMode.Callback,
+        FlexibleAdapter.OnItemClickListener,
+        FlexibleAdapter.OnItemLongClickListener{
     companion object {
     }
 
@@ -55,6 +62,12 @@ class CreateSetFragment  : BaseFragment(){
     private var cardSubject: String? = null
 
     private var cardsSelected = arrayListOf<String>()
+
+    private var selectCardAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
+    private var actionMode: android.support.v7.view.ActionMode? = null
+    private var mActionHelper: ActionModeHelper? = null
+
+    private var selectedDocumentList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +102,10 @@ class CreateSetFragment  : BaseFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null){
+            if (selectCardAdapter != null){
+                selectCardAdapter!!.onRestoreInstanceState(savedInstanceState)
+                mActionHelper?.restoreSelection(activity as AppCompatActivity)
+            }
             return
         }
         TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
@@ -98,7 +115,7 @@ class CreateSetFragment  : BaseFragment(){
                     val grade = userinfo.gradeId
                     TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
                             .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
-                        override fun handleListener(listener: ListenerRegistration?) {
+                        override fun handleListener(registration: ListenerRegistration?) {
                         }
                         override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?, exception: Exception?) {
                             if (snapshot != null) {
@@ -111,8 +128,70 @@ class CreateSetFragment  : BaseFragment(){
                 }
             }
         })
+
+        selectCardAdapter?.mode = SelectableAdapter.Mode.SINGLE
+        mActionHelper?.withDefaultMode(SelectableAdapter.Mode.SINGLE)
+        selectCardAdapter?.addListener(this)
         updateUI()
         getCards()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        selectCardAdapter?.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun initializeActionModeHelper(mode: Int){
+        mActionHelper = ActionModeHelper(selectCardAdapter!!,R.menu.menu_main,this)
+    }
+
+    override fun onPrepareActionMode(mode: android.support.v7.view.ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onCreateActionMode(mode: android.support.v7.view.ActionMode?, menu: Menu?): Boolean {
+        // Change menu?
+
+        selectCardAdapter?.mode = SelectableAdapter.Mode.MULTI
+        actionMode = mode
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: android.support.v7.view.ActionMode?) {
+        selectCardAdapter?.mode = SelectableAdapter.Mode.IDLE
+        actionMode = null
+    }
+
+    override fun onActionItemClicked(mode: android.support.v7.view.ActionMode?, item: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
+            val activate = mActionHelper!!.onClick(position)
+            Log.d(LogUtils.TAG(context!!),"Last activated position: ${mActionHelper!!.activatedPosition}")
+            toggleSelection(position)
+            return activate
+        } else {
+            return false
+        }
+    }
+
+    override fun onItemLongClick(position: Int) {
+        mActionHelper?.onLongClick(activity as AppCompatActivity, position)
+    }
+
+    private fun toggleSelection(position: Int){
+        selectCardAdapter!!.toggleSelection(position)
+        val positions = selectCardAdapter!!.selectedPositions
+        if (positions.size > 0){
+            selectedDocumentList.clear()
+            for (p in positions){
+                selectedDocumentList.add(mCreateCas.cardList[p].id)
+            }
+        } else {
+            actionMode?.finish()
+        }
     }
 
     private fun getCards(){
@@ -153,14 +232,15 @@ class CreateSetFragment  : BaseFragment(){
             casList.reverse()
             for (cas in casList) {
                 when (cas){
-                    is CardData -> items.add(CasCardGridItem(cas))
-                    is SetData -> items.add(CasSetGridItem(cas))
+                    is CardData -> items.add(SelectCardItem(cas))
                 }
             }
         }
+        selectCardAdapter = FlexibleAdapter(items)
+        selectCardAdapter?.mode = SelectableAdapter.Mode.MULTI
         recycler_create_set_cards.apply {
             layoutManager = mLayoutManager
-            adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
+            adapter = selectCardAdapter
         }
     }
 
@@ -258,7 +338,7 @@ class CreateSetFragment  : BaseFragment(){
         val type = setType
         val cardType = setCardType
         val subjectType = setSubjectType
-        val cards = arrayListOf<String>()
+        val cards = selectedDocumentList
         val set = SetData(
             id, timestamp, title, type, cardType, subjectType!!, cards
         )

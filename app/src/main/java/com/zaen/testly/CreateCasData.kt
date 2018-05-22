@@ -58,8 +58,8 @@ class CreateCasData (val context: Any) {
 
     fun listenToCard(query: Query,listener: CreateCasDataListener){
         TestlyFirestore(this).addCollectionListener(query,object: TestlyFirestore.CollectionChangeListener{
-            override fun handleListener(listener: ListenerRegistration?) {
-                registrationCard = listener
+            override fun handleListener(registration: ListenerRegistration?) {
+                registrationCard = registration
             }
 
             override fun onFailure(exception: Exception?) {
@@ -107,8 +107,8 @@ class CreateCasData (val context: Any) {
 
     fun listenToSet(listener: CreateCasDataListener){
         TestlyFirestore(this).addCollectionListener(setCollectionRef.orderBy("timestamp"), object: TestlyFirestore.CollectionChangeListener {
-            override fun handleListener(listener: ListenerRegistration?) {
-                registrationSet = listener
+            override fun handleListener(registration: ListenerRegistration?) {
+                registrationSet = registration
             }
 
             override fun onFailure(exception: Exception?) {

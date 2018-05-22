@@ -164,18 +164,16 @@ class PreviewCardFragment : BaseFragment() {
                 .canceledOnTouchOutside(false)
                 .show()
 
-
-
+        val path = FirebaseFirestore.getInstance().collection("cards").document()
+        card!!.id = path.id
         card!!.timestamp = System.currentTimeMillis() / 1000L
-        val path = FirebaseFirestore.getInstance().collection("cards")
+
         TestlyFirestore(this).addDocumentToCollection(path,card!!,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
                     mListener?.onSubmitSuccessful()
                     while(dialog.currentProgress < dialog.maxProgress){
-                        if (dialog.isCancelled){
-                            break
-                        }
+                        if (dialog.isCancelled){ break }
                         dialog.incrementProgress(1)
                     }
                 }
