@@ -12,7 +12,10 @@ import butterknife.OnTextChanged
 import butterknife.Optional
 import com.zaen.testly.DeveloperChat
 import com.zaen.testly.R
+import com.zaen.testly.R.id.button_chatbox_send
+import com.zaen.testly.R.id.edit_chatbox
 import com.zaen.testly.TestlyUser
+import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.DeveloperChatAdapter
 import kotlinx.android.synthetic.main.fragment_dev_chat.*
@@ -84,7 +87,13 @@ class DeveloperChatFragment : BaseFragment(){
     fun onSendMessage(view: View){
         // Upload Message
         val messageText = edit_chatbox.text.toString()
-        mDevChat.uploadMessage(messageText, TestlyUser(this).currentUser!!)
+        TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener{
+            override fun onUserinfoUpdate(userinfo: UserData?) {
+                if (userinfo != null){
+                    mDevChat.uploadMessage(messageText, userinfo)
+                }
+            }
+        })
 
         // Clear EditText
         edit_chatbox.text.clear()

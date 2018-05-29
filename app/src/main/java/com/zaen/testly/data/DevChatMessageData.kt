@@ -1,21 +1,24 @@
 package com.zaen.testly.data
 
+import com.google.firebase.firestore.DocumentSnapshot
+import com.zaen.testly.TestlyUser
 
-class DevChatMessageData (message: String, sender: DevChatUserData, timestamp: Long){
-    var text: String? = null
-    var sender: DevChatUserData? = null
-    var timestamp: Long? = null
-    init {
-        this.text = message
-        this.sender = sender
-        this.timestamp = timestamp
-    }
-}
 
-class DevChatUserData(id: String, displayName: String, mail: String, profileUrl: String) : FirebaseAuthUserData(){
-    var displayName: String = ""
-    init{
-        FirebaseAuthUserData(id,mail,profileUrl)
-        this.displayName = displayName
+class DevChatMessageData (
+        override var id: String,
+        override var timestamp: Long,
+        val text: String,
+        val sender: UserData
+) : FirebaseDocument(id,timestamp,CHAT){
+    companion object {
+        fun getDevChatMessageDataFromDocument(snapshot: DocumentSnapshot) : DevChatMessageData{
+            val senderField = snapshot.data!!["sender"] as HashMap<String,Any?>
+            return DevChatMessageData(
+                    snapshot.get("id") as String,
+                    snapshot.data!!["timestamp"] as Long,
+                    snapshot.data!!["text"] as String,
+                    TestlyUser(this).getUserinfoFromHashMap(senderField)
+            )
+        }
     }
 }

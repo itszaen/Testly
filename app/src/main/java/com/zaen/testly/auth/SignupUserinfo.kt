@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.facebook.common.Common
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.*
@@ -296,6 +297,7 @@ open class SignupUserinfo (val context: Activity,
         // Userinfo (Username, fullname, school, grade, class)
         val userinfo = UserData(
                 user.uid,
+                com.zaen.testly.utils.Common().getTimestamp(),
                 user.email!!,
                 user.photoUrl.toString(),
                 false, false, false,

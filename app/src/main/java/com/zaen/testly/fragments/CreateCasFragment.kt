@@ -8,10 +8,11 @@ import butterknife.OnClick
 import butterknife.Optional
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
+import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData
+import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.views.recyclers.items.CasCardGridItem
@@ -65,7 +66,7 @@ class CreateCasFragment : BaseFragment(){
         // recycler
 //        toggleViewMode()
 
-        val request = mCreateCas.createCasRequest(CasData.CARD,"timestamp",null)
+        val request = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
         mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){

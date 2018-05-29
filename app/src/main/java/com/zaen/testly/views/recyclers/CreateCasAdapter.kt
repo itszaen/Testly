@@ -3,10 +3,10 @@ package com.zaen.testly.views.recyclers
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData
+import com.zaen.testly.data.FirebaseDocument
 import java.util.*
 
-abstract class CreateCasAdapter(private val casList: ArrayList<CasData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class CreateCasAdapter(private val casList: ArrayList<FirebaseDocument>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val CARD = 1
         const val SET  = 2

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData
+import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.utils.Common
 import com.zaen.testly.utils.LogUtils
@@ -22,7 +22,7 @@ class CreateCasData (val context: Any) {
     var registrationCard: ListenerRegistration? = null
     var registrationSet: ListenerRegistration? = null
 
-    var casList = arrayListOf<CasData>()
+    var casList = arrayListOf<FirebaseDocument>()
     var storedCasDocuments = arrayListOf<DocumentSnapshot>()
     var cardList = arrayListOf<CardData>()
     var storedCardDocuments = arrayListOf<DocumentSnapshot>()
@@ -39,8 +39,8 @@ class CreateCasData (val context: Any) {
     fun createCasRequest(type: String, orderBy: String?, wheres: HashMap<String,Any?>?):Query?{
         var reference: Query?
         reference = when (type){
-            CasData.CARD -> cardCollectionRef
-            CasData.SET  -> setCollectionRef
+            FirebaseDocument.CARD -> cardCollectionRef
+            FirebaseDocument.SET  -> setCollectionRef
             else -> null
         }
         if (orderBy != null){
@@ -156,10 +156,10 @@ class CreateCasData (val context: Any) {
 
     fun saveCas(snapshot: DocumentSnapshot){
         when (checkType(snapshot)){
-            CasData.CARD -> {
+            FirebaseDocument.CARD -> {
                 saveCard(snapshot)
             }
-            CasData.SET -> {
+            FirebaseDocument.SET -> {
                 saveSet(snapshot)
             }
             else -> {
@@ -191,8 +191,8 @@ class CreateCasData (val context: Any) {
 
     fun checkType(snapshot: DocumentSnapshot):String?{
         return when (snapshot.get("casType") as String){
-            CasData.CARD -> CasData.CARD
-            CasData.SET -> CasData.SET
+            FirebaseDocument.CARD -> FirebaseDocument.CARD
+            FirebaseDocument.SET -> FirebaseDocument.SET
             else -> null
         }
     }
@@ -231,7 +231,7 @@ class CreateCasData (val context: Any) {
                 snapshot.get("id") as String,
                 snapshot.get("timestamp") as Long,
                 snapshot.get("title") as String,
-                snapshot.get("type") as String,
+                snapshot.get("setType") as String,
                 snapshot.get("cardType") as String,
                 snapshot.get("subjectType") as String,
                 snapshot.get("cards") as ArrayList<String>

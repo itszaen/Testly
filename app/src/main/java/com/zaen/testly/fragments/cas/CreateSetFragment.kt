@@ -17,7 +17,7 @@ import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData
+import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.data.SetData.Companion.SET_CARD_TYPE_MIXED
 import com.zaen.testly.data.SetData.Companion.SET_CARD_TYPE_SELECTION
@@ -212,7 +212,7 @@ class CreateSetFragment  : BaseFragment(),
         if (cardSubject != null){
             wheres["subject"] = cardSubject
         }
-        val request = mCreateCas.createCasRequest(CasData.CARD,orderBy,wheres)
+        val request = mCreateCas.createCasRequest(FirebaseDocument.CARD,orderBy,wheres)
         mCreateCas.casList.clear()
         mCreateCas.cardList.clear()
         mCreateCas.setList.clear()

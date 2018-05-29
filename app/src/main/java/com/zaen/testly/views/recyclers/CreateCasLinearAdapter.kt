@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.zaen.testly.R
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData
+import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateCasLinearAdapter(private val casList: ArrayList<CasData>) : CreateCasAdapter(casList) {
+class CreateCasLinearAdapter(private val casList: ArrayList<FirebaseDocument>) : CreateCasAdapter(casList) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var view: View? = null
         val inflater = LayoutInflater.from(parent.context)

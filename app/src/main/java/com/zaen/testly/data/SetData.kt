@@ -8,11 +8,11 @@ open class SetData(
         override var id: String,
         override var timestamp: Long,
         open var title: String,
-        open var type: String,
+        open var setType: String,
         open var cardType: String,
         open var subjectType: String,
         open var cards: ArrayList<String>
-): CasData(id, timestamp), Parcelable{
+): FirebaseDocument(id,timestamp,SET), Parcelable{
     companion object {
         const val SET_TYPE_CHECK = "check"
         const val SET_TYPE_TEST = "test"
@@ -22,5 +22,4 @@ open class SetData(
         const val SET_SUBJECT_TYPE_MIXED = "mixed"
         const val SET_SUBJECT_TYPE_SINGLE = "single"
     }
-    override var casType = CasData.SET
 }

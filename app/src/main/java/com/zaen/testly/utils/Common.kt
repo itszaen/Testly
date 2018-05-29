@@ -9,4 +9,8 @@ class Common {
         }
         return true
     }
+
+    fun getTimestamp(): Long{
+        return System.currentTimeMillis() / 1000L
+    }
 }

@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.data.*
-import com.zaen.testly.data.CasData.Companion.CARD
+import com.zaen.testly.data.FirebaseDocument.Companion.CARD
 import com.zaen.testly.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_create_card_preview.*
 import kotlinx.android.synthetic.main.view_card_selection.*

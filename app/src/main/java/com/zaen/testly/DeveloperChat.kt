@@ -3,8 +3,9 @@ package com.zaen.testly
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
+import com.zaen.testly.R.mipmap.email
 import com.zaen.testly.data.DevChatMessageData
-import com.zaen.testly.data.DevChatUserData
+import com.zaen.testly.data.UserData
 import com.zaen.testly.utils.Common
 import com.zaen.testly.utils.LogUtils
 
@@ -30,8 +31,8 @@ class DeveloperChat(val context: Any){
         // TODO Set archive date
         TestlyFirestore(this).addCollectionListener(chatDocumentPath.collection("messages").orderBy("timestamp"),
                 object: TestlyFirestore.CollectionChangeListener{
-                    override fun handleListener(listener: ListenerRegistration?) {
-                        registration = listener
+                    override fun handleListener(registration: ListenerRegistration?) {
+                        this@DeveloperChat.registration = registration
                     }
 
                     override fun onFailure(exception: Exception?) {
@@ -104,17 +105,11 @@ class DeveloperChat(val context: Any){
 //                    mListener?.onGotMessages()
 //                }
 //    }
-    fun uploadMessage(text: String, user: FirebaseUser){
-        val timestamp: Long = System.currentTimeMillis() / 1000L
-        val uid = user.uid
-        val displayName = user.displayName!!
-        val email = user.email!!
-        val photoUrl = user.photoUrl.toString()
-
-        val sender = DevChatUserData(uid,displayName,email,photoUrl)
-        val message = DevChatMessageData(text,sender,timestamp)
-
-        TestlyFirestore(this).addDocumentToCollection(chatDocumentPath.collection("messages"),message,object: TestlyFirestore.UploadToCollectionListener{
+    fun uploadMessage(text: String, userinfo: UserData){
+    val path = chatDocumentPath.collection("messages").document()
+    val timestamp: Long = Common().getTimestamp()
+    val message = DevChatMessageData(path.id,timestamp,text,userinfo)
+        TestlyFirestore(this).addDocumentToCollection(path,message,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference == null){
                     // error
@@ -125,24 +120,16 @@ class DeveloperChat(val context: Any){
 
     fun getMessageFromDocument(snapshot: DocumentSnapshot):DevChatMessageData?{
         if (Common().allNotNull(
+                        snapshot.data?.get("id"),
+                        snapshot.data?.get("timestamp"),
                         snapshot.data?.get("sender"),
-                        snapshot.data?.get("text"),
-                        snapshot.data?.get("timestamp")
+                        snapshot.data?.get("text")
                 )){
             Log.w(LogUtils.TAG(this), "[Failure] Invalid Chat message. Id:${snapshot.id}")
             return null
         }
         val senderField = snapshot.data!!["sender"] as HashMap<String,*>
-        val sender = DevChatUserData(
-                senderField["id"] as String,
-                senderField["displayName"] as String,
-                senderField["email"] as String,
-                senderField["profileUrl"] as String
-        )
-        return DevChatMessageData(
-                snapshot.data!!["text"] as String,
-                sender,
-                snapshot.data!!["timestamp"] as Long
-        )
+        val sender = TestlyUser(this).getUserinfoFromDocument(snapshot)
+        return DevChatMessageData.getDevChatMessageDataFromDocument(snapshot)
     }
 }

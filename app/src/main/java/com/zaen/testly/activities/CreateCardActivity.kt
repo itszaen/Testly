@@ -6,7 +6,7 @@ import com.zaen.testly.R
 import com.zaen.testly.R.id.fragment_container_create_card
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.data.CardData
-import com.zaen.testly.data.CasData.Companion.CARD
+import com.zaen.testly.data.FirebaseDocument.Companion.CARD
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.cas.CreateCardFragment
 import com.zaen.testly.fragments.cas.PreviewCardFragment

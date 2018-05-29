@@ -11,15 +11,14 @@ open class CardData(
         open var subject: String,
         open var hasAnswerCard: Boolean,
         open var question: String,
-        open var answerText: String?) : CasData(id, timestamp), Parcelable {
+        open var answerText: String?) : FirebaseDocument(id, timestamp, CARD), Parcelable {
     companion object {
+        // Card type identifier
         const val CARD_TYPE_SELECTION = "selection"
         const val CARD_TYPE_SELECTION_MULTIPLE = "multiple"
         const val CARD_TYPE_SELECTION_MULTIPLE_ORDERED = "ordered"
         const val CARD_TYPE_SPELLING = "spelling"
     }
-    open var type = ""
-    override var casType = CasData.CARD
 }
 
 open class SelectionCardData(
