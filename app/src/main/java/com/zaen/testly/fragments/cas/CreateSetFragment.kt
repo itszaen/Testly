@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import butterknife.OnClick
+import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
@@ -128,10 +129,6 @@ class CreateSetFragment  : BaseFragment(),
                 }
             }
         })
-
-        selectCardAdapter?.mode = SelectableAdapter.Mode.SINGLE
-        mActionHelper?.withDefaultMode(SelectableAdapter.Mode.SINGLE)
-        selectCardAdapter?.addListener(this)
         updateUI()
         getCards()
     }
@@ -167,13 +164,13 @@ class CreateSetFragment  : BaseFragment(),
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
+        return if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
             val activate = mActionHelper!!.onClick(position)
             Log.d(LogUtils.TAG(context!!),"Last activated position: ${mActionHelper!!.activatedPosition}")
             toggleSelection(position)
-            return activate
+            activate
         } else {
-            return false
+            false
         }
     }
 
@@ -238,6 +235,7 @@ class CreateSetFragment  : BaseFragment(),
         }
         selectCardAdapter = FlexibleAdapter(items)
         selectCardAdapter?.mode = SelectableAdapter.Mode.MULTI
+        selectCardAdapter?.addListener(this)
         recycler_create_set_cards.apply {
             layoutManager = mLayoutManager
             adapter = selectCardAdapter
@@ -332,7 +330,15 @@ class CreateSetFragment  : BaseFragment(),
         if (checkError()){
             return
         }
-        val id = ""
+
+        val dialog = MaterialDialog.Builder(activity!!)
+                .title("Uploading...")
+                .content("")
+                .progress(false,1,true)
+                .canceledOnTouchOutside(false)
+                .show()
+
+        val path = FirebaseFirestore.getInstance().collection("sets").document()
         val timestamp = System.currentTimeMillis() / 1000L
         val title = edit_create_set_title.text.toString()
         val type = setType
@@ -340,13 +346,16 @@ class CreateSetFragment  : BaseFragment(),
         val subjectType = setSubjectType
         val cards = selectedDocumentList
         val set = SetData(
-            id, timestamp, title, type, cardType, subjectType!!, cards
+                path.id, timestamp, title, type, cardType, subjectType!!, cards
         )
-        val path = FirebaseFirestore.getInstance().collection("sets")
         TestlyFirestore(this).addDocumentToCollection(path,set,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
                     mListener?.onSubmitSetSuccessful()
+                    while(dialog.currentProgress < dialog.maxProgress){
+                        if (dialog.isCancelled){ break }
+                        dialog.incrementProgress(1)
+                    }
                 }
             }
         })

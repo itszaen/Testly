@@ -1,6 +1,7 @@
 package com.zaen.testly.data
 
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -21,5 +22,17 @@ open class SetData(
         const val SET_CARD_TYPE_SPELLING = "spelling"
         const val SET_SUBJECT_TYPE_MIXED = "mixed"
         const val SET_SUBJECT_TYPE_SINGLE = "single"
+
+        fun getSetDataFromDocument(snapshot: DocumentSnapshot) : SetData{
+            return SetData(
+                    snapshot.get("id") as String,
+                    snapshot.get("timestamp") as Long,
+                    snapshot.get("title") as String,
+                    snapshot.get("setType") as String,
+                    snapshot.get("cardType") as String,
+                    snapshot.get("subjectType") as String,
+                    snapshot.get("cards") as ArrayList<String>
+                    )
+        }
     }
 }

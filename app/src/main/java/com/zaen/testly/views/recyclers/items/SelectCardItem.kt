@@ -1,5 +1,6 @@
 package com.zaen.testly.views.recyclers.items
 
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
@@ -13,6 +14,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SelectCardItem(val card: CardData) : AbstractFlexibleItem<FlexibleViewHolder>() {
+    fun withIcon(icon: Drawable) : SelectCardItem{
+        //this.icon = icon
+        return this
+    }
+
     override fun equals(other: Any?): Boolean {
         return this === other
     }

@@ -1,9 +1,7 @@
 package com.zaen.testly
 
 import android.util.Log
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
-import com.zaen.testly.R.mipmap.email
 import com.zaen.testly.data.DevChatMessageData
 import com.zaen.testly.data.UserData
 import com.zaen.testly.utils.Common
@@ -62,20 +60,6 @@ class DeveloperChat(val context: Any){
                     }
 
                 })
-//        chatDocumentPath.collection("messages")
-//                .orderBy("timestamp")
-//                .get()
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful){
-//                        // Set adapter with acquired data
-//                        for (snapshot in it.result.documents) {
-//                            storeMessage(snapshot)
-//                        }
-//                        mListener?.onGotMessages()
-//                    } else {
-//                        Log.w(LogUtils.TAG(this),"Error getting chat message Documents. Exception: ${it.exception}")
-//                    }
-//                }
     }
     fun storeMessage(snapshot: DocumentSnapshot){
         Log.d(LogUtils.TAG(this), "Getting chat messages. ${snapshot.id} -> ${snapshot.data}")
@@ -90,25 +74,11 @@ class DeveloperChat(val context: Any){
 //                latestMessageTime = snapshot.data?.get("timestamp") as Long
         }
     }
-//    fun listenToMessages(){
-//        chatDocumentPath.collection("messages")
-//                .orderBy("timestamp")
-//                .whereGreaterThan("timestamp",latestMessageTime)
-//                .addSnapshotListener{ query: QuerySnapshot?, exception: FirebaseFirestoreException? ->
-//                    if (exception != null){
-//                        Log.w(LogUtils.TAG(this),"Listen on Message failed. Exception: $exception")
-//                    }
-//                    for (snapshot in query!!.documents){
-//                            storeMessage(snapshot)
-//                    }
-//                    isListening = true
-//                    mListener?.onGotMessages()
-//                }
-//    }
+
     fun uploadMessage(text: String, userinfo: UserData){
-    val path = chatDocumentPath.collection("messages").document()
-    val timestamp: Long = Common().getTimestamp()
-    val message = DevChatMessageData(path.id,timestamp,text,userinfo)
+        val path = chatDocumentPath.collection("messages").document()
+        val timestamp: Long = Common().getTimestamp()
+        val message = DevChatMessageData(path.id,timestamp,text,userinfo)
         TestlyFirestore(this).addDocumentToCollection(path,message,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference == null){
@@ -128,8 +98,6 @@ class DeveloperChat(val context: Any){
             Log.w(LogUtils.TAG(this), "[Failure] Invalid Chat message. Id:${snapshot.id}")
             return null
         }
-        val senderField = snapshot.data!!["sender"] as HashMap<String,*>
-        val sender = TestlyUser(this).getUserinfoFromDocument(snapshot)
         return DevChatMessageData.getDevChatMessageDataFromDocument(snapshot)
     }
 }

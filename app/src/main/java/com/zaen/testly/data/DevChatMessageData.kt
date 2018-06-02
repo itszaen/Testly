@@ -1,7 +1,6 @@
 package com.zaen.testly.data
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.zaen.testly.TestlyUser
 
 
 class DevChatMessageData (
@@ -17,7 +16,7 @@ class DevChatMessageData (
                     snapshot.get("id") as String,
                     snapshot.data!!["timestamp"] as Long,
                     snapshot.data!!["text"] as String,
-                    TestlyUser(this).getUserinfoFromHashMap(senderField)
+                    UserData.getUserDataFromHashMap(senderField)
             )
         }
     }

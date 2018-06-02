@@ -227,15 +227,7 @@ class CreateCasData (val context: Any) {
             Log.w(LogUtils.TAG(this),"[Failure] Invalid SET data. Id:${snapshot.id}")
             return null
         }
-        return SetData(
-                snapshot.get("id") as String,
-                snapshot.get("timestamp") as Long,
-                snapshot.get("title") as String,
-                snapshot.get("setType") as String,
-                snapshot.get("cardType") as String,
-                snapshot.get("subjectType") as String,
-                snapshot.get("cards") as ArrayList<String>
-        )
+        return SetData.getSetDataFromDocument(snapshot)
     }
 
 }
