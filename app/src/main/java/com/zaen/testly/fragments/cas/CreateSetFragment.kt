@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
+import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.CardData
@@ -130,6 +131,7 @@ class CreateSetFragment  : BaseFragment(),
             }
         })
         updateUI()
+        initializeActionModeHelper(SelectableAdapter.Mode.MULTI)
         getCards()
     }
 
@@ -139,7 +141,7 @@ class CreateSetFragment  : BaseFragment(),
     }
 
     private fun initializeActionModeHelper(mode: Int){
-        mActionHelper = ActionModeHelper(selectCardAdapter!!,R.menu.menu_main,this)
+        mActionHelper = ActionModeHelper(selectCardAdapter!!,R.menu.menu_main,this).withDefaultMode(mode)
     }
 
     override fun onPrepareActionMode(mode: android.support.v7.view.ActionMode?, menu: Menu?): Boolean {
@@ -163,11 +165,12 @@ class CreateSetFragment  : BaseFragment(),
         return true
     }
 
+    // !!
     override fun onItemClick(view: View?, position: Int): Boolean {
+        val flexibleItem = selectCardAdapter!!.getItem(position)
         return if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
             val activate = mActionHelper!!.onClick(position)
             Log.d(LogUtils.TAG(context!!),"Last activated position: ${mActionHelper!!.activatedPosition}")
-            toggleSelection(position)
             activate
         } else {
             false

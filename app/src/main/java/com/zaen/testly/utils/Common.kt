@@ -1,5 +1,8 @@
 package com.zaen.testly.utils
 
+import android.content.Context
+import android.util.DisplayMetrics
+
 class Common {
     fun allNotNull(vararg objects: Any?) :Boolean {
         for (o: Any? in objects){
@@ -12,5 +15,13 @@ class Common {
 
     fun getTimestamp(): Long{
         return System.currentTimeMillis() / 1000L
+    }
+
+    fun getDisplayMetrics(context: Context): DisplayMetrics {
+        return context.resources.displayMetrics
+    }
+
+    fun dpToPx(context: Context, dp: Float): Int {
+        return Math.round(dp * getDisplayMetrics(context).density)
     }
 }
