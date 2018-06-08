@@ -8,6 +8,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
+import com.zaen.testly.utils.LogUtils
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
@@ -35,7 +36,7 @@ class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, Sign
         }
     }
     override fun onExceptionSnacky(exception: Exception,logText:String,errorText:String){
-        Log.w(Auth.TAG,logText)
+        Log.w(LogUtils.TAG(this),logText)
         Snacky.builder()
                 .setActivity(this)
                 .setText(errorText)

@@ -13,7 +13,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.AuthResult
@@ -22,16 +21,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
 import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.auth.TestlyFirebaseAuth
+import com.zaen.testly.utils.LogUtils
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
 
 /**
  * Created by zaen on 3/13/18.
  */
-abstract class Auth: AppCompatActivity(),
+abstract class AuthActivity: AppCompatActivity(),
         TestlyFirebaseAuth.HandleTask,SignupUserinfo.SuccessListener {
     companion object {
-        const val TAG = "Auth"
         const val RC_LOG_IN = 101
         const val RC_SIGN_UP = 102
         const val RC_SIGN_UP_INFO = 103
@@ -113,12 +112,7 @@ abstract class Auth: AppCompatActivity(),
             focusView?.requestFocus()
         } else {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(emailStr, passwordStr)
-                    .addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
-                        override fun onComplete(task: Task<AuthResult>) {
-                            handleTask(task)
-                        }
-
-                    })
+                    .addOnCompleteListener(this) { handleTask(it) }
         }
     }
     open fun isEmailValid(email: String): Boolean{
@@ -135,7 +129,7 @@ abstract class Auth: AppCompatActivity(),
         firebaseAuth?.mFacebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
         firebaseAuth?.mTwitterAuthClient?.onActivityResult(requestCode,resultCode,data)
         when (requestCode){
-            Auth.RC_LOG_IN -> {
+            AuthActivity.RC_LOG_IN -> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 firebaseAuth?.handleGoogleSignInResult(task)
             }
@@ -146,9 +140,9 @@ abstract class Auth: AppCompatActivity(),
         if (task.isSuccessful) {
             Log.d(LoginActivity.TAG, "signInWithCredential:success")
             Toasty.success(this,"Signed in as "+mAuth?.currentUser?.email, Toast.LENGTH_SHORT,true).show()
-            if (request == Auth.RC_LOG_IN){
+            if (request == AuthActivity.RC_LOG_IN){
                 checkUserinfo()
-            } else if (request == Auth.RC_SIGN_UP){
+            } else if (request == AuthActivity.RC_SIGN_UP){
                 userinfo?.registerUserInfo()
             }
         } else {
@@ -159,7 +153,7 @@ abstract class Auth: AppCompatActivity(),
                     .setDuration(Snacky.LENGTH_LONG)
                     .setActionText("OPEN")
                     .setActionClickListener {
-                        MaterialDialog.Builder(this@Auth)
+                        MaterialDialog.Builder(this@AuthActivity)
                                 .title("Exception")
                                 .content(task.exception.toString())
                                 .positiveText(R.string.react_positive)
@@ -171,18 +165,18 @@ abstract class Auth: AppCompatActivity(),
     }
     override fun onSuccess(){
         setResult(RESULT_OK,intent)
-        finish()
+        onBackPressed()
     }
 
     fun onExceptionSnacky(exception: Exception,logText:String,errorText:String){
-        Log.w(TAG,logText)
+        Log.w(LogUtils.TAG(this),logText)
         Snacky.builder()
                 .setActivity(this)
                 .setText(errorText)
                 .setDuration(Snacky.LENGTH_LONG)
                 .setActionText("OPEN")
                 .setActionClickListener {
-                    MaterialDialog.Builder(this@Auth)
+                    MaterialDialog.Builder(this@AuthActivity)
                             .title("Exception")
                             .content(exception.toString())
                             .positiveText(R.string.react_positive)
@@ -198,7 +192,7 @@ abstract class Auth: AppCompatActivity(),
             if (it.isSuccessful){
                 val snapshot = it.result
                 if (snapshot.exists()) {
-                    Log.w(TAG,"Snapshot: $snapshot")
+                    Log.w(LogUtils.TAG(this),"Snapshot: $snapshot")
                     onSuccess()
                 } else {
                     setResult(RC_SIGN_UP_INFO,intent)

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
 
-class LoginActivity : Auth() {
+class LoginActivity : AuthActivity() {
     companion object {
         const val TAG = "LoginActivity"
     }
@@ -28,7 +28,7 @@ class LoginActivity : Auth() {
         request = RC_LOG_IN
 
         val greetingsList = resources.getStringArray(R.array.login_greetings)
-        greeting.setText(greetingsList[Random().nextInt(greetingsList.size)])
+        greeting.text = greetingsList[Random().nextInt(greetingsList.size)]
 
     }
 

@@ -3,11 +3,14 @@ package com.zaen.testly.activities
 import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.Fragment
-import com.stephentuso.welcome.*
+import com.stephentuso.welcome.BasicPage
+import com.stephentuso.welcome.FragmentWelcomePage
+import com.stephentuso.welcome.WelcomeActivity
+import com.stephentuso.welcome.WelcomeConfiguration
 import com.zaen.testly.R
-import com.zaen.testly.activities.auth.Auth.Companion.RC_LOG_IN
-import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP
-import com.zaen.testly.activities.auth.Auth.Companion.RC_SIGN_UP_INFO
+import com.zaen.testly.activities.auth.AuthActivity.Companion.RC_LOG_IN
+import com.zaen.testly.activities.auth.AuthActivity.Companion.RC_SIGN_UP
+import com.zaen.testly.activities.auth.AuthActivity.Companion.RC_SIGN_UP_INFO
 import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.auth.SignupActivity
 import com.zaen.testly.activities.auth.SignupInfoActivity
@@ -50,9 +53,8 @@ class IntroActivity : WelcomeActivity() {
             RC_LOG_IN -> {
                 when (resultCode){
                     RESULT_OK -> {
-                        //completeWelcomeScreen()
                         setResult(Activity.RESULT_OK)
-                        finish()
+                        completeWelcomeScreen()
                         return
                         }
                     RC_SIGN_UP -> onButtonBarSecondPressed()
@@ -73,6 +75,10 @@ class IntroActivity : WelcomeActivity() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun welcomeKey():String{
+        return resources.getString(R.string.intro_key_unique)
     }
 
 }

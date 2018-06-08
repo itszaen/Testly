@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
 import java.util.*
 
-class SignupActivity : Auth(), SignupUserinfo.ExceptionHandler {
+class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
     companion object {
         const val TAG = "SignupActivity"
         const val AUTH_EMAIL = 1

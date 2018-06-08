@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.google.firebase.firestore.DocumentSnapshot
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -26,8 +25,6 @@ import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
 import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
 import com.zaen.testly.R
-import com.zaen.testly.R.id.fragment_container_activity_main
-import com.zaen.testly.R.id.toolbar
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.data.UserData
@@ -103,13 +100,13 @@ class MainActivity : BaseActivity(),
         mToolbar = toolbar
 
         if (!mAuthUser.isSignedIn()){
-            welcome()
+             welcome()
         } else {
             onCreateSignedIn()
         }
     }
 
-    fun onCreateSignedIn() {
+    private fun onCreateSignedIn() {
         // Firebase
         /// Userinfo SET up listener & Hide (or show)elements
         mAuthUser.addUserinfoListener(object: TestlyUser.UserinfoListener{
@@ -337,20 +334,17 @@ class MainActivity : BaseActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
-
         // Intro
         if (requestCode == WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST) {
             // The key of the welcome screen is in the Intent
             val welcomeKey = data.getStringExtra(WelcomeActivity.WELCOME_SCREEN_KEY)
-
             if (resultCode == Activity.RESULT_OK) {
+                finish()
                 onCreateSignedIn()
             } else {
                 finish() //Close app
             }
-
         }
-
     }
 
     override fun renameToolbar(new: String) {

@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.zaen.testly.R
-import com.zaen.testly.activities.auth.Auth
+import com.zaen.testly.activities.auth.AuthActivity
 import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.TestlyFirebaseAuth
@@ -114,7 +114,7 @@ class SettingsActivity : BaseActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode){
-            Auth.RC_LOG_IN -> {
+            AuthActivity.RC_LOG_IN -> {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 firebaseAuth = TestlyFirebaseAuth(this)
                 firebaseAuth?.handleGoogleSignInResult(task)

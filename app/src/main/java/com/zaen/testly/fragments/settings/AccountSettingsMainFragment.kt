@@ -18,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
-import com.zaen.testly.activities.auth.Auth
+import com.zaen.testly.activities.auth.AuthActivity
 import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.utils.LogUtils.Companion.TAG
@@ -177,7 +177,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                     firebaseAuth = TestlyFirebaseAuth(activity!!)
                         when (FirebaseAuth.getInstance().currentUser!!.providerData.get(1).providerId){
                         "password" -> {}
-                        "google.com" -> {TestlyFirebaseAuth(activity!!).googleAuth(Auth.RC_LOG_IN)}
+                        "google.com" -> {TestlyFirebaseAuth(activity!!).googleAuth(AuthActivity.RC_LOG_IN)}
                         "facebook.com" -> {}
                         "twitter.com" -> {}
                         "github.com" -> {}

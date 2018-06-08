@@ -50,13 +50,13 @@ open class TestlyFirebaseAuth(context: Activity){
         }
         mAuth = FirebaseAuth.getInstance()
 
-        // Google Auth
+        // Google AuthActivity
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(context.getString(R.string.web_client_id))
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
-        // Facebook Auth
+        // Facebook AuthActivity
         mFacebookCallbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().registerCallback(mFacebookCallbackManager,
                 object : FacebookCallback<LoginResult> {
@@ -86,7 +86,7 @@ open class TestlyFirebaseAuth(context: Activity){
                     }
                 })
 
-        // Twitter Auth
+        // Twitter AuthActivity
         val twitterConfig = TwitterConfig.Builder(context)
                 .logger(DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(TwitterAuthConfig("1hIteTpSElBMDilVOndDPLsJN", "b4phA6d5ey4zmM3lzWi7er4ltyOunV2wuFNYRFuiDB1L7LiuXw"))
