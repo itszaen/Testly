@@ -22,8 +22,10 @@ import com.zaen.testly.fragments.intro.FaqFragment
 class IntroActivity : WelcomeActivity() {
     override fun configuration() : WelcomeConfiguration {
         return WelcomeConfiguration.Builder(this)
+                // Page 1
                 .page(BasicPage(R.drawable.ic_search, getString(R.string.intro_first_title), getString(R.string.intro_first_description))
                         .background(R.color.introFirstBackground))
+                // Page 2
                 .page(object:FragmentWelcomePage() {
                     override fun fragment(): Fragment {
                     return FaqFragment()
@@ -53,8 +55,9 @@ class IntroActivity : WelcomeActivity() {
             RC_LOG_IN -> {
                 when (resultCode){
                     RESULT_OK -> {
-                        setResult(Activity.RESULT_OK)
-                        completeWelcomeScreen()
+                        setResult(Activity.RESULT_OK,intent)
+                        // do NOT use completeWelcomeScreen()
+                        finish()
                         return
                         }
                     RC_SIGN_UP -> onButtonBarSecondPressed()

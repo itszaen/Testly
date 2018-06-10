@@ -3,7 +3,7 @@ package com.zaen.testly.utils
 import android.content.Context
 import android.util.DisplayMetrics
 
-class Common {
+class CommonUtils {
     fun allNotNull(vararg objects: Any?) :Boolean {
         for (o: Any? in objects){
             if (o != null){

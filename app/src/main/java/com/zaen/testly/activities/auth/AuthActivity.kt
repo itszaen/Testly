@@ -1,13 +1,12 @@
 package com.zaen.testly.activities.auth
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
-import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -19,6 +18,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.utils.LogUtils
@@ -28,7 +28,7 @@ import es.dmoral.toasty.Toasty
 /**
  * Created by zaen on 3/13/18.
  */
-abstract class AuthActivity: AppCompatActivity(),
+abstract class AuthActivity: BaseActivity(),
         TestlyFirebaseAuth.HandleTask,SignupUserinfo.SuccessListener {
     companion object {
         const val RC_LOG_IN = 101
@@ -138,7 +138,7 @@ abstract class AuthActivity: AppCompatActivity(),
     override fun handleTask(task: Task<AuthResult>){
         val mAuth = FirebaseAuth.getInstance()
         if (task.isSuccessful) {
-            Log.d(LoginActivity.TAG, "signInWithCredential:success")
+            LogUtils.success(this,4,"signInWithCredential")
             Toasty.success(this,"Signed in as "+mAuth?.currentUser?.email, Toast.LENGTH_SHORT,true).show()
             if (request == AuthActivity.RC_LOG_IN){
                 checkUserinfo()
@@ -146,7 +146,7 @@ abstract class AuthActivity: AppCompatActivity(),
                 userinfo?.registerUserInfo()
             }
         } else {
-            Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception)
+            LogUtils.failure(this,5, "signInWithCredential(). Exception: ${task.exception}")
             Snacky.builder()
                     .setActivity(this)
                     .setText("Sign in Failed.\n Click open to see exception.")
@@ -164,26 +164,8 @@ abstract class AuthActivity: AppCompatActivity(),
 
     }
     override fun onSuccess(){
-        setResult(RESULT_OK,intent)
+        setResult(Activity.RESULT_OK,intent)
         onBackPressed()
-    }
-
-    fun onExceptionSnacky(exception: Exception,logText:String,errorText:String){
-        Log.w(LogUtils.TAG(this),logText)
-        Snacky.builder()
-                .setActivity(this)
-                .setText(errorText)
-                .setDuration(Snacky.LENGTH_LONG)
-                .setActionText("OPEN")
-                .setActionClickListener {
-                    MaterialDialog.Builder(this@AuthActivity)
-                            .title("Exception")
-                            .content(exception.toString())
-                            .positiveText(R.string.react_positive)
-                            .show()
-                }
-                .error()
-                .show()
     }
 
     private fun checkUserinfo() {
@@ -192,16 +174,15 @@ abstract class AuthActivity: AppCompatActivity(),
             if (it.isSuccessful){
                 val snapshot = it.result
                 if (snapshot.exists()) {
-                    Log.w(LogUtils.TAG(this),"Snapshot: $snapshot")
+                    LogUtils.success(this,4,"Userinfo uploaded. Snapshot: $snapshot")
                     onSuccess()
                 } else {
                     setResult(RC_SIGN_UP_INFO,intent)
                     finish()
                 }
             } else {
-                onExceptionSnacky(it.exception as kotlin.Exception,
-                        "Get userinfo failed. Exception: " + it.exception,
-                        "An error has occurred getting your user information. Click open to see exception")
+                LogUtils.failure(this, 5, "Getting userinfo.", it.exception as Exception)
+                snackyException("An error has occurred getting your user information.",it.exception as Exception)
             }
         }
 

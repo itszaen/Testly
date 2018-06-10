@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -23,18 +24,21 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem
 import com.mikepenz.octicons_typeface_library.Octicons
 import com.stephentuso.welcome.WelcomeActivity
 import com.stephentuso.welcome.WelcomeHelper
-import com.stephentuso.welcome.WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST
 import com.zaen.testly.R
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.*
 import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : BaseActivity(),
         FileBrowserFragment.RenameToolbar{
+    companion object {
+        const val REQUEST_WELCOME_SCREEN_RESULT = 13
+    }
 
     var savedInstanceState: Bundle? = null
     private var mToolbar : Toolbar? = null
@@ -48,43 +52,59 @@ class MainActivity : BaseActivity(),
     private var hasDeveloperItem: Boolean = false
     private var hasAdminItem: Boolean = false
     /// Items
-    val nav_home = PrimaryDrawerItem().withName(R.string.nav_menu_home).withIcon(GoogleMaterial.Icon.gmd_home)
-            .withIdentifier(1).withSelectable(true)
-    val nav_pinned = PrimaryDrawerItem().withName(R.string.nav_menu_pinned).withIcon(CommunityMaterial.Icon.cmd_pin)
-            .withIdentifier(2).withSelectable(true)
-    val nav_prep = PrimaryDrawerItem().withName(R.string.nav_menu_prep).withIcon(Octicons.Icon.oct_checklist)
-            .withIdentifier(3).withSelectable(true)
-    val nav_improve = PrimaryDrawerItem().withName(R.string.nav_menu_improve).withIcon(MaterialDesignIconic.Icon.gmi_labels)
-            .withIdentifier(4).withSelectable(true)
-    val nav_handouts = PrimaryDrawerItem().withName(R.string.nav_menu_handouts).withIcon(MaterialDesignIconic.Icon.gmi_file)
-            .withIdentifier(5).withSelectable(true)
-    val nav_pastexam = PrimaryDrawerItem().withName(R.string.nav_menu_pastexam).withIcon(CommunityMaterial.Icon.cmd_archive)
-            .withIdentifier(6).withSelectable(true)
-    val nav_section_provider = SectionDrawerItem().withName(R.string.nav_menu_section_provider)
-            .withIdentifier(7)
-    val nav_create = PrimaryDrawerItem().withName(R.string.nav_menu_create).withIcon(CommunityMaterial.Icon.cmd_file_plus)
-            .withIdentifier(71).withSelectable(true)
-    val nav_upload = PrimaryDrawerItem().withName(R.string.nav_menu_upload).withIcon(CommunityMaterial.Icon.cmd_upload)
-            .withIdentifier(72).withSelectable(true)
-    val nav_section_developer = SectionDrawerItem().withName(R.string.nav_menu_section_developer)
-            .withIdentifier(8)
-    val nav_dev_chat = PrimaryDrawerItem().withName(R.string.nav_menu_dev_chat).withIcon(GoogleMaterial.Icon.gmd_free_breakfast)
-            .withIdentifier(81).withSelectable(true)
-    val nav_section_admin = SectionDrawerItem().withName(R.string.nav_menu_section_admin)
-            .withIdentifier(9)
-    val nav_admin_panel = PrimaryDrawerItem().withName(R.string.nav_menu_admin_panel).withIcon(GoogleMaterial.Icon.gmd_security)
-            .withIdentifier(91)
-    val nav_settings = PrimaryDrawerItem().withName(R.string.nav_menu_settings).withIcon(GoogleMaterial.Icon.gmd_settings)
-            .withIdentifier(100).withSelectable(true)
-    val nav_help = PrimaryDrawerItem().withName(R.string.nav_menu_help).withIcon(Entypo.Icon.ent_help_with_circle)
-            .withIdentifier(101).withSelectable(true)
-    val nav_feedback = PrimaryDrawerItem().withName(R.string.nav_menu_feedback).withIcon(GoogleMaterial.Icon.gmd_feedback)
-            .withIdentifier(102).withSelectable(true)
-    val nav_about = PrimaryDrawerItem().withName(R.string.nav_menu_about).withIcon(Entypo.Icon.ent_info_with_circle)
-            .withIdentifier(103).withSelectable(true)
-
-
-    private var welcomeScreen:WelcomeHelper? = null
+    private val homeNavId = 1L
+    private val homeNav = PrimaryDrawerItem().withName(R.string.nav_menu_home).withIcon(GoogleMaterial.Icon.gmd_home)
+            .withIdentifier(homeNavId).withSelectable(true)
+    private val pinnedNavId = 2L
+    private val pinnedNav = PrimaryDrawerItem().withName(R.string.nav_menu_pinned).withIcon(CommunityMaterial.Icon.cmd_pin)
+            .withIdentifier(pinnedNavId).withSelectable(true)
+    private val prepNavId = 3L
+    private val prepNav = PrimaryDrawerItem().withName(R.string.nav_menu_prep).withIcon(Octicons.Icon.oct_checklist)
+            .withIdentifier(prepNavId).withSelectable(true)
+    private val improveNavId = 4L
+    private val improveNav = PrimaryDrawerItem().withName(R.string.nav_menu_improve).withIcon(MaterialDesignIconic.Icon.gmi_labels)
+            .withIdentifier(improveNavId).withSelectable(true)
+    private val handoutsNavId = 5L
+    private val handoutsNav = PrimaryDrawerItem().withName(R.string.nav_menu_handouts).withIcon(MaterialDesignIconic.Icon.gmi_file)
+            .withIdentifier(handoutsNavId).withSelectable(true)
+    private val pastexamNavId = 6L
+    private val pastexamNav = PrimaryDrawerItem().withName(R.string.nav_menu_pastexam).withIcon(CommunityMaterial.Icon.cmd_archive)
+            .withIdentifier(pastexamNavId).withSelectable(true)
+    private val providerNavSectionId = 7L
+    private val providerNavSection = SectionDrawerItem().withName(R.string.nav_menu_section_provider)
+            .withIdentifier(providerNavSectionId)
+    private val createNavId = 71L
+    private val createNav = PrimaryDrawerItem().withName(R.string.nav_menu_create).withIcon(CommunityMaterial.Icon.cmd_file_plus)
+            .withIdentifier(createNavId).withSelectable(true)
+    private val uploadNavId = 72L
+    private val uploadNav = PrimaryDrawerItem().withName(R.string.nav_menu_upload).withIcon(CommunityMaterial.Icon.cmd_upload)
+            .withIdentifier(uploadNavId).withSelectable(true)
+    private val developerNavSectionId = 8L
+    private val developerNavSection = SectionDrawerItem().withName(R.string.nav_menu_section_developer)
+            .withIdentifier(developerNavSectionId)
+    private val devChatNavId = 81L
+    private val devChatNav = PrimaryDrawerItem().withName(R.string.nav_menu_dev_chat).withIcon(GoogleMaterial.Icon.gmd_free_breakfast)
+            .withIdentifier(devChatNavId).withSelectable(true)
+    private val adminNavSectionId = 9L
+    private val adminNavSection = SectionDrawerItem().withName(R.string.nav_menu_section_admin)
+            .withIdentifier(adminNavSectionId)
+    private val adminPanelNavId = 91L
+    private val adminPanelNav = PrimaryDrawerItem().withName(R.string.nav_menu_admin_panel).withIcon(GoogleMaterial.Icon.gmd_security)
+            .withIdentifier(adminPanelNavId)
+    private val settingsNavId = 100L
+    private val settingsNav = PrimaryDrawerItem().withName(R.string.nav_menu_settings).withIcon(GoogleMaterial.Icon.gmd_settings)
+            .withIdentifier(settingsNavId).withSelectable(true)
+    private val helpNavId = 101L
+    private val helpNav = PrimaryDrawerItem().withName(R.string.nav_menu_help).withIcon(Entypo.Icon.ent_help_with_circle)
+            .withIdentifier(helpNavId).withSelectable(true)
+    private val feedbackNavId = 102L
+    private val feedbackNav = PrimaryDrawerItem().withName(R.string.nav_menu_feedback).withIcon(GoogleMaterial.Icon.gmd_feedback)
+            .withIdentifier(feedbackNavId).withSelectable(true)
+    private val aboutNavId = 103L
+    private val aboutNav = PrimaryDrawerItem().withName(R.string.nav_menu_about).withIcon(Entypo.Icon.ent_info_with_circle)
+            .withIdentifier(aboutNavId).withSelectable(true)
+    
+    private var welcomeScreen :WelcomeHelper? = null
 
     private var mAuthUser = TestlyUser(this)
 
@@ -96,17 +116,26 @@ class MainActivity : BaseActivity(),
             mContent = supportFragmentManager.getFragment(savedInstanceState,"lastFragment")
         }
 
+        if (!mAuthUser.isSignedIn()){
+            welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
+            welcomeScreen?.show(savedInstanceState)
+            return
+        }
+
+        // listen to sign in state
+        FirebaseAuth.getInstance().addAuthStateListener {
+            if (it.currentUser == null){
+                val intent =  baseContext.packageManager.getLaunchIntentForPackage(
+                        baseContext.packageName
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                finish()
+                startActivity(intent)
+            }
+        }
+
         setSupportActionBar(toolbar)
         mToolbar = toolbar
-
-        if (!mAuthUser.isSignedIn()){
-             welcome()
-        } else {
-            onCreateSignedIn()
-        }
-    }
-
-    private fun onCreateSignedIn() {
         // Firebase
         /// Userinfo SET up listener & Hide (or show)elements
         mAuthUser.addUserinfoListener(object: TestlyUser.UserinfoListener{
@@ -115,51 +144,51 @@ class MainActivity : BaseActivity(),
             }
         })
 
-        /// Build
+        /// build
         drawer = DrawerBuilder().withActivity(this).withToolbar(toolbar)
                 .withTranslucentStatusBar(false)
                 .withHeader(R.layout.header_drawer_main)
                 .addDrawerItems(
-                        nav_home,
-                        nav_pinned,
+                        homeNav,
+                        pinnedNav,
                         DividerDrawerItem(),
-                        nav_prep,
-                        nav_improve,
-                        nav_handouts,
-                        nav_pastexam,
-                        nav_section_provider,
-                        nav_create,
-                        nav_upload,
-                        nav_section_developer,
-                        nav_dev_chat,
-                        nav_section_admin,
-                        nav_admin_panel,
+                        prepNav,
+                        improveNav,
+                        handoutsNav,
+                        pastexamNav,
+                        providerNavSection,
+                        createNav,
+                        uploadNav,
+                        this.developerNavSection,
+                        devChatNav,
+                        adminNavSection,
+                        adminPanelNav,
                         DividerDrawerItem(),
-                        nav_help,
-                        nav_feedback,
-                        nav_about
+                        this.helpNav,
+                        feedbackNav,
+                        aboutNav
                 )
                 .addStickyDrawerItems(
-                        nav_settings
+                        settingsNav
                 )
                 .withOnDrawerItemClickListener { view, position, drawerItem ->
                     if (drawerItem != null) {
                         var intent: Intent? = null
                         when (drawerItem.identifier) {
-                            1L -> onFragmentClicked(DashboardFragment(), "dashboard", getString(R.string.app_name))
-                            2L -> onFragmentClicked(PinnedFragment(), "pinned", getString(R.string.title_fragment_pinned))
-                            3L -> onFragmentClicked(PrepFragment(), "prep", getString(R.string.title_fragment_prep))
-                            4L -> onFragmentClicked(ImproveFragment(), "improve", getString(R.string.title_fragment_improve))
-                            5L -> onFragmentClicked(HandoutsFragment(), "handouts", getString(R.string.title_fragment_handouts))
-                            6L -> onFragmentClicked(PastexamFragment(), "pastexam", getString(R.string.title_fragment_pastexam))
-                            71L -> onFragmentClicked(CreateCasFragment(), "create", getString(R.string.title_fragment_create))
-                            72L -> onFragmentClicked(UploadFragment(), "upload", getString(R.string.title_fragment_upload))
-                            81L -> onFragmentClicked(DeveloperChatFragment(), "devchat", getString(R.string.title_fragment_dev_chat))
-                            91L -> onFragmentClicked(AdminPanelFragment(),"adminpanel",getString(R.string.title_fragment_admin_panel))
-                            100L -> intent = Intent(this, SettingsActivity::class.java)
-                            101L -> intent = Intent(this, HelpActivity::class.java)
-                            102L -> intent = Intent(this, FeedbackActivity::class.java)
-                            103L -> intent = Intent(this, AboutActivity::class.java)
+                            homeNavId       -> onFragmentClicked(DashboardFragment(), "dashboard", getString(R.string.app_name))
+                            pinnedNavId     -> onFragmentClicked(PinnedFragment(), "pinned", getString(R.string.title_fragment_pinned))
+                            prepNavId       -> onFragmentClicked(PrepFragment(), "prep", getString(R.string.title_fragment_prep))
+                            improveNavId    -> onFragmentClicked(ImproveFragment(), "improve", getString(R.string.title_fragment_improve))
+                            handoutsNavId   -> onFragmentClicked(HandoutsFragment(), "handouts", getString(R.string.title_fragment_handouts))
+                            pastexamNavId   -> onFragmentClicked(PastexamFragment(), "pastexam", getString(R.string.title_fragment_pastexam))
+                            createNavId     -> onFragmentClicked(CreateCasFragment(), "create", getString(R.string.title_fragment_create))
+                            uploadNavId     -> onFragmentClicked(UploadFragment(), "upload", getString(R.string.title_fragment_upload))
+                            devChatNavId    -> onFragmentClicked(DeveloperChatFragment(), "devchat", getString(R.string.title_fragment_dev_chat))
+                            adminPanelNavId -> onFragmentClicked(AdminPanelFragment(),"adminpanel",getString(R.string.title_fragment_admin_panel))
+                            settingsNavId   -> intent = Intent(this, SettingsActivity::class.java)
+                            helpNavId       -> intent = Intent(this, HelpActivity::class.java)
+                            feedbackNavId   -> intent = Intent(this, FeedbackActivity::class.java)
+                            aboutNavId      -> intent = Intent(this, AboutActivity::class.java)
                         }
                         if (intent != null) {
                             startActivity(intent)
@@ -196,10 +225,6 @@ class MainActivity : BaseActivity(),
 
     override fun onStart() {
         super.onStart()
-        // Firebase check if already signed-in
-        if (!mAuthUser.isSignedIn()){
-            welcome()
-        }
     }
 
     //
@@ -247,54 +272,39 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    fun welcome(){
-        welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)
-        welcomeScreen?.show(savedInstanceState,DEFAULT_WELCOME_SCREEN_REQUEST)
-    }
-
     private fun toggleProviderDrawerItems(){
         val userinfo = mAuthUser.userinfo
         if (userinfo != null){
             if (userinfo.isProvider) {
                 if (!hasProviderItem){
-                    addDrawerItem(arrayOf(
-                            nav_section_provider,
-                            nav_create,
-                            nav_upload
-                    ))
+                    addDrawerItem(arrayOf(providerNavSection, createNav, uploadNav))
                 }
             } else {
-                deleteDrawerItem(arrayOf(7,71,72))
+                deleteDrawerItem(arrayOf(providerNavSectionId,createNavId,uploadNavId))
                 hasProviderItem = false
             }
             if (userinfo.isDeveloper){
                 if (!hasDeveloperItem){
-                    addDrawerItem(arrayOf(
-                            nav_section_developer,
-                            nav_dev_chat
-                    ))
+                    addDrawerItem(arrayOf(this.developerNavSection, devChatNav))
                 }
             } else {
-                deleteDrawerItem(arrayOf(8,81))
+                deleteDrawerItem(arrayOf(developerNavSectionId,devChatNavId))
                 hasDeveloperItem = false
             }
             if (userinfo.isAdmin){
                 if (!hasAdminItem){
-                    addDrawerItem((arrayOf(
-                            nav_section_admin,
-                            nav_admin_panel
-                    )))
+                    addDrawerItem((arrayOf(adminNavSection, adminPanelNav)))
                 }
             } else {
-                deleteDrawerItem(arrayOf(9,91))
+                deleteDrawerItem(arrayOf(adminNavSectionId,adminPanelNavId))
                 hasAdminItem = false
             }
         }else{
-            deleteDrawerItem(arrayOf(7,71,72))
+            deleteDrawerItem(arrayOf(providerNavSectionId,createNavId,uploadNavId))
             hasProviderItem = false
-            deleteDrawerItem(arrayOf(8,81))
+            deleteDrawerItem(arrayOf(developerNavSectionId,devChatNavId))
             hasDeveloperItem = false
-            deleteDrawerItem(arrayOf(9,91))
+            deleteDrawerItem(arrayOf(adminNavSectionId,adminPanelNavId))
             hasAdminItem = false
         }
     }
@@ -328,28 +338,31 @@ class MainActivity : BaseActivity(),
             }
         }
     }
-    private fun deleteDrawerItem(identifier: Array<Int>){
-        for (i in identifier) {drawer?.removeItem(i.toLong())}
+    private fun deleteDrawerItem(identifier: Array<Long>){
+        for (i in identifier) {drawer?.removeItem(i)}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
         // Intro
         if (requestCode == WelcomeHelper.DEFAULT_WELCOME_SCREEN_REQUEST) {
             // The key of the welcome screen is in the Intent
             val welcomeKey = data.getStringExtra(WelcomeActivity.WELCOME_SCREEN_KEY)
             if (resultCode == Activity.RESULT_OK) {
+                LogUtils.success(this,3,"Welcome screen completed. Restarting...")
+                val intent =  baseContext.packageManager.getLaunchIntentForPackage(
+                        baseContext.packageName
+                )
+                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 finish()
-                onCreateSignedIn()
+                startActivity(intent)
             } else {
                 finish() //Close app
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun renameToolbar(new: String) {
         mToolbar?.title = new
     }
-
-
 }

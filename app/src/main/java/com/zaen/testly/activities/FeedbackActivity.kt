@@ -12,7 +12,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
-import com.zaen.testly.utils.ScreenProp
+import com.zaen.testly.utils.ScreenPropUtils
 import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.form_feedback.*
 
@@ -22,7 +22,7 @@ class FeedbackActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutRes = R.layout.activity_feedback
         super.onCreate(savedInstanceState)
-        form_feedback.y = (ScreenProp(this).getHeight() - 48).toFloat()
+        form_feedback.y = (ScreenPropUtils(this).getHeight() - 48).toFloat()
         form_feedback.bringToFront()
         btn_submit_feedback.setIconResource(IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_send)
                 .color(ContextCompat.getColor(this,R.color.md_grey_600))

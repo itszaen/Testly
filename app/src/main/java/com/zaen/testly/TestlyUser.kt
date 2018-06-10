@@ -23,6 +23,7 @@ class TestlyUser(val context: Any){
         fun onProfileUpdated(successful: Boolean, exception: Exception?)
     }
 
+    var instance: FirebaseAuth? = null
     var currentUser: FirebaseUser? = null
     var userinfo: UserData? = null
 
@@ -30,7 +31,8 @@ class TestlyUser(val context: Any){
     var userinfoSnapshot: DocumentSnapshot? = null
 
     init {
-        currentUser = FirebaseAuth.getInstance().currentUser
+        instance = FirebaseAuth.getInstance()
+        currentUser = instance!!.currentUser
     }
 
     fun isSignedIn():Boolean{

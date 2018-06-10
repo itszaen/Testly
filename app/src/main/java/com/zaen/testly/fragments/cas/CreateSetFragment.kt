@@ -15,7 +15,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.CardData
@@ -130,8 +129,7 @@ class CreateSetFragment  : BaseFragment(),
                 }
             }
         })
-        updateUI()
-        initializeActionModeHelper(SelectableAdapter.Mode.MULTI)
+        initializeAdapter()
         getCards()
     }
 
@@ -223,10 +221,8 @@ class CreateSetFragment  : BaseFragment(),
         })
     }
 
-    private fun updateUI(){
-        // cards
+    private fun getItems(): MutableList<AbstractFlexibleItem<FlexibleViewHolder>>{
         val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-        val mLayoutManager = SmoothScrollGridLayoutManager(activity,3, LinearLayout.VERTICAL,false)
         if (mCreateCas.casList.size > 0) {
             val casList = mCreateCas.casList
             casList.reverse()
@@ -236,13 +232,23 @@ class CreateSetFragment  : BaseFragment(),
                 }
             }
         }
-        selectCardAdapter = FlexibleAdapter(items)
+        return items
+    }
+
+    private fun initializeAdapter(){
+        val mLayoutManager = SmoothScrollGridLayoutManager(activity,3, LinearLayout.VERTICAL,false)
+        selectCardAdapter = FlexibleAdapter(getItems())
         selectCardAdapter?.mode = SelectableAdapter.Mode.MULTI
         selectCardAdapter?.addListener(this)
         recycler_create_set_cards.apply {
             layoutManager = mLayoutManager
             adapter = selectCardAdapter
         }
+        initializeActionModeHelper(SelectableAdapter.Mode.MULTI)
+    }
+
+    private fun updateUI(){
+        selectCardAdapter?.updateDataSet(getItems())
     }
 
     @OnClick(R.id.radio_btn_set_card_mixed,R.id.radio_btn_set_card_selection,R.id.radio_btn_set_card_spelling)
@@ -342,14 +348,14 @@ class CreateSetFragment  : BaseFragment(),
                 .show()
 
         val path = FirebaseFirestore.getInstance().collection("sets").document()
-        val timestamp = System.currentTimeMillis() / 1000L
-        val title = edit_create_set_title.text.toString()
-        val type = setType
-        val cardType = setCardType
-        val subjectType = setSubjectType
-        val cards = selectedDocumentList
         val set = SetData(
-                path.id, timestamp, title, type, cardType, subjectType!!, cards
+                id = path.id,
+                timestamp = System.currentTimeMillis() / 1000L,
+                title = edit_create_set_title.text.toString(),
+                setType = setType,
+                cardType = setCardType,
+                subjectType = setSubjectType!!,
+                cards = selectedDocumentList
         )
         TestlyFirestore(this).addDocumentToCollection(path,set,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {

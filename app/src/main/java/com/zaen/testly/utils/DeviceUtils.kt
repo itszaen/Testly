@@ -2,11 +2,7 @@ package com.zaen.testly.utils
 
 import android.content.Context
 
-/**
- * Created by zaen on 3/30/18.
- */
-class ScreenProp(context: Context){
-    val context = context
+class ScreenPropUtils(val context: Context){
     fun getWidth() : Float{
         when(context.resources.displayMetrics.density){
             0.75F -> return 200F

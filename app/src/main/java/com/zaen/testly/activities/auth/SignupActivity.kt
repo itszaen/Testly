@@ -6,18 +6,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
-import butterknife.ButterKnife
 import com.zaen.testly.R
 import com.zaen.testly.auth.SignupUserinfo
-import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
-
 import java.util.*
 
-class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
+class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler{
     companion object {
-        const val TAG = "SignupActivity"
         const val AUTH_EMAIL = 1
         const val AUTH_GOOGLE = 2
         const val AUTH_FACEBOOK = 3
@@ -30,9 +26,8 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
     var authMethod : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_signup
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
-        ButterKnife.bind(this)
         request = RC_SIGN_UP
 
         // Greetings
@@ -45,7 +40,7 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
                 spinner_signup_school,spinner_signup_grade,spinner_signup_class,
                 error_signup_school_required,error_signup_grade_required,error_signup_class_required
         )
-                .Build()
+                .build()
     }
 
 
@@ -91,15 +86,9 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
 
     }
     fun onSignUp(view:View){
-
         when(authMethod){
             null -> {
-                Snacky.builder()
-                        .setActivity(this)
-                        .setText("Please tap one of the round buttons to select sign up method.")
-                        .setDuration(Snacky.LENGTH_LONG)
-                        .warning()
-                        .show()
+                snackyWarning("Please tap one of the round buttons to select sign up method.")
             }
             AUTH_EMAIL -> {
                 userinfo!!.checkInfoField()
@@ -137,9 +126,8 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler {
         return password.length >= 8
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
+    override fun onException(error: String, e: Exception){
+        snackyException(error,e)
     }
 
 }

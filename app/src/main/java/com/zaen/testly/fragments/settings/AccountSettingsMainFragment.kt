@@ -117,12 +117,16 @@ class AccountSettingsMainFragment : BaseFragment(){
                 .negativeText(R.string.react_refuse)
                 .onPositive{dialog,which->
                     FirebaseAuth.getInstance().signOut()
-                    val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
-                            activity?.baseContext?.packageName
-                    )
-                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    activity?.finish()
-                    startActivity(intent)
+                    FirebaseAuth.getInstance().addAuthStateListener {
+                        if (it.currentUser == null){
+                            val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
+                                    activity?.baseContext?.packageName
+                            )
+                            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            activity?.finish()
+                            startActivity(intent)
+                        }
+                    }
                 }
                 .onNegative{dialog,which->dialog.dismiss()}
                 .show()
@@ -150,7 +154,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                 .onNegative{dialog,which->dialog.dismiss()}
                 .show()
     }
-    fun onExceptionSnacky(e: Exception){
+    private fun onExceptionSnacky(e: Exception){
         Snacky.builder()
                 .setActivity(activity)
                 .setText("An error has occurred.\nClick open to see exception.")
@@ -187,7 +191,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                 .onNegative{dialog,which->dialog.dismiss()}
                 .show()
     }
-    fun deleteUser(user: FirebaseUser, dialog: MaterialDialog){
+    private fun deleteUser(user: FirebaseUser, dialog: MaterialDialog){
         user.delete()
                 .addOnCompleteListener{
                     if (it.isSuccessful){
@@ -195,9 +199,16 @@ class AccountSettingsMainFragment : BaseFragment(){
                         val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
                                 activity?.baseContext?.packageName
                         )
-                        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        activity?.finish()
-                        startActivity(intent)
+                        FirebaseAuth.getInstance().addAuthStateListener {
+                            if (it.currentUser == null){
+                                val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
+                                        activity?.baseContext?.packageName
+                                )
+                                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                activity?.finish()
+                                startActivity(intent)
+                            }
+                        }
                     }else{
                         val e = it.exception
                         dialog.dismiss()
@@ -205,7 +216,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                     }
                 }
     }
-    fun deleteUserInfo(user: FirebaseUser){
+    private fun deleteUserInfo(user: FirebaseUser){
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
                 .delete()
                 .addOnSuccessListener { Log.d(TAG(this),"Userinfo deleted.") }

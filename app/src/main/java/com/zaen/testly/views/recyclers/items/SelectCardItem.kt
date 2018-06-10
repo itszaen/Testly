@@ -2,14 +2,11 @@ package com.zaen.testly.views.recyclers.items
 
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.zaen.testly.R
 import com.zaen.testly.data.CardData
-import com.zaen.testly.utils.Common
-import com.zaen.testly.utils.LogUtils
+import com.zaen.testly.utils.CommonUtils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -55,7 +52,7 @@ class SelectCardItem(val card: CardData) : AbstractFlexibleItem<FlexibleViewHold
         }
 
         override fun getActivationElevation(): Float {
-            return Common().dpToPx(itemView.context, 4f).toFloat()
+            return CommonUtils().dpToPx(itemView.context, 4f).toFloat()
         }
     }
 }

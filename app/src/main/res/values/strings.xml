@@ -3,7 +3,7 @@
     <string name="app_name" translatable="false">Testly</string>
     <string name="app_version" translatable="false">0.1</string>
 
-    <!-- Common -->
+    <!-- CommonUtils -->
     <string name="show_password">Show Password</string>
 
     <!-- Welcome Screen -->

@@ -7,6 +7,8 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.Iconics
 import com.squareup.leakcanary.LeakCanary
 import com.zaen.testly.utils.preferences.Prefs
+import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.utils.Log
 import io.fabric.sdk.android.Fabric
 import me.yokeyword.fragmentation.Fragmentation
 
@@ -39,6 +41,8 @@ class App : Application(){
                 .stackViewMode(Fragmentation.BUBBLE)
                 .debug(BuildConfig.DEBUG)
                 .install()
+
+        FlexibleAdapter.enableLogs(Log.Level.DEBUG)
     }
 
     private fun registerFontIcons() {

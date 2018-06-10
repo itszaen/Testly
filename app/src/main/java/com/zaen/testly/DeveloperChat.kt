@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import com.zaen.testly.data.DevChatMessageData
 import com.zaen.testly.data.UserData
-import com.zaen.testly.utils.Common
+import com.zaen.testly.utils.CommonUtils
 import com.zaen.testly.utils.LogUtils
 
 class DeveloperChat(val context: Any){
@@ -77,7 +77,7 @@ class DeveloperChat(val context: Any){
 
     fun uploadMessage(text: String, userinfo: UserData){
         val path = chatDocumentPath.collection("messages").document()
-        val timestamp: Long = Common().getTimestamp()
+        val timestamp: Long = CommonUtils().getTimestamp()
         val message = DevChatMessageData(path.id,timestamp,text,userinfo)
         TestlyFirestore(this).addDocumentToCollection(path,message,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
@@ -89,7 +89,7 @@ class DeveloperChat(val context: Any){
     }
 
     fun getMessageFromDocument(snapshot: DocumentSnapshot):DevChatMessageData?{
-        if (Common().allNotNull(
+        if (CommonUtils().allNotNull(
                         snapshot.data?.get("id"),
                         snapshot.data?.get("timestamp"),
                         snapshot.data?.get("sender"),

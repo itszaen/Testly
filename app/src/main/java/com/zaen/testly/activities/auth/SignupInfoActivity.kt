@@ -1,15 +1,11 @@
 package com.zaen.testly.activities.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.afollestad.materialdialogs.MaterialDialog
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
-import com.zaen.testly.utils.LogUtils
-import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
@@ -19,7 +15,6 @@ import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
 class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, SignupUserinfo.SuccessListener {
     companion object {
-        val TAG = "SignupInfoActivity"
     }
     var userinfo: SignupUserinfo? = null
 
@@ -27,7 +22,7 @@ class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, Sign
         layoutRes = R.layout.activity_signup_info
         super.onCreate(savedInstanceState)
         userinfo = SignupUserinfo(this,input_username,edit_username,input_fullname_last,edit_fullname_last,input_fullname_first,edit_fullname_first,spinner_signup_school,spinner_signup_grade,spinner_signup_class, error_signup_school_required,error_signup_grade_required,error_signup_class_required)
-                .Build()
+                .build()
     }
 
     fun onSignUp(view: View) {
@@ -35,22 +30,8 @@ class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, Sign
             userinfo!!.registerUserInfo()
         }
     }
-    override fun onExceptionSnacky(exception: Exception,logText:String,errorText:String){
-        Log.w(LogUtils.TAG(this),logText)
-        Snacky.builder()
-                .setActivity(this)
-                .setText(errorText)
-                .setDuration(Snacky.LENGTH_LONG)
-                .setActionText("OPEN")
-                .setActionClickListener {
-                    MaterialDialog.Builder(this)
-                            .title("Exception")
-                            .content(exception.toString())
-                            .positiveText(R.string.react_positive)
-                            .show()
-                }
-                .error()
-                .show()
+    override fun onException(error: String, e: Exception){
+        snackyException(error,e)
     }
     override fun onSuccess() {
         Toasty.success(this,"User information registered!",Toast.LENGTH_SHORT,true).show()

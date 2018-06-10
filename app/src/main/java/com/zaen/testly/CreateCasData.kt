@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Query
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
-import com.zaen.testly.utils.Common
+import com.zaen.testly.utils.CommonUtils
 import com.zaen.testly.utils.LogUtils
 
 /*
@@ -198,7 +198,7 @@ class CreateCasData (val context: Any) {
     }
 
     fun getCardDataFromDocument(snapshot: DocumentSnapshot):CardData?{
-        if (Common().allNotNull(
+        if (CommonUtils().allNotNull(
                         snapshot.get("id"),
                         snapshot.get("timestamp"),
                         snapshot.get("title"),
@@ -221,7 +221,7 @@ class CreateCasData (val context: Any) {
     }
 
     fun getSetDataFromDocument(snapshot: DocumentSnapshot):SetData?{
-        if (Common().allNotNull(
+        if (CommonUtils().allNotNull(
                         snapshot.get("")
                 )){
             Log.w(LogUtils.TAG(this),"[Failure] Invalid SET data. Id:${snapshot.id}")

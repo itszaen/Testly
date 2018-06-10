@@ -21,7 +21,6 @@ import com.twitter.sdk.android.core.*
 import com.twitter.sdk.android.core.identity.TwitterAuthClient
 import com.wuman.android.auth.OAuthManager
 import com.zaen.testly.R
-import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.utils.LogUtils
 import de.mateware.snacky.Snacky
 import java.util.*
@@ -144,7 +143,7 @@ open class TestlyFirebaseAuth(context: Activity){
             firebaseAuthWithGoogle(account)
 
         } catch (e: ApiException) {
-            Log.w(LoginActivity.TAG, "handleGoogleSignInResult failed. API Exception: ${e.statusCode}")
+            LogUtils.failure(this,5,"handleGoogleSignInResult failed.",e)
             MaterialDialog.Builder(context)
                     .title(R.string.error_auth_google_title)
                     .content(R.string.error_auth_google_content)
@@ -153,21 +152,21 @@ open class TestlyFirebaseAuth(context: Activity){
     }
 
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
+        LogUtils.log(this, 3, "firebaseAuthWithGoogle: " + account.id)
         val credential = GoogleAuthProvider.getCredential(account.idToken,null)
         mAuth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(context) { mListener?.handleTask(it) }
                 ?.addOnFailureListener { Log.w(LogUtils.TAG(this),"firebaseAuthWithGoogle failed. Exception: $it") }
     }
     private fun firebaseAuthWithFacebook(token: AccessToken?){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithFacebook:" + token!!.token)
+        LogUtils.log(this, 3, "firebaseAuthWithFacebook: " + token!!.token)
         val credential = FacebookAuthProvider.getCredential(token.token)
         mAuth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(context) { mListener?.handleTask(it) }
                 ?.addOnFailureListener { Log.w(LogUtils.TAG(this),"firebaseAuthWithFacebook failed. Exception: $it") }
     }
     private fun firebaseAuthWithTwitter(session: Result<TwitterSession>?){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithTwitter:$session")
+        LogUtils.log(this, 3, "firebaseAuthWithTwitter: $session")
         val credential = TwitterAuthProvider.getCredential(
                 session!!.data?.authToken?.token!!,
                 session.data?.authToken?.secret!!)
@@ -176,7 +175,7 @@ open class TestlyFirebaseAuth(context: Activity){
                 ?.addOnFailureListener { Log.w(LogUtils.TAG(this),"firebaseAuthWithTwitter failed. Exception: $it") }
     }
     private fun firebaseAuthWithGitHub(token: String){
-        Log.d(LoginActivity.TAG, "firebaseAuthWithGitHub:$token")
+        LogUtils.log(this, 3, "firebaseAuthWithGitHub: $token")
         val credential = GithubAuthProvider.getCredential(token)
         mAuth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(context) { mListener?.handleTask(it) }

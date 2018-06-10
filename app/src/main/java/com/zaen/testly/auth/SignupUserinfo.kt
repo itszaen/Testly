@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.facebook.common.Common
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.*
@@ -18,6 +17,7 @@ import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.data.UserData
+import com.zaen.testly.utils.LogUtils
 import java.util.*
 
 /**
@@ -66,7 +66,7 @@ open class SignupUserinfo (val context: Activity,
             mSuccessListener = context
         }
     }
-    fun Build():SignupUserinfo{
+    fun build():SignupUserinfo{
         TestlyFirestore(this).getDocuments(FirebaseFirestore.getInstance().collection("schools"),object: TestlyFirestore.CollectionSingleListener{
             override fun handleListener(listener: ListenerRegistration?) {
             }
@@ -83,32 +83,17 @@ open class SignupUserinfo (val context: Activity,
                     val schoolSpinnerArrayAdapter = ArrayAdapter<String>(context, R.layout.view_item_spinner_schools_signup,schoolNameList)
                     schoolSpinner.adapter = schoolSpinnerArrayAdapter
                 } else {
-                    mExceptionHandler?.onExceptionSnacky(exception as kotlin.Exception, "Error getting school names. Exception: $exception","An error occurred trying to get the list of schools. Click open to see the exception.")
+                    LogUtils.failure(this,5,"Error getting school names.", exception as Exception)
+
+                    mExceptionHandler?.onException(
+                            "An error occurred trying to get the list of schools.", exception)
                     schoolSpinner.isEnabled = false
                     gradeSpinner.isEnabled = false
                     classSpinner.isEnabled = false
                 }
             }
         })
-//        val schoolRef = FirebaseFirestore.getInstance().collection("schools")
-//        schoolRef.get()
-//                .addOnCompleteListener{
-//                    if (it.isSuccessful){
-//                        Log.d(SignupActivity.TAG,"Getting school names..")
-//                        schoolSnapList.clear()
-//                        schoolNameList.clear()
-//                        for (schoolSnap in it.result){
-//                            schoolSnapList.add(schoolSnap)
-//                            schoolIdList.add(schoolSnap.id as String)
-//                            schoolNameList.add(schoolSnap.get("name") as String)
-//                        }
-//                        val schoolSpinnerArrayAdapter = ArrayAdapter<String>(context, R.layout.view_item_spinner_schools_signup,schoolNameList)
-//                        schoolSpinner.adapter = schoolSpinnerArrayAdapter
-//
-//                    } else {
-//                        mExceptionHandler?.onExceptionSnacky(it.exception as kotlin.Exception, "Error getting school names. Exception: ${it.exception}","An error occurred trying to get the list of schools. Click open to see the exception.")
-//                    }
-//                }
+
         // School Selected
         schoolSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -134,31 +119,15 @@ open class SignupUserinfo (val context: Activity,
                             gradeSpinner.setAdapter(gradeSpinnerArrayAdapter)
                             gradeSpinner.isEnabled = true
                         } else {
-                            mExceptionHandler?.onExceptionSnacky(exception as kotlin.Exception, "Error getting school names. Exception: $exception","An error occurred trying to get the list of grades. Click open to see the exception.")
+                            LogUtils.failure(this, 5, "Error getting school names.", exception as Exception)
+                            mExceptionHandler?.onException(
+                                    "An error occurred trying to get the list of grades.",exception)
                             gradeSpinner.isEnabled = false
                             classSpinner.isEnabled = false
                         }
                     }
                 })
-//                schoolSnapList[position].reference.collection("grades").get()
-//                        .addOnCompleteListener {
-//                            if (it.isSuccessful){
-//                                Log.d(SignupActivity.TAG,"Getting grade names...")
-//                                gradeSnapList.clear()
-//                                gradeNameList.clear()
-//                                for (gradeSnap in it.result){
-//                                    gradeSnapList.add(gradeSnap)
-//                                    gradeNameList.add(gradeSnap.get("name") as String)
-//                                }
-//                                val gradeSpinnerArrayAdapter = ArrayAdapter<String>(context,R.layout.view_item_spinner_schools_signup,gradeNameList)
-//                                gradeSpinner.setAdapter(gradeSpinnerArrayAdapter)
-//                                gradeSpinner.isEnabled = true
-//                            } else {
-//                                mExceptionHandler?.onExceptionSnacky(it.exception as kotlin.Exception, "Error getting school names. Exception: ${it.exception}","An error occurred trying to get the list of grades. Click open to see the exception.")
-//                            }
-//                        }
             }
-
         }
         // Grade selected
         gradeSpinner.setOnItemSelectedListener { view, position, id, item ->
@@ -179,28 +148,12 @@ open class SignupUserinfo (val context: Activity,
                         classSpinner.setAdapter(classSpinnerArrayAdapter)
                         classSpinner.isEnabled = true
                     } else {
-                        mExceptionHandler?.onExceptionSnacky(exception as kotlin.Exception, "Error getting school names. Exception: $exception","An error occurred trying to get the list of classes. Click open to see the exception.")
+                        LogUtils.failure(this, 5, "Error getting school names.", exception as Exception)
+                        mExceptionHandler?.onException("An error occurred trying to get the list of classes.",exception)
                         classSpinner.isEnabled = false
                     }
                 }
             })
-//            gradeSnapList[position].reference.collection("classes").get()
-//                    .addOnCompleteListener{
-//                        if (it.isSuccessful){
-//                            Log.d(SignupActivity.TAG,"Getting class names...")
-//                            classSnapList.clear()
-//                            classNameList.clear()
-//                            for (classSnap in it.result){
-//                                classSnapList.add(classSnap)
-//                                classNameList.add(classSnap.get("name") as String)
-//                            }
-//                            val classSpinnerArrayAdapter = ArrayAdapter<String>(context,R.layout.view_item_spinner_schools_signup,classNameList)
-//                            classSpinner.setAdapter(classSpinnerArrayAdapter)
-//                            classSpinner.isEnabled = true
-//                        } else {
-//                            mExceptionHandler?.onExceptionSnacky(it.exception as kotlin.Exception, "Error getting school names. Exception: ${it.exception}","An error occurred trying to get the list of classes. Click open to see the exception.")
-//                        }
-//                    }
         }
         // Class selected
         classSpinner.setOnItemSelectedListener { view, position, id, item -> classStr = classNameList[position] }
@@ -289,7 +242,8 @@ open class SignupUserinfo (val context: Activity,
                 if (successful){
                     onCompleteListenerForRegisterInfo(1)
                 } else {
-                    onRegisterFirebaseFailure(exception!!,"username")
+                    LogUtils.failure(this, 5, "Uploading username.", exception!!)
+                    mExceptionHandler?.onException("Uploading username to the database failed.", exception)
                 }
             }
         })
@@ -297,7 +251,7 @@ open class SignupUserinfo (val context: Activity,
         // Userinfo (Username, fullname, school, grade, class)
         val userinfo = UserData(
                 user.uid,
-                com.zaen.testly.utils.Common().getTimestamp(),
+                com.zaen.testly.utils.CommonUtils().getTimestamp(),
                 user.email!!,
                 user.photoUrl.toString(),
                 false, false, false,
@@ -313,7 +267,8 @@ open class SignupUserinfo (val context: Activity,
                 if (reference != null){
                     onCompleteListenerForRegisterInfo(2)
                 } else {
-                    onRegisterFirebaseFailure(exception!!,"userinfo")
+                    LogUtils.failure(this, 5, "Uploading userinfo.", exception!!)
+                    mExceptionHandler?.onException("Uploading userinfo to database failed.", exception!!)
                 }
             }
         })
@@ -339,11 +294,8 @@ open class SignupUserinfo (val context: Activity,
         }
     }
 
-    fun onRegisterFirebaseFailure(exception: Exception, case: String){
-        mExceptionHandler?.onExceptionSnacky(exception,"$case -> Firestore failed. Exception: $exception","An error has occurred storing $case.\n Click open to see exception.")
-    }
     interface ExceptionHandler{
-        fun onExceptionSnacky(e:kotlin.Exception, logText: String, errorText: String)
+        fun onException(error: String, e: Exception)
     }
     interface SuccessListener{
         fun onSuccess()

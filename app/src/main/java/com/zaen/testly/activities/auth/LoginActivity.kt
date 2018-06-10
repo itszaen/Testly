@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.zaen.testly.R
 import kotlinx.android.synthetic.main.activity_login.*
@@ -14,7 +13,6 @@ import java.util.*
 
 class LoginActivity : AuthActivity() {
     companion object {
-        const val TAG = "LoginActivity"
     }
 
     @BindView(R.id.login_greeting)
@@ -22,9 +20,8 @@ class LoginActivity : AuthActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        layoutRes = R.layout.activity_login
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        ButterKnife.bind(this)
         request = RC_LOG_IN
 
         val greetingsList = resources.getStringArray(R.array.login_greetings)

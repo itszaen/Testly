@@ -6,21 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.support.v7.app.ActionBar
-import android.util.Log
 import android.view.MenuItem
-import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.zaen.testly.R
 import com.zaen.testly.activities.auth.AuthActivity
-import com.zaen.testly.activities.auth.LoginActivity
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
-import de.mateware.snacky.Snacky
+import com.zaen.testly.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity(),
@@ -123,29 +120,12 @@ class SettingsActivity : BaseActivity(),
     }
     override fun handleTask(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            Log.d(LoginActivity.TAG, "signInWithCredential succeeded.")
-            Snacky.builder()
-                    .setActivity(this)
-                    .setText("Re-authentication succeeded. You may proceed.")
-                    .success()
-                    .setDuration(Snacky.LENGTH_LONG)
-                    .show()
+            LogUtils.success(this,3,"signInWithCredential.")
+            snackySuccess("Re-authentication succeeded. You may proceed.")
             isReauthenticatedDeleteUser = true
         } else {
-            Log.w(LoginActivity.TAG, "signInWithCredential failed. Exception: ${task.exception}")
-            Snacky.builder()
-                    .setActivity(this)
-                    .setText("Sign in Failed.\n Click open to see exception.")
-                    .setDuration(Snacky.LENGTH_LONG)
-                    .setActionText("OPEN")
-                    .setActionClickListener {
-                        MaterialDialog.Builder(this)
-                                .title("Exception")
-                                .content(task.exception.toString())
-                                .positiveText(R.string.react_positive)
-                    }
-                    .error()
-                    .show()
+            LogUtils.failure(this,5,"signInWithCredential.", task.exception as Exception)
+            snackyException("Sign in failed.", task.exception as Exception)
         }
 
     }
