@@ -171,10 +171,12 @@ class PreviewCardFragment : BaseFragment() {
         TestlyFirestore(this).addDocumentToCollection(path,card!!,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
                 if (reference != null){
-                    mListener?.onSubmitSuccessful()
                     while(dialog.currentProgress < dialog.maxProgress){
                         if (dialog.isCancelled){ break }
                         dialog.incrementProgress(1)
+                    }
+                    if (dialog.currentProgress >= dialog.maxProgress){
+                        mListener?.onSubmitSuccessful()
                     }
                 }
             }

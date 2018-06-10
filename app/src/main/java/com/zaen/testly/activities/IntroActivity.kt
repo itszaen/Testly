@@ -70,7 +70,7 @@ class IntroActivity : WelcomeActivity() {
                 when (resultCode) {
                     RESULT_OK -> {
                         //completeWelcomeScreen()
-                        setResult(Activity.RESULT_OK)
+                        setResult(Activity.RESULT_OK,intent)
                         finish()
                         return
                     }

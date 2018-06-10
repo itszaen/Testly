@@ -56,7 +56,7 @@ class CreateCasData (val context: Any) {
         return reference
     }
 
-    fun listenToCard(query: Query,listener: CreateCasDataListener){
+    fun listenToCard(query: Query, listener: CreateCasDataListener){
         TestlyFirestore(this).addCollectionListener(query,object: TestlyFirestore.CollectionChangeListener{
             override fun handleListener(registration: ListenerRegistration?) {
                 registrationCard = registration
@@ -105,8 +105,8 @@ class CreateCasData (val context: Any) {
         })
     }
 
-    fun listenToSet(listener: CreateCasDataListener){
-        TestlyFirestore(this).addCollectionListener(setCollectionRef.orderBy("timestamp"), object: TestlyFirestore.CollectionChangeListener {
+    fun listenToSet(query: Query, listener: CreateCasDataListener){
+        TestlyFirestore(this).addCollectionListener(query, object: TestlyFirestore.CollectionChangeListener {
             override fun handleListener(registration: ListenerRegistration?) {
                 registrationSet = registration
             }
@@ -179,7 +179,7 @@ class CreateCasData (val context: Any) {
         }
     }
 
-    fun saveSet(snapshot: DocumentSnapshot){
+    private fun saveSet(snapshot: DocumentSnapshot){
         val set = getSetDataFromDocument(snapshot)
         if (set != null){
             storedCasDocuments.add(snapshot)
@@ -189,8 +189,8 @@ class CreateCasData (val context: Any) {
         }
     }
 
-    fun checkType(snapshot: DocumentSnapshot):String?{
-        return when (snapshot.get("casType") as String){
+    private fun checkType(snapshot: DocumentSnapshot):String?{
+        return when (snapshot.get("type") as String){
             FirebaseDocument.CARD -> FirebaseDocument.CARD
             FirebaseDocument.SET -> FirebaseDocument.SET
             else -> null
@@ -206,7 +206,7 @@ class CreateCasData (val context: Any) {
                         snapshot.get("hasAnswerCard"),
                         snapshot.get("question")
                 )){
-            Log.w(LogUtils.TAG(this),"[Failure] Invalid CARD data. Id:${snapshot.id}")
+            LogUtils.failure(this, 5, "Invalid CARD data. Id:${snapshot.id}")
             return null
         }
         return CardData(
@@ -214,6 +214,7 @@ class CreateCasData (val context: Any) {
                 snapshot.get("timestamp") as Long,
                 snapshot.get("title") as String,
                 snapshot.get("subject") as String,
+                snapshot.get("cardType") as String,
                 snapshot.get("hasAnswerCard") as Boolean,
                 snapshot.get("question") as String,
                 snapshot.get("answerText") as String?
@@ -222,9 +223,10 @@ class CreateCasData (val context: Any) {
 
     fun getSetDataFromDocument(snapshot: DocumentSnapshot):SetData?{
         if (CommonUtils().allNotNull(
-                        snapshot.get("")
+                        snapshot.get("id") as String,
+                        snapshot.get("timestamp") as Long
                 )){
-            Log.w(LogUtils.TAG(this),"[Failure] Invalid SET data. Id:${snapshot.id}")
+            LogUtils.failure(this, 5, "Invalid SET data. Id:${snapshot.id}")
             return null
         }
         return SetData.getSetDataFromDocument(snapshot)

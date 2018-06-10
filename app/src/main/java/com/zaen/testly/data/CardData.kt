@@ -9,6 +9,7 @@ open class CardData(
         override var timestamp: Long,
         open var title: String,
         open var subject: String,
+        open var cardType: String,
         open var hasAnswerCard: Boolean,
         open var question: String,
         open var answerText: String?) : FirebaseDocument(id, timestamp, CARD), Parcelable {
@@ -32,8 +33,7 @@ open class SelectionCardData(
         var answer: Int,
         override var answerText: String?
 )
-    : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = CARD_TYPE_SELECTION
+    : CardData(id, timestamp, title, subject, CARD_TYPE_SELECTION, hasAnswerCard, question, answerText) {
 }
 
 open class SelectionMultipleCardData(
@@ -47,8 +47,7 @@ open class SelectionMultipleCardData(
         var answerList: ArrayList<Int>,
         override var answerText: String?
 )
-    : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = CARD_TYPE_SELECTION_MULTIPLE
+    : CardData(id, timestamp, title, subject, CARD_TYPE_SELECTION_MULTIPLE, hasAnswerCard, question, answerText) {
 }
 
 class SelectionMultipleOrderedCardData(
@@ -59,11 +58,11 @@ class SelectionMultipleOrderedCardData(
         override var hasAnswerCard: Boolean,
         override var question: String,
         override var options: ArrayList<String>,
-        var orderedAnswers: ArrayList<Int>,
+        val orderedAnswers: ArrayList<Int>,
         override var answerText: String?
 )
     : SelectionMultipleCardData(id, timestamp, title, subject, hasAnswerCard, question, options, orderedAnswers, answerText){
-    override var type = CARD_TYPE_SELECTION_MULTIPLE_ORDERED
+    override var cardType = CARD_TYPE_SELECTION_MULTIPLE_ORDERED
 }
 
 class SpellingCardData(
@@ -77,7 +76,6 @@ class SpellingCardData(
         var answerMasks: ArrayList<Int>,
         override var answerText: String?
 )
-    : CardData(id, timestamp, title, subject, hasAnswerCard, question, answerText) {
-    override var type = CARD_TYPE_SPELLING
+    : CardData(id, timestamp, title, subject, CARD_TYPE_SPELLING, hasAnswerCard, question, answerText) {
 
 }

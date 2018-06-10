@@ -7,7 +7,7 @@ import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.fragments.cas.CreateSetFragment
 import kotlinx.android.synthetic.main.activity_create_set.*
 
-class CreateSetActivity : BaseActivity(){
+class CreateSetActivity : BaseActivity(), CreateSetFragment.SubmitSetListener{
     var toolbar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +22,10 @@ class CreateSetActivity : BaseActivity(){
             }
             loadRootFragment(R.id.fragment_container_create_set,CreateSetFragment(),true,true)
         }
+    }
+
+    override fun onSubmitSetSuccessful() {
+        finish()
     }
 
 

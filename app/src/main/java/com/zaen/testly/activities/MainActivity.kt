@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.entypo_typeface_library.Entypo
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -115,6 +116,9 @@ class MainActivity : BaseActivity(),
         if (savedInstanceState != null){
             mContent = supportFragmentManager.getFragment(savedInstanceState,"lastFragment")
         }
+
+        FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false)
+                .setTimestampsInSnapshotsEnabled(true)
 
         if (!mAuthUser.isSignedIn()){
             welcomeScreen = WelcomeHelper(this,IntroActivity::class.java)

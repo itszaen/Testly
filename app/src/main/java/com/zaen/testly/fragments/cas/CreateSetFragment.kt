@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
@@ -28,7 +27,6 @@ import com.zaen.testly.data.SetData.Companion.SET_SUBJECT_TYPE_SINGLE
 import com.zaen.testly.data.SetData.Companion.SET_TYPE_CHECK
 import com.zaen.testly.data.UserData
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.utils.LogUtils
 import com.zaen.testly.views.recyclers.items.SelectCardItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
@@ -61,8 +59,6 @@ class CreateSetFragment  : BaseFragment(),
     private var subjectList: ArrayList<String>? = null
 
     private var cardSubject: String? = null
-
-    private var cardsSelected = arrayListOf<String>()
 
     private var selectCardAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
     private var actionMode: android.support.v7.view.ActionMode? = null
@@ -167,8 +163,8 @@ class CreateSetFragment  : BaseFragment(),
     override fun onItemClick(view: View?, position: Int): Boolean {
         val flexibleItem = selectCardAdapter!!.getItem(position)
         return if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
+            toggleSelection(position)
             val activate = mActionHelper!!.onClick(position)
-            Log.d(LogUtils.TAG(context!!),"Last activated position: ${mActionHelper!!.activatedPosition}")
             activate
         } else {
             false
@@ -180,7 +176,6 @@ class CreateSetFragment  : BaseFragment(),
     }
 
     private fun toggleSelection(position: Int){
-        selectCardAdapter!!.toggleSelection(position)
         val positions = selectCardAdapter!!.selectedPositions
         if (positions.size > 0){
             selectedDocumentList.clear()
@@ -188,7 +183,7 @@ class CreateSetFragment  : BaseFragment(),
                 selectedDocumentList.add(mCreateCas.cardList[p].id)
             }
         } else {
-            actionMode?.finish()
+            //actionMode?.finish()
         }
     }
 
@@ -309,7 +304,7 @@ class CreateSetFragment  : BaseFragment(),
         var cancel = false
         var focusView: View? = null
 
-        if (cardsSelected.size < 1){
+        if (selectedDocumentList.size < 1){
             error_create_set_cards_not_selected.visibility = View.VISIBLE
             focusView = recycler_create_set_cards
             cancel = true

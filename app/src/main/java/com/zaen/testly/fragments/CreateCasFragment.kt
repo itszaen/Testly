@@ -8,7 +8,6 @@ import butterknife.OnClick
 import butterknife.Optional
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
 import com.zaen.testly.data.CardData
@@ -66,8 +65,16 @@ class CreateCasFragment : BaseFragment(){
         // recycler
 //        toggleViewMode()
 
-        val request = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
-        mCreateCas.listenToCard(request!!,object: CreateCasData.CreateCasDataListener{
+        val cardRequest = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
+        mCreateCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
+            override fun onCasData() {
+                if (mCreateCas.casList.size > 0){
+                    toggleViewMode()
+                }
+            }
+        })
+        val setRequest = mCreateCas.createCasRequest(FirebaseDocument.SET, "timestamp", null)
+        mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
                     toggleViewMode()

@@ -11,12 +11,12 @@ class LogUtils {
 
         fun log(obj: Any, level: Int, message: String){
             when (level){
-                VERBOSE -> Log.v(TAG(obj), "[Success]$message")
-                DEBUG -> Log.d(TAG(obj), "[Success]$message")
-                INFO -> Log.i(TAG(obj), "[Success]$message")
-                WARN -> Log.w(TAG(obj), "[Success]$message")
-                ERROR -> Log.e(TAG(obj), "[Success]$message")
-                ASSERT -> Log.wtf(TAG(obj), "[Success]$message")
+                VERBOSE -> Log.v(TAG(obj), message)
+                DEBUG -> Log.d(TAG(obj), message)
+                INFO -> Log.i(TAG(obj), message)
+                WARN -> Log.w(TAG(obj), message)
+                ERROR -> Log.e(TAG(obj), message)
+                ASSERT -> Log.wtf(TAG(obj), message)
             }
         }
 
