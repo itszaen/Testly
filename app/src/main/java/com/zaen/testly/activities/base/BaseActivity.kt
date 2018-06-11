@@ -1,6 +1,9 @@
 package com.zaen.testly.activities.base
 
+import android.app.TaskStackBuilder
 import android.os.Bundle
+import android.support.v4.app.NavUtils
+import android.view.MenuItem
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.zaen.testly.utils.LogUtils
@@ -33,6 +36,24 @@ abstract class BaseActivity : SupportActivity(){
     override fun onStart() {
         LogUtils.log(this,2,"onStart")
         super.onStart()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+        // Up button
+            android.R.id.home -> {
+                val upIntent = NavUtils.getParentActivityIntent(this)
+                if (NavUtils.shouldUpRecreateTask(this, upIntent!!)) {
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent)
+                            .startActivities()
+                } else {
+                    NavUtils.navigateUpTo(this, upIntent)
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {

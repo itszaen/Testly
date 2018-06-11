@@ -10,6 +10,10 @@ import butterknife.Unbinder
 import com.zaen.testly.utils.LogUtils
 import me.yokeyword.fragmentation.SupportFragment
 
+/*
+* layoutRes @onCreateView(3)
+* NO unbinder
+* */
 
 abstract class BaseFragment : SupportFragment(){
     protected var unbinder: Unbinder? = null

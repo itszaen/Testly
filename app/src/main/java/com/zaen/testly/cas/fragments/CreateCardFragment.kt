@@ -1,8 +1,7 @@
-package com.zaen.testly.fragments.cas
+package com.zaen.testly.cas.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -221,7 +220,7 @@ class CreateCardFragment : BaseFragment(){
         // Recycler View
         input_container_create_card_options.apply{
             layoutManager = GridLayoutManager(activity,2,GridLayout.VERTICAL,false)
-            adapter = OptionAdapter(optionList,optionNum,this@CreateCardFragment)
+            adapter = OptionAdapter(optionList, optionNum, this@CreateCardFragment)
         }
 
         // Option Add Button
@@ -427,7 +426,7 @@ class CreateCardFragment : BaseFragment(){
             cancel = true
         }
 
-        // Check if the title is blank
+        // Check if the titleView is blank
         if (TextUtils.isEmpty(edit_create_card_title.text)){
             input_create_card_title.error = activity!!.resources.getString(R.string.error_field_required)
             focusView = edit_create_card_title
@@ -459,11 +458,11 @@ class CreateCardFragment : BaseFragment(){
             return optionNum
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionHolder{
-            return OptionHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_linear_btn_option,parent,false), context, mOptionList)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionHolder {
+            return OptionHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_linear_btn_option, parent, false), context, mOptionList)
         }
 
-        override fun onBindViewHolder(holder:OptionHolder, position: Int) {
+        override fun onBindViewHolder(holder: OptionHolder, position: Int) {
             holder.bind(position,optionNum)
         }
 

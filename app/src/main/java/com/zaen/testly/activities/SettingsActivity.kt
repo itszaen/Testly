@@ -91,7 +91,7 @@ class SettingsActivity : BaseActivity(),
     override fun onFragmentCalled(newFragment: BaseFragment, title: String) {
         start(newFragment)
 //        val args = Bundle()
-//        args.putString("TITLE",title)
+//        args.putString("TITLE",titleView)
 //        newFragment.arguments = args
 //        supportFragmentManager.beginTransaction()
 //                .replace(R.id.settings_fragment_container,newFragment)

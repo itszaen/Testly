@@ -16,7 +16,7 @@ import java.util.*
 
 class SelectCardItem(val card: CardData) : AbstractFlexibleItem<FlexibleViewHolder>() {
     fun withIcon(icon: Drawable) : SelectCardItem{
-        //this.icon = icon
+        //this.iconicsView = iconicsView
         return this
     }
 

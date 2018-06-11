@@ -27,7 +27,7 @@ open class SetData(
             return SetData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
-                    snapshot.get("title") as String,
+                    snapshot.get("titleView") as String,
                     snapshot.get("setType") as String,
                     snapshot.get("cardType") as String,
                     snapshot.get("subjectType") as String,

@@ -27,9 +27,9 @@ apply plugin: 'com.jakewharton.hugo'
 static def gitBranch() {
     def branch = 'GitHub'
     try {
-        def gitcheck = 'command -v git >/dev/null 2>&1'.execute()
-        gitcheck.waitFor()
-        if (gitcheck.exitValue() == 0) {
+        def gitCheck = 'command -v git >/dev/null 2>&1'.execute()
+        gitCheck.waitFor()
+        if (gitCheck.exitValue() == 0) {
             def proc = 'git rev-parse --abbrev-ref HEAD'.execute()
             proc.in.eachLine { line -> branch = line }
             proc.err.eachLine { line -> println line }
@@ -99,7 +99,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
     implementation "com.android.support:gridlayout-v7:$supportLibVersion"
@@ -112,26 +112,26 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 
-        // Firebase https://github.com/firebase/
-    implementation 'com.google.firebase:firebase-core:15.0.2'
-    /// Firebase Firestore
-    implementation "com.google.firebase:firebase-firestore:16.0.0"
+    // Firebase https://github.com/firebase/
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    /// Cloud Firestore
+    implementation "com.google.firebase:firebase-firestore:17.0.1"
     /// Cloud Functions
-    implementation "com.google.firebase:firebase-functions:15.0.0"
+    implementation "com.google.firebase:firebase-functions:16.0.1"
     /// Cloud Storage
-    implementation "com.google.firebase:firebase-storage:15.0.2"
+    implementation "com.google.firebase:firebase-storage:16.0.1"
     /// Crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') { transitive = true }
     /// Authentication
-    implementation "com.google.firebase:firebase-auth:15.1.0"
+    implementation "com.google.firebase:firebase-auth:16.0.1"
     /// Remote Config
-    implementation "com.google.firebase:firebase-config:15.0.2"
+    implementation "com.google.firebase:firebase-config:16.0.0"
     /// Ads
     implementation "com.google.firebase:firebase-ads:15.0.1"
     /// Analytics
-    implementation "com.google.firebase:firebase-analytics:15.0.2"
+    implementation "com.google.firebase:firebase-analytics:16.0.0"
     /// Performance Monitoring
-    implementation "com.google.firebase:firebase-perf:15.2.0"
+    implementation "com.google.firebase:firebase-perf:16.0.0"
     /// Firebase Auth Facebook
     implementation 'com.facebook.android:facebook-android-sdk:4.27.0'
     /// Firebase Auth Twitter
@@ -197,11 +197,11 @@ dependencies {
     implementation("com.mikepenz:materialdrawer:6.0.7@aar") { transitive = true }
 
     // Iconics https://github.com/mikepenz/Android-Iconics
-    implementation "com.mikepenz:iconics-core:3.0.3@aar"
-    implementation "com.mikepenz:iconics-views:3.0.3@aar"
+    implementation "com.mikepenz:iconics-core:3.0.4@aar"
+    implementation "com.mikepenz:iconics-views:3.0.4@aar"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.4@aar'
-    implementation 'com.mikepenz:fontawesome-typeface:5.0.6.0@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:5.0.13.0@aar'
     implementation 'com.mikepenz:octicons-typeface:3.2.0.4@aar'
     implementation 'com.mikepenz:meteocons-typeface:1.1.0.4@aar'
     implementation 'com.mikepenz:community-material-typeface:2.0.46.1@aar'

@@ -201,7 +201,7 @@ class CreateCasData (val context: Any) {
         if (CommonUtils().allNotNull(
                         snapshot.get("id"),
                         snapshot.get("timestamp"),
-                        snapshot.get("title"),
+                        snapshot.get("titleView"),
                         snapshot.get("subject"),
                         snapshot.get("hasAnswerCard"),
                         snapshot.get("question")
@@ -212,7 +212,7 @@ class CreateCasData (val context: Any) {
         return CardData(
                 snapshot.get("id") as String,
                 snapshot.get("timestamp") as Long,
-                snapshot.get("title") as String,
+                snapshot.get("titleView") as String,
                 snapshot.get("subject") as String,
                 snapshot.get("cardType") as String,
                 snapshot.get("hasAnswerCard") as Boolean,

@@ -104,7 +104,7 @@ class FeedbackView @JvmOverloads constructor(context: Context, attrs: AttributeS
         override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
             val document = feedbackDocumentList[position]
             val upvoteCount = document["upvote_count"].toString()
-            val title = document["title"].toString()
+            val title = document["titleView"].toString()
             val tag = document["tag"]
             val captionString = document["content"].toString()
             val captionStringAbv = captionString.substring(0,Math.min(captionString.length,30)) + "..."

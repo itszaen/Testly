@@ -84,7 +84,7 @@
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
-        <!-- Comment icon & number -->
+        <!-- Comment iconicsView & number -->
         <!-- Just visual, not clickable -->
         <FrameLayout
             android:layout_width="match_parent"

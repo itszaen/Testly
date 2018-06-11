@@ -10,9 +10,11 @@ import butterknife.OnClick
 import butterknife.Optional
 import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.activities.CreateCardActivity
-import com.zaen.testly.activities.CreateSetActivity
-import com.zaen.testly.activities.cas.CasViewerActivity
+import com.zaen.testly.R.id.recycler_create
+import com.zaen.testly.cas.activities.CreateCardActivity
+import com.zaen.testly.cas.activities.CreateSetActivity
+import com.zaen.testly.cas.activities.CasViewerActivity
+import com.zaen.testly.cas.activities.CasViewerActivity.Companion.ARG_DOCUMENT_ID
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
@@ -137,7 +139,6 @@ class CreateCasFragment : BaseFragment(),
                 val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,VERTICAL,false)
                 if (mCreateCas.casList.size > 0) {
                     val casList = mCreateCas.casList
-                    casList.reverse()
                     for (cas in casList) {
                         when (cas){
                             is CardData -> items.add(CasCardGridItem(cas))
@@ -157,7 +158,6 @@ class CreateCasFragment : BaseFragment(),
                 mLayoutManager.stackFromEnd = true
                 if (mCreateCas.casList.size > 0) {
                     val casList = mCreateCas.casList
-                    casList.reverse()
                     for (cas in casList) {
                         when (cas){
                             is CardData -> items.add(CasCardLinearItem(cas))
@@ -196,7 +196,7 @@ class CreateCasFragment : BaseFragment(),
     fun onButtonClick(view: View){
         var intent: Intent? = null
         when(view.id){
-            R.id.fab_create_card -> intent = Intent(activity,CreateCardActivity::class.java)
+            R.id.fab_create_card -> intent = Intent(activity, CreateCardActivity::class.java)
             R.id.fab_create_set  -> intent = Intent(activity, CreateSetActivity::class.java)
         }
         if (intent != null){
@@ -229,8 +229,8 @@ class CreateCasFragment : BaseFragment(),
             InformUtils(activity!!).snackyFailure("Set is not implemented yet.")
             return true
         }
-        val intent = Intent(activity!!,CasViewerActivity::class.java)
-        intent.putExtra("documentId",document.id)
+        val intent = Intent(activity!!, CasViewerActivity::class.java)
+        intent.putExtra(ARG_DOCUMENT_ID,document.id)
         startActivity(intent)
         return true
     }

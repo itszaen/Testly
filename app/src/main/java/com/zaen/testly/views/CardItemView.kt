@@ -18,11 +18,11 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
     @StringRes
     private val captionRes: Int
     @BindView(R.id.icon)
-    lateinit var icon: IconicsImageView
+    lateinit var iconicsView: IconicsImageView
     @BindView(R.id.title)
-    lateinit var title: TextView
+    lateinit var titleView: TextView
     @BindView(R.id.caption)
-    lateinit var caption: TextView
+    lateinit var captionView: TextView
 
     init {
         val inflater = LayoutInflater.from(getContext())
@@ -38,9 +38,9 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun onFinishInflate() {
         ButterKnife.bind(this)
 
-        icon.icon = icon.icon.icon(iconString)
-        title.setText(titleRes)
-        caption.setText(captionRes)
+        iconicsView.icon = iconicsView.icon.icon(iconString)
+        titleView.setText(titleRes)
+        captionView.setText(captionRes)
 
         /*
         setPadding((int) getResources().getDimension(R.dimen.medium_spacing), 0, (int) getResources().getDimension(R.dimen.medium_spacing), 0);
@@ -50,11 +50,11 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun setTitleText(text: String){
-        title.text = text
+        titleView.text = text
     }
 
     fun setCaptionText(text: String){
-        caption.text = text
+        captionView.text = text
     }
 
 }

@@ -1,4 +1,4 @@
-package com.zaen.testly.fragments.cas
+package com.zaen.testly.cas.fragments
 
 import android.content.Context
 import android.os.Bundle

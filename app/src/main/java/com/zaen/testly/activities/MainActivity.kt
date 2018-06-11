@@ -329,7 +329,7 @@ class MainActivity : BaseActivity(),
 //                .addToBackStack(null)
 //                .commit()
 //
-//        mToolbar?.title = title
+//        mToolbar?.titleView = titleView
     }
 
     private fun addDrawerItem(items: Array<Any>){

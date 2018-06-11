@@ -1,4 +1,4 @@
-package com.zaen.testly.fragments.cas
+package com.zaen.testly.cas.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.zaen.testly.R
+import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.data.*
 import com.zaen.testly.data.FirebaseDocument.Companion.CARD
