@@ -1,7 +1,7 @@
 package com.zaen.testly.fragments.base
 
-import android.app.Activity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import me.yokeyword.fragmentation.SupportFragment
 
 abstract class BaseFragment : SupportFragment(){
     protected var unbinder: Unbinder? = null
-    protected var activity: Activity? = null
+    protected var activity: AppCompatActivity? = null
     var layoutRes: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ abstract class BaseFragment : SupportFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         LogUtils.log(this, 2,"onActivityCreated")
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
+        activity = getActivity() as AppCompatActivity?
     }
 
     override fun onStart() {

@@ -2,6 +2,8 @@ package com.zaen.testly.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.ActionMode
 import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
@@ -10,22 +12,29 @@ import com.zaen.testly.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.CreateCardActivity
 import com.zaen.testly.activities.CreateSetActivity
+import com.zaen.testly.activities.cas.CasViewerActivity
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.utils.InformUtils
 import com.zaen.testly.views.recyclers.items.CasCardGridItem
 import com.zaen.testly.views.recyclers.items.CasCardLinearItem
 import com.zaen.testly.views.recyclers.items.CasSetGridItem
 import com.zaen.testly.views.recyclers.items.CasSetLinearItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.SelectableAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.helpers.ActionModeHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.fragment_create.*
 
-class CreateCasFragment : BaseFragment(){
+class CreateCasFragment : BaseFragment(),
+        android.support.v7.view.ActionMode.Callback,
+        FlexibleAdapter.OnItemClickListener,
+        FlexibleAdapter.OnItemLongClickListener{
     companion object {
         const val MODE_GRID = 1
         const val MODE_LIST = 2
@@ -33,6 +42,9 @@ class CreateCasFragment : BaseFragment(){
 
     private var viewMode = MODE_LIST
     private var mCreateCas = CreateCasData(this)
+    private var mAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
+    private var actionMode: android.support.v7.view.ActionMode? = null
+    private var mActionHelper: ActionModeHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +93,15 @@ class CreateCasFragment : BaseFragment(){
                 }
             }
         })
+        initializeAdapter()
+    }
+
+    private fun initializeAdapter(){
+        initializeActionModeHelper(SelectableAdapter.Mode.IDLE)
+    }
+
+    private fun initializeActionModeHelper(mode: Int){
+        mActionHelper = ActionModeHelper(mAdapter!!,R.menu.menu_main,this).withDefaultMode(mode)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -124,9 +145,10 @@ class CreateCasFragment : BaseFragment(){
                         }
                     }
                 }
+                mAdapter = FlexibleAdapter(items)
                 recycler_create.apply {
                     layoutManager = mLayoutManager
-                    adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
+                    adapter = mAdapter
                 }
             }
             MODE_LIST -> {
@@ -143,15 +165,17 @@ class CreateCasFragment : BaseFragment(){
                         }
                     }
                 }
+                mAdapter = FlexibleAdapter(items)
                 recycler_create.apply {
                     layoutManager = mLayoutManager
-                    adapter = FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>(items)
+                    adapter = mAdapter
                 }
             }
         }
+        mAdapter?.mode = SelectableAdapter.Mode.IDLE
     }
 
-    fun selectMenu(menu: Menu?){
+    private fun selectMenu(menu: Menu?){
         if (menu != null) {
             when (viewMode) {
                 MODE_GRID -> {
@@ -178,6 +202,41 @@ class CreateCasFragment : BaseFragment(){
         if (intent != null){
             startActivity(intent)
         }
+    }
+
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mAdapter?.mode = SelectableAdapter.Mode.IDLE
+        actionMode = mode
+        return true
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        mAdapter?.mode = SelectableAdapter.Mode.IDLE
+        actionMode = null
+    }
+
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        val document = mCreateCas.casList[position]
+        if (document.type == "set"){
+            InformUtils(activity!!).snackyFailure("Set is not implemented yet.")
+            return true
+        }
+        val intent = Intent(activity!!,CasViewerActivity::class.java)
+        intent.putExtra("documentId",document.id)
+        startActivity(intent)
+        return true
+    }
+
+    override fun onItemLongClick(position: Int) {
+        mActionHelper?.onLongClick(activity as AppCompatActivity, position)
     }
 
 }

@@ -148,9 +148,14 @@
             android:windowSoftInputMode="adjustPan"
             android:label="Create Set"
             android:parentActivityName=".activities.MainActivity"
-            >
+            />
 
-        </activity>
+        <!-- Cas Viewer -->
+        <activity
+            android:name=".activities.cas.CasViewerActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

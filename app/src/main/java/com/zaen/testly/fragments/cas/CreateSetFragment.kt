@@ -144,7 +144,6 @@ class CreateSetFragment  : BaseFragment(),
 
     override fun onCreateActionMode(mode: android.support.v7.view.ActionMode?, menu: Menu?): Boolean {
         // Change menu?
-
         selectCardAdapter?.mode = SelectableAdapter.Mode.MULTI
         actionMode = mode
         return true
@@ -161,7 +160,6 @@ class CreateSetFragment  : BaseFragment(),
 
     // !!
     override fun onItemClick(view: View?, position: Int): Boolean {
-        val flexibleItem = selectCardAdapter!!.getItem(position)
         return if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
             toggleSelection(position)
             val activate = mActionHelper!!.onClick(position)
