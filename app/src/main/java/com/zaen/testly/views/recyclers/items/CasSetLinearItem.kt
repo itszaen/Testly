@@ -9,6 +9,8 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CasSetLinearItem(val set: SetData) : AbstractFlexibleItem<FlexibleViewHolder>() {
     override fun equals(other: Any?): Boolean {
@@ -31,13 +33,13 @@ class CasSetLinearItem(val set: SetData) : AbstractFlexibleItem<FlexibleViewHold
         if (holder is ViewHolder){
             holder.titleText?.text = set.title
             holder.titleText?.isEnabled = true
-//        holder?.dateText?.text = SimpleDateFormat("MMM d, yyyy", Locale.US).format(Date(set.timestamp*1000L)).toString()
+            holder.dateText?.text = SimpleDateFormat("MMM d, yyyy", Locale.US).format(Date(set.timestamp*1000L)).toString()
         }
     }
 
     class ViewHolder(val view: View?, val adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?) : FlexibleViewHolder(view,adapter) {
         val titleText: TextView? = view?.findViewById(R.id.title_item_linear_create_set)
-//        val dateText: TextView? = view?.findViewById(R.id.text_date_linear_create)
+        val dateText: TextView? = view?.findViewById(R.id.text_date_linear_create_set)
         init{
 
         }

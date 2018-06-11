@@ -4,14 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:padding="5dp"
-    app:cardCornerRadius="3dp"
-    app:cardElevation="5dp"
+    android:layout_margin="1dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="1dp"
+    android:clickable="true"
+    android:focusable="true"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:orientation="vertical">
 
         <com.mikepenz.iconics.view.IconicsImageView
@@ -19,7 +21,7 @@
             android:layout_height="match_parent"
             app:iiv_color="@color/md_grey_300"
             app:iiv_icon="cmd-file-multiple"
-            app:iiv_size="90dp"/>
+            app:iiv_size="80dp"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/title_item_grid_create_set"
