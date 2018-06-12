@@ -1,5 +1,6 @@
 package com.zaen.testly.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatTextView
@@ -12,7 +13,8 @@ import com.zaen.testly.R
 import com.zaen.testly.R.id.option_container_card_selection
 import com.zaen.testly.data.SelectionCardData
 
-class CasCardSelectionView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : CardView(context, attrs, defStyleAttr){
+@SuppressLint("ViewConstructor")
+class CasCardSelectionPreviewView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val card: SelectionCardData) : CardView(context, attrs, defStyleAttr){
     private val attemptCount: Int?
     private val questionText: String?
     @BindView(R.id.count_attempt)
@@ -28,8 +30,6 @@ class CasCardSelectionView @JvmOverloads constructor(context: Context, attrs: At
         attemptCount = attr.getInt(R.styleable.CasCardSelectionView_CasCardAttemptCount, 0)
         questionText = attr.getString(R.styleable.CasCardSelectionView_CasCardQuestion)
         attr.recycle()
-
-
 
         for ((i,v) in card.options.withIndex()) {
             val optionLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, null)

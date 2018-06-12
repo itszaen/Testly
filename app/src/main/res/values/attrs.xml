@@ -59,7 +59,7 @@
     <attr name="CasCardQuestion" format="string"/>
     <attr name="CasCardOptionCount" format="integer"/>
 
-    <declare-styleable name="CasCardSelectionView">
+    <declare-styleable name="CasCardSelectionPreviewView">
         <attr name="CasCardAttemptCount"/>
         <attr name="CasCardQuestion"/>
         <attr name="CasCardOptionCount"/>

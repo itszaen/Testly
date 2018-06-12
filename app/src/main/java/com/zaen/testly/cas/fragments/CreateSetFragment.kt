@@ -12,7 +12,7 @@ import android.widget.RadioButton
 import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
-import com.zaen.testly.CreateCasData
+import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.zaen.testly.R
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.views.CasCardSelectionView
 
 class CasViewerPageFragment : BaseFragment(){
     companion object {

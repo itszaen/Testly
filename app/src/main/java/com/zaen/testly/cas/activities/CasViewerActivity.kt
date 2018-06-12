@@ -1,16 +1,12 @@
 package com.zaen.testly.cas.activities
 
-import android.app.TaskStackBuilder
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.support.v4.view.ViewPager
-import android.view.MenuItem
-import com.zaen.testly.CreateCasData
+import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.cas.CasViewerPagerAdapter
 import com.zaen.testly.data.FirebaseDocument
-import kotlinx.android.synthetic.main.activity_cas_viewer.*
 
 class CasViewerActivity: BaseActivity(){
     companion object {

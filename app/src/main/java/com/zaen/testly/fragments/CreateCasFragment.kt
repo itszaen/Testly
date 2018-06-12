@@ -8,9 +8,8 @@ import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
-import com.zaen.testly.CreateCasData
+import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.cas.activities.CreateCardActivity
 import com.zaen.testly.cas.activities.CreateSetActivity
 import com.zaen.testly.cas.activities.CasViewerActivity
@@ -79,22 +78,8 @@ class CreateCasFragment : BaseFragment(),
         // recycler
 //        toggleViewMode()
 
-        val cardRequest = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
-        mCreateCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
-            override fun onCasData() {
-                if (mCreateCas.casList.size > 0){
-                    toggleViewMode()
-                }
-            }
-        })
-        val setRequest = mCreateCas.createCasRequest(FirebaseDocument.SET, "timestamp", null)
-        mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
-            override fun onCasData() {
-                if (mCreateCas.casList.size > 0){
-                    toggleViewMode()
-                }
-            }
-        })
+        listenToCard()
+        listenToSet()
         initializeAdapter()
     }
 
@@ -111,6 +96,43 @@ class CreateCasFragment : BaseFragment(),
         if (savedInstanceState != null){
             return
         }
+    }
+
+    private fun listenToCard(){
+        val cardRequest = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
+        mCreateCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
+            override fun onCasData() {
+                if (mCreateCas.casList.size > 0){
+                    toggleViewMode()
+                }
+            }
+        })
+    }
+
+    private fun listenToSet(){
+        val setRequest = mCreateCas.createCasRequest(FirebaseDocument.SET, "timestamp", null)
+        mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
+            override fun onCasData() {
+                if (mCreateCas.casList.size > 0){
+                    toggleViewMode()
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mCreateCas.registrationCard == null){
+            listenToCard()
+        }
+        if (mCreateCas.registrationSet == null){
+            listenToSet()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -229,6 +251,8 @@ class CreateCasFragment : BaseFragment(),
             InformUtils(activity!!).snackyFailure("Set is not implemented yet.")
             return true
         }
+        mCreateCas.stopListenToCard()
+        mCreateCas.stopListenToSet()
         val intent = Intent(activity!!, CasViewerActivity::class.java)
         intent.putExtra(ARG_DOCUMENT_ID,document.id)
         startActivity(intent)

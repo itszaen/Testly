@@ -3,7 +3,6 @@ package com.zaen.testly.cas
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.zaen.testly.CreateCasData
 import com.zaen.testly.cas.fragments.CasViewerPageFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument

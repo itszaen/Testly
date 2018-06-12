@@ -1,10 +1,11 @@
-package com.zaen.testly
+package com.zaen.testly.cas
 
 import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
@@ -57,7 +58,7 @@ class CreateCasData (val context: Any) {
     }
 
     fun listenToCard(query: Query, listener: CreateCasDataListener){
-        TestlyFirestore(this).addCollectionListener(query,object: TestlyFirestore.CollectionChangeListener{
+        TestlyFirestore(this).addCollectionListener(query,object: TestlyFirestore.CollectionChangeListener {
             override fun handleListener(registration: ListenerRegistration?) {
                 registrationCard = registration
             }
@@ -230,6 +231,14 @@ class CreateCasData (val context: Any) {
             return null
         }
         return SetData.getSetDataFromDocument(snapshot)
+    }
+
+    fun stopListenToCard(){
+        registrationCard?.remove()
+    }
+
+    fun stopListenToSet(){
+        registrationSet?.remove()
     }
 
 }
