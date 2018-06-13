@@ -8,12 +8,13 @@ import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
-import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
-import com.zaen.testly.cas.activities.CreateCardActivity
-import com.zaen.testly.cas.activities.CreateSetActivity
+import com.zaen.testly.R.id.recycler_create
+import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.cas.activities.CasViewerActivity
 import com.zaen.testly.cas.activities.CasViewerActivity.Companion.ARG_DOCUMENT_ID
+import com.zaen.testly.cas.activities.CreateCardActivity
+import com.zaen.testly.cas.activities.CreateSetActivity
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
@@ -46,6 +47,10 @@ class CreateCasFragment : BaseFragment(),
     private var mAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
     private var actionMode: android.support.v7.view.ActionMode? = null
     private var mActionHelper: ActionModeHelper? = null
+
+    interface CasDataListener{
+        fun onData(casList: ArrayList<AbstractFlexibleItem<FlexibleViewHolder>>)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +109,7 @@ class CreateCasFragment : BaseFragment(),
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
                     toggleViewMode()
+                    onData()
                 }
             }
         })

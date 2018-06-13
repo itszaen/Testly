@@ -18,15 +18,17 @@ class CasCardSelectionPreviewView(context: Context, attrs: AttributeSet? = null,
     private val attemptCount: Int?
     private val questionText: String?
     @BindView(R.id.count_attempt)
+    private
     lateinit var attemptCountView: AppCompatTextView
     @BindView(R.id.text_card_selection_question)
+    private
     lateinit var questionTextView: AppCompatTextView
 
     init{
         val inflater = LayoutInflater.from(getContext())
         inflater.inflate(R.layout.view_card_selection, this)
 
-        val attr = getContext().obtainStyledAttributes(attrs, R.styleable.CasCardSelectionView)
+        val attr = getContext().obtainStyledAttributes(attrs, R.styleable.CasCardSelectionPreviewView)
         attemptCount = attr.getInt(R.styleable.CasCardSelectionView_CasCardAttemptCount, 0)
         questionText = attr.getString(R.styleable.CasCardSelectionView_CasCardQuestion)
         attr.recycle()
