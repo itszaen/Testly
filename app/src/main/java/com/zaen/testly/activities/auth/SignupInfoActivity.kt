@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
+import com.zaen.testly.utils.InformUtils
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
 
@@ -31,7 +32,7 @@ class SignupInfoActivity : BaseActivity(), SignupUserinfo.ExceptionHandler, Sign
         }
     }
     override fun onException(error: String, e: Exception){
-        snackyException(error,e)
+        InformUtils(this).snackyException(error,e)
     }
     override fun onSuccess() {
         Toasty.success(this,"User information registered!",Toast.LENGTH_SHORT,true).show()

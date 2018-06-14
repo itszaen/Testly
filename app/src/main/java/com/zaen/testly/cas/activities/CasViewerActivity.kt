@@ -1,18 +1,22 @@
 package com.zaen.testly.cas.activities
 
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v4.view.ViewPager
-import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.cas.CasViewerPagerAdapter
 import com.zaen.testly.data.FirebaseDocument
+import com.zaen.testly.fragments.CreateCasFragment
 
-class CasViewerActivity: BaseActivity(){
+class CasViewerActivity: BaseActivity(),
+        CreateCasFragment.CasDataListener{
     companion object {
         const val ARG_DOCUMENT_ID = "documentId"
     }
     private var documentId: String? = null
+    private var manager: FragmentManager? = null
+    private var viewPager: ViewPager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutRes = R.layout.activity_cas_viewer
@@ -21,33 +25,11 @@ class CasViewerActivity: BaseActivity(){
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
         toolbar?.setDisplayShowTitleEnabled(true)
 
-        val mCas = CreateCasData(this)
-
-        val cardRequest = mCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
-        mCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
-            override fun onCasData() {
-                if (mCas.casList.size > 0){
-                    toggleViewMode()
-                }
-            }
-        })
-        val setRequest = mCreateCas.createCasRequest(FirebaseDocument.SET, "timestamp", null)
-        mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
-            override fun onCasData() {
-                if (mCreateCas.casList.size > 0){
-                    toggleViewMode()
-                }
-            }
-        })
-
         documentId = intent.extras[ARG_DOCUMENT_ID] as String
 
-        val viewPager = findViewById<ViewPager>(R.id.view_pager_cas_viewer)
+        viewPager = findViewById(R.id.view_pager_cas_viewer)
 
-        val manager = supportFragmentManager
-        val pagerAdapter = CasViewerPagerAdapter(manager, mCas)
-        viewPager.adapter = pagerAdapter
-
+        manager = supportFragmentManager
 
     }
 
@@ -55,5 +37,10 @@ class CasViewerActivity: BaseActivity(){
         super.onStart()
     }
 
+    override fun onData(casList: ArrayList<FirebaseDocument>) {
+        if (manager != null || viewPager == null){ return }
+        val pagerAdapter = CasViewerPagerAdapter(manager!!, casList)
+        viewPager?.adapter = pagerAdapter
+    }
 
 }

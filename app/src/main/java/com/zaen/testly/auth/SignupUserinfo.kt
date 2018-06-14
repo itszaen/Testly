@@ -251,7 +251,7 @@ open class SignupUserinfo (val context: Activity,
         // Userinfo (Username, fullname, school, grade, class)
         val userinfo = UserData(
                 user.uid,
-                com.zaen.testly.utils.CommonUtils().getTimestamp(),
+                com.zaen.testly.utils.CommonUtils.getTimestamp(),
                 user.email!!,
                 user.photoUrl.toString(),
                 false, false, false,

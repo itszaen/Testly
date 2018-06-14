@@ -8,6 +8,7 @@ import android.widget.TextView
 import butterknife.BindView
 import com.zaen.testly.R
 import com.zaen.testly.auth.SignupUserinfo
+import com.zaen.testly.utils.InformUtils
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
 import java.util.*
@@ -88,7 +89,7 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler{
     fun onSignUp(view:View){
         when(authMethod){
             null -> {
-                snackyWarning("Please tap one of the round buttons to select sign up method.")
+                InformUtils(this).snackyWarning("Please tap one of the round buttons to select sign up method.")
             }
             AUTH_EMAIL -> {
                 userinfo!!.checkInfoField()
@@ -127,7 +128,7 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler{
     }
 
     override fun onException(error: String, e: Exception){
-        snackyException(error,e)
+        InformUtils(this).snackyException(error,e)
     }
 
 }

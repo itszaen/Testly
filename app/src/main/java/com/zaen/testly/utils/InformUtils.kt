@@ -7,8 +7,6 @@ import de.mateware.snacky.Snacky
 import java.lang.Exception
 
 class InformUtils(val activity: AppCompatActivity){
-
-
     fun snackySuccess(text: String){
         Snacky.builder()
                 .setActivity(activity)

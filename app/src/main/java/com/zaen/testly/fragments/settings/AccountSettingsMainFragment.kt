@@ -47,13 +47,6 @@ class AccountSettingsMainFragment : BaseFragment(){
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity = getActivity()
-    }
     override fun onDetach() {
         super.onDetach()
         mListener = null

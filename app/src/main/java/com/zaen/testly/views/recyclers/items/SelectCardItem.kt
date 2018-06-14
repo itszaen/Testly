@@ -52,7 +52,7 @@ class SelectCardItem(val card: CardData) : AbstractFlexibleItem<FlexibleViewHold
         }
 
         override fun getActivationElevation(): Float {
-            return CommonUtils().dpToPx(itemView.context, 4f).toFloat()
+            return CommonUtils.dpToPx(itemView.context, 4f).toFloat()
         }
     }
 }

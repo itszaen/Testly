@@ -12,6 +12,7 @@ import me.yokeyword.fragmentation.SupportFragment
 
 /*
 * layoutRes @onCreateView(3)
+* retainInstance == true DEFAULT
 * NO unbinder
 * */
 
@@ -22,6 +23,7 @@ abstract class BaseFragment : SupportFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         LogUtils.log(this, 2,"onCreate")
+        retainInstance = true
         super.onCreate(savedInstanceState)
     }
 

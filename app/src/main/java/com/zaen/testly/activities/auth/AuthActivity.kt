@@ -21,6 +21,7 @@ import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.auth.TestlyFirebaseAuth
+import com.zaen.testly.utils.InformUtils
 import com.zaen.testly.utils.LogUtils
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
@@ -182,7 +183,7 @@ abstract class AuthActivity: BaseActivity(),
                 }
             } else {
                 LogUtils.failure(this, 5, "Getting userinfo.", it.exception as Exception)
-                snackyException("An error has occurred getting your user information.",it.exception as Exception)
+                InformUtils(this).snackyException("An error has occurred getting your user information.",it.exception as Exception)
             }
         }
 

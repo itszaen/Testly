@@ -9,7 +9,6 @@ import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
 import com.zaen.testly.R
-import com.zaen.testly.R.id.recycler_create
 import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.cas.activities.CasViewerActivity
 import com.zaen.testly.cas.activities.CasViewerActivity.Companion.ARG_DOCUMENT_ID
@@ -47,16 +46,15 @@ class CreateCasFragment : BaseFragment(),
     private var mAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
     private var actionMode: android.support.v7.view.ActionMode? = null
     private var mActionHelper: ActionModeHelper? = null
+    private var mListener :CasDataListener? = null
 
     interface CasDataListener{
-        fun onData(casList: ArrayList<AbstractFlexibleItem<FlexibleViewHolder>>)
+        fun onData(casList: ArrayList<FirebaseDocument>)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
         if (savedInstanceState != null){
-
         }
 
     }
@@ -74,21 +72,18 @@ class CreateCasFragment : BaseFragment(),
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         selectMenu(menu)
-        toggleViewMode()
+        updateUI()
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // recycler
-//        toggleViewMode()
-
         listenToCard()
         listenToSet()
-        initializeAdapter()
     }
 
     private fun initializeAdapter(){
+        mAdapter?.addListener(this)
         initializeActionModeHelper(SelectableAdapter.Mode.IDLE)
     }
 
@@ -99,6 +94,10 @@ class CreateCasFragment : BaseFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null){
+            if (mAdapter != null){
+                mAdapter!!.onRestoreInstanceState(savedInstanceState)
+                mActionHelper?.restoreSelection(activity as AppCompatActivity)
+            }
             return
         }
     }
@@ -108,8 +107,8 @@ class CreateCasFragment : BaseFragment(),
         mCreateCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
-                    toggleViewMode()
-                    onData()
+                    updateUI()
+                    mListener?.onData(mCreateCas.casList)
                 }
             }
         })
@@ -120,7 +119,8 @@ class CreateCasFragment : BaseFragment(),
         mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
-                    toggleViewMode()
+                    updateUI()
+                    mListener?.onData(mCreateCas.casList)
                 }
             }
         })
@@ -160,7 +160,7 @@ class CreateCasFragment : BaseFragment(),
         return super.onOptionsItemSelected(item)
     }
 
-    fun toggleViewMode(){
+    fun updateUI(){
         when (viewMode) {
             MODE_GRID -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
@@ -200,6 +200,7 @@ class CreateCasFragment : BaseFragment(),
                 }
             }
         }
+        initializeAdapter()
         mAdapter?.mode = SelectableAdapter.Mode.IDLE
     }
 
@@ -257,8 +258,6 @@ class CreateCasFragment : BaseFragment(),
             InformUtils(activity!!).snackyFailure("Set is not implemented yet.")
             return true
         }
-        mCreateCas.stopListenToCard()
-        mCreateCas.stopListenToSet()
         val intent = Intent(activity!!, CasViewerActivity::class.java)
         intent.putExtra(ARG_DOCUMENT_ID,document.id)
         startActivity(intent)

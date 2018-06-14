@@ -77,7 +77,7 @@ class DeveloperChat(val context: Any){
 
     fun uploadMessage(text: String, userinfo: UserData){
         val path = chatDocumentPath.collection("messages").document()
-        val timestamp: Long = CommonUtils().getTimestamp()
+        val timestamp: Long = CommonUtils.getTimestamp()
         val message = DevChatMessageData(path.id,timestamp,text,userinfo)
         TestlyFirestore(this).addDocumentToCollection(path,message,object: TestlyFirestore.UploadToCollectionListener{
             override fun onDocumentUpload(path: Query, reference: DocumentReference?, exception: Exception?) {
@@ -89,7 +89,7 @@ class DeveloperChat(val context: Any){
     }
 
     fun getMessageFromDocument(snapshot: DocumentSnapshot):DevChatMessageData?{
-        if (CommonUtils().allNotNull(
+        if (CommonUtils.allNotNull(
                         snapshot.data?.get("id"),
                         snapshot.data?.get("timestamp"),
                         snapshot.data?.get("sender"),

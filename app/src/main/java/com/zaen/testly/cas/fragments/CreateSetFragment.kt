@@ -12,10 +12,10 @@ import android.widget.RadioButton
 import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
-import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
+import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
@@ -40,9 +40,6 @@ class CreateSetFragment  : BaseFragment(),
         android.support.v7.view.ActionMode.Callback,
         FlexibleAdapter.OnItemClickListener,
         FlexibleAdapter.OnItemLongClickListener{
-    companion object {
-    }
-
     interface SubmitSetListener{
         fun onSubmitSetSuccessful()
     }
@@ -90,10 +87,6 @@ class CreateSetFragment  : BaseFragment(),
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_fragment_create_set,menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -158,7 +151,6 @@ class CreateSetFragment  : BaseFragment(),
         return true
     }
 
-    // !!
     override fun onItemClick(view: View?, position: Int): Boolean {
         return if (selectCardAdapter?.mode != SelectableAdapter.Mode.IDLE && mActionHelper != null) {
             toggleSelection(position)

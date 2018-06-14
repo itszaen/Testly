@@ -199,7 +199,7 @@ class CreateCasData (val context: Any) {
     }
 
     fun getCardDataFromDocument(snapshot: DocumentSnapshot):CardData?{
-        if (CommonUtils().allNotNull(
+        if (CommonUtils.allNotNull(
                         snapshot.get("id"),
                         snapshot.get("timestamp"),
                         snapshot.get("titleView"),
@@ -213,7 +213,7 @@ class CreateCasData (val context: Any) {
         return CardData(
                 snapshot.get("id") as String,
                 snapshot.get("timestamp") as Long,
-                snapshot.get("titleView") as String,
+                snapshot.get("title") as String,
                 snapshot.get("subject") as String,
                 snapshot.get("cardType") as String,
                 snapshot.get("hasAnswerCard") as Boolean,
@@ -223,7 +223,7 @@ class CreateCasData (val context: Any) {
     }
 
     fun getSetDataFromDocument(snapshot: DocumentSnapshot):SetData?{
-        if (CommonUtils().allNotNull(
+        if (CommonUtils.allNotNull(
                         snapshot.get("id") as String,
                         snapshot.get("timestamp") as Long
                 )){

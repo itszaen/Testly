@@ -17,6 +17,7 @@ import com.zaen.testly.auth.TestlyFirebaseAuth
 import com.zaen.testly.fragments.base.BaseFragment
 import com.zaen.testly.fragments.settings.DeveloperSettingsMainFragment
 import com.zaen.testly.fragments.settings.SettingsMainFragment
+import com.zaen.testly.utils.InformUtils
 import com.zaen.testly.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -121,11 +122,11 @@ class SettingsActivity : BaseActivity(),
     override fun handleTask(task: Task<AuthResult>) {
         if (task.isSuccessful) {
             LogUtils.success(this,3,"signInWithCredential.")
-            snackySuccess("Re-authentication succeeded. You may proceed.")
+            InformUtils(this).snackySuccess("Re-authentication succeeded. You may proceed.")
             isReauthenticatedDeleteUser = true
         } else {
             LogUtils.failure(this,5,"signInWithCredential.", task.exception as Exception)
-            snackyException("Sign in failed.", task.exception as Exception)
+            InformUtils(this).snackyException("Sign in failed.", task.exception as Exception)
         }
 
     }
