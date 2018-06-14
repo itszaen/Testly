@@ -38,7 +38,7 @@ class SettingsActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
 
         toolbar = this.supportActionBar
-        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_close)
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
         toolbar?.setDisplayShowTitleEnabled(true)
 
         if (fragment_container_activity_settings != null) {

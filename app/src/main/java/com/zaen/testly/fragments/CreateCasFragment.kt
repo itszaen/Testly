@@ -104,7 +104,7 @@ class CreateCasFragment : BaseFragment(),
 
     private fun listenToCard(){
         val cardRequest = mCreateCas.createCasRequest(FirebaseDocument.CARD,"timestamp",null)
-        mCreateCas.listenToCard(cardRequest!!, object: CreateCasData.CreateCasDataListener{
+        mCreateCas.listenToCard(cardRequest!!, object: com.zaen.testly.cas.CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
                     updateUI()
@@ -116,7 +116,7 @@ class CreateCasFragment : BaseFragment(),
 
     private fun listenToSet(){
         val setRequest = mCreateCas.createCasRequest(FirebaseDocument.SET, "timestamp", null)
-        mCreateCas.listenToSet(setRequest!!, object: CreateCasData.CreateCasDataListener{
+        mCreateCas.listenToSet(setRequest!!, object: com.zaen.testly.cas.CreateCasData.CreateCasDataListener{
             override fun onCasData() {
                 if (mCreateCas.casList.size > 0){
                     updateUI()

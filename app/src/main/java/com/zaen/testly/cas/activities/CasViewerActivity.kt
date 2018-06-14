@@ -24,11 +24,8 @@ class CasViewerActivity: BaseActivity(),
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
         toolbar?.setDisplayShowTitleEnabled(true)
-
         documentId = intent.extras[ARG_DOCUMENT_ID] as String
-
         viewPager = findViewById(R.id.view_pager_cas_viewer)
-
         manager = supportFragmentManager
 
     }
