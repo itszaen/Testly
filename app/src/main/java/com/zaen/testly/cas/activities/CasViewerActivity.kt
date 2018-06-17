@@ -1,7 +1,9 @@
 package com.zaen.testly.cas.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
@@ -27,6 +29,12 @@ class CasViewerActivity: BaseActivity(),
         documentId = intent.extras[ARG_DOCUMENT_ID] as String
         viewPager = findViewById(R.id.view_pager_cas_viewer)
         manager = supportFragmentManager
+
+        val intent = Intent()
+        intent.action = "a"
+        intent.putExtra("onCreate",true)
+        intent.putExtras(intent)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
     }
 

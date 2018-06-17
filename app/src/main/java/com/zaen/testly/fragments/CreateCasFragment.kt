@@ -1,6 +1,9 @@
 package com.zaen.testly.fragments
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.ActionMode
@@ -100,6 +103,7 @@ class CreateCasFragment : BaseFragment(),
             }
             return
         }
+        createReceiver()
     }
 
     private fun listenToCard(){
@@ -266,6 +270,25 @@ class CreateCasFragment : BaseFragment(),
 
     override fun onItemLongClick(position: Int) {
         mActionHelper?.onLongClick(activity as AppCompatActivity, position)
+    }
+
+    private fun createReceiver(){
+        val receiver = TheBroadcastReceiver()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("a")
+        activity?.registerReceiver(receiver,intentFilter)
+    }
+
+    inner class TheBroadcastReceiver : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent is CasDataListener){
+                mListener = intent
+                if (intent!!.getBooleanExtra("onCreate",false)) {
+                    mListener!!.onData(mCreateCas.casList)
+                }
+            }
+        }
+
     }
 
 }
