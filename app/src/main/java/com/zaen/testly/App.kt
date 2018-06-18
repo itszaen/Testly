@@ -6,6 +6,7 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.Iconics
 import com.squareup.leakcanary.LeakCanary
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.utils.preferences.Prefs
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.utils.Log
@@ -15,14 +16,31 @@ import me.yokeyword.fragmentation.Fragmentation
 
 class App : Application(){
     companion object {
-        private var mInstance: App? = null
-        fun getInstance(): App? {
+        private lateinit var mInstance: App
+        fun getInstance(): App {
             return mInstance
+        }
+
+        private val activityStack: ArrayList<BaseActivity> = arrayListOf()
+        fun getActivityStack(): ArrayList<BaseActivity>{
+            return activityStack
+        }
+        fun addActivityToStack(activity: BaseActivity){
+            if (!activityStack.contains(activity)){
+                activityStack.add(activity)
+            }
+        }
+        fun removeActivityFromStack(activity: BaseActivity){
+            activityStack.remove(activity)
         }
     }
     override fun onCreate() {
         super.onCreate()
+
+        // App Instance
         mInstance = this
+
+        // Leak Canary
         if (BuildConfig.DEBUG) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This process is dedicated to LeakCanary for heap analysis.
@@ -32,10 +50,16 @@ class App : Application(){
             LeakCanary.install(this);
         }
 
+        // Fabric Crashlytics
         Fabric.with(this)
 
-        registerFontIcons()
-        initialiseStorage()
+        // Android-Iconics
+        Iconics.registerFont(GoogleMaterial())
+        Iconics.registerFont(CommunityMaterial())
+        Iconics.registerFont(FontAwesome())
+
+        // Initialize Storage
+        Prefs.init(this)
 
         Fragmentation.builder()
                 .stackViewMode(Fragmentation.BUBBLE)
@@ -43,16 +67,6 @@ class App : Application(){
                 .install()
 
         FlexibleAdapter.enableLogs(Log.Level.DEBUG)
-    }
-
-    private fun registerFontIcons() {
-        Iconics.registerFont(GoogleMaterial())
-        Iconics.registerFont(CommunityMaterial())
-        Iconics.registerFont(FontAwesome())
-    }
-
-    private fun initialiseStorage() {
-        Prefs.init(this)
     }
 
 }

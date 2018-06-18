@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.LinearLayout.VERTICAL
 import butterknife.OnClick
 import butterknife.Optional
+import com.zaen.testly.App
 import com.zaen.testly.R
 import com.zaen.testly.cas.CreateCasData
 import com.zaen.testly.cas.activities.CasViewerActivity
@@ -281,10 +282,12 @@ class CreateCasFragment : BaseFragment(),
 
     inner class TheBroadcastReceiver : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent is CasDataListener){
-                mListener = intent
-                if (intent!!.getBooleanExtra("onCreate",false)) {
-                    mListener!!.onData(mCreateCas.casList)
+            for (activity in App.getActivityStack()){
+                if (activity is CasDataListener){
+                    mListener = activity
+                    if (intent!!.getBooleanExtra("onCreate",false)) {
+                        mListener!!.onData(mCreateCas.casList)
+                    }
                 }
             }
         }

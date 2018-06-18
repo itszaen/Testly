@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.zaen.testly.App
 import com.zaen.testly.utils.LogUtils
 import me.yokeyword.fragmentation.SupportActivity
 
@@ -31,6 +32,7 @@ abstract class BaseActivity : SupportActivity(){
         } else {
             LogUtils.failure(this,5,"No layout resource specified, not inflating.")
         }
+        App.addActivityToStack(this)
     }
 
     override fun onStart() {
@@ -59,6 +61,7 @@ abstract class BaseActivity : SupportActivity(){
     override fun onDestroy() {
         LogUtils.log(this,2, "onDestroy")
         unbinder?.unbind()
+        App.removeActivityFromStack(this)
         super.onDestroy()
     }
 }
