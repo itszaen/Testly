@@ -210,16 +210,7 @@ class CreateCasData (val context: Any) {
             LogUtils.failure(this, 5, "Invalid CARD data. Id:${snapshot.id}")
             return null
         }
-        return CardData(
-                snapshot.get("id") as String,
-                snapshot.get("timestamp") as Long,
-                snapshot.get("title") as String,
-                snapshot.get("subject") as String,
-                snapshot.get("cardType") as String,
-                snapshot.get("hasAnswerCard") as Boolean,
-                snapshot.get("question") as String,
-                snapshot.get("answerText") as String?
-        )
+        return CardData.getCardDataFromDocument(snapshot)
     }
 
     fun getSetDataFromDocument(snapshot: DocumentSnapshot):SetData?{

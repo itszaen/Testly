@@ -22,7 +22,6 @@ import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BaseFragment
-import com.zaen.testly.utils.InformUtils
 import com.zaen.testly.views.recyclers.items.CasCardGridItem
 import com.zaen.testly.views.recyclers.items.CasCardLinearItem
 import com.zaen.testly.views.recyclers.items.CasSetGridItem
@@ -259,10 +258,6 @@ class CreateCasFragment : BaseFragment(),
 
     override fun onItemClick(view: View?, position: Int): Boolean {
         val document = mCreateCas.casList[position]
-        if (document.type == "set"){
-            InformUtils(activity!!).snackyFailure("Set is not implemented yet.")
-            return true
-        }
         val intent = Intent(activity!!, CasViewerActivity::class.java)
         intent.putExtra(ARG_DOCUMENT_ID,document.id)
         startActivity(intent)
@@ -291,7 +286,5 @@ class CreateCasFragment : BaseFragment(),
                 }
             }
         }
-
     }
-
 }

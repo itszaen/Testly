@@ -1,12 +1,14 @@
 package com.zaen.testly.data
 
-import com.twitter.sdk.android.core.models.User
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 open class FirebaseDocument(
         open var id: String,
         open var timestamp: Long,
         open var type: String
-) {
+) : Parcelable {
     companion object {
         // document type identifier
         const val CARD = "card"

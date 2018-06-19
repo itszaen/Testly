@@ -32,8 +32,8 @@ import mehdi.sakout.fancybuttons.FancyButton
 
 class CreateCardFragment : BaseFragment(){
     companion object {
-        val maxOptionNum = 4
-        val minOptionNum = 1
+        const val maxOptionNum = 4
+        const val minOptionNum = 1
     }
 
     interface Preview{

@@ -7,7 +7,11 @@ import android.support.v4.view.ViewPager
 import com.zaen.testly.R
 import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.cas.CasViewerPagerAdapter
+import com.zaen.testly.cas.fragments.CasViewerPageCardFragment
+import com.zaen.testly.cas.fragments.CasViewerPageSetFragment
+import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
+import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.CreateCasFragment
 
 class CasViewerActivity: BaseActivity(),
@@ -18,6 +22,7 @@ class CasViewerActivity: BaseActivity(),
     private var documentId: String? = null
     private var manager: FragmentManager? = null
     private var viewPager: ViewPager? = null
+    private var pagerAdapter: CasViewerPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutRes = R.layout.activity_cas_viewer
@@ -28,6 +33,7 @@ class CasViewerActivity: BaseActivity(),
         documentId = intent.extras[ARG_DOCUMENT_ID] as String
         viewPager = findViewById(R.id.view_pager_cas_viewer)
         manager = supportFragmentManager
+        initializeViewPager()
 
         val intent = Intent()
         intent.action = "a"
@@ -44,8 +50,21 @@ class CasViewerActivity: BaseActivity(),
 
     override fun onData(casList: ArrayList<FirebaseDocument>) {
         if (manager == null || viewPager == null){ return }
-        val pagerAdapter = CasViewerPagerAdapter(manager!!, casList)
+
+        pagerAdapter!!.clearFragments()
+        for ((i,cas) in casList.withIndex()){
+            when (cas.type){
+                FirebaseDocument.CARD -> pagerAdapter!!.addFragment(CasViewerPageCardFragment.newInstance(cas as CardData),(cas as CardData).title,i)
+                FirebaseDocument.SET -> pagerAdapter!!.addFragment(CasViewerPageSetFragment.newInstance(cas as SetData),(cas as SetData).title,i)
+            }
+        }
+        viewPager!!.adapter = pagerAdapter
+    }
+
+    private fun initializeViewPager(){
+        pagerAdapter = CasViewerPagerAdapter(this, manager!!)
         viewPager?.adapter = pagerAdapter
+        viewPager?.offscreenPageLimit = 20
     }
 
 }

@@ -1,12 +1,12 @@
 package com.zaen.testly.fragments.base
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.zaen.testly.activities.base.BaseActivity
 import com.zaen.testly.utils.LogUtils
 import me.yokeyword.fragmentation.SupportFragment
 
@@ -18,7 +18,7 @@ import me.yokeyword.fragmentation.SupportFragment
 
 abstract class BaseFragment : SupportFragment(){
     protected var unbinder: Unbinder? = null
-    protected var activity: AppCompatActivity? = null
+    protected var activity: BaseActivity? = null
     var layoutRes: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ abstract class BaseFragment : SupportFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         LogUtils.log(this, 2,"onActivityCreated")
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity() as AppCompatActivity?
+        activity = getActivity() as BaseActivity?
     }
 
     override fun onStart() {

@@ -1,10 +1,7 @@
 package com.zaen.testly.data
 
-import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 open class SetData(
         override var id: String,
         override var timestamp: Long,
@@ -13,7 +10,7 @@ open class SetData(
         open var cardType: String,
         open var subjectType: String,
         open var cards: ArrayList<String>
-): FirebaseDocument(id,timestamp,SET), Parcelable{
+): FirebaseDocument(id,timestamp,SET){
     companion object {
         const val SET_TYPE_CHECK = "check"
         const val SET_TYPE_TEST = "test"
