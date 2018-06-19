@@ -1,6 +1,7 @@
 package com.zaen.testly.utils
 
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zaen.testly.R
 import de.mateware.snacky.Snacky
@@ -62,5 +63,10 @@ class InformUtils(val activity: AppCompatActivity){
                 }
                 .error()
                 .show()
+    }
+
+    fun notImplemented(){
+        snackyInfo("This feature is not implemented yet.")
+        LogUtils.failure(activity, Log.INFO, "The feature user requested is not implemented yet.")
     }
 }

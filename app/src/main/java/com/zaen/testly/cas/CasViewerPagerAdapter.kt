@@ -1,17 +1,21 @@
 package com.zaen.testly.cas
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.zaen.testly.cas.fragments.CasViewerPageCardFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.fragments.base.BlankFragment
 
-class CasViewerPagerAdapter(fragmentManager: FragmentManager, private val cas: ArrayList<FirebaseDocument>): FragmentPagerAdapter(fragmentManager){
+class CasViewerPagerAdapter(val context: Context, private val fragmentManager: FragmentManager, private val cas: ArrayList<FirebaseDocument>): FragmentStatePagerAdapter(fragmentManager){
     init {
     }
+
+
+
     override fun getItem(position: Int): Fragment {
         // tell fragment what document (card/set) it is
         return when (cas[position]){
