@@ -11,7 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.zaen.testly.GlideApp
 import com.zaen.testly.R
-import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.utils.LogUtils.Companion.TAG
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_view_image.*

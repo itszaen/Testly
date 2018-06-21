@@ -24,7 +24,7 @@
 
         <!-- MainActivity -->
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".main.activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,43 +46,43 @@
 
         <!-- IntroActivity -->
         <activity
-            android:name=".activities.IntroActivity"
+            android:name=".intro.activities.IntroActivity"
             android:theme="@style/TestlyWelcomeScreenTheme" />
         <!-- Intro2Activity -->
         <activity
-            android:name=".activities.Intro2Activity"
+            android:name=".intro.activities.Intro2Activity"
             android:theme="@style/TestlyWelcomeScreenTheme" />
         <!-- SettingsActivity -->
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".settings.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".main.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zaen.testly.activities.MainActivity" />
+                android:value="com.zaen.testly.main.activities.MainActivity" />
         </activity>
 
         <!-- AboutActivity -->
         <activity
-            android:name=".activities.AboutActivity"
+            android:name=".about.AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".main.activities.MainActivity" />
 
         <!-- FeedbackActivity -->
         <activity
-            android:name=".activities.FeedbackActivity"
+            android:name=".feedback.activities.FeedbackActivity"
             android:label="@string/title_activity_feedback"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".main.activities.MainActivity" />
 
         <!-- HelpActivity -->
         <activity
-            android:name=".activities.HelpActivity"
+            android:name=".help.activities.HelpActivity"
             android:label="@string/title_activity_help"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".main.activities.MainActivity" />
 
         <!-- LoginActivity -->
         <activity
-            android:name=".activities.auth.LoginActivity"
+            android:name=".auth.activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Login"
             android:windowSoftInputMode="stateHidden|adjustPan">
@@ -100,13 +100,13 @@
 
         <!-- SignupActivity -->
         <activity
-            android:name=".activities.auth.SignupActivity"
+            android:name=".auth.activities.SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/Signup"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <!-- SignupInfoActivity -->
         <activity
-            android:name=".activities.auth.SignupInfoActivity"
+            android:name=".auth.activities.SignupInfoActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/Signup"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
@@ -137,24 +137,24 @@
             android:name=".cas.activities.CreateCardActivity"
             android:label="Create Card"
             android:windowSoftInputMode="adjustPan"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".main.activities.MainActivity"/>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.zaen.testly.activities.MainActivity" />
+            android:value="com.zaen.testly.main.activities.MainActivity" />
 
         <!-- Create Set -->
         <activity
             android:name=".cas.activities.CreateSetActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="Create Set"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".main.activities.MainActivity"
             />
 
         <!-- Cas Viewer -->
         <activity
-            android:name=".cas.activities.CasViewerActivity"
+            android:name=".cas.childs.viewer.activities.CasViewerActivity"
             android:windowSoftInputMode="adjustPan"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".main.activities.MainActivity"
             />
     </application>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zaen.testly.activities.FeedbackActivity">
+    tools:context="com.zaen.testly.feedback.activities.FeedbackActivity">
 
     <!-- Main Content -->
     <LinearLayout
@@ -18,13 +18,13 @@
         <include layout="@layout/bar_feedback"/>
 
         <!-- List of feedback -->
-        <com.zaen.testly.views.recyclers.FeedbackView
+        <com.zaen.testly.feedback.views.FeedbackView
             android:id="@+id/content_list_feedback"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-        </com.zaen.testly.views.recyclers.FeedbackView>
+        </com.zaen.testly.feedback.views.FeedbackView>
 
     </LinearLayout>
     <!-- Submit new feedback -->

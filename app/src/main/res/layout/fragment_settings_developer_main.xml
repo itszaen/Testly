@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <com.zaen.testly.views.settings.SettingSwitchTitleOnlyView
+            <com.zaen.testly.settings.views.SettingSwitchTitleOnlyView
                 android:id="@+id/pref_dev_devbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

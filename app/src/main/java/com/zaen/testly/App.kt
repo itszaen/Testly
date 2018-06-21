@@ -6,7 +6,8 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.Iconics
 import com.squareup.leakcanary.LeakCanary
-import com.zaen.testly.activities.base.BaseActivity
+import com.zaen.testly.base.activities.BaseActivity
+import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.utils.preferences.Prefs
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.utils.Log
@@ -32,6 +33,19 @@ class App : Application(){
         }
         fun removeActivityFromStack(activity: BaseActivity){
             activityStack.remove(activity)
+        }
+
+        private val fragmentStack: ArrayList<BaseFragment> = arrayListOf()
+        fun getFragmentStack(): ArrayList<BaseFragment>{
+            return fragmentStack
+        }
+        fun addFragmentToStack(fragment: BaseFragment){
+            if (!fragmentStack.contains(fragment)){
+                fragmentStack.add(fragment)
+            }
+        }
+        fun removeActivityFromStack(fragment: BaseFragment){
+            fragmentStack.remove(fragment)
         }
     }
     override fun onCreate() {

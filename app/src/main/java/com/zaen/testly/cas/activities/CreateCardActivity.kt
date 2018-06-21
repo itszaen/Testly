@@ -3,12 +3,12 @@ package com.zaen.testly.cas.activities
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import com.zaen.testly.R
-import com.zaen.testly.activities.base.BaseActivity
-import com.zaen.testly.cas.fragments.CreateCardFragment
-import com.zaen.testly.cas.fragments.PreviewCardFragment
+import com.zaen.testly.base.activities.BaseActivity
+import com.zaen.testly.cas.childs.create_card.fragments.CreateCardFragment
+import com.zaen.testly.cas.childs.create_card.fragments.PreviewCardFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument.Companion.CARD
-import com.zaen.testly.fragments.base.BaseFragment
+import com.zaen.testly.base.fragments.BaseFragment
 import org.parceler.Parcels
 
 class CreateCardActivity : BaseActivity(),

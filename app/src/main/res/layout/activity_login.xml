@@ -12,7 +12,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.zaen.testly.activities.auth.LoginActivity">
+    tools:context="com.zaen.testly.auth.activities.LoginActivity">
 
     <ScrollView
         android:id="@+id/login_form"

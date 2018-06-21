@@ -43,7 +43,7 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **Account -->
-                    <com.zaen.testly.views.settings.SettingView
+                    <com.zaen.testly.settings.views.SettingView
                         android:id="@+id/pref_account"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                         app:cardItemTitle="@string/pref_account_title"
                         app:cardItemCaption="@string/pref_account_caption"/>
                     <!-- **Language -->
-                    <com.zaen.testly.views.settings.SettingView
+                    <com.zaen.testly.settings.views.SettingView
                         android:id="@+id/pref_language"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **If Notification -->
-                    <com.zaen.testly.views.settings.SettingSwitchView
+                    <com.zaen.testly.settings.views.SettingSwitchView
                         android:id="@+id/pref_ifsend"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **Automatic Download -->
-                    <com.zaen.testly.views.settings.SettingSwitchView
+                    <com.zaen.testly.settings.views.SettingSwitchView
                         android:id="@+id/pref_download_auto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
                     <!-- **Welcome Screen -->
-                    <com.zaen.testly.views.settings.SettingView
+                    <com.zaen.testly.settings.views.SettingView
                         android:id="@+id/pref_welcome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                         app:cardItemTitle="@string/pref_welcome_title"
                         app:cardItemCaption="@string/pref_welcome_caption"/>
                     <!-- **Provider Option -->
-                    <com.zaen.testly.views.settings.SettingTitleOnlyView
+                    <com.zaen.testly.settings.views.SettingTitleOnlyView
                         android:id="@+id/pref_provider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                         app:cardItemIcon="faw-user-secret"
                         app:cardItemTitle="@string/pref_provider_title"/>
                     <!-- **Developer Option -->
-                    <com.zaen.testly.views.settings.SettingView
+                    <com.zaen.testly.settings.views.SettingView
                         android:id="@+id/pref_developer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

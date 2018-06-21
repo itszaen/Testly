@@ -26,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/small_spacing">
-                    <com.zaen.testly.views.settings.SettingTitleOnlyView
+                    <com.zaen.testly.settings.views.SettingTitleOnlyView
                         android:id="@+id/pref_account_update_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                         app:cardItemIcon="gmd_email"
                         app:cardItemTitle="@string/pref_account_update_email_title"
                         android:focusable="true" />
-                    <com.zaen.testly.views.settings.SettingTitleOnlyView
+                    <com.zaen.testly.settings.views.SettingTitleOnlyView
                         android:id="@+id/pref_account_update_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                         app:cardItemIcon="cmd_textbox_password"
                         app:cardItemTitle="@string/pref_account_update_password_title"
                         android:focusable="true" />
-                    <com.zaen.testly.views.settings.SettingTitleOnlyView
+                    <com.zaen.testly.settings.views.SettingTitleOnlyView
                         android:id="@+id/pref_account_logout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                         android:textColor="@color/primary"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold"/>
-                    <com.zaen.testly.views.settings.SettingTitleOnlyView
+                    <com.zaen.testly.settings.views.SettingTitleOnlyView
                         android:id="@+id/pref_account_delete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
