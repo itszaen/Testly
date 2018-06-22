@@ -1,13 +1,11 @@
 package com.zaen.testly.cas.fragments.pages
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.ActionMode
+import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import com.zaen.testly.Global
 import com.zaen.testly.R
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.CardData
@@ -23,12 +21,19 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.helpers.ActionModeHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.fragment_page_create_cas.*
 
-open class CreateCasPageFragment : BaseFragment() {
+abstract class CreateCasPageFragment : BaseFragment(),
+        android.support.v7.view.ActionMode.Callback,
+        FlexibleAdapter.OnItemClickListener,
+        FlexibleAdapter.OnItemLongClickListener {
     private var mAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
+    private var actionMode: android.support.v7.view.ActionMode? = null
+    protected var mActionHelper: ActionModeHelper? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         layoutRes = R.layout.fragment_page_create_cas
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -36,19 +41,22 @@ open class CreateCasPageFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val intent = Intent()
-        intent.action = Global.KEY_ACTION_INFORM
-        intent.putExtra("onActivityCreated",true)
-        intent.putExtras(intent)
-//        LocalBroadcastManager.getInstance(this).
-        activity?.sendBroadcast(intent)
+        if (savedInstanceState != null){
+            if (mAdapter != null){
+                mAdapter!!.onRestoreInstanceState(savedInstanceState)
+                mActionHelper?.restoreSelection(activity as AppCompatActivity)
+            }
+            return
+        }
+        informFragmentLifeCycle("onActivityCreated")
+        initializeAdapter()
     }
 
     fun updateUI(dataList: ArrayList<out FirebaseDocument>, viewMode: Int){
         when (viewMode) {
             MODE_GRID -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,false)
+                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,true)
                 if (dataList.size > 0) {
                     for (cas in dataList) {
                         when (cas){
@@ -65,7 +73,7 @@ open class CreateCasPageFragment : BaseFragment() {
             }
             MODE_LIST -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                val mLayoutManager = SmoothScrollLinearLayoutManager(activity, LinearLayout.VERTICAL,false)
+                val mLayoutManager = SmoothScrollLinearLayoutManager(activity, LinearLayout.VERTICAL,true)
                 mLayoutManager.stackFromEnd = true
                 if (dataList.size > 0) {
                     for (cas in dataList) {
@@ -85,4 +93,33 @@ open class CreateCasPageFragment : BaseFragment() {
         mAdapter?.mode = SelectableAdapter.Mode.IDLE
     }
 
+
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mAdapter?.mode = SelectableAdapter.Mode.IDLE
+        actionMode = mode
+        return true
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        mAdapter?.mode = SelectableAdapter.Mode.IDLE
+        actionMode = null
+    }
+
+    private fun initializeAdapter(){
+        mAdapter = FlexibleAdapter(null)
+        mAdapter?.addListener(this)
+        initializeActionModeHelper(SelectableAdapter.Mode.IDLE)
+    }
+
+    private fun initializeActionModeHelper(mode: Int){
+        mActionHelper = ActionModeHelper(mAdapter!!,R.menu.menu_main,this).withDefaultMode(mode)
+    }
 }

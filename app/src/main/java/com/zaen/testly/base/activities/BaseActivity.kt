@@ -1,12 +1,14 @@
 package com.zaen.testly.base.activities
 
 import android.app.TaskStackBuilder
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.zaen.testly.App
+import com.zaen.testly.Global
 import com.zaen.testly.utils.LogUtils
 import me.yokeyword.fragmentation.SupportActivity
 
@@ -63,5 +65,14 @@ abstract class BaseActivity : SupportActivity(){
         unbinder?.unbind()
         App.removeActivityFromStack(this)
         super.onDestroy()
+    }
+
+    protected fun informActivityLifeCycle(cycle: String){
+        val intent = Intent()
+        intent.action = Global.KEY_ACTION_INFORM_LIFECYCLE_ACTIVITY
+        intent.putExtra(cycle,true)
+        intent.putExtras(intent)
+//        LocalBroadcastManager.getInstance(this).
+        this.sendBroadcast(intent)
     }
 }

@@ -1,8 +1,6 @@
 package com.zaen.testly.cas.childs.viewer.activities
 
-import android.content.Intent
 import android.os.Bundle
-import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM
 import com.zaen.testly.R
 import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerCardPageFragment
@@ -30,14 +28,7 @@ class CasViewerActivity: BaseActivity(),
         toolbar?.setDisplayShowTitleEnabled(true)
         documentId = intent.extras[ARG_DOCUMENT_ID] as String
         initializeViewPager()
-
-        val intent = Intent()
-        intent.action = KEY_ACTION_INFORM
-        intent.putExtra("onCreate",true)
-        intent.putExtras(intent)
-//        LocalBroadcastManager.getInstance(this).
-        sendBroadcast(intent)
-
+        informActivityLifeCycle("onCreate")
     }
 
     override fun onStart() {

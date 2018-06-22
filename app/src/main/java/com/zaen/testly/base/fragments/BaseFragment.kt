@@ -1,5 +1,6 @@
 package com.zaen.testly.base.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.zaen.testly.App
+import com.zaen.testly.Global
 import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.utils.LogUtils
 import me.yokeyword.fragmentation.SupportFragment
@@ -60,7 +62,17 @@ abstract class BaseFragment : SupportFragment(){
     override fun onDestroyView() {
         LogUtils.log(this, 2,"onDestroyView")
         super.onDestroyView()
+        App.removeFragmentFromStack(this)
         unbinder?.unbind()
+    }
+
+    protected fun informFragmentLifeCycle(cycle: String){
+        val intent = Intent()
+        intent.action = Global.KEY_ACTION_INFORM_LIFECYCLE_FRAGMENT
+        intent.putExtra(cycle,true)
+        intent.putExtras(intent)
+//        LocalBroadcastManager.getInstance(this).
+        activity?.sendBroadcast(intent)
     }
 
 }

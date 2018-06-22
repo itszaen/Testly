@@ -44,7 +44,7 @@ class App : Application(){
                 fragmentStack.add(fragment)
             }
         }
-        fun removeActivityFromStack(fragment: BaseFragment){
+        fun removeFragmentFromStack(fragment: BaseFragment){
             fragmentStack.remove(fragment)
         }
     }
