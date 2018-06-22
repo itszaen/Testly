@@ -11,6 +11,7 @@ import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
+import com.zaen.testly.main.fragments.CreateCasFragment
 import com.zaen.testly.main.fragments.CreateCasFragment.Companion.MODE_GRID
 import com.zaen.testly.main.fragments.CreateCasFragment.Companion.MODE_LIST
 import com.zaen.testly.views.recyclers.items.CasCardGridItem
@@ -29,10 +30,12 @@ import kotlinx.android.synthetic.main.fragment_page_create_cas.*
 abstract class CreateCasPageFragment : BaseFragment(),
         android.support.v7.view.ActionMode.Callback,
         FlexibleAdapter.OnItemClickListener,
-        FlexibleAdapter.OnItemLongClickListener {
+        FlexibleAdapter.OnItemLongClickListener,
+        CreateCasFragment.ViewModeListener {
     private var mAdapter: FlexibleAdapter<AbstractFlexibleItem<FlexibleViewHolder>>? = null
     private var actionMode: android.support.v7.view.ActionMode? = null
     protected var mActionHelper: ActionModeHelper? = null
+    private var viewMode: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         layoutRes = R.layout.fragment_page_create_cas
@@ -52,7 +55,12 @@ abstract class CreateCasPageFragment : BaseFragment(),
         initializeAdapter()
     }
 
-    fun updateUI(dataList: ArrayList<out FirebaseDocument>, viewMode: Int){
+    override fun onSaveInstanceState(outState: Bundle) {
+        mAdapter?.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    fun updateUI(dataList: ArrayList<out FirebaseDocument>){
         when (viewMode) {
             MODE_GRID -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
@@ -121,5 +129,9 @@ abstract class CreateCasPageFragment : BaseFragment(),
 
     private fun initializeActionModeHelper(mode: Int){
         mActionHelper = ActionModeHelper(mAdapter!!,R.menu.menu_main,this).withDefaultMode(mode)
+    }
+
+    override fun onViewModeChange(viewMode: Int) {
+        this.viewMode = viewMode
     }
 }

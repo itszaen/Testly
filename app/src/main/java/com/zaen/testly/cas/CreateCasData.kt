@@ -164,13 +164,12 @@ class CreateCasData (val context: Any) {
                 saveSet(snapshot)
             }
             else -> {
-                // invalid data
-                Log.w(LogUtils.TAG(this),"[Failure] Invalid cas data. Id:${snapshot.id}")
+                LogUtils.failure(this,Log.WARN,"Invalid CAS data. Id:${snapshot.id}")
             }
         }
     }
 
-    fun saveCard(snapshot: DocumentSnapshot){
+    private fun saveCard(snapshot: DocumentSnapshot){
         val card = getCardDataFromDocument(snapshot)
         if (card != null){
             storedCasDocuments.add(snapshot)

@@ -20,10 +20,10 @@ class CreateCasSetPageFragment : CreateCasPageFragment(),
     }
     private var setList: ArrayList<SetData> = arrayListOf()
 
-    override fun onData(setList: ArrayList<SetData>, viewMode: Int) {
+    override fun onData(setList: ArrayList<SetData>) {
         setList.clear()
         this.setList = setList
-        updateUI(setList, viewMode)
+        updateUI(setList)
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {

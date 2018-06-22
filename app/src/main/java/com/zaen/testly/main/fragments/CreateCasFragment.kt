@@ -33,6 +33,7 @@ class CreateCasFragment : BaseFragment(){
     private var mCasDataListener : CasDataListener? = null
     private var mCardDataListener : CardDataListener? = null
     private var mSetDataListener : SetDataListener? = null
+    private var mViewModeListener: ViewModeListener? = null
     private var pagerAdapter: CreateCasPagerAdapter? = null
 
     interface CasDataListener{
@@ -40,11 +41,15 @@ class CreateCasFragment : BaseFragment(){
     }
 
     interface CardDataListener{
-        fun onData(cardList: ArrayList<CardData>, viewMode: Int)
+        fun onData(cardList: ArrayList<CardData>)
     }
 
     interface SetDataListener{
-        fun onData(setList: ArrayList<SetData>, viewMode: Int)
+        fun onData(setList: ArrayList<SetData>)
+    }
+
+    interface ViewModeListener{
+        fun onViewModeChange(viewMode: Int)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +72,6 @@ class CreateCasFragment : BaseFragment(){
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         selectMenu(menu)
-        //updateUI()
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -76,10 +80,10 @@ class CreateCasFragment : BaseFragment(){
         if (savedInstanceState != null){
             return
         }
-        listenToCard()
-        listenToSet()
         createReceiver()
         initializeViewPager()
+        listenToCard()
+        listenToSet()
     }
     private fun initializeViewPager(){
         pagerAdapter = CreateCasPagerAdapter(activity!!, childFragmentManager)
@@ -106,10 +110,9 @@ class CreateCasFragment : BaseFragment(){
     }
 
     fun onData(){
-        //updateUI()
         mCasDataListener?.onData(mCreateCas.casList)
-        mCardDataListener?.onData(mCreateCas.cardList, viewMode)
-        mSetDataListener?.onData(mCreateCas.setList, viewMode)
+        mCardDataListener?.onData(mCreateCas.cardList)
+        mSetDataListener?.onData(mCreateCas.setList)
     }
 
     override fun onResume() {
@@ -154,6 +157,7 @@ class CreateCasFragment : BaseFragment(){
                     menu.findItem(R.id.action_toggle_view_mode_to_grid).isVisible = true
                 }
             }
+            mViewModeListener?.onViewModeChange(viewMode)
         }
 
     }
@@ -162,6 +166,7 @@ class CreateCasFragment : BaseFragment(){
     @OnClick(R.id.fab_create_card,R.id.fab_create_set)
     fun onButtonClick(view: View){
         var intent: Intent? = null
+        //updateUI()
         when(view.id){
             R.id.fab_create_card -> intent = Intent(activity, CreateCardActivity::class.java)
             R.id.fab_create_set  -> intent = Intent(activity, CreateSetActivity::class.java)
@@ -193,14 +198,18 @@ class CreateCasFragment : BaseFragment(){
                 if (fragment is CardDataListener){
                     mCardDataListener = fragment
                     if (intent!!.getBooleanExtra("onActivityCreated",false)){
-                        mCardDataListener!!.onData(mCreateCas.cardList, viewMode)
+                        mCardDataListener!!.onData(mCreateCas.cardList)
                     }
                 }
                 if (fragment is SetDataListener){
                     mSetDataListener = fragment
                     if (intent!!.getBooleanExtra("onActivityCreated",false)){
-                        mSetDataListener!!.onData(mCreateCas.setList, viewMode)
+                        mSetDataListener!!.onData(mCreateCas.setList)
                     }
+                }
+                if (fragment is ViewModeListener){
+                    mViewModeListener = fragment
+                    mViewModeListener!!.onViewModeChange(viewMode)
                 }
             }
         }

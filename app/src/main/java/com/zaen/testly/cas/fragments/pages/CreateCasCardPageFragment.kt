@@ -20,9 +20,9 @@ class CreateCasCardPageFragment : CreateCasPageFragment(),
     }
     private var cardList: ArrayList<CardData> = arrayListOf()
 
-    override fun onData(cardList: ArrayList<CardData>, viewMode: Int) {
+    override fun onData(cardList: ArrayList<CardData>) {
         this.cardList = cardList
-        updateUI(cardList, viewMode)
+        updateUI(cardList)
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
