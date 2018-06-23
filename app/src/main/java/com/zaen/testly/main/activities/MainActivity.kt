@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
@@ -265,6 +266,11 @@ class MainActivity : BaseActivity(),
 //            super.onBackPressed()
 //        }
 //    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+
+        return super.dispatchTouchEvent(ev)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.zaen.testly.R
-import com.zaen.testly.R.id.recycler_fragment_page_create_cas
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
@@ -53,7 +52,19 @@ abstract class CreateCasPageFragment : BaseFragment(),
             }
             return
         }
+        setUpFAB()
         informFragmentLifeCycle("onActivityCreated")
+    }
+
+    private fun setUpFAB(){
+//        recycler_fragment_page_create_cas.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (dy > 0 && fab_menu.visibility == View.VISIBLE){
+//                    fab_menu.collapse()
+//                }
+//            }
+//        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

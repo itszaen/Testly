@@ -78,7 +78,7 @@ class CreateCasFragment : BaseFragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             return
         }
         createReceiver()
@@ -86,6 +86,17 @@ class CreateCasFragment : BaseFragment(){
         listenToCard()
         listenToSet()
     }
+
+    override fun onBackPressedSupport(): Boolean {
+        return if (fab_menu.isExpanded){
+            fab_menu.collapse()
+            true
+        } else {
+            super.onBackPressedSupport()
+        }
+    }
+    
+
     private fun initializeViewPager(){
         pagerAdapter = CreateCasPagerAdapter(activity!!, childFragmentManager)
         view_pager_fragment_create_cas.adapter = pagerAdapter
