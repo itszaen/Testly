@@ -10,6 +10,7 @@ import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
 import com.zaen.testly.main.fragments.CreateCasFragment
+import com.zaen.testly.main.fragments.CreateCasFragment.Companion.ARG_DOCUMENT_TYPE
 import kotlinx.android.synthetic.main.activity_cas_viewer.*
 
 class CasViewerActivity: BaseActivity(),
@@ -35,14 +36,21 @@ class CasViewerActivity: BaseActivity(),
         super.onStart()
     }
 
-    override fun onData(casList: ArrayList<FirebaseDocument>) {
+    override fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>) {
         if (supportFragmentManager == null){ return }
 
         pagerAdapter!!.clearFragments()
-        for ((i,cas) in casList.withIndex()){
-            when (cas.type){
-                FirebaseDocument.CARD -> pagerAdapter!!.addFragment(CasViewerCardPageFragment.newInstance(cas as CardData),(cas as CardData).title,i)
-                FirebaseDocument.SET -> pagerAdapter!!.addFragment(CasViewerSetPageFragment.newInstance(cas as SetData),(cas as SetData).title,i)
+
+        when (intent.extras[ARG_DOCUMENT_TYPE]){
+            FirebaseDocument.CARD -> {
+                for ((i,card) in cardList.withIndex()){
+                    pagerAdapter!!.addFragment(CasViewerCardPageFragment.newInstance(card),card.title,i)
+                }
+            }
+            FirebaseDocument.SET -> {
+                for ((i,set) in setList.withIndex()){
+                    pagerAdapter!!.addFragment(CasViewerSetPageFragment.newInstance(set),set.title,i)
+                }
             }
         }
         view_pager_cas_viewer.adapter = pagerAdapter

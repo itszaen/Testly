@@ -269,10 +269,6 @@ dependencies {
 
     // SmartTabLayout   https://github.com/ogaclejapan/SmartTabLayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-    ///Optional: see how to use the utility.
-    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
-    ///Optional: see how to use the utility.
-    implementation 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
 }
 
 //configurations.all {

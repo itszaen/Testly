@@ -26,6 +26,7 @@ class CreateCasFragment : BaseFragment(){
     companion object {
         const val MODE_GRID = 1
         const val MODE_LIST = 2
+        const val ARG_DOCUMENT_TYPE = "type"
     }
 
     private var viewMode = MODE_LIST
@@ -33,11 +34,11 @@ class CreateCasFragment : BaseFragment(){
     private var mCasDataListener : CasDataListener? = null
     private var mCardDataListener : CardDataListener? = null
     private var mSetDataListener : SetDataListener? = null
-    private var mViewModeListener: ViewModeListener? = null
+    private var mViewModeListener: ArrayList<ViewModeListener> = arrayListOf()
     private var pagerAdapter: CreateCasPagerAdapter? = null
 
     interface CasDataListener{
-        fun onData(casList: ArrayList<FirebaseDocument>)
+        fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>)
     }
 
     interface CardDataListener{
@@ -88,6 +89,7 @@ class CreateCasFragment : BaseFragment(){
     private fun initializeViewPager(){
         pagerAdapter = CreateCasPagerAdapter(activity!!, childFragmentManager)
         view_pager_fragment_create_cas.adapter = pagerAdapter
+        view_pager_fragment_create_cas.offscreenPageLimit = pagerAdapter!!.getFragmentSize() - 1
         tab_view_pager_create_cas.setupWithViewPager(view_pager_fragment_create_cas)
     }
 
@@ -110,7 +112,7 @@ class CreateCasFragment : BaseFragment(){
     }
 
     fun onData(){
-        mCasDataListener?.onData(mCreateCas.casList)
+        mCasDataListener?.onData(mCreateCas.cardList, mCreateCas.setList)
         mCardDataListener?.onData(mCreateCas.cardList)
         mSetDataListener?.onData(mCreateCas.setList)
     }
@@ -163,9 +165,14 @@ class CreateCasFragment : BaseFragment(){
                     menu.findItem(R.id.action_toggle_view_mode_to_grid).isVisible = true
                 }
             }
-            mViewModeListener?.onViewModeChange(viewMode)
+            notifyViewModeChange()
         }
+    }
 
+    private fun notifyViewModeChange(){
+        for (fragment in mViewModeListener){
+            fragment.onViewModeChange(viewMode)
+        }
     }
 
     @Optional
@@ -187,7 +194,7 @@ class CreateCasFragment : BaseFragment(){
         val intentFilter = IntentFilter()
         intentFilter.addAction(KEY_ACTION_INFORM_LIFECYCLE_ACTIVITY)
         intentFilter.addAction(KEY_ACTION_INFORM_LIFECYCLE_FRAGMENT)
-        activity?.registerReceiver(receiver,intentFilter)
+        activity?.registerReceiver(receiver, intentFilter)
     }
 
     inner class TheBroadcastReceiver : BroadcastReceiver(){
@@ -196,7 +203,7 @@ class CreateCasFragment : BaseFragment(){
                 if (activity is CasDataListener){
                     mCasDataListener = activity
                     if (intent!!.getBooleanExtra("onCreate",false)) {
-                        mCasDataListener!!.onData(mCreateCas.casList)
+                        mCasDataListener?.onData(mCreateCas.cardList,mCreateCas.setList)
                     }
                 }
             }
@@ -214,8 +221,10 @@ class CreateCasFragment : BaseFragment(){
                     }
                 }
                 if (fragment is ViewModeListener){
-                    mViewModeListener = fragment
-                    mViewModeListener!!.onViewModeChange(viewMode)
+                    if (!mViewModeListener.contains(fragment)){
+                        mViewModeListener.add(fragment)
+                    }
+                    notifyViewModeChange()
                 }
             }
         }

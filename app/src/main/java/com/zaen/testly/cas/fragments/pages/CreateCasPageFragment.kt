@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.zaen.testly.R
+import com.zaen.testly.R.id.recycler_fragment_page_create_cas
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
@@ -36,6 +37,7 @@ abstract class CreateCasPageFragment : BaseFragment(),
     private var actionMode: android.support.v7.view.ActionMode? = null
     protected var mActionHelper: ActionModeHelper? = null
     private var viewMode: Int? = null
+    internal var dataList: ArrayList<out FirebaseDocument>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         layoutRes = R.layout.fragment_page_create_cas
@@ -52,7 +54,6 @@ abstract class CreateCasPageFragment : BaseFragment(),
             return
         }
         informFragmentLifeCycle("onActivityCreated")
-        initializeAdapter()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -60,13 +61,14 @@ abstract class CreateCasPageFragment : BaseFragment(),
         super.onSaveInstanceState(outState)
     }
 
-    fun updateUI(dataList: ArrayList<out FirebaseDocument>){
+    fun updateUI(){
+        if (dataList == null){return}
         when (viewMode) {
             MODE_GRID -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,true)
-                if (dataList.size > 0) {
-                    for (cas in dataList) {
+                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,false)
+                if (dataList!!.size > 0) {
+                    for (cas in dataList!!) {
                         when (cas){
                             is CardData -> items.add(CasCardGridItem(cas))
                             is SetData -> items.add(CasSetGridItem(cas))
@@ -78,13 +80,14 @@ abstract class CreateCasPageFragment : BaseFragment(),
                     layoutManager = mLayoutManager
                     adapter = mAdapter
                 }
+                initializeAdapter()
             }
             MODE_LIST -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
                 val mLayoutManager = SmoothScrollLinearLayoutManager(activity, LinearLayout.VERTICAL,true)
                 mLayoutManager.stackFromEnd = true
-                if (dataList.size > 0) {
-                    for (cas in dataList) {
+                if (dataList!!.size > 0) {
+                    for (cas in dataList!!) {
                         when (cas){
                             is CardData -> items.add(CasCardLinearItem(cas))
                             is SetData -> items.add(CasSetLinearItem(cas))
@@ -96,11 +99,10 @@ abstract class CreateCasPageFragment : BaseFragment(),
                     layoutManager = mLayoutManager
                     adapter = mAdapter
                 }
+                initializeAdapter()
             }
         }
-        mAdapter?.mode = SelectableAdapter.Mode.IDLE
     }
-
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         return true
@@ -122,9 +124,8 @@ abstract class CreateCasPageFragment : BaseFragment(),
     }
 
     private fun initializeAdapter(){
-        mAdapter = FlexibleAdapter(null)
-        mAdapter?.addListener(this)
         initializeActionModeHelper(SelectableAdapter.Mode.IDLE)
+        mAdapter?.addListener(this)
     }
 
     private fun initializeActionModeHelper(mode: Int){
@@ -133,5 +134,6 @@ abstract class CreateCasPageFragment : BaseFragment(),
 
     override fun onViewModeChange(viewMode: Int) {
         this.viewMode = viewMode
+        updateUI()
     }
 }

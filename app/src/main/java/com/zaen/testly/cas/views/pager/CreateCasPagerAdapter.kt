@@ -17,6 +17,10 @@ class CreateCasPagerAdapter(val context: Context, fragmentManager: FragmentManag
     private val fragmentTitle = arrayListOf(
             "Cards","Sets","Pools"
     )
+    fun getFragmentSize(): Int{
+        return fragmentList.size
+    }
+
     override fun getItem(position: Int): BaseFragment {
         return fragmentList[position]
     }
