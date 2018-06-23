@@ -264,9 +264,15 @@ dependencies {
     /// To simplify the communication between Fragments.
     implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
 
-    //RadioRealButton https://github.com/ceryle/RadioRealButton
-    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
+    // RadioRealButton https://github.com/ceryle/RadioRealButton
+    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'\
 
+    // SmartTabLayout   https://github.com/ogaclejapan/SmartTabLayout
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    ///Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    ///Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
 }
 
 //configurations.all {

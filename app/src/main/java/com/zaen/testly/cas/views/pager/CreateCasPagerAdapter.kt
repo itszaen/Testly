@@ -8,7 +8,7 @@ import com.zaen.testly.cas.fragments.pages.CreateCasCardPageFragment
 import com.zaen.testly.cas.fragments.pages.CreateCasPoolPageFragment
 import com.zaen.testly.cas.fragments.pages.CreateCasSetPageFragment
 
-class CreateCasPagerAdapter(val context: Context, private val fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager){
+class CreateCasPagerAdapter(val context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager){
     private val fragmentList = arrayListOf(
         CreateCasCardPageFragment.newInstance(),
         CreateCasSetPageFragment.newInstance(),

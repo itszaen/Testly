@@ -115,14 +115,20 @@ class CreateCasFragment : BaseFragment(){
         mSetDataListener?.onData(mCreateCas.setList)
     }
 
+    override fun onStop() {
+        super.onStop()
+//        mCreateCas.stopListenToCard()
+//        mCreateCas.stopListenToSet()
+    }
+
     override fun onResume() {
         super.onResume()
-        if (mCreateCas.registrationCard == null){
-            listenToCard()
-        }
-        if (mCreateCas.registrationSet == null){
-            listenToSet()
-        }
+//        if (mCreateCas.registrationCard == null){
+//            listenToCard()
+//        }
+//        if (mCreateCas.registrationSet == null){
+//            listenToSet()
+//        }
     }
 
 
