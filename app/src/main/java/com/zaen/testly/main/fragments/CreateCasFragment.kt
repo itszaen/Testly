@@ -190,7 +190,6 @@ class CreateCasFragment : BaseFragment(){
     @OnClick(R.id.fab_create_card,R.id.fab_create_set)
     fun onButtonClick(view: View){
         var intent: Intent? = null
-        //updateUI()
         when(view.id){
             R.id.fab_create_card -> intent = Intent(activity, CreateCardActivity::class.java)
             R.id.fab_create_set  -> intent = Intent(activity, CreateSetActivity::class.java)
@@ -198,6 +197,26 @@ class CreateCasFragment : BaseFragment(){
         if (intent != null){
             startActivity(intent)
         }
+    }
+
+    @OnClick(R.id.fab_menu)
+    fun onFabMenuClick(){
+        if (fab_menu.isExpanded){
+            view_overlay.visibility = View.VISIBLE
+            view_overlay.isClickable = true
+            view_overlay.isFocusable = true
+        } else {
+            view_overlay.visibility = View.INVISIBLE
+            view_overlay.isClickable = false
+            view_overlay.isFocusable = false
+        }
+
+    }
+
+    @OnClick(R.id.view_overlay)
+    fun onOverlayClick(){
+        view_overlay.visibility = View.INVISIBLE
+        fab_menu.collapse()
     }
 
     private fun createReceiver(){
