@@ -6,8 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AlphaAnimation
 import butterknife.OnClick
 import butterknife.Optional
+import com.getbase.floatingactionbutton.FloatingActionsMenu
 import com.zaen.testly.App
 import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM_LIFECYCLE_ACTIVITY
 import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM_LIFECYCLE_FRAGMENT
@@ -76,6 +78,10 @@ class CreateCasFragment : BaseFragment(){
         super.onPrepareOptionsMenu(menu)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpOverlay()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
@@ -199,24 +205,40 @@ class CreateCasFragment : BaseFragment(){
         }
     }
 
-    @OnClick(R.id.fab_menu)
-    fun onFabMenuClick(){
-        if (fab_menu.isExpanded){
-            view_overlay.visibility = View.VISIBLE
-            view_overlay.isClickable = true
-            view_overlay.isFocusable = true
-        } else {
-            view_overlay.visibility = View.INVISIBLE
-            view_overlay.isClickable = false
-            view_overlay.isFocusable = false
-        }
+    private fun setUpOverlay(){
+        fab_menu.setOnFloatingActionsMenuUpdateListener(object: FloatingActionsMenu.OnFloatingActionsMenuUpdateListener{
+            override fun onMenuExpanded() {
+                fadeInOverlay()
+                view_overlay.isClickable = true
+                view_overlay.isFocusable = true
+            }
 
+            override fun onMenuCollapsed() {
+                fadeOutOverlay()
+                view_overlay.isClickable = false
+                view_overlay.isFocusable = false
+            }
+        })
     }
 
     @OnClick(R.id.view_overlay)
     fun onOverlayClick(){
-        view_overlay.visibility = View.INVISIBLE
+        fadeOutOverlay()
         fab_menu.collapse()
+    }
+
+    private fun fadeInOverlay(){
+        val fadeIn = AlphaAnimation(0F,1F)
+        fadeIn.duration = 300
+        view_overlay.visibility = View.VISIBLE
+        view_overlay.animation = fadeIn
+    }
+
+    private fun fadeOutOverlay(){
+        val fadeOut = AlphaAnimation(1F,0F)
+        fadeOut.duration = 300
+        view_overlay.visibility = View.INVISIBLE
+        view_overlay.animation = fadeOut
     }
 
     private fun createReceiver(){

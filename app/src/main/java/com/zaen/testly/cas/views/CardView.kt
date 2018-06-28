@@ -12,7 +12,7 @@ import com.zaen.testly.data.SelectionCardData
 import com.zaen.testly.data.SelectionMultipleCardData
 import com.zaen.testly.data.SelectionMultipleOrderedCardData
 
-class CasCardView(val context: Context, var card: CardData){
+class CardView(val context: Context, var card: CardData){
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     fun inflateCardViewLayout(container: FrameLayout){
@@ -43,21 +43,7 @@ class CasCardView(val context: Context, var card: CardData){
         val answers: ArrayList<Int>
         when (card.cardType){
             CardData.CARD_TYPE_SELECTION -> {
-                card = (card as SelectionCardData)
-                questionTextView.text = card.question
-                options = (card as SelectionCardData).options
-                answer = (card as SelectionCardData).answer
-                optionCount = options.size
-                for ((i, v) in (card as SelectionCardData).options.withIndex()) {
-                    val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option, null)
-                    ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-                    val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F)
-                    optionLayout.layoutParams = params
-                    if (i == answer) {
-                        optionLayout.setBackgroundColor(ContextCompat.getColor(context!!, R.color.md_light_blue_100))
-                    }
-                    optionContainer.addView(optionLayout)
-                }
+                inflateSelectionCardView(card as SelectionCardData, questionTextView, optionContainer)
             }
             CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
                 card = (card as SelectionMultipleCardData)
@@ -92,5 +78,35 @@ class CasCardView(val context: Context, var card: CardData){
             CardData.CARD_TYPE_SPELLING -> {
             }
         }
+    }
+
+    private fun inflateSelectionCardView(card: SelectionCardData ,questionTextView: android.support.v7.widget.AppCompatTextView, optionContainer: LinearLayout){
+        // Question
+        questionTextView.text = card.question
+
+        // Options
+        for ((i, v) in card.options.withIndex()) {
+            val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option, null)
+            ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
+            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F)
+            optionLayout.layoutParams = params
+            if (i == card.answer) {
+                optionLayout.setBackgroundColor(ContextCompat.getColor(context!!, R.color.md_light_blue_100))
+            }
+            optionContainer.addView(optionLayout)
+        }
+
+    }
+
+    private fun inflateSelectionMultipleCardView(){
+
+    }
+
+    private fun inflateSelectionMultipleOrderedCardView(){
+
+    }
+
+    private fun inflateSpellingCardView(){
+
     }
 }
