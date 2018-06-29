@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.zaen.testly.R
-import com.zaen.testly.cas.views.CardView
-import com.zaen.testly.data.CardData
-import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.base.fragments.BaseFragment
-import org.parceler.Parcels
+import com.zaen.testly.cas.views.CardSelectionMultipleOrderedView
+import com.zaen.testly.cas.views.CardSelectionMultipleView
+import com.zaen.testly.cas.views.CardSelectionView
+import com.zaen.testly.data.*
 import kotlinx.android.synthetic.main.fragment_page_cas_viewer_card.*
-import kotlinx.android.synthetic.main.view_card_selection.*
+import org.parceler.Parcels
 
 class CasViewerCardPageFragment : BaseFragment(){
     private var card: CardData? = null
@@ -40,13 +40,26 @@ class CasViewerCardPageFragment : BaseFragment(){
         super.onActivityCreated(savedInstanceState)
         if (arguments != null) {
             card = Parcels.unwrap(arguments?.getParcelable<Parcelable>(FirebaseDocument.CARD))
-            val cardView = CardView(activity!!,card!!)
-            cardView.inflateCardViewLayout(view_container_fragment_page_cas_viewer_card)
-            cardView.inflateCardView(
-                    text_card_selection_question,
-                    option_container_card_selection
+            when (card?.cardType){
+                CardData.CARD_TYPE_SELECTION -> {
+                    val cardView = CardSelectionView(activity!!,card as SelectionCardData,view_container_fragment_page_cas_viewer_card)
+                    cardView.inflate()
+                    cardView.showAnswer()
+                }
+                CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
+                    val cardView = CardSelectionMultipleView(activity!!, card as SelectionMultipleCardData, view_container_fragment_page_cas_viewer_card)
+                    cardView.inflate()
+                    cardView.showAnswers()
+                }
+                CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
+                    val cardView = CardSelectionMultipleOrderedView(activity!!, card as SelectionMultipleOrderedCardData, view_container_fragment_page_cas_viewer_card)
+                    cardView.inflate()
+                    cardView.showAnswers()
+                }
+                CardData.CARD_TYPE_SPELLING -> {
+                }
 
-            )
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.zaen.testly.data
 
 import com.google.firebase.firestore.DocumentSnapshot
+import java.util.*
 
 open class CardData(
         override var id : String,
@@ -72,6 +73,8 @@ open class SelectionMultipleCardData(
     : CardData(id, timestamp, title, subject, CARD_TYPE_SELECTION_MULTIPLE, hasAnswerCard, question, answerText) {
     companion object {
         fun getSelectionMultipleCardDataFromDocument(snapshot: DocumentSnapshot) : CardData{
+            val longAnswerList = snapshot.get("answerList") as ArrayList<Long>
+            val answerList = longAnswerList.map { it.toInt() }.toIntArray().toCollection(ArrayList())
             return SelectionMultipleCardData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
@@ -80,7 +83,7 @@ open class SelectionMultipleCardData(
                     snapshot.get("hasAnswerCard") as Boolean,
                     snapshot.get("question") as String,
                     snapshot.get("options") as ArrayList<String>,
-                    snapshot.get("answerList") as ArrayList<Int>,
+                    answerList,
                     snapshot.get("answerText") as String?
             )
         }
@@ -102,6 +105,8 @@ class SelectionMultipleOrderedCardData(
     override var cardType = CARD_TYPE_SELECTION_MULTIPLE_ORDERED
     companion object {
         fun getSelectionMultipleOrderedCardDataFromDocument(snapshot: DocumentSnapshot) : CardData{
+            val longOrderedAnswers = snapshot.get("orderedAnswers") as ArrayList<Long>
+            val orderedAnswers = longOrderedAnswers.map { it.toInt() }.toIntArray().toCollection(ArrayList())
             return SelectionMultipleOrderedCardData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
@@ -110,7 +115,7 @@ class SelectionMultipleOrderedCardData(
                     snapshot.get("hasAnswerCard") as Boolean,
                     snapshot.get("question") as String,
                     snapshot.get("options") as ArrayList<String>,
-                    snapshot.get("orderedAnswers") as ArrayList<Int>,
+                    orderedAnswers,
                     snapshot.get("answerText") as String?
             )
         }
@@ -132,6 +137,10 @@ class SpellingCardData(
     : CardData(id, timestamp, title, subject, CARD_TYPE_SPELLING, hasAnswerCard, question, answerText) {
     companion object {
         fun getSpellingCardData(snapshot: DocumentSnapshot) : CardData{
+            val longMask = snapshot.get("mask") as ArrayList<Long>
+            val mask = longMask.map { it.toInt() }.toIntArray().toCollection(ArrayList())
+            val longAnswerMasks = snapshot.get("answerMasks") as ArrayList<Long>
+            val answerMasks = longAnswerMasks.map { it.toInt() }.toIntArray().toCollection(ArrayList())
             return SpellingCardData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
@@ -139,8 +148,8 @@ class SpellingCardData(
                     snapshot.get("subject") as String,
                     snapshot.get("hasAnswerCard") as Boolean,
                     snapshot.get("question") as String,
-                    snapshot.get("mask") as ArrayList<Int>,
-                    snapshot.get("answerMasks") as ArrayList<Int>,
+                    mask,
+                    answerMasks,
                     snapshot.get("answerText") as String?
             )
         }
