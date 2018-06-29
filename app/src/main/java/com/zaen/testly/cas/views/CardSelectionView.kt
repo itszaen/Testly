@@ -1,19 +1,20 @@
 package com.zaen.testly.cas.views
 
+import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.zaen.testly.R
-import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.data.SelectionCardData
 
-class CardSelectionView(context: BaseActivity, val card: SelectionCardData, private val container: FrameLayout) : CardView(context) {
+class CardSelectionView(context: Context, val card: SelectionCardData, private val container: FrameLayout) : CardView(context) {
+    private val view= inflater.inflate(R.layout.view_card_selection,container)
     private val questionTextView: android.support.v7.widget.AppCompatTextView
     private val optionContainer: LinearLayout
     init {
-        container.addView(inflater.inflate(R.layout.view_card_selection,null))
-        questionTextView = context.findViewById(R.id.text_card_selection_question)
-        optionContainer = context.findViewById(R.id.option_container_card_selection)
+//        container.addView(view)
+        questionTextView = view.findViewById(R.id.text_card_selection_question)
+        optionContainer = view.findViewById(R.id.option_container_card_selection)
     }
     fun inflate(){
         // Question

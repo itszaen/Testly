@@ -38,9 +38,7 @@ class CasViewerActivity: BaseActivity(),
 
     override fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>) {
         if (supportFragmentManager == null){ return }
-
         pagerAdapter!!.clearFragments()
-
         when (intent.extras[ARG_DOCUMENT_TYPE]){
             FirebaseDocument.CARD -> {
                 for ((i,card) in cardList.withIndex()){

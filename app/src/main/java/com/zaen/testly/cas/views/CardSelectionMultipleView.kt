@@ -8,12 +8,13 @@ import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.data.SelectionMultipleCardData
 
 class CardSelectionMultipleView(context: BaseActivity, val card: SelectionMultipleCardData, private val container: FrameLayout) : CardView(context) {
+    private val view = inflater.inflate(R.layout.view_card_selection, container)
     private val questionTextView: android.support.v7.widget.AppCompatTextView
     private val optionContainer: LinearLayout
     init {
-        container.addView(inflater.inflate(R.layout.view_card_selection,null))
-        questionTextView = context.findViewById(R.id.text_card_selection_question)
-        optionContainer  = context.findViewById(R.id.option_container_card_selection)
+//        container.addView(view)
+        questionTextView = view.findViewById(R.id.text_card_selection_question)
+        optionContainer  = view.findViewById(R.id.option_container_card_selection)
     }
     fun inflate(){
         // Question

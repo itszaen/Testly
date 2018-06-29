@@ -25,4 +25,10 @@ class ScreenPropUtils(val context: Context){
         }
         return 0F
     }
+    fun getOrientation() : Int{
+        return context.resources.configuration.orientation
+        // ORIENTATION_UNDEFINED = 0
+        // ORIENTATION_PORTRAIT = 1
+        // ORIENTATION_LANDSCAPE = 2
+    }
 }
