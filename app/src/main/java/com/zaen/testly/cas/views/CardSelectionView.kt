@@ -12,7 +12,6 @@ class CardSelectionView(context: Context, val card: SelectionCardData, private v
     private val questionTextView: android.support.v7.widget.AppCompatTextView
     private val optionContainer: LinearLayout
     init {
-//        container.addView(view)
         questionTextView = view.findViewById(R.id.text_card_selection_question)
         optionContainer = view.findViewById(R.id.option_container_card_selection)
     }
@@ -21,12 +20,13 @@ class CardSelectionView(context: Context, val card: SelectionCardData, private v
         questionTextView.text = card.question
 
         // Options
-        for ((i, v) in card.options.withIndex()) {
-            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, null) as android.support.constraint.ConstraintLayout
-            (optionItemLayout.getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F)
+        for ((index, option) in card.options.withIndex()) {
+            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, optionContainer)
+                    //as android.support.v7.widget.CardView
+            optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option).text = option
+            val optionHeight = 32
+            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, optionHeight, 1F)
             optionItemLayout.layoutParams = params
-            optionContainer.addView(optionItemLayout)
         }
     }
 
