@@ -14,8 +14,12 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.zaen.testly.R
+import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.base.fragments.BaseFragment
+import com.zaen.testly.cas.views.CardSelectionMultipleOrderedView
+import com.zaen.testly.cas.views.CardSelectionMultipleView
+import com.zaen.testly.cas.views.CardSelectionView
 import com.zaen.testly.data.*
 import com.zaen.testly.data.FirebaseDocument.Companion.CARD
 import kotlinx.android.synthetic.main.fragment_create_card_preview.*
@@ -23,9 +27,6 @@ import kotlinx.android.synthetic.main.view_card_selection.*
 import org.parceler.Parcels
 
 class PreviewCardFragment : BaseFragment() {
-    companion object {
-    }
-
     interface SubmitCardSuccess{
         fun onSubmitSuccessful()
     }
@@ -53,94 +54,29 @@ class PreviewCardFragment : BaseFragment() {
         layoutRes = R.layout.fragment_create_card_preview
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        var view: View? = null
-        if (card != null){
-            when (card){
-                is SelectionCardData -> {
-                    view = layoutInflater.inflate(R.layout.view_card_selection,null)
-                }
-                is SelectionMultipleCardData -> {
-                    view = layoutInflater.inflate(R.layout.view_card_selection,null)
-                }
-                is SelectionMultipleOrderedCardData -> {
-                    view = layoutInflater.inflate(R.layout.view_card_selection,null)
-                }
-                is SpellingCardData -> {
-                    view = layoutInflater.inflate(R.layout.view_card_spelling,null)
-                }
-            }
-            if (view != null){
-                view_container_create_card_preview.addView(view)
-            }
-        }
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null){
             return
         }
-        if (card != null){
+        when (card){
+            is SelectionCardData -> {
+                val view = CardSelectionView(activity!!,card as SelectionCardData, view_container_create_card_preview)
+                view.inflate()
+                view.showAnswer()
+            }
+            is SelectionMultipleCardData -> {
+                val view = CardSelectionMultipleView(activity!!, card as SelectionMultipleCardData, view_container_create_card_preview)
+                view.inflate()
+                view.showAnswer()
+            }
+            is SelectionMultipleOrderedCardData -> {
+                val view = CardSelectionMultipleOrderedView(activity!!, card as SelectionMultipleOrderedCardData, view_container_create_card_preview)
+                view.inflate()
+                view.showAnswer()
+            }
+            is SpellingCardData -> {
 
-            var optionCount: Int? = null
-            var options: ArrayList<String>?
-            var answer: Int?
-            var answers: ArrayList<Int>
-
-            when (card){
-                is SelectionCardData -> {
-                    card = (card as SelectionCardData)
-                    text_card_selection_question.text = (card as SelectionCardData).question
-                    options = (card as SelectionCardData).options
-                    answer = (card as SelectionCardData).answer
-                    optionCount = options.size
-                    for ((i,v) in (card as SelectionCardData).options.withIndex()){
-                        val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-                        ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-                        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
-                        optionLayout.layoutParams = params
-                        if (i == answer){
-                            optionLayout.setBackgroundColor(ContextCompat.getColor(context!!,R.color.md_light_blue_100))
-                        }
-                        option_container_card_selection.addView(optionLayout)
-                    }
-                }
-                is SelectionMultipleCardData -> {
-                    card = (card as SelectionMultipleCardData)
-                    text_card_selection_question.text = (card as SelectionMultipleCardData).question
-                    options = (card as SelectionMultipleCardData).options
-                    optionCount = options.size
-                    answers = (card as SelectionMultipleCardData).answerList
-                    for ((i,v) in (card as SelectionMultipleCardData).options.withIndex()){
-                        val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-                        ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-                        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
-                        optionLayout.layoutParams = params
-                        if (answers.contains(i)){
-                            optionLayout.setBackgroundColor(ContextCompat.getColor(context!!,R.color.md_light_blue_100))
-                        }
-                        option_container_card_selection.addView(optionLayout)
-                    }
-                }
-                is SelectionMultipleOrderedCardData -> {
-                    card = (card as SelectionMultipleOrderedCardData)
-                    text_card_selection_question.text = (card as SelectionMultipleOrderedCardData).question
-                    options = (card as SelectionMultipleOrderedCardData).options
-                    optionCount = options.size
-                    for ((i,v) in (card as SelectionMultipleOrderedCardData).options.withIndex()){
-                        val optionLayout = layoutInflater.inflate(R.layout.item_layout_linear_card_selection_option,null)
-                        ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-                        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,0,1F)
-                        optionLayout.layoutParams = params
-                        option_container_card_selection.addView(optionLayout)
-                    }
-                }
-                is SpellingCardData -> {
-
-                }
             }
         }
     }

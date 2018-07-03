@@ -1,23 +1,13 @@
 package com.zaen.testly.cas.views
 
+import android.content.Context
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.zaen.testly.R
-import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.data.SelectionMultipleOrderedCardData
 
-class CardSelectionMultipleOrderedView(context: BaseActivity, val card: SelectionMultipleOrderedCardData, val container: FrameLayout) : CardView(context) {
-    private val view = inflater.inflate(R.layout.view_card_selection, container)
-    private val questionTextView: android.support.v7.widget.AppCompatTextView
-    private val optionContainer: LinearLayout
-
-    init {
-//        container.addView(view)
-        questionTextView = view.findViewById(R.id.text_card_selection_question)
-        optionContainer = view.findViewById(R.id.option_container_card_selection)
-    }
-    fun inflate(){
-
+class CardSelectionMultipleOrderedView(context: Context, override val card: SelectionMultipleOrderedCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
+    override fun inflate(){
         // Question
         questionTextView.text = card.question
 
@@ -31,7 +21,7 @@ class CardSelectionMultipleOrderedView(context: BaseActivity, val card: Selectio
         }
     }
 
-    fun showAnswers(){
+    override fun showAnswer(){
 
     }
 }
