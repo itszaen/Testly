@@ -8,13 +8,13 @@ import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.data.SelectionMultipleCardData
 
 class CardSelectionMultipleView(context: BaseActivity, val card: SelectionMultipleCardData, private val container: FrameLayout) : CardView(context) {
-    private val view = inflater.inflate(R.layout.view_card_selection, container)
+    private val cardSelectionMultipleView = inflater.inflate(R.layout.view_card_selection, container, false) as android.support.v7.widget.CardView
     private val questionTextView: android.support.v7.widget.AppCompatTextView
     private val optionContainer: LinearLayout
     init {
-//        container.addView(view)
-        questionTextView = view.findViewById(R.id.text_card_selection_question)
-        optionContainer  = view.findViewById(R.id.option_container_card_selection)
+        container.addView(cardSelectionMultipleView)
+        questionTextView = cardSelectionMultipleView.findViewById(R.id.text_card_selection_question)
+        optionContainer  = cardSelectionMultipleView.findViewById(R.id.option_container_card_selection)
     }
     fun inflate(){
         // Question
@@ -22,12 +22,9 @@ class CardSelectionMultipleView(context: BaseActivity, val card: SelectionMultip
 
         // Option
         for ((index, option) in card.options.withIndex()) {
-            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, optionContainer)
-                    //as android.support.v7.widget.CardView
+            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, optionContainer, false)
+                    as android.support.v7.widget.CardView
             optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option).text = option
-            val optionHeight = 32
-            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, optionHeight)
-            optionItemLayout.layoutParams = params
         }
     }
     fun showAnswers(){
