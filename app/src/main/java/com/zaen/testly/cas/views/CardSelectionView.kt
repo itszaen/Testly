@@ -1,12 +1,17 @@
 package com.zaen.testly.cas.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.FrameLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionCardData
 
-class CardSelectionView(context: Context, override var card: SelectionCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
+class CardSelectionView(context: Context, override var card: SelectionCardData, container: FrameLayout,
+                        private val listener: OptionClickListener) : CardSelectionBaseView(context, card, container) {
+    interface OptionClickListener{
+        fun onRightOptionClick(view: View)
+        fun onWrongOptionClick(view: View)
+    }
     override fun inflate(){
         // Question
         questionTextView.text = card.question
@@ -17,10 +22,20 @@ class CardSelectionView(context: Context, override var card: SelectionCardData, 
                     as android.support.v7.widget.CardView
             optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option).text = option
             optionContainer.addView(optionItemLayout)
+            optionItemLayout.setOnClickListener{
+                if (isRightOption(index)){ listener.onRightOptionClick(it) } else { listener.onWrongOptionClick(it) }
+            }
         }
     }
 
-    override fun showAnswer(){
-        optionContainer.getChildAt(card.answer).setBackgroundColor(ContextCompat.getColor(context, R.color.md_light_blue_100))
+    private fun isRightOption(index: Int):Boolean{
+        return index == card.answer
     }
+
+    override fun showAnswer(){
+        optionContainer.getChildAt(card.answer).setBackgroundResource(R.color.md_light_blue_100)
+    }
+
+
+
 }

@@ -1,7 +1,6 @@
 package com.zaen.testly.cas.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionMultipleCardData
@@ -21,7 +20,7 @@ class CardSelectionMultipleView(context: Context, override val card: SelectionMu
     }
     override fun showAnswer(){
         for (answer in card.answerList){
-            optionContainer.getChildAt(answer).setBackgroundColor(ContextCompat.getColor(context, R.color.md_light_blue_100))
+            optionContainer.getChildAt(answer).setBackgroundResource(R.color.md_light_blue_100)
 
         }
     }

@@ -42,19 +42,24 @@ class CasViewerCardPageFragment : BaseFragment(){
             card = Parcels.unwrap(arguments?.getParcelable<Parcelable>(FirebaseDocument.CARD))
             when (card?.cardType){
                 CardData.CARD_TYPE_SELECTION -> {
-                    val cardView = CardSelectionView(activity!!,card as SelectionCardData,view_container_fragment_page_cas_viewer_card)
+                    val cardView = CardSelectionView(activity!!, card as SelectionCardData,view_container_fragment_page_cas_viewer_card,
+                            object: CardSelectionView.OptionClickListener{
+                                override fun onRightOptionClick(view: View) {}
+                                override fun onWrongOptionClick(view: View) {}
+                            })
+                    fun onClick(){cardView.showAnswer()}
                     cardView.inflate()
-                    //cardView.showAnswer()
+
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
                     val cardView = CardSelectionMultipleView(activity!!, card as SelectionMultipleCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    //cardView.showAnswers()
+                    cardView.showAnswer()
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
                     val cardView = CardSelectionMultipleOrderedView(activity!!, card as SelectionMultipleOrderedCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    //cardView.showAnswers()
+                    cardView.showAnswer()
                 }
                 CardData.CARD_TYPE_SPELLING -> {
                 }
