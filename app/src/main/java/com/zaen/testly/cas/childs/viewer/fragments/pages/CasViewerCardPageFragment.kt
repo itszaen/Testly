@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.zaen.testly.R
 import com.zaen.testly.base.fragments.BaseFragment
+import com.zaen.testly.cas.views.CardSelectionBaseView
 import com.zaen.testly.cas.views.CardSelectionMultipleOrderedView
 import com.zaen.testly.cas.views.CardSelectionMultipleView
 import com.zaen.testly.cas.views.CardSelectionView
@@ -42,13 +43,17 @@ class CasViewerCardPageFragment : BaseFragment(){
             card = Parcels.unwrap(arguments?.getParcelable<Parcelable>(FirebaseDocument.CARD))
             when (card?.cardType){
                 CardData.CARD_TYPE_SELECTION -> {
-                    val cardView = CardSelectionView(activity!!, card as SelectionCardData,view_container_fragment_page_cas_viewer_card,
-                            object: CardSelectionView.OptionClickListener{
-                                override fun onRightOptionClick(view: View) {}
-                                override fun onWrongOptionClick(view: View) {}
-                            })
-                    fun onClick(){cardView.showAnswer()}
+                    val cardView = CardSelectionView(activity!!, card as SelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
+                    cardView.setUpOptions(object: CardSelectionBaseView.OptionClickListener{
+                        override fun onRightOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+
+                        override fun onWrongOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+                    })
 
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
