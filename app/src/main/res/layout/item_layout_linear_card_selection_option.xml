@@ -7,8 +7,8 @@
     android:minHeight="64dp"
     android:paddingTop="12dp"
     android:paddingBottom="12dp"
-    android:paddingStart="36dp"
-    android:paddingEnd="36dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:layout_marginStart="16dp"
@@ -18,7 +18,9 @@
     fancy:fb_textGravity="start"
     fancy:fb_borderWidth="2dp"
     fancy:fb_borderColor="@color/md_black_1000"
-    fancy:fb_radius="32dp"
+    fancy:fb_radius="16dp"
+
+    fancy:fb_iconPosition="right"
     fancy:fb_defaultColor="@color/accent_white"
     fancy:fb_focusColor="@color/accent_black"
     />

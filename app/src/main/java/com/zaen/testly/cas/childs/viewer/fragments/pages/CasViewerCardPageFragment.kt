@@ -59,12 +59,26 @@ class CasViewerCardPageFragment : BaseFragment(){
                 CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
                     val cardView = CardSelectionMultipleView(activity!!, card as SelectionMultipleCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    cardView.showAnswer()
+                    cardView.setUpOptions(object: CardSelectionBaseView.OptionClickListener{
+                        override fun onRightOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+                        override fun onWrongOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+                    })
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
                     val cardView = CardSelectionMultipleOrderedView(activity!!, card as SelectionMultipleOrderedCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    cardView.showAnswer()
+                    cardView.setUpOptions(object: CardSelectionBaseView.OptionClickListener{
+                        override fun onRightOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+                        override fun onWrongOptionClick(view: View) {
+                            cardView.showAnswer()
+                        }
+                    })
                 }
                 CardData.CARD_TYPE_SPELLING -> {
                 }

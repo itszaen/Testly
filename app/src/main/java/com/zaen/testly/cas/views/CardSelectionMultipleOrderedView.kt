@@ -1,27 +1,47 @@
 package com.zaen.testly.cas.views
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionMultipleOrderedCardData
 
 class CardSelectionMultipleOrderedView(context: Context, override val card: SelectionMultipleOrderedCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
-    override fun inflate(){
-        // Question
-        questionTextView.text = card.question
+    fun inflate(){
+        inflate(card.options)
+    }
 
-        // Options
-        for ((i, v) in card.options.withIndex()) {
-            val optionLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, null)
-            ((optionLayout as android.support.constraint.ConstraintLayout).getChildAt(0) as android.support.v7.widget.AppCompatTextView).text = v
-            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1F)
-            optionLayout.layoutParams = params
-            optionContainer.addView(optionLayout)
+    fun setUpOptions(listener: OptionClickListener){
+        var answeringCount = 0
+        val selectedList = arrayListOf<Int>()
+        for ((index,optionItemLayout) in optionItemList.withIndex()){
+            optionItemLayout.setOnClickListener{
+                if (card.answerList[answeringCount] == index){
+                    optionItemLayout.setOnClickListener(null)
+                    // effect
+                    optionItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.accent_blue))
+
+                    answeringCount += 1
+                    // if over
+                    if (card.answerList.size == answeringCount){
+                        disableOption()
+                        listener.onRightOptionClick(it)
+                    }
+
+                } else {
+                    disableOption()
+                    listener.onWrongOptionClick(it)
+                }
+            }
         }
     }
 
+    override fun setUpPreview() {
+        showAnswer()
+    }
+
     override fun showAnswer(){
+
 
     }
 }
