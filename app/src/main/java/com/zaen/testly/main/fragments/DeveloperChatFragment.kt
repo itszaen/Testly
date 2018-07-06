@@ -2,19 +2,17 @@ package com.zaen.testly.main.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.OnTextChanged
-import butterknife.Optional
-import com.zaen.testly.devchat.DeveloperChat
 import com.zaen.testly.R
 import com.zaen.testly.TestlyUser
-import com.zaen.testly.data.UserData
 import com.zaen.testly.base.fragments.BaseFragment
+import com.zaen.testly.data.UserData
+import com.zaen.testly.devchat.DeveloperChat
 import com.zaen.testly.views.recyclers.DeveloperChatAdapter
 import kotlinx.android.synthetic.main.fragment_dev_chat.*
 
@@ -56,6 +54,7 @@ class DeveloperChatFragment : BaseFragment(){
         if (savedInstanceState != null){
 
         }
+        initializeViews()
 
     }
 
@@ -64,36 +63,37 @@ class DeveloperChatFragment : BaseFragment(){
 //        outState.put
     }
 
-    @Optional
-    @OnTextChanged(R.id.edit_chatbox)
-    fun onTextChanged(text: CharSequence?){
-        checkTextField(text.toString())
+    private fun initializeViews(){
+        edit_chatbox.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) { checkTextField(s.toString()) }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { checkTextField(s.toString()) }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { checkTextField(s.toString()) }
+        })
+
+
+
+        button_chatbox_send.setOnClickListener{
+            // Upload Message
+            val messageText = edit_chatbox.text.toString()
+            TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener{
+                override fun onUserinfoUpdate(userinfo: UserData?) {
+                    if (userinfo != null){
+                        mDevChat.uploadMessage(messageText, userinfo)
+                    }
+                }
+            })
+            // Clear EditText
+            edit_chatbox.text.clear()
+        }
     }
 
     fun checkTextField(text: String?){
         if (text != null && text.toString() != ""){
             button_chatbox_send.isEnabled = true
-            ButterKnife.bind(this,button_chatbox_send)
+            initializeViews()
         } else {
             button_chatbox_send.setOnClickListener(null)
             button_chatbox_send.isEnabled = false
         }
-    }
-
-    @Optional
-    @OnClick(R.id.button_chatbox_send)
-    fun onSendMessage(view: View){
-        // Upload Message
-        val messageText = edit_chatbox.text.toString()
-        TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener{
-            override fun onUserinfoUpdate(userinfo: UserData?) {
-                if (userinfo != null){
-                    mDevChat.uploadMessage(messageText, userinfo)
-                }
-            }
-        })
-
-        // Clear EditText
-        edit_chatbox.text.clear()
     }
 }

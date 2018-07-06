@@ -10,15 +10,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.Optional
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.TestlyUser
 import com.zaen.testly.base.fragments.BaseFragment
@@ -100,6 +96,9 @@ class CreateCardFragment : BaseFragment(){
         if (savedInstanceState != null){
             return
         }
+
+        initializeViews()
+
         TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
             override fun onUserinfoUpdate(userinfo: UserData?) {
                 if (userinfo != null) {
@@ -130,6 +129,20 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
+    private fun initializeViews(){
+        radio_btn_selection.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
+        radio_btn_selection_multiple.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
+        radio_btn_selection_multiple_ordered.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
+        radio_btn_spelling.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
+
+        // Option Buttons
+        /// Add option
+        btn_add_option.setOnClickListener { onAddOption(it) }
+
+        // Answer Card Radio Buttons
+        radio_btn_answer_card_false.setOnCheckedChangeListener { buttonView, _ -> onAnswerCardRadioButtonClicked(buttonView) }
+        radio_btn_answer_card_true.setOnCheckedChangeListener { buttonView, _ -> onAnswerCardRadioButtonClicked(buttonView) }
+    }
 
     private fun updateUI(){
         create_card_options.visibility = View.GONE
@@ -230,7 +243,7 @@ class CreateCardFragment : BaseFragment(){
             btn_add_option.isEnabled = false
         } else {
             btn_add_option.isEnabled = true
-            ButterKnife.bind(this, btn_add_option)
+            updateUI()
         }
         // Option Counter
         count_create_card_options_num.text = optionNum.toString()
@@ -277,17 +290,14 @@ class CreateCardFragment : BaseFragment(){
         }
     }
 
-    // Card Type Radio Buttons
-    @Optional
-    @OnClick(
-            R.id.radio_btn_selection,
-            R.id.radio_btn_selection_multiple,
-            R.id.radio_btn_selection_multiple_ordered,
-            R.id.radio_btn_spelling
-            )
-    fun onCardTypeRadioButtonClicked(radioButton: RadioButton){
+    private fun onAddOption(view: View){
+        // add layout
+        addingOption = true
+        updateUI()
+    }
+
+    fun onCardTypeRadioButtonClicked(radioButton: CompoundButton){
         radio_group_create_card_type.clearCheck()
-        val isChecked = radioButton.isChecked
         when (radioButton.id){
             R.id.radio_btn_selection -> {
                 cardType = CARD_TYPE_SELECTION
@@ -305,19 +315,6 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    // Option Buttons
-    /// Add option
-    @Optional
-    @OnClick(R.id.btn_add_option)
-    fun onAddOption(view: View){
-        // add layout
-        addingOption = true
-        updateUI()
-    }
-
-    /// Remove Option
-//    @Optional
-//    @OnClick(R.id.btn_remove_option)
     fun onRemoveOption(index: Int){
         removingOption = true
         removingIndex = index
@@ -344,10 +341,7 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    // Answer Card Radio Buttons
-    @Optional
-    @OnClick(R.id.radio_btn_answer_card_false,R.id.radio_btn_answer_card_true)
-    fun onAnswerCardRadioButtonClicked(radioButton: RadioButton){
+    fun onAnswerCardRadioButtonClicked(radioButton: CompoundButton){
         radio_group_create_card_answer_card.clearCheck()
         val isChecked = radioButton.isChecked
         when (radioButton.id){

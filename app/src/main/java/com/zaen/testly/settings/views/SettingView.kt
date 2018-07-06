@@ -6,10 +6,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
+import kotterknife.bindView
 
 class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private val iconString: String?
@@ -17,12 +16,10 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val titleRes: Int
     @StringRes
     private val captionRes: Int
-    @BindView(R.id.icon)
-    lateinit var icon: IconicsImageView
-    @BindView(R.id.title)
-    lateinit var title: TextView
-    @BindView(R.id.caption)
-    lateinit var caption: TextView
+
+    val iconView: IconicsImageView by bindView(R.id.icon)
+    val title: TextView by bindView(R.id.title)
+    val caption: TextView by bindView(R.id.caption)
 
     init {
         val inflater = LayoutInflater.from(getContext())
@@ -36,9 +33,7 @@ class SettingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     override fun onFinishInflate() {
-        ButterKnife.bind(this)
-
-        icon.icon = icon.icon.icon(iconString)
+        iconView.icon = iconView.icon.icon(iconString)
         title.setText(titleRes)
         caption.setText(captionRes)
 

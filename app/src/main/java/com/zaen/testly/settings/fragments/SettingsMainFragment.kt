@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
-import butterknife.OnClick
-import butterknife.Optional
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -54,6 +52,8 @@ class SettingsMainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initializeViews()
+
         pref_account.setCaptionText(resources.getString(R.string.pref_account_caption, FirebaseAuth.getInstance().currentUser!!.email))
 
         // Hide child
@@ -82,27 +82,22 @@ class SettingsMainFragment : BaseFragment() {
         super.onDestroyView()
     }
 
-    // Button Clicked
-    @OnClick (R.id.pref_account)
-    fun onAccountSettingClicked(view:View){
-        mListener?.onFragmentCalled(AccountSettingsMainFragment(),"Account Settings")
-    }
+    private fun initializeViews(){
+        pref_account.setOnClickListener {
+            mListener?.onFragmentCalled(AccountSettingsMainFragment(),"Account Settings")
+        }
 
-    @OnClick(R.id.pref_welcome)
-    fun onWelcomeClicked(view:View){
-        WelcomeHelper(activity, Intro2Activity::class.java).forceShow()
-    }
+        pref_welcome.setOnClickListener {
+            WelcomeHelper(activity, Intro2Activity::class.java).forceShow()
+        }
 
-    @Optional
-    @OnClick(R.id.pref_provider)
-    fun onProviderSettingClicked(view:View){
-        mListener?.onFragmentCalled(ProviderSettingsMainFragment(),"Provider Settings")
-    }
+        pref_provider.setOnClickListener {
+            mListener?.onFragmentCalled(ProviderSettingsMainFragment(),"Provider Settings")
+        }
 
-    @Optional
-    @OnClick(R.id.pref_developer)
-    fun onDeveloperSettingClicked(view:View){
-        mListener?.onFragmentCalled(DeveloperSettingsMainFragment(),"Developer Settings")
+        pref_developer.setOnClickListener {
+            mListener?.onFragmentCalled(DeveloperSettingsMainFragment(),"Developer Settings")
+        }
     }
 
     private fun onUserinfoUpdate(snapshot: DocumentSnapshot?){

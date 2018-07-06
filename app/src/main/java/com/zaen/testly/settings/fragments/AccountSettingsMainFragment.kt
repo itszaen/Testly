@@ -10,19 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
-import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zaen.testly.R
 import com.zaen.testly.TestlyUser
-import com.zaen.testly.settings.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
-import com.zaen.testly.auth.activities.AuthActivity
 import com.zaen.testly.auth.TestlyFirebaseAuth
+import com.zaen.testly.auth.activities.AuthActivity
 import com.zaen.testly.base.fragments.BaseFragment
+import com.zaen.testly.settings.activities.SettingsActivity.Companion.isReauthenticatedDeleteUser
+import com.zaen.testly.utils.InformUtils
 import com.zaen.testly.utils.LogUtils.Companion.TAG
-import de.mateware.snacky.Snacky
+import kotlinx.android.synthetic.main.fragment_settings_account_main.*
 
 
 /**
@@ -47,6 +47,11 @@ class AccountSettingsMainFragment : BaseFragment(){
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initializeViews()
+    }
+
     override fun onDetach() {
         super.onDetach()
         mListener = null
@@ -61,109 +66,92 @@ class AccountSettingsMainFragment : BaseFragment(){
     }
 
     // XML
-    @OnClick(R.id.pref_account_update_email)
-    fun onUpdateEmail(view:View){
-        MaterialDialog.Builder(activity!!)
-                .title("Change email address")
-                .positiveText(R.string.react_change)
-                .negativeText(R.string.react_refuse)
-                .onNegative { dialog, which -> dialog.dismiss()}
-                .inputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                .input("abc_xyz@gmail.com","",false,
-                        { dialog, input -> FirebaseAuth.getInstance().currentUser!!.updateEmail(input.toString())
+    private fun initializeViews(){
+        pref_account_update_email.setOnClickListener {
+            MaterialDialog.Builder(activity!!)
+                    .title("Change email address")
+                    .positiveText(R.string.react_change)
+                    .negativeText(R.string.react_refuse)
+                    .onNegative { dialog, which -> dialog.dismiss()}
+                    .inputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+                    .input("abc_xyz@gmail.com","",false,
+                            { dialog, input -> FirebaseAuth.getInstance().currentUser!!.updateEmail(input.toString())
+                                    .addOnCompleteListener{
+                                        if(it.isSuccessful){
+                                            Log.d(TAG(this),"User email updated: $input")
+                                        }
+                                    }
+                            })
+                    .show()
+        }
+
+        pref_account_update_password.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            val email = auth.currentUser!!.email!!
+            MaterialDialog.Builder(activity!!)
+                    .title("Reset password")
+                    .content("An email with instructions to reset your password will be sent to $email.")
+                    .positiveText(R.string.react_positive)
+                    .negativeText(R.string.react_refuse)
+                    .onPositive{dialog,which->
+                        auth.sendPasswordResetEmail(email)
                                 .addOnCompleteListener{
                                     if(it.isSuccessful){
-                                        Log.d(TAG(this),"User email updated: $input")
+                                        Log.d(TAG(this), "Password Reset Email sent to $email")
                                     }
                                 }
-                        })
-                .show()
-    }
+                    }
+                    .onNegative{dialog,which->dialog.dismiss()}
+                    .show()
+        }
 
-    @OnClick(R.id.pref_account_update_password)
-    fun onUpdatePassword(view:View){
-        val auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser!!.email!!
-        MaterialDialog.Builder(activity!!)
-                .title("Reset password")
-                .content("An email with instructions to reset your password will be sent to $email.")
-                .positiveText(R.string.react_positive)
-                .negativeText(R.string.react_refuse)
-                .onPositive{dialog,which->
-                     auth.sendPasswordResetEmail(email)
-                             .addOnCompleteListener{
-                                 if(it.isSuccessful){
-                                  Log.d(TAG(this), "Password Reset Email sent to $email")
-                                 }
-                             }
-                }
-                .onNegative{dialog,which->dialog.dismiss()}
-                .show()
-    }
-
-    @OnClick(R.id.pref_account_logout)
-    fun onLogout(view:View){
-        MaterialDialog.Builder(activity!!)
-                .title("Log Out")
-                .content("You will be logged out from Testly. \n\n※You will not be able to use Testly until you sign in again.")
-                .positiveText(R.string.react_logout)
-                .negativeText(R.string.react_refuse)
-                .onPositive{dialog,which->
-                    FirebaseAuth.getInstance().signOut()
-                    FirebaseAuth.getInstance().addAuthStateListener {
-                        if (it.currentUser == null){
-                            val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
-                                    activity?.baseContext?.packageName
-                            )
-                            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            activity?.finish()
-                            startActivity(intent)
+        pref_account_logout.setOnClickListener {
+            MaterialDialog.Builder(activity!!)
+                    .title("Log Out")
+                    .content("You will be logged out from Testly. \n\n※You will not be able to use Testly until you sign in again.")
+                    .positiveText(R.string.react_logout)
+                    .negativeText(R.string.react_refuse)
+                    .onPositive{dialog,which->
+                        FirebaseAuth.getInstance().signOut()
+                        FirebaseAuth.getInstance().addAuthStateListener {
+                            if (it.currentUser == null){
+                                val intent =  activity?.baseContext?.packageManager?.getLaunchIntentForPackage(
+                                        activity?.baseContext?.packageName
+                                )
+                                intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                activity?.finish()
+                                startActivity(intent)
+                            }
                         }
                     }
-                }
-                .onNegative{dialog,which->dialog.dismiss()}
-                .show()
+                    .onNegative{dialog,which->dialog.dismiss()}
+                    .show()
+
+        }
+
+        pref_account_delete.setOnClickListener {
+            MaterialDialog.Builder(activity!!)
+                    .title("Delete Account")
+                    .content("Warning: This action cannot be undone!")
+                    .positiveText(R.string.react_delete)
+                    .negativeText(R.string.react_refuse)
+                    .onPositive{dialog,which->
+                        val user = TestlyUser(this).currentUser!!
+                        if (!isReauthenticatedDeleteUser){
+                            dialog.dismiss()
+                            reAuthenticateUser()
+                        } else {
+                            // Delete User info
+                            deleteUserInfo(user)
+                            // Delete user
+                            deleteUser(user,dialog)
+                        }
+                    }
+                    .onNegative{dialog,which->dialog.dismiss()}
+                    .show()
+        }
     }
 
-    @OnClick(R.id.pref_account_delete)
-    fun onDelete(view:View){
-        MaterialDialog.Builder(activity!!)
-                .title("Delete Account")
-                .content("Warning: This action cannot be undone!")
-                .positiveText(R.string.react_delete)
-                .negativeText(R.string.react_refuse)
-                .onPositive{dialog,which->
-                    val user = TestlyUser(this).currentUser!!
-                    if (!isReauthenticatedDeleteUser){
-                        dialog.dismiss()
-                        reAuthenticateUser()
-                    } else {
-                        // Delete User info
-                        deleteUserInfo(user)
-                        // Delete user
-                        deleteUser(user,dialog)
-                    }
-                }
-                .onNegative{dialog,which->dialog.dismiss()}
-                .show()
-    }
-    private fun onExceptionSnacky(e: Exception){
-        Snacky.builder()
-                .setActivity(activity)
-                .setText("An error has occurred.\nClick open to see exception.")
-                .setDuration(Snacky.LENGTH_LONG)
-                .setActionText("OPEN")
-                .setActionClickListener {
-                    MaterialDialog.Builder(activity!!)
-                            .title("Exception")
-                            .content(e.toString())
-                            .positiveText(R.string.react_positive)
-                            .show()
-                }
-                .setDuration(Snacky.LENGTH_LONG)
-                .error()
-                .show()
-    }
     private fun reAuthenticateUser(){
         MaterialDialog.Builder(activity!!)
                 .title("Re-authenticate")
@@ -205,7 +193,7 @@ class AccountSettingsMainFragment : BaseFragment(){
                     }else{
                         val e = it.exception
                         dialog.dismiss()
-                        onExceptionSnacky(e as Exception)
+                        InformUtils(activity!!).snackyException("An error has occurred.",e!!)
                     }
                 }
     }

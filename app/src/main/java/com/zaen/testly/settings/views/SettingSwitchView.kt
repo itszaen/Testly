@@ -9,11 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
 import com.zaen.testly.utils.preferences.Prefs
+import kotterknife.bindView
 
 class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
     private val iconString: String?
@@ -23,14 +22,10 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
     @StringRes
     private val captionRes: Int
     private val defaultValue: Boolean
-    @BindView(R.id.icon)
-    lateinit var icon: IconicsImageView
-    @BindView(R.id.title)
-    lateinit var title: TextView
-    @BindView(R.id.caption)
-    lateinit var caption: TextView
-    @BindView(R.id.toggle)
-    lateinit var toggle: SwitchCompat
+    val icon: IconicsImageView by bindView(R.id.icon)
+    val title: TextView by bindView(R.id.title)
+    val caption: TextView by bindView(R.id.caption)
+    val toggle: SwitchCompat by bindView(R.id.toggle)
     private var clickListener: View.OnClickListener? = null
 
     init {
@@ -52,8 +47,6 @@ class SettingSwitchView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun onFinishInflate() {
-        ButterKnife.bind(this)
-
         icon.icon = icon.icon.icon(iconString)
         title.setText(titleRes)
         caption.setText(captionRes)

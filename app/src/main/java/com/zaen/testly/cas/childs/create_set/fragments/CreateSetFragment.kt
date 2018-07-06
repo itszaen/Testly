@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.LinearLayout
-import android.widget.RadioButton
-import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.*
 import com.zaen.testly.R
@@ -98,6 +96,9 @@ class CreateSetFragment  : BaseFragment(),
             }
             return
         }
+
+        initializeViews()
+
         TestlyUser(this).addUserinfoListener(object: TestlyUser.UserinfoListener {
             override fun onUserinfoUpdate(userinfo: UserData?) {
                 if (userinfo != null) {
@@ -165,6 +166,51 @@ class CreateSetFragment  : BaseFragment(),
         mActionHelper?.onLongClick(activity as AppCompatActivity, position)
     }
 
+    private fun initializeViews(){
+        radio_btn_set_card_mixed.setOnCheckedChangeListener { buttonView, isChecked ->
+            onSetCardTypeClicked(buttonView)
+        }
+        radio_btn_set_card_selection.setOnCheckedChangeListener { buttonView, isChecked ->
+            onSetCardTypeClicked(buttonView)
+        }
+        radio_btn_set_card_spelling.setOnCheckedChangeListener{ buttonView, isChecked ->
+            onSetCardTypeClicked(buttonView)
+        }
+
+        check_create_set_card_subject_mixed.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                setSubjectType = SET_SUBJECT_TYPE_MIXED
+                spinner_create_set_card_subjects.isEnabled = false
+                cardSubject = null
+            } else {
+                setSubjectType = SET_SUBJECT_TYPE_SINGLE
+                spinner_create_set_card_subjects.isEnabled = true
+                if (subjectList != null) {
+                    val adapter = ArrayAdapter<String>(activity, R.layout.item_spinner_create_set_card_subject, subjectList)
+                    spinner_create_set_card_subjects.setAdapter(adapter)
+                    spinner_create_set_card_subjects.setOnItemSelectedListener { view, position, id, item ->
+                        onSetCardSubjectSelected(item)
+                    }
+                }
+            }
+            updateUI()
+        }
+
+    }
+    private fun onSetCardTypeClicked(radioButton: CompoundButton){
+        when (radioButton.id){
+            R.id.radio_btn_set_card_mixed -> {
+                setCardType = SET_CARD_TYPE_MIXED
+            }
+            R.id.radio_btn_set_card_selection -> {
+                setCardType = SET_CARD_TYPE_SELECTION
+            }
+            R.id.radio_btn_set_card_spelling -> {
+                setCardType = SET_CARD_TYPE_SPELLING
+            }
+        }
+        updateUI()
+    }
     private fun toggleSelection(position: Int){
         val positions = selectCardAdapter!!.selectedPositions
         if (positions.size > 0){
@@ -234,42 +280,6 @@ class CreateSetFragment  : BaseFragment(),
 
     private fun updateUI(){
         selectCardAdapter?.updateDataSet(getItems())
-    }
-
-    @OnClick(R.id.radio_btn_set_card_mixed,R.id.radio_btn_set_card_selection,R.id.radio_btn_set_card_spelling)
-    fun onSetCardTypeClicked(radioButton: RadioButton){
-        when (radioButton.id){
-            R.id.radio_btn_set_card_mixed -> {
-                setCardType = SET_CARD_TYPE_MIXED
-            }
-            R.id.radio_btn_set_card_selection -> {
-                setCardType = SET_CARD_TYPE_SELECTION
-            }
-            R.id.radio_btn_set_card_spelling -> {
-                setCardType = SET_CARD_TYPE_SPELLING
-            }
-        }
-        updateUI()
-    }
-
-    @OnClick(R.id.check_create_set_card_subject_mixed)
-    fun onSetCardSubjectMixedClicked(checkBox: CheckBox){
-        if (checkBox.isChecked){
-            setSubjectType = SET_SUBJECT_TYPE_MIXED
-            spinner_create_set_card_subjects.isEnabled = false
-            cardSubject = null
-        } else {
-            setSubjectType = SET_SUBJECT_TYPE_SINGLE
-            spinner_create_set_card_subjects.isEnabled = true
-            if (subjectList != null) {
-                val adapter = ArrayAdapter<String>(activity, R.layout.item_spinner_create_set_card_subject, subjectList)
-                spinner_create_set_card_subjects.setAdapter(adapter)
-                spinner_create_set_card_subjects.setOnItemSelectedListener { view, position, id, item ->
-                    onSetCardSubjectSelected(item)
-                }
-            }
-        }
-        updateUI()
     }
 
     private fun onSetCardSubjectSelected(item: Any){

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32.0"
+    android:viewportHeight="32.0">
+    <group
+        android:name="background">
+        <path
+            android:name="circle"
+            android:fillColor="@color/accent_green"
+            android:pathData="M16,16m-13.333,0a13.333,13.333 0,1.333 1.333,26.666 0a13.333,13.333 0,1.333 1.333,-26.666 0"/>
+    </group>
+    <group
+        android:name="check">
+        <path
+            android:name="tick"
+            android:strokeColor="@color/accent_white"
+            android:strokeWidth="2"
+            android:pathData="M8,14.666 l0,0 l0,0"/>
+    </group>
+</vector>

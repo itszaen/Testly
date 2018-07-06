@@ -6,10 +6,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
+import kotterknife.bindView
 
 class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private val iconString: String?
@@ -17,12 +16,9 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val titleRes: Int
     @StringRes
     private val captionRes: Int
-    @BindView(R.id.icon)
-    lateinit var iconicsView: IconicsImageView
-    @BindView(R.id.title)
-    lateinit var titleView: TextView
-    @BindView(R.id.caption)
-    lateinit var captionView: TextView
+    val iconicsView: IconicsImageView by bindView(R.id.icon)
+    val titleView: TextView by bindView(R.id.title)
+    val captionView: TextView by bindView(R.id.caption)
 
     init {
         val inflater = LayoutInflater.from(getContext())
@@ -36,8 +32,6 @@ class CardItemView @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun onFinishInflate() {
-        ButterKnife.bind(this)
-
         iconicsView.icon = iconicsView.icon.icon(iconString)
         titleView.setText(titleRes)
         captionView.setText(captionRes)

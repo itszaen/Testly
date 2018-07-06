@@ -9,7 +9,6 @@ import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
 import java.io.InputStream
 
-
 /**
  * Created by zaen on 4/2/18.
  */

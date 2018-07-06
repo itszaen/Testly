@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import butterknife.BindView
 import com.zaen.testly.R
 import com.zaen.testly.auth.SignupUserinfo
 import com.zaen.testly.utils.InformUtils
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.form_signup_userinfo.*
+import kotterknife.bindView
 import java.util.*
 
 class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler{
@@ -21,9 +21,8 @@ class SignupActivity : AuthActivity(), SignupUserinfo.ExceptionHandler{
         const val AUTH_TWITTER = 4
         const val AUTH_GITHUB = 5
     }
+    val greeting: TextView by bindView(R.id.signup_greeting)
 
-    @BindView(R.id.signup_greeting)
-    lateinit var greeting: TextView
     var authMethod : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,27 +3,22 @@ package com.zaen.testly.cas.childs.create_card.fragments
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import butterknife.OnClick
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.zaen.testly.R
-import com.zaen.testly.R.id.*
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.base.fragments.BaseFragment
-import com.zaen.testly.cas.views.CardSelectionMultipleOrderedView
-import com.zaen.testly.cas.views.CardSelectionMultipleView
-import com.zaen.testly.cas.views.CardSelectionView
+import com.zaen.testly.views.cards.OasisOrderedMultipleSelectionOasisCardView
+import com.zaen.testly.views.cards.OasisMultipleSelectionOasisCardView
+import com.zaen.testly.views.cards.OasisSelectionCardView
 import com.zaen.testly.data.*
 import com.zaen.testly.data.FirebaseDocument.Companion.CARD
 import kotlinx.android.synthetic.main.fragment_create_card_preview.*
-import kotlinx.android.synthetic.main.view_card_selection.*
 import org.parceler.Parcels
 
 class PreviewCardFragment : BaseFragment() {
@@ -59,19 +54,20 @@ class PreviewCardFragment : BaseFragment() {
         if (savedInstanceState != null){
             return
         }
+        initializeViews()
         when (card){
             is SelectionCardData -> {
-                val view = CardSelectionView(activity!!,card as SelectionCardData, view_container_create_card_preview)
+                val view = OasisSelectionCardView(activity!!, card as SelectionCardData, view_container_create_card_preview)
                 view.inflate()
                 view.showAnswer()
             }
             is SelectionMultipleCardData -> {
-                val view = CardSelectionMultipleView(activity!!, card as SelectionMultipleCardData, view_container_create_card_preview)
+                val view = OasisMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleCardData, view_container_create_card_preview)
                 view.inflate()
                 view.showAnswer()
             }
             is SelectionMultipleOrderedCardData -> {
-                val view = CardSelectionMultipleOrderedView(activity!!, card as SelectionMultipleOrderedCardData, view_container_create_card_preview)
+                val view = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleOrderedCardData, view_container_create_card_preview)
                 view.inflate()
                 view.showAnswer()
             }
@@ -81,16 +77,11 @@ class PreviewCardFragment : BaseFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun initializeViews(){
+        btn_preview_cancel.setOnClickListener{ onBackPressedSupport() }
+        btn_preview_submit.setOnClickListener { onSubmit() }
     }
 
-    @OnClick(R.id.btn_preview_cancel)
-    fun onCancel(){
-        onBackPressedSupport()
-    }
-
-    @OnClick(R.id.btn_preview_submit)
     fun onSubmit(){
         // Progress
         val dialog = MaterialDialog.Builder(activity!!)

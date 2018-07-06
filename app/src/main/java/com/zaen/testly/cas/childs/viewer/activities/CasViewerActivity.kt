@@ -58,6 +58,9 @@ class CasViewerActivity: BaseActivity(),
         pagerAdapter = CasViewerPagerAdapter(this, supportFragmentManager)
         view_pager_cas_viewer.adapter = pagerAdapter
         view_pager_cas_viewer.offscreenPageLimit = 20
+        view_pager_cas_viewer.clipToPadding = false
+//        view_pager_cas_viewer.setPadding(40, 0, 40, 0)
+//        view_pager_cas_viewer.pageMargin = 10
     }
 
 }

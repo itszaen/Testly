@@ -8,19 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.mikepenz.iconics.view.IconicsImageView
 import com.zaen.testly.R
+import kotterknife.bindView
 
 class SettingTitleOnlyView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private val iconString: String?
     @StringRes
     private val titleRes: Int
-    @BindView(R.id.icon)
-    lateinit var icon: IconicsImageView
-    @BindView(R.id.title)
-    lateinit var title: TextView
+    val iconView: IconicsImageView by bindView(R.id.icon)
+    val title: TextView by bindView(R.id.title)
 
     init {
         val inflater = LayoutInflater.from(getContext())
@@ -36,9 +33,7 @@ class SettingTitleOnlyView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     override fun onFinishInflate() {
-        ButterKnife.bind(this)
-
-        icon.setIcon(icon.getIcon().icon(iconString))
+        iconView.icon = iconView.icon.icon(iconString)
         title.setText(titleRes)
 
         /*

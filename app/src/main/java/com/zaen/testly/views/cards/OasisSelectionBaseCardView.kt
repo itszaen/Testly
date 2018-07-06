@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.views
+package com.zaen.testly.views.cards
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -11,14 +11,17 @@ import com.zaen.testly.R
 import com.zaen.testly.data.CardData
 import java.util.*
 
-abstract class CardSelectionBaseView(context: Context, open val card: CardData, protected val container: FrameLayout) : CardView(context) {
+abstract class OasisSelectionBaseCardView(context: Context, open val card: CardData, protected val container: FrameLayout) : CardView(context),
+ISelectionBaseCardView{
     interface OptionClickListener{
         fun onRightOptionClick(view: View)
         fun onWrongOptionClick(view: View)
     }
     internal val optionItemList = arrayListOf<mehdi.sakout.fancybuttons.FancyButton>()
-    private var hasInflated = false
-    private val cardSelectionView= inflater.inflate(R.layout.view_card_selection,container,false) as android.support.v7.widget.CardView
+    override var hasInflated = false
+    private val oasis= inflater.inflate(R.layout.view_card_selection_oasis,container,false)
+            as android.support.v7.widget.CardView
+    internal val cardObjectiveText: android.support.v7.widget.AppCompatTextView
     private val questionTextView: android.support.v7.widget.AppCompatTextView
     protected val optionContainer: LinearLayout
 
@@ -32,35 +35,35 @@ abstract class CardSelectionBaseView(context: Context, open val card: CardData, 
             .sizeDp(16)
 
     init {
-        container.addView(cardSelectionView)
-        questionTextView = cardSelectionView.findViewById(R.id.text_card_selection_question)
-        optionContainer = cardSelectionView.findViewById(R.id.option_container_card_selection)
+        container.addView(oasis)
+        cardObjectiveText = oasis.findViewById(R.id.objective_card)
+        questionTextView = oasis.findViewById(R.id.text_card_selection_question)
+        optionContainer = oasis.findViewById(R.id.option_container_card_selection)
     }
 
-    fun inflate(options: ArrayList<String>){
+    override fun inflate(options: ArrayList<String>){
         if (hasInflated){ return }
-        hasInflated = true
+
         // Question
         questionTextView.text = card.question
 
         // Options
         for ((index, option) in options.withIndex()) {
-            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option, optionContainer,false)
+            val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option_oasis, optionContainer,false)
                     as mehdi.sakout.fancybuttons.FancyButton
             optionItemList.add(optionItemLayout)
+            // text
             optionItemLayout.setText(option)
+            // add
             optionContainer.addView(optionItemLayout)
         }
     }
 
-    protected fun disableOption(){
+    override fun disableOptions(){
         for ((i,optionItemLayout) in optionItemList.withIndex()){
             optionItemLayout.setOnClickListener(null)
             optionItemLayout.isClickable = false
             optionItemLayout.isFocusable = false
         }
     }
-
-    abstract fun showAnswer()
-
 }

@@ -4,19 +4,15 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import butterknife.BindView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.zaen.testly.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotterknife.bindView
 import java.util.*
 
 
 class LoginActivity : AuthActivity() {
-    companion object {
-    }
-
-    @BindView(R.id.login_greeting)
-    lateinit var greeting: TextView
+    private val greeting: TextView by bindView(R.id.login_greeting)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

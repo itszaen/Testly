@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.zaen.testly.App
 import com.zaen.testly.Global
 import com.zaen.testly.base.activities.BaseActivity
@@ -20,7 +18,6 @@ import me.yokeyword.fragmentation.SupportFragment
 * */
 
 abstract class BaseFragment : SupportFragment(){
-    protected var unbinder: Unbinder? = null
     protected var activity: BaseActivity? = null
     var layoutRes: Int? = null
 
@@ -35,7 +32,6 @@ abstract class BaseFragment : SupportFragment(){
         LogUtils.log(this, 2,"onCreateView")
         return if (layoutRes != null) {
             val view = inflater.inflate(layoutRes!!, container, false)
-            unbinder = ButterKnife.bind(this, view)
             view
         } else {
             LogUtils.failure(this,5,"No layout resource specified, not inflating.")
@@ -63,7 +59,6 @@ abstract class BaseFragment : SupportFragment(){
         LogUtils.log(this, 2,"onDestroyView")
         super.onDestroyView()
         App.removeFragmentFromStack(this)
-        unbinder?.unbind()
     }
 
     protected fun informFragmentLifeCycle(cycle: String){

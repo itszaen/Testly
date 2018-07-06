@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.views
+package com.zaen.testly.views.cards
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -6,9 +6,10 @@ import android.widget.FrameLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionCardData
 
-class CardSelectionView(context: Context, override var card: SelectionCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
+class OasisSelectionCardView(context: Context, override var card: SelectionCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container), ISelectionCardView {
     fun inflate(){
         inflate(card.options)
+        cardObjectiveText.text = "Select one answer."
     }
 
     private fun isRightOption(index: Int):Boolean{
@@ -19,10 +20,10 @@ class CardSelectionView(context: Context, override var card: SelectionCardData, 
         for ((index,optionItemLayout) in optionItemList.withIndex()){
             optionItemLayout.setOnClickListener{
                 if (isRightOption(index)){
-                    disableOption()
+                    disableOptions()
                     listener.onRightOptionClick(it)
                 } else {
-                    disableOption()
+                    disableOptions()
                     listener.onWrongOptionClick(it)
                 }
             }
@@ -34,7 +35,13 @@ class CardSelectionView(context: Context, override var card: SelectionCardData, 
     }
 
     override fun showAnswer(){
-        optionContainer.getChildAt(card.answer).setBackgroundColor(ContextCompat.getColor(context, R.color.accent_blue))
+        for ((i, optionItemLayout) in optionItemList.withIndex()){
+            if (i == card.answer){
+                optionItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.accent_green))
+            } else {
+                optionItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.accent_red))
+            }
+        }
     }
 
 

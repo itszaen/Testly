@@ -7,8 +7,6 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AlphaAnimation
-import butterknife.OnClick
-import butterknife.Optional
 import com.getbase.floatingactionbutton.FloatingActionsMenu
 import com.zaen.testly.App
 import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM_LIFECYCLE_ACTIVITY
@@ -192,15 +190,18 @@ class CreateCasFragment : BaseFragment(){
         }
     }
 
-    @Optional
-    @OnClick(R.id.fab_create_card,R.id.fab_create_set)
-    fun onButtonClick(view: View){
-        var intent: Intent? = null
-        when(view.id){
-            R.id.fab_create_card -> intent = Intent(activity, CreateCardActivity::class.java)
-            R.id.fab_create_set  -> intent = Intent(activity, CreateSetActivity::class.java)
+    private fun initializeViews(){
+        view_overlay.setOnClickListener{
+            fadeOutOverlay()
+            fab_menu.collapse()
         }
-        if (intent != null){
+
+        fab_create_card.setOnClickListener {
+            val intent = Intent(activity, CreateCardActivity::class.java)
+            startActivity(intent)
+        }
+        fab_create_set.setOnClickListener {
+            val intent = Intent(activity, CreateSetActivity::class.java)
             startActivity(intent)
         }
     }
@@ -219,12 +220,6 @@ class CreateCasFragment : BaseFragment(){
                 view_overlay.isFocusable = false
             }
         })
-    }
-
-    @OnClick(R.id.view_overlay)
-    fun onOverlayClick(){
-        fadeOutOverlay()
-        fab_menu.collapse()
     }
 
     private fun fadeInOverlay(){

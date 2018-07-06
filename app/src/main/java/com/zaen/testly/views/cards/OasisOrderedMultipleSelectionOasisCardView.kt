@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.views
+package com.zaen.testly.views.cards
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -6,9 +6,10 @@ import android.widget.FrameLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionMultipleOrderedCardData
 
-class CardSelectionMultipleOrderedView(context: Context, override val card: SelectionMultipleOrderedCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
+class OasisOrderedMultipleSelectionOasisCardView(context: Context, override val card: SelectionMultipleOrderedCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
     fun inflate(){
         inflate(card.options)
+        cardObjectiveText.text = "Select ${card.answerList.size} answers in the right order."
     }
 
     fun setUpOptions(listener: OptionClickListener){
@@ -24,12 +25,12 @@ class CardSelectionMultipleOrderedView(context: Context, override val card: Sele
                     answeringCount += 1
                     // if over
                     if (card.answerList.size == answeringCount){
-                        disableOption()
+                        disableOptions()
                         listener.onRightOptionClick(it)
                     }
 
                 } else {
-                    disableOption()
+                    disableOptions()
                     listener.onWrongOptionClick(it)
                 }
             }

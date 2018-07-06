@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.views
+package com.zaen.testly.views.cards
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -6,9 +6,10 @@ import android.widget.FrameLayout
 import com.zaen.testly.R
 import com.zaen.testly.data.SelectionMultipleCardData
 
-class CardSelectionMultipleView(context: Context, override val card: SelectionMultipleCardData, container: FrameLayout) : CardSelectionBaseView(context, card, container) {
+class OasisMultipleSelectionOasisCardView(context: Context, override val card: SelectionMultipleCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
     fun inflate(){
         inflate(card.options)
+        cardObjectiveText.text = "Select ${card.answerList.size} answers."
     }
 
     fun setUpOptions(listener: OptionClickListener){
@@ -22,12 +23,12 @@ class CardSelectionMultipleView(context: Context, override val card: SelectionMu
                     // effect
                     optionItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.accent_blue))
                     if (selectedList == card.answerList){
-                        disableOption()
+                        disableOptions()
                         listener.onRightOptionClick(it)
                     }
 
                 } else {
-                    disableOption()
+                    disableOptions()
                     listener.onWrongOptionClick(it)
                 }
             }

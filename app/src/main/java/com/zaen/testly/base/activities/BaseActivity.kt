@@ -7,8 +7,6 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.view.MenuItem
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.zaen.testly.App
 import com.zaen.testly.Global
 import com.zaen.testly.utils.LogUtils
@@ -25,7 +23,6 @@ import me.yokeyword.fragmentation.SupportActivity
 * */
 
 abstract class BaseActivity : SupportActivity(){
-    protected var unbinder: Unbinder? = null
     protected var layoutRes: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +35,6 @@ abstract class BaseActivity : SupportActivity(){
         super.onCreate(savedInstanceState)
         if (layoutRes != null) {
             setContentView(layoutRes!!)
-            unbinder = ButterKnife.bind(this)
         } else {
             LogUtils.failure(this,5,"No layout resource specified, not inflating.")
         }
@@ -70,7 +66,6 @@ abstract class BaseActivity : SupportActivity(){
 
     override fun onDestroy() {
         LogUtils.log(this,2, "onDestroy")
-        unbinder?.unbind()
         App.removeActivityFromStack(this)
         super.onDestroy()
     }

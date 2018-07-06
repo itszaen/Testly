@@ -14,6 +14,7 @@ buildscript {
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 apply plugin: 'com.android.application'
@@ -145,6 +146,8 @@ dependencies {
     /// Authentication
     implementation "com.google.android.gms:play-services-auth:15.0.1"
 
+    // Kotterknife  https://github.com/JakeWharton/kotterknife
+    implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
     // Android-oauth-client https://github.com/wuman/android-oauth-client
     implementation 'com.wu-man:android-oauth-client:0.4.5'
@@ -184,10 +187,6 @@ dependencies {
     // Glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
-
-    // Butterknife https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Leakcanary https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
