@@ -17,8 +17,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/circle_grey"
-        app:srcCompat="@anim/check"/>
+        android:background="@drawable/circle_grey"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_card_selection_option_elixir"
