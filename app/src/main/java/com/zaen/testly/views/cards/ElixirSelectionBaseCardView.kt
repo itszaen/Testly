@@ -33,8 +33,13 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
 
         // Options
         for ((index, option) in options.withIndex()){
-            // line (separator)
-            optionContainer.addView(inflater.inflate(R.layout.separator,optionContainer, false))
+            if (index == 0) {
+                // first line
+                inflateLongSeparator()
+            } else {
+                // line
+                inflateShortSeparator()
+            }
 
             val optionItemLayout = inflater.inflate(R.layout.item_layout_linear_card_selection_option_elixir, optionContainer,false)
                 as LinearLayoutCompat
@@ -44,11 +49,19 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
             // add
             optionContainer.addView(optionItemLayout)
 
+            // last line
             if (index == options.size - 1) {
-                // last line
-                optionContainer.addView(inflater.inflate(R.layout.separator,optionContainer, false))
+                inflateLongSeparator()
             }
         }
+    }
+
+    private fun inflateLongSeparator(){
+        optionContainer.addView(inflater.inflate(R.layout.separator_long,optionContainer, false))
+    }
+
+    private fun inflateShortSeparator(){
+        optionContainer.addView(inflater.inflate(R.layout.separator_short,optionContainer, false))
     }
 
     override fun disableOptions() {

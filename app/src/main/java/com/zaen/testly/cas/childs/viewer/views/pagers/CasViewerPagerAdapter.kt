@@ -35,4 +35,8 @@ class CasViewerPagerAdapter(val context: Context, private val fragmentManager: F
         fragmentList.clear()
         fragmentTitleList.clear()
     }
+
+    override fun getPageWidth(position: Int): Float {
+        return 0.95f
+    }
 }

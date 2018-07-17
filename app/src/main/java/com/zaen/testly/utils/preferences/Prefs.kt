@@ -38,7 +38,7 @@ object Prefs {
         prefs.put(Keys.SEND_NOTIFICATION, value)
     }
 
-    // ***** TODO Calvin: These methods does not belong here, DO NOT expose generic methods to clients
+    // ***** TODO [!] Calvin: These methods does not belong here, DO NOT expose generic methods to clients
 
     @Deprecated("")
     fun setToggleValue(key: String, value: Boolean) {

@@ -1,6 +1,7 @@
 package com.zaen.testly.views.cards
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.zaen.testly.R
@@ -18,10 +19,13 @@ ISelectionCardView{
             optionItemLayout.setOnClickListener{
                 if (isRightOption(index)){
                     disableOptions()
-                    listener.onRightOptionClick(it)
+                    showAnswer()
+                    listener.onRightOptionClick(it, index)
                 } else {
                     disableOptions()
-                    listener.onWrongOptionClick(it)
+                    showAnswer()
+                    showIncorrectAnswer(index)
+                    listener.onWrongOptionClick(it, index)
                 }
             }
         }
@@ -37,12 +41,21 @@ ISelectionCardView{
     override fun showAnswer(){
         for ((i, optionItemLayout) in optionItemList.withIndex()){
             val circle = optionItemLayout.findViewById<ImageView>(R.id.box_card_selection_option_elixir)
-            if (i == card.answer){
-                circle.setImageResource(R.drawable.circle_correct)
-                //(circle.drawable as Animatable).start()
-            } else {
+            val text = optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir)
 
+            if (i == card.answer){
+                circle.setImageResource(R.drawable.circle_correct
+                        // TODO [A1] animation
+                //(circle.drawable as Animatable).start()
+                text.setTextColor(ContextCompat.getColor(context, R.color.accent_green))
             }
+        }
+    }
+
+    fun showIncorrectAnswer(index: Int){
+        if (!isRightOption(index)){
+            optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir).setImageResource(R.drawable.circle_incorrect)
+            optionItemList[index].findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir).setTextColor(ContextCompat.getColor(context, R.color.accent_red))
         }
     }
 

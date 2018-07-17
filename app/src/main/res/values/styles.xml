@@ -12,6 +12,14 @@
         <item name="android:scrollViewStyle">@style/Widget.AppTheme.ScrollView</item>
     </style>
 
+    <style name="AppTheme.Transparent" parent="Theme.AppCompat">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -142,7 +150,12 @@
     </style>
 
     <style name="cardQuestionText" parent="@android:style/TextAppearance.Widget.TextView">
-        <item name="android:textSize">@dimen/large_text</item>
-        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textSize">@dimen/sub_large_text</item>
+        <item name="android:textColor">@color/md_grey_900</item>
+    </style>
+
+    <style name="cardObjectiveText" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textColor">@color/md_grey_900</item>
     </style>
 </resources>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat android:id="@+id/item_layout_linear_card_selection_option_elixir"
+<android.support.v7.widget.LinearLayoutCompat
+    android:id="@+id/item_layout_linear_card_selection_option_elixir"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="48dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
     android:orientation="horizontal"
     android:clickable="true"
-    android:focusable="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:focusable="true">
     <ImageView
         android:id="@+id/box_card_selection_option_elixir"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/circle_grey"/>
 
@@ -23,11 +24,11 @@
         android:id="@+id/text_card_selection_option_elixir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text=""
         android:autoSizeTextType="uniform"
-        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMaxTextSize="22sp"
         android:layout_gravity="center_vertical"/>
 
 </android.support.v7.widget.LinearLayoutCompat>

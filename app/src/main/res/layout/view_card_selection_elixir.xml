@@ -6,12 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="24dp"
-    android:layout_marginBottom="24dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:paddingTop="24dp"
-    android:paddingBottom="24dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="40dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="32dp"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
     app:cardCornerRadius="12dp"
@@ -19,42 +19,60 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:weightSum="100"
         android:orientation="vertical">
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
             android:layout_margin="8dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/objective_card"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:layout_gravity="center"
                 android:text=""
                 android:textAlignment="center"
+                style="@style/cardObjectiveText"
                 app:autoSizeTextType="uniform" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/count_attempt"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:text="Attempt:"
-                android:textAlignment="center"
-                app:autoSizeTextType="uniform"
-                tools:ignore="HardcodedText" />
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:layout_gravity="end|center_vertical"
+                android:orientation="vertical">
 
-        </android.support.v7.widget.LinearLayoutCompat>
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attempt"
+                    android:textAlignment="center"
+                    app:autoSizeTextType="uniform"
+                    tools:ignore="HardcodedText" />
 
-        <!-- Separator -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/accent_grey"/>
+                <!-- number -->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/count_attempt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1"
+                    android:textAlignment="center"
+                    app:autoSizeTextType="uniform"
+                    />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+        </FrameLayout>
+
+        <include layout="@layout/separator_whole"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -73,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="yay"
+                android:text=""
                 style="@style/cardQuestionText"
                 android:gravity="start"
                 app:autoSizeTextType="uniform"

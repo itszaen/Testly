@@ -27,7 +27,7 @@ class DeveloperChat(val context: Any){
     }
 
     fun listenToMessages(listener: DeveloperChatListener){
-        // TODO Set archive date
+        // TODO [C1] Set archive date
         TestlyFirestore(this).addCollectionListener(chatDocumentPath.collection("messages").orderBy("timestamp"),
                 object: TestlyFirestore.CollectionChangeListener {
                     override fun handleListener(registration: ListenerRegistration?) {
@@ -46,7 +46,7 @@ class DeveloperChat(val context: Any){
                     override fun onModifyDocument(path: Query, snapshot: DocumentSnapshot) {
                         val message = getMessageFromDocument(snapshot)
                         if (message != null){
-                            // TODO check if this works
+                            // [B1] TODO check if this works
                             // compare snapshot
                             storedDocuments[storedDocuments.indexOf(snapshot)] = snapshot
                             messageList[storedDocuments.indexOf(snapshot)] = message

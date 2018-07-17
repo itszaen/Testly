@@ -2,6 +2,7 @@ package com.zaen.testly.cas.childs.viewer.activities
 
 import android.os.Bundle
 import com.zaen.testly.R
+import com.zaen.testly.R.id.view_pager_cas_viewer
 import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerCardPageFragment
 import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerSetPageFragment
@@ -22,6 +23,7 @@ class CasViewerActivity: BaseActivity(),
     private var pagerAdapter: CasViewerPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // TODO [A2] Dark Background
         layoutRes = R.layout.activity_cas_viewer
         super.onCreate(savedInstanceState)
         val toolbar = this.supportActionBar
@@ -58,9 +60,8 @@ class CasViewerActivity: BaseActivity(),
         pagerAdapter = CasViewerPagerAdapter(this, supportFragmentManager)
         view_pager_cas_viewer.adapter = pagerAdapter
         view_pager_cas_viewer.offscreenPageLimit = 20
+        view_pager_cas_viewer.clipChildren = false
         view_pager_cas_viewer.clipToPadding = false
-//        view_pager_cas_viewer.setPadding(40, 0, 40, 0)
-//        view_pager_cas_viewer.pageMargin = 10
     }
 
 }

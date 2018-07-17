@@ -7,6 +7,6 @@ interface ISelectionCardView {
     fun inflate(options: ArrayList<String>)
 }
 interface OptionClickListener{
-    fun onRightOptionClick(view: View)
-    fun onWrongOptionClick(view: View)
+    fun onRightOptionClick(view: View, index: Int)
+    fun onWrongOptionClick(view: View, index: Int)
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.zaen.testly.R
+import com.zaen.testly.R.id.view_container_fragment_page_cas_viewer_card
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.*
 import com.zaen.testly.views.cards.*
@@ -43,13 +44,8 @@ class CasViewerCardPageFragment : BaseFragment(){
                     val cardView = ElixirSelectionCardView(activity!!, card as SelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
                     cardView.setUpOptions(object: OptionClickListener {
-                        override fun onRightOptionClick(view: View) {
-                            cardView.showAnswer()
-                        }
-
-                        override fun onWrongOptionClick(view: View) {
-                            cardView.showAnswer()
-                        }
+                        override fun onRightOptionClick(view: View, index: Int) {}
+                        override fun onWrongOptionClick(view: View, index: Int) {}
                     })
 
                 }
@@ -57,12 +53,8 @@ class CasViewerCardPageFragment : BaseFragment(){
                     val cardView = OasisMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
                     cardView.setUpOptions(object: OasisSelectionBaseCardView.OptionClickListener{
-                        override fun onRightOptionClick(view: View) {
-                            cardView.showAnswer()
-                        }
-                        override fun onWrongOptionClick(view: View) {
-                            cardView.showAnswer()
-                        }
+                        override fun onRightOptionClick(view: View) {}
+                        override fun onWrongOptionClick(view: View) {}
                     })
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
@@ -70,10 +62,8 @@ class CasViewerCardPageFragment : BaseFragment(){
                     cardView.inflate()
                     cardView.setUpOptions(object: OasisSelectionBaseCardView.OptionClickListener{
                         override fun onRightOptionClick(view: View) {
-                            cardView.showAnswer()
                         }
                         override fun onWrongOptionClick(view: View) {
-                            cardView.showAnswer()
                         }
                     })
                 }
