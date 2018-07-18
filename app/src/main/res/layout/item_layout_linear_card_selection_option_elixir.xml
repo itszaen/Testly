@@ -18,7 +18,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/circle_grey"/>
+        app:srcCompat="@drawable/circle_grey"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/text_card_selection_option_elixir"

@@ -2,7 +2,6 @@ package com.zaen.testly.cas.childs.viewer.activities
 
 import android.os.Bundle
 import com.zaen.testly.R
-import com.zaen.testly.R.id.view_pager_cas_viewer
 import com.zaen.testly.base.activities.BaseActivity
 import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerCardPageFragment
 import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerSetPageFragment
@@ -13,6 +12,7 @@ import com.zaen.testly.data.SetData
 import com.zaen.testly.main.fragments.CreateCasFragment
 import com.zaen.testly.main.fragments.CreateCasFragment.Companion.ARG_DOCUMENT_TYPE
 import kotlinx.android.synthetic.main.activity_cas_viewer.*
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class CasViewerActivity: BaseActivity(),
         CreateCasFragment.CasDataListener{
@@ -57,6 +57,7 @@ class CasViewerActivity: BaseActivity(),
     }
 
     private fun initializeViewPager(){
+        OverScrollDecoratorHelper.setUpOverScroll(view_pager_cas_viewer)
         pagerAdapter = CasViewerPagerAdapter(this, supportFragmentManager)
         view_pager_cas_viewer.adapter = pagerAdapter
         view_pager_cas_viewer.offscreenPageLimit = 20

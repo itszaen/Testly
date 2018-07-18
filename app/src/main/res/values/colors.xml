@@ -34,6 +34,13 @@
     <color name="loginEmailButtonBackground">@color/accent_white</color>
     <color name="signupBackground">@color/md_light_background</color>
     <color name="signupText">@color/md_light_primary_text</color>
+
+    <color name="cas_transparent_black">#DD000000</color>
+    <color name="card_correct_color">@color/md_green_300</color>
+    <color name="card_incorrect_color">@color/md_red_400</color>
+
+
+
     <!--Accent Color Collection-->
     <color name="accent_red">#f44336</color>
     <color name="accent_pink">#e91e63</color>
@@ -358,6 +365,7 @@
     <color name="md_yellow_A400">#FFEA00</color>
     <color name="md_yellow_A700">#FFD600</color>
 
+    <color name="transparent">#00000000</color>
     <color name="transparent_black">#c4000000</color>
     <color name="transparent_md_amber_500">#99FFC107</color>
 

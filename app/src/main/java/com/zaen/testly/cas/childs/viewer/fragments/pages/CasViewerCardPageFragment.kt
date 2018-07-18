@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.zaen.testly.R
-import com.zaen.testly.R.id.view_container_fragment_page_cas_viewer_card
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.data.*
 import com.zaen.testly.views.cards.*
@@ -72,5 +71,9 @@ class CasViewerCardPageFragment : BaseFragment(){
 
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 }

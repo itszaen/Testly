@@ -155,6 +155,7 @@
         <activity
             android:name=".cas.childs.viewer.activities.CasViewerActivity"
             android:windowSoftInputMode="adjustPan"
+            android:theme="@style/ActivityTheme.CasViewer.Transparent"
             android:parentActivityName=".main.activities.MainActivity"
             />
     </application>

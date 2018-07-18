@@ -1,7 +1,9 @@
 package com.zaen.testly.views.cards
 
 import android.content.Context
+import android.graphics.drawable.Animatable
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatTextView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.zaen.testly.R
@@ -44,19 +46,43 @@ ISelectionCardView{
             val text = optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir)
 
             if (i == card.answer){
-                circle.setImageResource(R.drawable.circle_correct
-                        // TODO [A1] animation
-                //(circle.drawable as Animatable).start()
-                text.setTextColor(ContextCompat.getColor(context, R.color.accent_green))
+                animateCorrectIcon(circle)
+                showCorrectText(text)
             }
         }
     }
 
     fun showIncorrectAnswer(index: Int){
         if (!isRightOption(index)){
-            optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir).setImageResource(R.drawable.circle_incorrect)
-            optionItemList[index].findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir).setTextColor(ContextCompat.getColor(context, R.color.accent_red))
+            animateIncorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
+            showIncorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
         }
+    }
+
+    private fun showCorrectIcon(imageView: ImageView){
+        imageView.setImageResource(R.drawable.circle_correct)
+    }
+
+    private fun animateCorrectIcon(imageView: ImageView){
+        imageView.setImageResource(R.drawable.circle_correct_animated_check)
+        (imageView.drawable as Animatable).start()
+    }
+
+    private fun showCorrectText(text: AppCompatTextView){
+        text.setTextColor(ContextCompat.getColor(context, R.color.card_correct_color))
+    }
+
+    private fun showIncorrectIcon(imageView: ImageView){
+        imageView.setImageResource(R.drawable.circle_incorrect)
+    }
+
+    private fun animateIncorrectIcon(imageView: ImageView){
+        imageView.setImageResource(R.drawable.circle_correct_animated_check)
+        (imageView.drawable as Animatable).start()
+    }
+
+    private fun showIncorrectText(text: AppCompatTextView){
+        text.setTextColor(ContextCompat.getColor(context, R.color.card_incorrect_color))
     }
 
 }
