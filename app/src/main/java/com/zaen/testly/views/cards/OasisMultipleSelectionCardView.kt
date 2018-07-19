@@ -4,9 +4,13 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import com.zaen.testly.R
-import com.zaen.testly.data.SelectionMultipleCardData
+import com.zaen.testly.data.MultipleSelectionCardData
 
-class OasisMultipleSelectionOasisCardView(context: Context, override val card: SelectionMultipleCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
+class OasisMultipleSelectionCardView(context: Context, override val card: MultipleSelectionCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
+    override fun showAnswer() {
+
+    }
+
     fun inflate(){
         inflate(card.options)
         cardObjectiveText.text = "Select ${card.answerList.size} answers."
@@ -18,7 +22,7 @@ class OasisMultipleSelectionOasisCardView(context: Context, override val card: S
             optionItemLayout.setOnClickListener{
                 if (card.answerList.contains(index)){
                     optionItemLayout.setOnClickListener(null)
-                    // should not and will not add duplicate
+                    // should not and does not add duplicate
                     selectedList.add(index)
                     // effect
                     optionItemLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.accent_blue))
@@ -36,10 +40,10 @@ class OasisMultipleSelectionOasisCardView(context: Context, override val card: S
     }
 
     override fun setUpPreview() {
-        showAnswer()
+        animateAnswer()
     }
 
-    override fun showAnswer(){
+    override fun animateAnswer(){
         for (answer in card.answerList){
             optionContainer.getChildAt(answer).setBackgroundColor(ContextCompat.getColor(context, R.color.accent_blue))
 

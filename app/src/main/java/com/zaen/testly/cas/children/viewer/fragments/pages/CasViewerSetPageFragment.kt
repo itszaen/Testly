@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.viewer.fragments.pages
+package com.zaen.testly.cas.children.viewer.fragments.pages
 
 import android.os.Bundle
 import android.view.LayoutInflater

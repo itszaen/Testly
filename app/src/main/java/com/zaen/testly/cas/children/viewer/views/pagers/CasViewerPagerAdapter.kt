@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.viewer.views.pagers
+package com.zaen.testly.cas.children.viewer.views.pagers
 
 import android.content.Context
 import android.support.v4.app.FragmentManager

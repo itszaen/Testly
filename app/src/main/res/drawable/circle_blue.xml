@@ -6,20 +6,15 @@
     <group android:name="background">
         <path
             android:name="circle"
-            android:fillColor="@color/card_incorrect_color"
+            android:fillColor="@color/card_partially_correct_color"
             android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
     </group>
     <group android:name="check">
         <path
-            android:name="right_down_cross"
-            android:pathData="M8,8 L16,16 z"
+            android:name="tick"
+            android:pathData="M6,11 l0,0 l0,0"
             android:strokeColor="@color/accent_white"
-            android:strokeWidth="1" />
-        <path
-            android:name="left_down_cross"
-            android:pathData="M16,8 L8,16 z"
-            android:strokeColor="@color/accent_white"
-            android:strokeWidth="1" />
+            android:strokeWidth="2" />
     </group>
 
 </vector>

@@ -59,7 +59,7 @@ ISelectionBaseCardView{
         }
     }
 
-    override fun disableOptions(){
+    protected fun disableOptions(){
         for ((i,optionItemLayout) in optionItemList.withIndex()){
             optionItemLayout.setOnClickListener(null)
             optionItemLayout.isClickable = false

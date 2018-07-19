@@ -14,8 +14,8 @@ import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM_LIFECYCLE_FRAGMENT
 import com.zaen.testly.R
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.cas.CreateCasData
-import com.zaen.testly.cas.activities.CreateCardActivity
-import com.zaen.testly.cas.activities.CreateSetActivity
+import com.zaen.testly.cas.children.create_card.activities.CreateCardActivity
+import com.zaen.testly.cas.children.create_set.activities.CreateSetActivity
 import com.zaen.testly.cas.views.pager.CreateCasPagerAdapter
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
@@ -36,17 +36,19 @@ class CreateCasFragment : BaseFragment(){
     private var mSetDataListener : SetDataListener? = null
     private var mViewModeListener: ArrayList<ViewModeListener> = arrayListOf()
     private var pagerAdapter: CreateCasPagerAdapter? = null
+    // MODE_LIST -> true
+    private var isReverseLayout = true
 
     interface CasDataListener{
-        fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>)
+        fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>, isReverseLayout: Boolean)
     }
 
     interface CardDataListener{
-        fun onData(cardList: ArrayList<CardData>)
+        fun onData(cardList: ArrayList<CardData>, isReverseLayout: Boolean)
     }
 
     interface SetDataListener{
-        fun onData(setList: ArrayList<SetData>)
+        fun onData(setList: ArrayList<SetData>, isReverseLayout: Boolean)
     }
 
     interface ViewModeListener{
@@ -127,9 +129,9 @@ class CreateCasFragment : BaseFragment(){
     }
 
     fun onData(){
-        mCasDataListener?.onData(mCreateCas.cardList, mCreateCas.setList)
-        mCardDataListener?.onData(mCreateCas.cardList)
-        mSetDataListener?.onData(mCreateCas.setList)
+        mCasDataListener?.onData(mCreateCas.cardList, mCreateCas.setList, isReverseLayout)
+        mCardDataListener?.onData(mCreateCas.cardList, isReverseLayout)
+        mSetDataListener?.onData(mCreateCas.setList, isReverseLayout)
     }
 
     override fun onStop() {
@@ -174,10 +176,13 @@ class CreateCasFragment : BaseFragment(){
                 MODE_GRID -> {
                     menu.findItem(R.id.action_toggle_view_mode_to_list).isVisible = true
                     menu.findItem(R.id.action_toggle_view_mode_to_grid).isVisible = false
+                    isReverseLayout = false
+
                 }
                 MODE_LIST -> {
                     menu.findItem(R.id.action_toggle_view_mode_to_list).isVisible = false
                     menu.findItem(R.id.action_toggle_view_mode_to_grid).isVisible = true
+                    isReverseLayout = true
                 }
             }
             notifyViewModeChange()
@@ -250,7 +255,7 @@ class CreateCasFragment : BaseFragment(){
                 if (activity is CasDataListener){
                     mCasDataListener = activity
                     if (intent!!.getBooleanExtra("onCreate",false)) {
-                        mCasDataListener?.onData(mCreateCas.cardList,mCreateCas.setList)
+                        mCasDataListener?.onData(mCreateCas.cardList,mCreateCas.setList, isReverseLayout)
                     }
                 }
             }
@@ -258,13 +263,13 @@ class CreateCasFragment : BaseFragment(){
                 if (fragment is CardDataListener){
                     mCardDataListener = fragment
                     if (intent!!.getBooleanExtra("onActivityCreated",false)){
-                        mCardDataListener!!.onData(mCreateCas.cardList)
+                        mCardDataListener!!.onData(mCreateCas.cardList, isReverseLayout)
                     }
                 }
                 if (fragment is SetDataListener){
                     mSetDataListener = fragment
                     if (intent!!.getBooleanExtra("onActivityCreated",false)){
-                        mSetDataListener!!.onData(mCreateCas.setList)
+                        mSetDataListener!!.onData(mCreateCas.setList, isReverseLayout)
                     }
                 }
                 if (fragment is ViewModeListener){

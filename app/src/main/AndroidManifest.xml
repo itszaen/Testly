@@ -135,7 +135,7 @@
 
         <!-- Create Card -->
         <activity
-            android:name=".cas.activities.CreateCardActivity"
+            android:name=".cas.children.create_card.activities.CreateCardActivity"
             android:label="Create Card"
             android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".main.activities.MainActivity"/>
@@ -145,7 +145,7 @@
 
         <!-- Create Set -->
         <activity
-            android:name=".cas.activities.CreateSetActivity"
+            android:name=".cas.children.create_set.activities.CreateSetActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="Create Set"
             android:parentActivityName=".main.activities.MainActivity"
@@ -153,7 +153,7 @@
 
         <!-- Cas Viewer -->
         <activity
-            android:name=".cas.childs.viewer.activities.CasViewerActivity"
+            android:name=".cas.children.viewer.activities.CasViewerActivity"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/ActivityTheme.CasViewer.Transparent"
             android:parentActivityName=".main.activities.MainActivity"

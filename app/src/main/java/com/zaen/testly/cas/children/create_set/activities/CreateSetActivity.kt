@@ -1,10 +1,10 @@
-package com.zaen.testly.cas.activities
+package com.zaen.testly.cas.children.create_set.activities
 
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import com.zaen.testly.R
 import com.zaen.testly.base.activities.BaseActivity
-import com.zaen.testly.cas.childs.create_set.fragments.CreateSetFragment
+import com.zaen.testly.cas.children.create_set.fragments.CreateSetFragment
 import kotlinx.android.synthetic.main.activity_create_set.*
 
 class CreateSetActivity : BaseActivity(), CreateSetFragment.SubmitSetListener{

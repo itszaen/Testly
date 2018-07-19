@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.create_card.fragments
+package com.zaen.testly.cas.children.create_card.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -537,12 +537,12 @@ class CreateCardFragment : BaseFragment(){
             CARD_TYPE_SELECTION_MULTIPLE -> {
                 val optionList = this.optionList
                 val answers = this.answerNumMulti
-                newCard = SelectionMultipleCardData(id,timestamp,title,subject,hasAnswerCard,question,optionList,answers,answerText)
+                newCard = MultipleSelectionCardData(id,timestamp,title,subject,hasAnswerCard,question,optionList,answers,answerText)
             }
             CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
                 val optionList = this.optionList
                 val answers = this.answerNumMulti
-                newCard = SelectionMultipleOrderedCardData(id,timestamp,title,subject,hasAnswerCard,question,optionList,answers,answerText)
+                newCard = OrderedMultipleSelectionCardData(id,timestamp,title,subject,hasAnswerCard,question,optionList,answers,answerText)
             }
             CARD_TYPE_SPELLING ->{
 

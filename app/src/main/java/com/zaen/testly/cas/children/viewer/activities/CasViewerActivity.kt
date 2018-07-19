@@ -1,11 +1,11 @@
-package com.zaen.testly.cas.childs.viewer.activities
+package com.zaen.testly.cas.children.viewer.activities
 
 import android.os.Bundle
 import com.zaen.testly.R
 import com.zaen.testly.base.activities.BaseActivity
-import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerCardPageFragment
-import com.zaen.testly.cas.childs.viewer.fragments.pages.CasViewerSetPageFragment
-import com.zaen.testly.cas.childs.viewer.views.pagers.CasViewerPagerAdapter
+import com.zaen.testly.cas.children.viewer.fragments.pages.CasViewerCardPageFragment
+import com.zaen.testly.cas.children.viewer.fragments.pages.CasViewerSetPageFragment
+import com.zaen.testly.cas.children.viewer.views.pagers.CasViewerPagerAdapter
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.data.SetData
@@ -13,23 +13,25 @@ import com.zaen.testly.main.fragments.CreateCasFragment
 import com.zaen.testly.main.fragments.CreateCasFragment.Companion.ARG_DOCUMENT_TYPE
 import kotlinx.android.synthetic.main.activity_cas_viewer.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import java.util.*
 
 class CasViewerActivity: BaseActivity(),
         CreateCasFragment.CasDataListener{
     companion object {
-        const val ARG_DOCUMENT_ID = "documentId"
+        const val ARG_DOCUMENT_POSITION = "position"
     }
-    private var documentId: String? = null
+    private var position: Int? = null
     private var pagerAdapter: CasViewerPagerAdapter? = null
+    private var hasOnDataCalled = false
+    private var hasPositionSet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // TODO [A2] Dark Background
         layoutRes = R.layout.activity_cas_viewer
         super.onCreate(savedInstanceState)
         val toolbar = this.supportActionBar
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_action_back)
         toolbar?.setDisplayShowTitleEnabled(true)
-        documentId = intent.extras[ARG_DOCUMENT_ID] as String
+        position = intent.extras[ARG_DOCUMENT_POSITION] as Int
         initializeViewPager()
         informActivityLifeCycle("onCreate")
     }
@@ -38,22 +40,42 @@ class CasViewerActivity: BaseActivity(),
         super.onStart()
     }
 
-    override fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>) {
+    override fun onData(cardList: ArrayList<CardData>, setList: ArrayList<SetData>, isReverseLayout: Boolean) {
+        hasOnDataCalled = true
         if (supportFragmentManager == null){ return }
+        //if (isReverseLayout){cardList.reverse()}
         pagerAdapter!!.clearFragments()
         when (intent.extras[ARG_DOCUMENT_TYPE]){
             FirebaseDocument.CARD -> {
-                for ((i,card) in cardList.withIndex()){
+                lateinit var list: ArrayList<CardData>
+                if (isReverseLayout){
+                    list = ArrayList(cardList)
+                    list.reverse()
+                    position = list.size-1 - position!!
+                }
+                for ((i,card) in list.withIndex()){
                     pagerAdapter!!.addFragment(CasViewerCardPageFragment.newInstance(card),card.title,i)
                 }
             }
             FirebaseDocument.SET -> {
-                for ((i,set) in setList.withIndex()){
+                lateinit var list: ArrayList<SetData>
+                if (isReverseLayout){
+                    list = ArrayList(setList)
+                    list.reverse()
+                    position = list.size-1 - position!!
+                }
+                for ((i,set) in list.withIndex()){
                     pagerAdapter!!.addFragment(CasViewerSetPageFragment.newInstance(set),set.title,i)
                 }
             }
         }
         view_pager_cas_viewer.adapter = pagerAdapter
+        if (!hasPositionSet){
+            if (position != null) {
+                view_pager_cas_viewer.currentItem = position!!
+                hasPositionSet = true
+            }
+        }
     }
 
     private fun initializeViewPager(){

@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.fragments.pages
+package com.zaen.testly.cas.fragments.pages.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -72,12 +72,12 @@ abstract class CreateCasPageFragment : BaseFragment(),
         super.onSaveInstanceState(outState)
     }
 
-    fun updateUI(){
+    fun updateUI(isReverseLayout: Boolean){
         if (dataList == null){return}
         when (viewMode) {
             MODE_GRID -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,false)
+                val mLayoutManager = SmoothScrollGridLayoutManager(activity,3,GridLayout.VERTICAL,isReverseLayout)
                 if (dataList!!.size > 0) {
                     for (cas in dataList!!) {
                         when (cas){
@@ -95,7 +95,7 @@ abstract class CreateCasPageFragment : BaseFragment(),
             }
             MODE_LIST -> {
                 val items: MutableList<AbstractFlexibleItem<FlexibleViewHolder>> = mutableListOf()
-                val mLayoutManager = SmoothScrollLinearLayoutManager(activity, LinearLayout.VERTICAL,true)
+                val mLayoutManager = SmoothScrollLinearLayoutManager(activity, LinearLayout.VERTICAL,isReverseLayout)
                 mLayoutManager.stackFromEnd = true
                 if (dataList!!.size > 0) {
                     for (cas in dataList!!) {
@@ -145,6 +145,10 @@ abstract class CreateCasPageFragment : BaseFragment(),
 
     override fun onViewModeChange(viewMode: Int) {
         this.viewMode = viewMode
-        updateUI()
+        updateUI(when(viewMode){
+            MODE_LIST -> true
+            MODE_GRID -> false
+            else -> true
+        })
     }
 }

@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.create_card.fragments
+package com.zaen.testly.cas.children.create_card.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +14,7 @@ import com.zaen.testly.R
 import com.zaen.testly.TestlyFirestore
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.views.cards.OasisOrderedMultipleSelectionOasisCardView
-import com.zaen.testly.views.cards.OasisMultipleSelectionOasisCardView
+import com.zaen.testly.views.cards.OasisMultipleSelectionCardView
 import com.zaen.testly.views.cards.OasisSelectionCardView
 import com.zaen.testly.data.*
 import com.zaen.testly.data.FirebaseDocument.Companion.CARD
@@ -59,17 +59,17 @@ class PreviewCardFragment : BaseFragment() {
             is SelectionCardData -> {
                 val view = OasisSelectionCardView(activity!!, card as SelectionCardData, view_container_create_card_preview)
                 view.inflate()
-                view.showAnswer()
+                view.animateAnswer()
             }
-            is SelectionMultipleCardData -> {
-                val view = OasisMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleCardData, view_container_create_card_preview)
+            is MultipleSelectionCardData -> {
+                val view = OasisMultipleSelectionCardView(activity!!, card as MultipleSelectionCardData, view_container_create_card_preview)
                 view.inflate()
-                view.showAnswer()
+                view.animateAnswer()
             }
-            is SelectionMultipleOrderedCardData -> {
-                val view = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleOrderedCardData, view_container_create_card_preview)
+            is OrderedMultipleSelectionCardData -> {
+                val view = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as OrderedMultipleSelectionCardData, view_container_create_card_preview)
                 view.inflate()
-                view.showAnswer()
+                view.animateAnswer()
             }
             is SpellingCardData -> {
 

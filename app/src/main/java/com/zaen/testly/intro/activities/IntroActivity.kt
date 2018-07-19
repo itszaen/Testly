@@ -2,7 +2,9 @@ package com.zaen.testly.intro.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.MotionEvent
 import com.stephentuso.welcome.BasicPage
 import com.stephentuso.welcome.FragmentWelcomePage
 import com.stephentuso.welcome.WelcomeActivity
@@ -15,11 +17,38 @@ import com.zaen.testly.auth.activities.LoginActivity
 import com.zaen.testly.auth.activities.SignupActivity
 import com.zaen.testly.auth.activities.SignupInfoActivity
 import com.zaen.testly.intro.fragments.FaqFragment
+import me.yokeyword.fragmentation.ExtraTransaction
+import me.yokeyword.fragmentation.ISupportActivity
+import me.yokeyword.fragmentation.SupportActivityDelegate
+import me.yokeyword.fragmentation.anim.FragmentAnimator
+
+
 
 /**
  * Created by zaen on 3/9/18.
  */
-class IntroActivity : WelcomeActivity() {
+class IntroActivity : WelcomeActivity(), ISupportActivity {
+    private val mDelegate = SupportActivityDelegate(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mDelegate.onCreate(savedInstanceState)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        mDelegate.onPostCreate(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        mDelegate.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        return mDelegate.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev)
+    }
+
     override fun configuration() : WelcomeConfiguration {
         return WelcomeConfiguration.Builder(this)
                 // Page 1
@@ -83,5 +112,20 @@ class IntroActivity : WelcomeActivity() {
     fun welcomeKey():String{
         return resources.getString(R.string.intro_key_unique)
     }
+
+
+    override fun setFragmentAnimator(fragmentAnimator: FragmentAnimator?) { mDelegate.fragmentAnimator = fragmentAnimator }
+
+    override fun getFragmentAnimator(): FragmentAnimator { return mDelegate.fragmentAnimator }
+
+    override fun onBackPressedSupport() { mDelegate.onBackPressedSupport() }
+
+    override fun extraTransaction(): ExtraTransaction { return mDelegate.extraTransaction() }
+
+    override fun onCreateFragmentAnimator(): FragmentAnimator { return mDelegate.onCreateFragmentAnimator() }
+
+    override fun getSupportDelegate(): SupportActivityDelegate { return mDelegate }
+
+    override fun post(runnable: Runnable?) { mDelegate.post(runnable) }
 
 }

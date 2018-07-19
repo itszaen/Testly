@@ -1,9 +1,6 @@
 package com.zaen.testly.views.cards
 
 import android.content.Context
-import android.graphics.drawable.Animatable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatTextView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.zaen.testly.R
@@ -21,68 +18,42 @@ ISelectionCardView{
             optionItemLayout.setOnClickListener{
                 if (isRightOption(index)){
                     disableOptions()
-                    showAnswer()
-                    listener.onRightOptionClick(it, index)
+                    showFirstCorrectAnswer(index)
+                    listener.onCorrectOptionClick(it, index)
                 } else {
                     disableOptions()
-                    showAnswer()
-                    showIncorrectAnswer(index)
-                    listener.onWrongOptionClick(it, index)
+                    animateAnswer()
+                    animateIncorrectAnswer(index)
+                    listener.onIncorrectOptionClick(it, index)
                 }
             }
         }
     }
 
-    private fun isRightOption(index: Int):Boolean{
+    override fun isRightOption(index: Int):Boolean{
         return index == card.answer
     }
-    override fun setUpPreview(){
-        showAnswer()
-    }
 
-    override fun showAnswer(){
+    override fun setUpPreview(){
         for ((i, optionItemLayout) in optionItemList.withIndex()){
             val circle = optionItemLayout.findViewById<ImageView>(R.id.box_card_selection_option_elixir)
             val text = optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir)
 
             if (i == card.answer){
-                animateCorrectIcon(circle)
+                showCorrectIcon(circle)
                 showCorrectText(text)
             }
         }
     }
 
-    fun showIncorrectAnswer(index: Int){
-        if (!isRightOption(index)){
-            animateIncorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-            showIncorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
-        }
+    override fun showAnswer() {
+        showCorrectAnswer(card.answer)
     }
 
-    private fun showCorrectIcon(imageView: ImageView){
-        imageView.setImageResource(R.drawable.circle_correct)
+    override fun animateAnswer(){
+        animateCorrectAnswer(card.answer)
     }
 
-    private fun animateCorrectIcon(imageView: ImageView){
-        imageView.setImageResource(R.drawable.circle_correct_animated_check)
-        (imageView.drawable as Animatable).start()
-    }
 
-    private fun showCorrectText(text: AppCompatTextView){
-        text.setTextColor(ContextCompat.getColor(context, R.color.card_correct_color))
-    }
-
-    private fun showIncorrectIcon(imageView: ImageView){
-        imageView.setImageResource(R.drawable.circle_incorrect)
-    }
-
-    private fun animateIncorrectIcon(imageView: ImageView){
-        imageView.setImageResource(R.drawable.circle_correct_animated_check)
-        (imageView.drawable as Animatable).start()
-    }
-
-    private fun showIncorrectText(text: AppCompatTextView){
-        text.setTextColor(ContextCompat.getColor(context, R.color.card_incorrect_color))
-    }
 
 }

@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.viewer.fragments.pages
+package com.zaen.testly.cas.children.viewer.fragments.pages
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -43,21 +43,22 @@ class CasViewerCardPageFragment : BaseFragment(){
                     val cardView = ElixirSelectionCardView(activity!!, card as SelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
                     cardView.setUpOptions(object: OptionClickListener {
-                        override fun onRightOptionClick(view: View, index: Int) {}
-                        override fun onWrongOptionClick(view: View, index: Int) {}
+                        override fun onCorrectOptionClick(view: View, index: Int) {}
+                        override fun onIncorrectOptionClick(view: View, index: Int) {}
                     })
 
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE -> {
-                    val cardView = OasisMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleCardData, view_container_fragment_page_cas_viewer_card)
+                    val cardView = ElixirMultipleSelectionCardView(activity!!, card as MultipleSelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    cardView.setUpOptions(object: OasisSelectionBaseCardView.OptionClickListener{
-                        override fun onRightOptionClick(view: View) {}
-                        override fun onWrongOptionClick(view: View) {}
+                    cardView.setUpOptions(object: IMultipleSelectionCardView.MultipleOptionsClickListener{
+                        override fun onAllCorrect() {}
+                        override fun onCorrectOptionClick(view: View, index: Int) {}
+                        override fun onIncorrectOptionClick(view: View, index: Int) {}
                     })
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
-                    val cardView = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as SelectionMultipleOrderedCardData, view_container_fragment_page_cas_viewer_card)
+                    val cardView = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as OrderedMultipleSelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
                     cardView.setUpOptions(object: OasisSelectionBaseCardView.OptionClickListener{
                         override fun onRightOptionClick(view: View) {

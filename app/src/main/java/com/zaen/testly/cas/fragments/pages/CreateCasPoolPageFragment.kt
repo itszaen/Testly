@@ -2,6 +2,7 @@ package com.zaen.testly.cas.fragments.pages
 
 import android.os.Bundle
 import android.view.View
+import com.zaen.testly.cas.fragments.pages.base.CreateCasPageFragment
 
 class CreateCasPoolPageFragment : CreateCasPageFragment(){
     companion object {

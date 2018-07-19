@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/circle_red">
+    android:drawable="@drawable/circle_blue">
     <target
-        android:name="cross"
-        android:animation="@anim/cross" />
+        android:name="tick"
+        android:animation="@anim/check" />
 </animated-vector>

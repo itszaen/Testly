@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.childs.create_set.fragments
+package com.zaen.testly.cas.children.create_set.fragments
 
 import android.content.Context
 import android.os.Bundle

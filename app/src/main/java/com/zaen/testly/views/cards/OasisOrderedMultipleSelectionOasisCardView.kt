@@ -4,9 +4,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import com.zaen.testly.R
-import com.zaen.testly.data.SelectionMultipleOrderedCardData
+import com.zaen.testly.data.OrderedMultipleSelectionCardData
 
-class OasisOrderedMultipleSelectionOasisCardView(context: Context, override val card: SelectionMultipleOrderedCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
+class OasisOrderedMultipleSelectionOasisCardView(context: Context, override val card: OrderedMultipleSelectionCardData, container: FrameLayout) : OasisSelectionBaseCardView(context, card, container) {
     fun inflate(){
         inflate(card.options)
         cardObjectiveText.text = "Select ${card.answerList.size} answers in the right order."
@@ -38,10 +38,14 @@ class OasisOrderedMultipleSelectionOasisCardView(context: Context, override val 
     }
 
     override fun setUpPreview() {
-        showAnswer()
+        animateAnswer()
     }
 
-    override fun showAnswer(){
+    override fun showAnswer() {
+
+    }
+
+    override fun animateAnswer(){
 
 
     }

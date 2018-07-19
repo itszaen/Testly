@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="100"
+    android:viewportWidth="100">
+    <group android:name="background">
+        <path
+            android:name="circle"
+            android:fillColor="@color/card_partially_correct_color"
+            android:pathData="M37.75,37.75m-31.458,0a31.458,31.458 0,3.1458 3.1458,62.916 0a31.458,31.458 0,3.1458 3.1458,-62.916 0" />
+    </group>
+    <group android:name="numeral_one">
+        <path
+            android:name="numeral_one"
+            android:pathData="M35.5,12 l6.5,0 l0,51 l-6.5,0 l0,-41.7 l-8.5,8.7 l-5,-4 l13.5,-14z"
+            android:strokeColor="@color/accent_white"
+            android:strokeWidth="1" />
+    </group>
+
+</vector>

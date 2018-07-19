@@ -4,7 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.zaen.testly.cas.childs.viewer.activities.CasViewerActivity
+import com.zaen.testly.cas.children.viewer.activities.CasViewerActivity
+import com.zaen.testly.cas.fragments.pages.base.CreateCasPageFragment
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument
 import com.zaen.testly.main.fragments.CreateCasFragment
@@ -21,16 +22,15 @@ class CreateCasCardPageFragment : CreateCasPageFragment(),
         }
     }
 
-    override fun onData(cardList: ArrayList<CardData>) {
+    override fun onData(cardList: ArrayList<CardData>, isReverseLayout: Boolean) {
         dataList = cardList
-        updateUI()
+        updateUI(isReverseLayout)
     }
 
     override fun onItemClick(view: View?, position: Int): Boolean {
-        val document = dataList!![position]
         val intent = Intent(activity!!, CasViewerActivity::class.java)
         intent.putExtra(ARG_DOCUMENT_TYPE, FirebaseDocument.CARD)
-        intent.putExtra(CasViewerActivity.ARG_DOCUMENT_ID, document.id)
+        intent.putExtra(CasViewerActivity.ARG_DOCUMENT_POSITION, position)
         startActivity(intent)
         return true
     }

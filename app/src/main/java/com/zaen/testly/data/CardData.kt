@@ -21,8 +21,8 @@ open class CardData(
         fun getCardDataFromDocument(snapshot: DocumentSnapshot) : CardData?{
             return when (snapshot.get("cardType")){
                 CardData.CARD_TYPE_SELECTION -> SelectionCardData.getSelectionCardDataFromDocument(snapshot)
-                CardData.CARD_TYPE_SELECTION_MULTIPLE -> SelectionMultipleCardData.getSelectionMultipleCardDataFromDocument(snapshot)
-                CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> SelectionMultipleOrderedCardData.getSelectionMultipleOrderedCardDataFromDocument(snapshot)
+                CardData.CARD_TYPE_SELECTION_MULTIPLE -> MultipleSelectionCardData.getSelectionMultipleCardDataFromDocument(snapshot)
+                CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> OrderedMultipleSelectionCardData.getSelectionMultipleOrderedCardDataFromDocument(snapshot)
                 CardData.CARD_TYPE_SPELLING -> SpellingCardData.getSpellingCardData(snapshot)
                 else -> null
             }
@@ -59,7 +59,7 @@ open class SelectionCardData(
     }
 }
 
-open class SelectionMultipleCardData(
+open class MultipleSelectionCardData(
         override var id: String,
         override var timestamp: Long,
         override var title: String,
@@ -75,7 +75,7 @@ open class SelectionMultipleCardData(
         fun getSelectionMultipleCardDataFromDocument(snapshot: DocumentSnapshot) : CardData{
             val longAnswerList = snapshot.get("answerList") as ArrayList<Long>
             val answerList = longAnswerList.map { it.toInt() }.toIntArray().toCollection(ArrayList())
-            return SelectionMultipleCardData(
+            return MultipleSelectionCardData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
                     snapshot.get("title") as String,
@@ -90,7 +90,7 @@ open class SelectionMultipleCardData(
     }
 }
 
-class SelectionMultipleOrderedCardData(
+class OrderedMultipleSelectionCardData(
         override var id: String,
         override var timestamp: Long,
         override var title: String,
@@ -101,13 +101,13 @@ class SelectionMultipleOrderedCardData(
         val orderedAnswers: ArrayList<Int>,
         override var answerText: String?
 )
-    : SelectionMultipleCardData(id, timestamp, title, subject, hasAnswerCard, question, options, orderedAnswers, answerText){
+    : MultipleSelectionCardData(id, timestamp, title, subject, hasAnswerCard, question, options, orderedAnswers, answerText){
     override var cardType = CARD_TYPE_SELECTION_MULTIPLE_ORDERED
     companion object {
         fun getSelectionMultipleOrderedCardDataFromDocument(snapshot: DocumentSnapshot) : CardData{
             val longOrderedAnswers = snapshot.get("orderedAnswers") as ArrayList<Long>
             val orderedAnswers = longOrderedAnswers.map { it.toInt() }.toIntArray().toCollection(ArrayList())
-            return SelectionMultipleOrderedCardData(
+            return OrderedMultipleSelectionCardData(
                     snapshot.get("id") as String,
                     snapshot.get("timestamp") as Long,
                     snapshot.get("title") as String,

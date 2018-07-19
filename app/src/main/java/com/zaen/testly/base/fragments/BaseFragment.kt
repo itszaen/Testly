@@ -47,7 +47,9 @@ abstract class BaseFragment : SupportFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         LogUtils.log(this, 2,"onActivityCreated")
         super.onActivityCreated(savedInstanceState)
-        activity = getActivity() as BaseActivity?
+        if (getActivity() is BaseActivity){
+            activity = getActivity() as BaseActivity
+        }
     }
 
     override fun onStart() {
