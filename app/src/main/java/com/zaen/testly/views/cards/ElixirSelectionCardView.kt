@@ -18,7 +18,7 @@ ISelectionCardView{
             optionItemLayout.setOnClickListener{
                 if (isRightOption(index)){
                     disableOptions()
-                    showFirstCorrectAnswer(index)
+                    showFirstPartiallyCorrectAnswer(index)
                     listener.onCorrectOptionClick(it, index)
                 } else {
                     disableOptions()

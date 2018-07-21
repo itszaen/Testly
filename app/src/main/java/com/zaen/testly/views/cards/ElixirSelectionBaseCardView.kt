@@ -79,83 +79,160 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
 
     // show answer stuff
     protected fun showCorrectAnswer(index: Int){
-        showCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showCorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        showCorrectIcon(index)
+        showCorrectText(index)
     }
 
     protected fun animateCorrectAnswer(index: Int){
-        animateCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showCorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        animateCorrectIcon(index)
+        showCorrectText(index)
     }
 
     protected fun showIncorrectAnswer(index: Int){
-        showIncorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showIncorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        showIncorrectIcon(index)
+        showIncorrectText(index)
     }
 
     protected fun animateIncorrectAnswer(index: Int){
-        animateIncorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showIncorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        animateIncorrectIcon(index)
+        showIncorrectText(index)
     }
 
-    protected fun showCorrectIcon(imageView: ImageView){
+    protected fun showCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_correct)
     }
 
-    private fun animateCorrectIcon(imageView: ImageView){
+    private fun animateCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_correct_animated_check)
         (imageView.drawable as Animatable).start()
     }
 
-    protected fun showCorrectText(text: AppCompatTextView){
+    protected fun showCorrectText(index: Int){
+        val text = optionItemList[index].findViewById<AppCompatTextView>(R.id.text_card_selection_option_elixir)
         text.setTextColor(ContextCompat.getColor(context, R.color.card_correct_color))
     }
 
-    protected fun showIncorrectIcon(imageView: ImageView){
+    protected fun showIncorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_incorrect)
     }
 
-    private fun animateIncorrectIcon(imageView: ImageView){
+    private fun animateIncorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_incorrect_animated_cross)
         (imageView.drawable as Animatable).start()
     }
 
-    private fun showIncorrectText(text: AppCompatTextView){
+    private fun showIncorrectText(index: Int){
+        val text = optionItemList[index].findViewById<AppCompatTextView>(R.id.text_card_selection_option_elixir)
         text.setTextColor(ContextCompat.getColor(context, R.color.card_incorrect_color))
     }
 
     /// multiple
     protected fun showPartiallyCorrectAnswer(index: Int){
-        showPartiallyCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showPartiallyCorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        showPartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
     }
 
     protected fun animatePartiallyCorrectAnswer(index: Int){
-        animatePartiallyCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showPartiallyCorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        animatePartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
     }
 
-    protected fun showPartiallyCorrectIcon(imageView: ImageView){
+    protected fun showPartiallyCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_partially_correct)
     }
 
-    private fun animatePartiallyCorrectIcon(imageView: ImageView){
+    private fun animatePartiallyCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_partially_correct_animated_check)
         (imageView.drawable as Animatable).start()
     }
 
-    private fun showPartiallyCorrectText(text: AppCompatTextView){
+    private fun showPartiallyCorrectText(index: Int){
+        val text = optionItemList[index].findViewById<AppCompatTextView>(R.id.text_card_selection_option_elixir)
         text.setTextColor(ContextCompat.getColor(context, R.color.card_partially_correct_color))
     }
 
     /// ordered
+    protected fun showFirstPartiallyCorrectAnswer(index: Int){
+        showFirstPartiallyCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
+        showPartiallyCorrectText(index)
+    }
+
+    private fun showFirstPartiallyCorrectIcon(imageView: ImageView){
+        imageView.setImageResource(R.drawable.circle_correct_partially_1)
+    }
+
+    protected fun showSecondPartiallyCorrectAnswer(index: Int){
+        showSecondPartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
+    }
+
+    private fun showSecondPartiallyCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_partially_2)
+    }
+
+    protected fun showThirdPartiallyCorrectAnswer(index: Int){
+        showThirdPartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
+    }
+
+    private fun showThirdPartiallyCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_partially_3)
+    }
+
+    protected fun showFourthPartiallyCorrectAnswer(index: Int){
+        showFourthPartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
+    }
+
+    private fun showFourthPartiallyCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_partially_4)
+    }
+
     protected fun showFirstCorrectAnswer(index: Int){
         showFirstCorrectIcon(optionItemList[index].findViewById(R.id.box_card_selection_option_elixir))
-        showPartiallyCorrectText(optionItemList[index].findViewById(R.id.text_card_selection_option_elixir))
+        showCorrectText(index)
     }
 
     private fun showFirstCorrectIcon(imageView: ImageView){
-        imageView.setImageResource(R.drawable.circle_correct_first)
+        imageView.setImageResource(R.drawable.circle_correct_1)
     }
 
+    protected fun showSecondCorrectAnswer(index: Int){
+        showSecondPartiallyCorrectIcon(index)
+        showCorrectText(index)
+    }
+
+    private fun showSecondCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_2)
+    }
+
+    protected fun showThirdCorrectAnswer(index: Int){
+        showThirdCorrectIcon(index)
+        showCorrectText(index)
+    }
+
+    private fun showThirdCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_3)
+    }
+
+    protected fun showFourthCorrectAnswer(index: Int){
+        showFourthCorrectIcon(index)
+        showCorrectText(index)
+    }
+
+    private fun showFourthCorrectIcon(index: Int){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_4)
+    }
 }

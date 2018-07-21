@@ -49,8 +49,8 @@ class ElixirMultipleSelectionCardView(context: Context, override val card: Multi
             val text = optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir)
 
             if (isRightOption(i)){
-                showCorrectIcon(circle)
-                showCorrectText(text)
+                showCorrectIcon(i)
+                showCorrectText(i)
             }
         }
     }

@@ -21,15 +21,22 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
                     optionItemLayout.setOnClickListener(null)
                     listener.onCorrectOptionClick(it, index)
 
-                    // effect
-                    showFirstCorrectAnswer(index)
-
                     // when all correct
                     if (card.answerList.size == answeringCount){
                         disableOptions()
                         listener.onAllCorrect()
                         animateAnswer()
+                        return@setOnClickListener
                     }
+
+                    // when one correct
+                    when (answeringCount){
+                        1 -> {animatePartiallyCorrectAnswer(index);showFirstPartiallyCorrectAnswer(index)}
+                        2 -> {animatePartiallyCorrectAnswer(index);showSecondPartiallyCorrectAnswer(index)}
+                        3 -> {animatePartiallyCorrectAnswer(index);showThirdPartiallyCorrectAnswer(index)}
+                        4 -> {animatePartiallyCorrectAnswer(index);showFourthPartiallyCorrectAnswer(index)}
+                    }
+
 
                 } else {
                     disableOptions()
@@ -57,11 +64,21 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
     }
 
     override fun showAnswer() {
-
+        for (i in card.orderedAnswers){
+            when (i){
+                1 -> showFirstCorrectAnswer(i)
+                2 -> showSecondCorrectAnswer(i)
+                3 -> showThirdCorrectAnswer(i)
+                4 -> showFourthCorrectAnswer(i)
+            }
+        }
     }
 
     override fun animateAnswer() {
-
+        for (i in card.orderedAnswers){
+            animateCorrectAnswer(i)
+        }
+        showAnswer()
     }
 
 

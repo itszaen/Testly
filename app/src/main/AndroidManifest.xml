@@ -151,6 +151,14 @@
             android:parentActivityName=".main.activities.MainActivity"
             />
 
+        <!-- Create Pool -->
+        <activity
+            android:name=".cas.children.create_set.activities.CreatePoolActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:label="Create Pool"
+            android:parentActivityName=".main.activities.MainActivity"
+            />
+
         <!-- Cas Viewer -->
         <activity
             android:name=".cas.children.viewer.activities.CasViewerActivity"
