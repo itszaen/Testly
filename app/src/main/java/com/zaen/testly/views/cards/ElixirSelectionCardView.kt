@@ -18,7 +18,7 @@ ISelectionCardView{
             optionItemLayout.setOnClickListener{
                 if (isRightOption(index)){
                     disableOptions()
-                    showFirstPartiallyCorrectAnswer(index)
+                    animateAnswer()
                     listener.onCorrectOptionClick(it, index)
                 } else {
                     disableOptions()
@@ -40,8 +40,8 @@ ISelectionCardView{
             val text = optionItemLayout.findViewById<android.support.v7.widget.AppCompatTextView>(R.id.text_card_selection_option_elixir)
 
             if (i == card.answer){
-                showCorrectIcon(circle)
-                showCorrectText(text)
+                showCorrectIcon(i)
+                showCorrectText(i)
             }
         }
     }

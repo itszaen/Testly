@@ -58,13 +58,12 @@ class CasViewerCardPageFragment : BaseFragment(){
                     })
                 }
                 CardData.CARD_TYPE_SELECTION_MULTIPLE_ORDERED -> {
-                    val cardView = OasisOrderedMultipleSelectionOasisCardView(activity!!, card as OrderedMultipleSelectionCardData, view_container_fragment_page_cas_viewer_card)
+                    val cardView = ElixirOrderedMultipleSelectionCardView(activity!!, card as OrderedMultipleSelectionCardData, view_container_fragment_page_cas_viewer_card)
                     cardView.inflate()
-                    cardView.setUpOptions(object: OasisSelectionBaseCardView.OptionClickListener{
-                        override fun onRightOptionClick(view: View) {
-                        }
-                        override fun onWrongOptionClick(view: View) {
-                        }
+                    cardView.setUpOptions(object: IMultipleSelectionCardView.MultipleOptionsClickListener{
+                        override fun onAllCorrect() {}
+                        override fun onCorrectOptionClick(view: View, index: Int) {}
+                        override fun onIncorrectOptionClick(view: View, index: Int) {}
                     })
                 }
                 CardData.CARD_TYPE_SPELLING -> {

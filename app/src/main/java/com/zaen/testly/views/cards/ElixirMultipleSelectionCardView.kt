@@ -26,7 +26,7 @@ class ElixirMultipleSelectionCardView(context: Context, override val card: Multi
                     animatePartiallyCorrectAnswer(index)
 
                     // if all answered correctly
-                    if (selectedList == card.answerList){
+                    if (selectedList.size == card.answerList.size){
                         listener.onAllCorrect()
                         disableOptions()
                         animateAnswer()

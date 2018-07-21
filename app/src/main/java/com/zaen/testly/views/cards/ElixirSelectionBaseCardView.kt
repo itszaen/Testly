@@ -1,7 +1,11 @@
 package com.zaen.testly.views.cards
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.Animatable
+import android.graphics.drawable.Animatable2
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutCompat
@@ -98,6 +102,11 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         showIncorrectText(index)
     }
 
+    protected fun animateIncorrectAnswer(index: Int, listener: Animatable2.AnimationCallback){
+        animateIncorrectIcon(index, listener)
+        showIncorrectText(index)
+    }
+
     protected fun showCorrectIcon(index: Int){
         val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_correct)
@@ -125,6 +134,15 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         (imageView.drawable as Animatable).start()
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun animateIncorrectIcon(index: Int, listener: Animatable2.AnimationCallback){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_incorrect_animated_cross)
+        val animation = imageView.drawable as Animatable2
+        animation.registerAnimationCallback(listener)
+        animation.start()
+    }
+
     private fun showIncorrectText(index: Int){
         val text = optionItemList[index].findViewById<AppCompatTextView>(R.id.text_card_selection_option_elixir)
         text.setTextColor(ContextCompat.getColor(context, R.color.card_incorrect_color))
@@ -141,6 +159,11 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         showPartiallyCorrectText(index)
     }
 
+    protected fun animatePartiallyCorrectAnswer(index: Int, listener: Animatable2.AnimationCallback){
+        animatePartiallyCorrectIcon(index)
+        showPartiallyCorrectText(index)
+    }
+
     protected fun showPartiallyCorrectIcon(index: Int){
         val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_partially_correct)
@@ -150,6 +173,14 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_partially_correct_animated_check)
         (imageView.drawable as Animatable).start()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun animatePartiallyCorrectIcon(index: Int, listener: Animatable2.AnimationCallback){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_partially_correct_animated_check)
+        val animation = imageView.drawable as Animatable2
+        animation.start()
     }
 
     private fun showPartiallyCorrectText(index: Int){
@@ -207,7 +238,7 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
     }
 
     protected fun showSecondCorrectAnswer(index: Int){
-        showSecondPartiallyCorrectIcon(index)
+        showSecondCorrectIcon(index)
         showCorrectText(index)
     }
 

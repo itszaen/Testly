@@ -36,6 +36,7 @@
     <dimen name="sub_large_text">20sp</dimen>
     <dimen name="medium_text">16sp</dimen>
     <dimen name="sub_medium_text">12sp</dimen>
+    <dimen name="sub_sub_medium_text">10sp</dimen>
     <dimen name="small_text">4sp</dimen>
 
     <dimen name="scrollbar_width">4dip</dimen>

@@ -99,25 +99,25 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/radio_create_card_type_selection"
-                            android:textSize="@dimen/sub_medium_text"/>
+                            android:textSize="@dimen/sub_sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_selection_multiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/radio_create_card_type_selection_multiple"
-                            android:textSize="@dimen/sub_medium_text"/>
+                            android:textSize="@dimen/sub_sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_selection_multiple_ordered"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/radio_create_card_type_selection_multiple_ordered"
-                            android:textSize="@dimen/sub_medium_text"/>
+                            android:textSize="@dimen/sub_sub_medium_text"/>
                         <android.support.v7.widget.AppCompatRadioButton
                             android:id="@+id/radio_btn_spelling"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/radio_create_card_type_spelling"
-                            android:textSize="@dimen/sub_medium_text"/>
+                            android:textSize="@dimen/sub_sub_medium_text"/>
                     </LinearLayout>
                 </RadioGroup>
 

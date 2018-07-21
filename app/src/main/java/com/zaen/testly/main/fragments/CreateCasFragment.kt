@@ -87,6 +87,7 @@ class CreateCasFragment : BaseFragment(){
         if (savedInstanceState != null) {
             return
         }
+        initializeViews()
         createReceiver()
         initializeViewPager()
         listenToCard()

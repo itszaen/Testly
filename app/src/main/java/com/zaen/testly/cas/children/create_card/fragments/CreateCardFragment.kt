@@ -106,7 +106,7 @@ class CreateCardFragment : BaseFragment(){
                     val grade = userinfo.gradeId
                     TestlyFirestore(this).addDocumentListener(FirebaseFirestore.getInstance().collection("schools").document(school)
                                     .collection("grades").document(grade),object: TestlyFirestore.DocumentListener{
-                        override fun handleListener(listener: ListenerRegistration?) {
+                        override fun handleListener(registration: ListenerRegistration?) {
                         }
                         override fun onDocumentUpdate(path: DocumentReference, snapshot: DocumentSnapshot?, exception: Exception?) {
                             if (snapshot != null) {
@@ -130,10 +130,10 @@ class CreateCardFragment : BaseFragment(){
     }
 
     private fun initializeViews(){
-        radio_btn_selection.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
-        radio_btn_selection_multiple.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
-        radio_btn_selection_multiple_ordered.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
-        radio_btn_spelling.setOnCheckedChangeListener { buttonView, _ -> onCardTypeRadioButtonClicked(buttonView) }
+        radio_btn_selection.setOnCheckedChangeListener { buttonView, isChecked -> onCardTypeRadioButtonClicked(buttonView, isChecked)  }
+        radio_btn_selection_multiple.setOnCheckedChangeListener { buttonView, isChecked -> onCardTypeRadioButtonClicked(buttonView, isChecked) }
+        radio_btn_selection_multiple_ordered.setOnCheckedChangeListener { buttonView, isChecked -> onCardTypeRadioButtonClicked(buttonView, isChecked) }
+        radio_btn_spelling.setOnCheckedChangeListener { buttonView, isChecked -> onCardTypeRadioButtonClicked(buttonView, isChecked) }
 
         // Option Buttons
         /// Add option
@@ -243,7 +243,6 @@ class CreateCardFragment : BaseFragment(){
             btn_add_option.isEnabled = false
         } else {
             btn_add_option.isEnabled = true
-            updateUI()
         }
         // Option Counter
         count_create_card_options_num.text = optionNum.toString()
@@ -296,7 +295,8 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    fun onCardTypeRadioButtonClicked(radioButton: CompoundButton){
+    private fun onCardTypeRadioButtonClicked(radioButton: CompoundButton, isChecked: Boolean){
+        if (!isChecked){ return }
         radio_group_create_card_type.clearCheck()
         when (radioButton.id){
             R.id.radio_btn_selection -> {
@@ -322,14 +322,14 @@ class CreateCardFragment : BaseFragment(){
     }
 
     // Answer Number (Selection)
-    fun onAnswerNumRadioButtonClicked(view: View){
+    private fun onAnswerNumRadioButtonClicked(view: View){
         val index = (view.parent as RadioGroup).indexOfChild(view)
         answerNum = index
         updateUI()
     }
 
     // Answer Number (Multiple)
-    fun onAnswerNumCheckBoxChanged(view: View, isChecked: Boolean){
+    private fun onAnswerNumCheckBoxChanged(view: View, isChecked: Boolean){
         val index = (view.parent as LinearLayout).indexOfChild(view)
         if (isChecked) {
             if (!answerNumMulti.contains(index)) {
@@ -341,7 +341,7 @@ class CreateCardFragment : BaseFragment(){
         updateUI()
     }
 
-    fun onAnswerCardRadioButtonClicked(radioButton: CompoundButton){
+    private fun onAnswerCardRadioButtonClicked(radioButton: CompoundButton){
         radio_group_create_card_answer_card.clearCheck()
         val isChecked = radioButton.isChecked
         when (radioButton.id){

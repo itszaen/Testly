@@ -1,6 +1,11 @@
 package com.zaen.testly.views.cards
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.widget.FrameLayout
 import com.zaen.testly.data.OrderedMultipleSelectionCardData
 
@@ -12,17 +17,17 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
 
     fun setUpOptions(listener: IMultipleSelectionCardView.MultipleOptionsClickListener){
         var answeringCount = 0
-        val selectedList = arrayListOf<Int>()
+        var answeredCount = 0
         for ((index,optionItemLayout) in optionItemList.withIndex()){
             optionItemLayout.setOnClickListener{
-                answeringCount += 1
+                answeredCount += 1
                 if (card.answerList[answeringCount] == index){
                     // correct answer
                     optionItemLayout.setOnClickListener(null)
                     listener.onCorrectOptionClick(it, index)
 
                     // when all correct
-                    if (card.answerList.size == answeringCount){
+                    if (card.answerList.size == answeredCount){
                         disableOptions()
                         listener.onAllCorrect()
                         animateAnswer()
@@ -30,11 +35,36 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
                     }
 
                     // when one correct
+                    @RequiresApi(Build.VERSION_CODES.M)
                     when (answeringCount){
-                        1 -> {animatePartiallyCorrectAnswer(index);showFirstPartiallyCorrectAnswer(index)}
-                        2 -> {animatePartiallyCorrectAnswer(index);showSecondPartiallyCorrectAnswer(index)}
-                        3 -> {animatePartiallyCorrectAnswer(index);showThirdPartiallyCorrectAnswer(index)}
-                        4 -> {animatePartiallyCorrectAnswer(index);showFourthPartiallyCorrectAnswer(index)}
+                        0 -> {animatePartiallyCorrectAnswer(index,
+                        object: Animatable2.AnimationCallback(){
+                            override fun onAnimationEnd(drawable: Drawable?) {
+                                super.onAnimationEnd(drawable)
+                                showFirstPartiallyCorrectAnswer(index)
+                            }
+                        })}
+                        1 -> {animatePartiallyCorrectAnswer(index,
+                                object: Animatable2.AnimationCallback(){
+                                    override fun onAnimationEnd(drawable: Drawable?) {
+                                        super.onAnimationEnd(drawable)
+                                        showSecondPartiallyCorrectAnswer(index)
+                                    }
+                                })}
+                        2 -> {animatePartiallyCorrectAnswer(index,
+                                object: Animatable2.AnimationCallback(){
+                                    override fun onAnimationEnd(drawable: Drawable?) {
+                                        super.onAnimationEnd(drawable)
+                                        showThirdPartiallyCorrectAnswer(index)
+                                    }
+                                })}
+                        3 -> {animatePartiallyCorrectAnswer(index,
+                                object: Animatable2.AnimationCallback(){
+                                    override fun onAnimationEnd(drawable: Drawable?) {
+                                        super.onAnimationEnd(drawable)
+                                        showFourthPartiallyCorrectAnswer(index)
+                                    }
+                                })}
                     }
 
 
@@ -43,13 +73,14 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
                     listener.onIncorrectOptionClick(it, index)
                     if (card.answerList.contains(index)){
                         // is answer but wrong order
-                        animateAnswer()
+                        animateIncorrectAnswers(index)
 
                     } else {
                         // wrong answer
-                        animateIncorrectAnswer(index)
+                        animateIncorrectAnswers(index)
                     }
                 }
+                answeringCount += 1
             }
         }
     }
@@ -64,23 +95,32 @@ class ElixirOrderedMultipleSelectionCardView(context: Context, override val card
     }
 
     override fun showAnswer() {
-        for (i in card.orderedAnswers){
-            when (i){
-                1 -> showFirstCorrectAnswer(i)
-                2 -> showSecondCorrectAnswer(i)
-                3 -> showThirdCorrectAnswer(i)
-                4 -> showFourthCorrectAnswer(i)
+        for ((i,answer) in card.orderedAnswers.withIndex()){
+            when (answer){
+                0 -> showFirstCorrectAnswer(i)
+                1 -> showSecondCorrectAnswer(i)
+                2 -> showThirdCorrectAnswer(i)
+                3 -> showFourthCorrectAnswer(i)
             }
         }
     }
 
     override fun animateAnswer() {
-        for (i in card.orderedAnswers){
-            animateCorrectAnswer(i)
+        for ((i,answer) in card.orderedAnswers.withIndex()){
+            animateCorrectAnswer(answer)
         }
         showAnswer()
     }
 
+    private fun animateIncorrectAnswers(index: Int){
+        animateIncorrectAnswer(index, @TargetApi(Build.VERSION_CODES.M)
+        object: Animatable2.AnimationCallback() {
+            override fun onAnimationEnd(drawable: Drawable?) {
+                showAnswer()
+            }
+        })
+
+    }
 
 }
 
