@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.children.create_set.fragments
+package com.zaen.testly.cas.children.createSet.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -63,7 +63,6 @@ class CreateSetFragment  : BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
         if (savedInstanceState != null){
 
         }

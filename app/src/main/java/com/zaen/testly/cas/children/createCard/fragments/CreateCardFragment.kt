@@ -1,4 +1,4 @@
-package com.zaen.testly.cas.children.create_card.fragments
+package com.zaen.testly.cas.children.createCard.fragments
 
 import android.content.Context
 import android.os.Bundle

@@ -14,8 +14,8 @@ import com.zaen.testly.Global.Companion.KEY_ACTION_INFORM_LIFECYCLE_FRAGMENT
 import com.zaen.testly.R
 import com.zaen.testly.base.fragments.BaseFragment
 import com.zaen.testly.cas.CreateCasData
-import com.zaen.testly.cas.children.create_card.activities.CreateCardActivity
-import com.zaen.testly.cas.children.create_set.activities.CreateSetActivity
+import com.zaen.testly.cas.children.createCard.activities.CreateCardActivity
+import com.zaen.testly.cas.children.createSet.activities.CreateSetActivity
 import com.zaen.testly.cas.views.pager.CreateCasPagerAdapter
 import com.zaen.testly.data.CardData
 import com.zaen.testly.data.FirebaseDocument

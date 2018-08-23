@@ -135,7 +135,7 @@
 
         <!-- Create Card -->
         <activity
-            android:name=".cas.children.create_card.activities.CreateCardActivity"
+            android:name=".cas.children.createCard.activities.CreateCardActivity"
             android:label="Create Card"
             android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".main.activities.MainActivity"/>
@@ -145,7 +145,7 @@
 
         <!-- Create Set -->
         <activity
-            android:name=".cas.children.create_set.activities.CreateSetActivity"
+            android:name=".cas.children.createSet.activities.CreateSetActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="Create Set"
             android:parentActivityName=".main.activities.MainActivity"
@@ -153,7 +153,7 @@
 
         <!-- Create Pool -->
         <activity
-            android:name=".cas.children.create_set.activities.CreatePoolActivity"
+            android:name=".cas.children.createPool.activities.CreatePoolActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="Create Pool"
             android:parentActivityName=".main.activities.MainActivity"

@@ -92,6 +92,11 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         showCorrectText(index)
     }
 
+    protected fun animateCorrectAnswer(index: Int, listener: Animatable2.AnimationCallback){
+        animateCorrectIcon(index, listener)
+        showCorrectText(index)
+    }
+
     protected fun showIncorrectAnswer(index: Int){
         showIncorrectIcon(index)
         showIncorrectText(index)
@@ -116,6 +121,14 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_correct_animated_check)
         (imageView.drawable as Animatable).start()
+    }
+
+    private fun animateCorrectIcon(index: Int, listener: Animatable2.AnimationCallback){
+        val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
+        imageView.setImageResource(R.drawable.circle_correct_animated_check)
+        val animation = imageView.drawable as Animatable2
+        animation.registerAnimationCallback(listener)
+        animation.start()
     }
 
     protected fun showCorrectText(index: Int){
@@ -159,8 +172,9 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         showPartiallyCorrectText(index)
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     protected fun animatePartiallyCorrectAnswer(index: Int, listener: Animatable2.AnimationCallback){
-        animatePartiallyCorrectIcon(index)
+        animatePartiallyCorrectIcon(index, listener)
         showPartiallyCorrectText(index)
     }
 
@@ -180,6 +194,7 @@ abstract class ElixirSelectionBaseCardView(context: Context, open val card: Card
         val imageView = optionItemList[index].findViewById<ImageView>(R.id.box_card_selection_option_elixir)
         imageView.setImageResource(R.drawable.circle_partially_correct_animated_check)
         val animation = imageView.drawable as Animatable2
+        animation.registerAnimationCallback(listener)
         animation.start()
     }
 

@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
@@ -22,8 +21,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
-apply plugin: 'com.jakewharton.hugo'
 
 static def gitBranch() {
     def branch = 'GitHub'
@@ -112,39 +109,51 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-
     // Firebase https://github.com/firebase/
     implementation 'com.google.firebase:firebase-core:16.0.1'
+
     /// Cloud Firestore
-    implementation "com.google.firebase:firebase-firestore:17.0.1"
+    implementation 'com.google.firebase:firebase-firestore:17.0.1'
+
     /// Cloud Functions
-    implementation "com.google.firebase:firebase-functions:16.0.1"
+    implementation 'com.google.firebase:firebase-functions:16.0.1'
+
     /// Cloud Storage
-    implementation "com.google.firebase:firebase-storage:16.0.1"
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
+
     /// Crashlytics
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') { transitive = true }
+
     /// Authentication
-    implementation "com.google.firebase:firebase-auth:16.0.2"
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+
     /// Remote Config
-    implementation "com.google.firebase:firebase-config:16.0.0"
+    implementation 'com.google.firebase:firebase-config:16.0.0'
+
     /// Ads
-    implementation "com.google.firebase:firebase-ads:15.0.1"
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+
     /// Analytics
-    implementation "com.google.firebase:firebase-analytics:16.0.1"
+    implementation 'com.google.firebase:firebase-analytics:16.0.1'
+
     /// Performance Monitoring
-    implementation "com.google.firebase:firebase-perf:16.0.0"
+    implementation 'com.google.firebase:firebase-perf:16.0.0'
+
     /// Firebase Auth Facebook
     implementation 'com.facebook.android:facebook-android-sdk:4.27.0'
+
     /// Firebase Auth Twitter
     implementation('com.twitter.sdk.android:twitter:3.2.0@aar') {
         transitive = true
     }
+
     /// Firebase UI Storage
     implementation 'com.firebaseui:firebase-ui-storage:3.3.1'
 
     // Google play Services
+
     /// Authentication
-    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
     // Kotterknife  https://github.com/JakeWharton/kotterknife
     implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
@@ -193,11 +202,11 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     // Material Drawer
-    implementation("com.mikepenz:materialdrawer:6.0.7@aar") { transitive = true }
+    implementation('com.mikepenz:materialdrawer:6.0.7@aar') { transitive = true }
 
     // Iconics https://github.com/mikepenz/Android-Iconics
-    implementation "com.mikepenz:iconics-core:3.0.4@aar"
-    implementation "com.mikepenz:iconics-views:3.0.4@aar"
+    implementation 'com.mikepenz:iconics-core:3.0.4@aar'
+    implementation 'com.mikepenz:iconics-views:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.4@aar'
     implementation 'com.mikepenz:fontawesome-typeface:5.0.13.0@aar'
@@ -225,6 +234,7 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.0.4'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b4'
     implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b2'
+
     /// From 1.0.0-b3, library is compiled with data binding v2
     implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b3'
 
@@ -256,15 +266,18 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     // Fragmentation    https://github.com/YoKeyword/Fragmentation
+
     /// To get SwipeBack feature, rely on both fragmentation & fragmentation-swipeback
     implementation 'me.yokeyword:fragmentation:1.3.3'
+
     /// Swipeback is based on fragmentation. Refer to SwipeBackActivity/Fragment for your Customized SupportActivity/Fragment
     implementation 'me.yokeyword:fragmentation-swipeback:1.3.3'
+
     /// To simplify the communication between Fragments.
     implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
 
     // RadioRealButton  https://github.com/ceryle/RadioRealButton
-    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'\
+    implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
 
     // SmartTabLayout   https://github.com/ogaclejapan/SmartTabLayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
