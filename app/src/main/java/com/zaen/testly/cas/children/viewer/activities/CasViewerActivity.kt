@@ -62,7 +62,7 @@ class CasViewerActivity: BaseActivity(),
                 if (isReverseLayout){
                     list = ArrayList(setList)
                     list.reverse()
-                    position = list.size-1 - position!!
+                    position = list.size - 1 - position!!
                 }
                 for ((i,set) in list.withIndex()){
                     pagerAdapter!!.addFragment(CasViewerSetPageFragment.newInstance(set),set.title,i)
